@@ -1,3 +1,4 @@
+`include "process.sv"
 // 
 // -------------------------------------------------------------
 // Copyright 2010-2011 Mentor Graphics Corporation
@@ -40,7 +41,7 @@ typedef class uvm_mem_access_seq;
 //
 // Verify the accessibility of a register
 // by writing through its default address map
-// then reading it via the backdoor, then reversing the process,
+// then reading it via the backdoor, then reversing the pro1cess,
 // making sure that the resulting value matches the mirrored value.
 //
 // If bit-type resource named

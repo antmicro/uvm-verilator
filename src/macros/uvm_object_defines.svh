@@ -1,3 +1,4 @@
+`include "process.sv"
 //------------------------------------------------------------------------------
 // Copyright 2012 Aldec
 // Copyright 2007-2012 Mentor Graphics Corporation

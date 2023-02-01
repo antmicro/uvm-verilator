@@ -1,3 +1,4 @@
+`include "process.sv"
 //------------------------------------------------------------------------------
 // Copyright 2014 Synopsys, Inc.
 // Copyright 2010-2018 Cadence Design Systems, Inc.
@@ -57,7 +58,7 @@
 // MACRO -- NODOCS -- `UVM_DEFAULT_TIMEOUT
 //
 // The default timeout for simulation, if not overridden by
-// <uvm_root::set_timeout> or <uvm_cmdline_processor::+UVM_TIMEOUT>
+// <uvm_root::set_timeout> or <uvm_cmdline_pro1cessor::+UVM_TIMEOUT>
 //
 
 `define UVM_DEFAULT_TIMEOUT 9200s

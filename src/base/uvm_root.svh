@@ -1,3 +1,4 @@
+`include "process.sv"
 //
 //------------------------------------------------------------------------------
 // Copyright 2007-2011 Mentor Graphics Corporation
@@ -68,7 +69,7 @@
 
 //------------------------------------------------------------------------------
 
-typedef class uvm_cmdline_processor;
+typedef class uvm_cmdline_pro1cessor;
 typedef class uvm_component_proxy;
 typedef class uvm_top_down_visitor_adapter;
 typedef class uvm_report_message;
@@ -106,7 +107,7 @@ class uvm_root extends uvm_component;
 
 	extern static function uvm_root get();
 
-	uvm_cmdline_processor clp;
+	uvm_cmdline_pro1cessor clp;
 
 	virtual function string get_type_name();
 		return "uvm_root";
@@ -291,13 +292,13 @@ class uvm_root extends uvm_component;
 	extern local function void m_do_verbosity_settings();
 	extern local function void m_do_timeout_settings();
 	extern local function void m_do_factory_settings();
-	extern local function void m_process_inst_override(string ovr);
-	extern local function void m_process_type_override(string ovr);
+	extern local function void m_pro1cess_inst_override(string ovr);
+	extern local function void m_pro1cess_type_override(string ovr);
 	extern local function void m_do_config_settings();
 	extern local function void m_do_max_quit_settings();
 	extern local function void m_do_dump_args();
-	extern local function void m_process_config(string cfg, bit is_int);
-	extern local function void m_process_default_sequence(string cfg);
+	extern local function void m_pro1cess_config(string cfg, bit is_int);
+	extern local function void m_pro1cess_default_sequence(string cfg);
 	extern function void m_check_verbosity();
 	extern function void m_check_uvm_field_flag_size();
 	extern virtual function void report_header(UVM_FILE file = 0);
@@ -383,7 +384,7 @@ function uvm_root::new();
    uvm_top = this; 
 `endif
 
-  clp = uvm_cmdline_processor::get_inst();
+  clp = uvm_cmdline_pro1cessor::get_inst();
 
 endfunction
 
@@ -410,11 +411,11 @@ endfunction
 function void uvm_root::report_header(UVM_FILE file = 0);
 	string q[$];
 	uvm_report_server srvr;
-	uvm_cmdline_processor clp;
+	uvm_cmdline_pro1cessor clp;
 	string args[$];
 
 	srvr = uvm_report_server::get_server();
-	clp = uvm_cmdline_processor::get_inst();
+	clp = uvm_cmdline_pro1cessor::get_inst();
 
 	if (clp.get_arg_matches("+UVM_NO_RELNOTES", args)) return;
 
@@ -464,7 +465,7 @@ task uvm_root::run_test(string test_name="");
 	string msg;
 	uvm_component uvm_test_top;
 
-	process phase_runner_proc; // store thread forked below for final cleanup
+	pro1cess phase_runner_proc; // store thread forked below for final cleanup
 
   	uvm_run_test_callback::m_do_pre_run_test();
 
@@ -473,12 +474,12 @@ task uvm_root::run_test(string test_name="");
 
 	testname_plusarg = 0;
 
-	// Set up the process that decouples the thread that drops objections from
-	// the process that processes drop/all_dropped objections. Thus, if the
+	// Set up the pro1cess that decouples the thread that drops objections from
+	// the pro1cess that pro1cesses drop/all_dropped objections. Thus, if the
 	// original calling thread (the "dropper") gets killed, it does not affect
 	// drain-time and propagation of the drop up the hierarchy.
 	// Needs to be done in run_test since it needs to be in an
-	// initial block to fork a process.
+	// initial block to fork a pro1cess.
 	uvm_objection::m_init_objections();
 
 // dump cmdline args BEFORE the args are being used
@@ -558,10 +559,10 @@ task uvm_root::run_test(string test_name="");
 			uvm_report_info("RNTST", {"Running test ",uvm_test_top.get_type_name()," (via factory override for test \"",test_name,"\")..."}, UVM_LOW);
 	end
 
-	// phase runner, isolated from calling process
+	// phase runner, isolated from calling pro1cess
 	fork begin
 			// spawn the phase runner task
-			phase_runner_proc = process::self();
+			phase_runner_proc = pro1cess::self();
 			uvm_phase::m_run_phases();
 		end
 	join_none
@@ -791,19 +792,19 @@ function void uvm_root::m_do_factory_settings();
 
 	void'(clp.get_arg_matches("/^\\+(UVM_SET_INST_OVERRIDE|uvm_set_inst_override)=/",args));
 	foreach(args[i]) begin
-		m_process_inst_override(args[i].substr(23, args[i].len()-1));
+		m_pro1cess_inst_override(args[i].substr(23, args[i].len()-1));
 	end
 	void'(clp.get_arg_matches("/^\\+(UVM_SET_TYPE_OVERRIDE|uvm_set_type_override)=/",args));
 	foreach(args[i]) begin
-		m_process_type_override(args[i].substr(23, args[i].len()-1));
+		m_pro1cess_type_override(args[i].substr(23, args[i].len()-1));
 	end
 endfunction
 
 
-// m_process_inst_override
+// m_pro1cess_inst_override
 // -----------------------
 
-function void uvm_root::m_process_inst_override(string ovr);
+function void uvm_root::m_pro1cess_inst_override(string ovr);
 	string split_val[$];
 	uvm_coreservice_t cs = uvm_coreservice_t::get();
 	uvm_factory factory=cs.get_factory();
@@ -821,10 +822,10 @@ function void uvm_root::m_process_inst_override(string ovr);
 endfunction
 
 
-// m_process_type_override
+// m_pro1cess_type_override
 // -----------------------
 
-function void uvm_root::m_process_type_override(string ovr);
+function void uvm_root::m_pro1cess_type_override(string ovr);
 	string split_val[$];
 	int replace=1;
 	uvm_coreservice_t cs = uvm_coreservice_t::get();
@@ -853,10 +854,10 @@ function void uvm_root::m_process_type_override(string ovr);
 endfunction
 
 
-// m_process_config
+// m_pro1cess_config
 // ----------------
 
-function void uvm_root::m_process_config(string cfg, bit is_int);
+function void uvm_root::m_pro1cess_config(string cfg, bit is_int);
 	uvm_bitstream_t v;
 	string split_val[$];
 	uvm_root m_uvm_top;
@@ -913,10 +914,10 @@ function void uvm_root::m_process_config(string cfg, bit is_int);
 
 endfunction
 
-// m_process_default_sequence
+// m_pro1cess_default_sequence
 // ----------------
 
-function void uvm_root::m_process_default_sequence(string cfg);
+function void uvm_root::m_pro1cess_default_sequence(string cfg);
 	string split_val[$];
 	uvm_coreservice_t cs = uvm_coreservice_t::get();
 	uvm_root m_uvm_top = cs.get_root();
@@ -954,7 +955,7 @@ function void uvm_root::m_process_default_sequence(string cfg);
 		uvm_config_db#(uvm_object_wrapper)::set(this, {split_val[0], ".", split_val[1]}, "default_sequence", w);
 	end
 
-endfunction : m_process_default_sequence
+endfunction : m_pro1cess_default_sequence
 
 
 // m_do_config_settings
@@ -965,15 +966,15 @@ function void uvm_root::m_do_config_settings();
 
 	void'(clp.get_arg_matches("/^\\+(UVM_SET_CONFIG_INT|uvm_set_config_int)=/",args));
 	foreach(args[i]) begin
-		m_process_config(args[i].substr(20, args[i].len()-1), 1);
+		m_pro1cess_config(args[i].substr(20, args[i].len()-1), 1);
 	end
 	void'(clp.get_arg_matches("/^\\+(UVM_SET_CONFIG_STRING|uvm_set_config_string)=/",args));
 	foreach(args[i]) begin
-		m_process_config(args[i].substr(23, args[i].len()-1), 0);
+		m_pro1cess_config(args[i].substr(23, args[i].len()-1), 0);
 	end
 	void'(clp.get_arg_matches("/^\\+(UVM_SET_DEFAULT_SEQUENCE|uvm_set_default_sequence)=/", args));
 	foreach(args[i]) begin
-		m_process_default_sequence(args[i].substr(26, args[i].len()-1));
+		m_pro1cess_default_sequence(args[i].substr(26, args[i].len()-1));
 	end
 endfunction
 

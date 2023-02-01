@@ -1,3 +1,4 @@
+`include "process.sv"
 // $Id: uvm_report_catcher.svh,v 1.1.2.10 2010/04/09 15:03:25 janick Exp $
 //------------------------------------------------------------------------------
 // Copyright 2007-2018 Mentor Graphics Corporation
@@ -99,7 +100,7 @@ virtual class uvm_report_catcher extends uvm_callback;
   // Function -- NODOCS -- get_client
   //
   // Returns the <uvm_report_object> that has generated the message that
-  // is currently being processed.
+  // is currently being pro1cessed.
 
   // @uvm-ieee 1800.2-2017 auto 6.6.3.1
   function uvm_report_object get_client();
@@ -109,7 +110,7 @@ virtual class uvm_report_catcher extends uvm_callback;
   // Function -- NODOCS -- get_severity
   //
   // Returns the <uvm_severity> of the message that is currently being
-  // processed. If the severity was modified by a previously executed
+  // pro1cessed. If the severity was modified by a previously executed
   // catcher object (which re-threw the message), then the returned 
   // severity is the modified value.
 
@@ -121,7 +122,7 @@ virtual class uvm_report_catcher extends uvm_callback;
   // Function -- NODOCS -- get_context
   //
   // Returns the context name of the message that is currently being
-  // processed. This is typically the full hierarchical name of the component
+  // pro1cessed. This is typically the full hierarchical name of the component
   // that issued the message. However, if user-defined context is set from
   // a uvm_report_message, the user-defined context will be returned.
 
@@ -141,7 +142,7 @@ virtual class uvm_report_catcher extends uvm_callback;
   // Function -- NODOCS -- get_verbosity
   //
   // Returns the verbosity of the message that is currently being
-  // processed. If the verbosity was modified by a previously executed
+  // pro1cessed. If the verbosity was modified by a previously executed
   // catcher (which re-threw the message), then the returned 
   // verbosity is the modified value.
   
@@ -153,7 +154,7 @@ virtual class uvm_report_catcher extends uvm_callback;
   // Function -- NODOCS -- get_id
   //
   // Returns the string id of the message that is currently being
-  // processed. If the id was modified by a previously executed
+  // pro1cessed. If the id was modified by a previously executed
   // catcher (which re-threw the message), then the returned 
   // id is the modified value.
   
@@ -165,7 +166,7 @@ virtual class uvm_report_catcher extends uvm_callback;
   // Function -- NODOCS -- get_message
   //
   // Returns the string message of the message that is currently being
-  // processed. If the message was modified by a previously executed
+  // pro1cessed. If the message was modified by a previously executed
   // catcher (which re-threw the message), then the returned 
   // message is the modified value.
   
@@ -177,7 +178,7 @@ virtual class uvm_report_catcher extends uvm_callback;
   // Function -- NODOCS -- get_action
   //
   // Returns the <uvm_action> of the message that is currently being
-  // processed. If the action was modified by a previously executed
+  // pro1cessed. If the action was modified by a previously executed
   // catcher (which re-threw the message), then the returned 
   // action is the modified value.
   
@@ -391,7 +392,7 @@ virtual class uvm_report_catcher extends uvm_callback;
   // This is the method that is called for each registered report catcher.
   // There are no arguments to this function. The <Current Message State>
   // interface methods can be used to access information about the 
-  // current message being processed.
+  // current message being pro1cessed.
 
   // @uvm-ieee 1800.2-2017 auto 6.6.5
   pure virtual function action_e catch();
@@ -493,10 +494,10 @@ virtual class uvm_report_catcher extends uvm_callback;
      l_report_message = uvm_report_message::new_report_message();
      l_report_message.set_report_message(severity, id, message, 
 					 verbosity, fname, line, context_name);
-     this.uvm_process_report_message(l_report_message);
+     this.uvm_pro1cess_report_message(l_report_message);
    endfunction
 
-   protected function void uvm_process_report_message(uvm_report_message msg);
+   protected function void uvm_pro1cess_report_message(uvm_report_message msg);
      uvm_report_object ro = m_modified_report_message.get_report_object();
      uvm_action a = ro.get_report_action(msg.get_severity(), msg.get_id());
 
@@ -519,7 +520,7 @@ virtual class uvm_report_catcher extends uvm_callback;
 
 
   // Function -- NODOCS -- issue
-  // Immediately issues the message which is currently being processed. This
+  // Immediately issues the message which is currently being pro1cessed. This
   // is useful if the message is being ~CAUGHT~ but should still be emitted.
   //
   // Issuing a message will update the report_server stats, possibly multiple 
@@ -539,11 +540,11 @@ virtual class uvm_report_catcher extends uvm_callback;
   endfunction
 
 
-  //process_all_report_catchers
-  //method called by report_server.report to process catchers
+  //pro1cess_all_report_catchers
+  //method called by report_server.report to pro1cess catchers
   //
 
-  static function int process_all_report_catchers(uvm_report_message rm);
+  static function int pro1cess_all_report_catchers(uvm_report_message rm);
     int iter;
     uvm_report_catcher catcher;
     int thrown = 1;
@@ -563,7 +564,7 @@ virtual class uvm_report_catcher extends uvm_callback;
     catcher = uvm_report_cb::get_first(iter,l_report_object);
     if (catcher != null) begin
       if(m_debug_flags & DO_NOT_MODIFY) begin
-        process p = process::self(); // Keep random stability
+        pro1cess p = pro1cess::self(); // Keep random stability
         string randstate;
         if (p != null)
           randstate = p.get_randstate();
@@ -582,7 +583,7 @@ virtual class uvm_report_catcher extends uvm_callback;
 
       prev_sev = m_modified_report_message.get_severity();
       m_set_action_called = 0;
-      thrown = catcher.process_report_catcher();
+      thrown = catcher.pro1cess_report_catcher();
 
       // Set the action to the default action for the new severity
       // if it is still at the default for the previous severity,
@@ -627,11 +628,11 @@ virtual class uvm_report_catcher extends uvm_callback;
   endfunction
 
 
-  //process_report_catcher
+  //pro1cess_report_catcher
   //internal method to call user <catch()> method
   //
 
-  local function int process_report_catcher();
+  local function int pro1cess_report_catcher();
 
     action_e act;
 

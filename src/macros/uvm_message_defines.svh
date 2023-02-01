@@ -1,3 +1,4 @@
+`include "process.sv"
 //----------------------------------------------------------------------
 // Copyright 2007-2014 Mentor Graphics Corporation
 // Copyright 2010-2013 Synopsys, Inc.
@@ -62,7 +63,7 @@
 // This set of macros provides wrappers around the uvm_report_* <Reporting> 
 // functions. The macros serve two essential purposes:
 //
-// - To reduce the processing overhead associated with filtered out messages,
+// - To reduce the pro1cessing overhead associated with filtered out messages,
 //   a check is made against the report's verbosity setting and the action
 //   for the id/severity pair before any string formatting is performed. This 
 //   affects only `uvm_info reports.
@@ -266,7 +267,7 @@
 //
 
 `define uvm_message_end \
-       uvm_process_report_message(__uvm_msg); \
+       uvm_pro1cess_report_message(__uvm_msg); \
      end \
    end
 
@@ -293,7 +294,7 @@
 //
 
 `define uvm_message_context_end \
-       __report_object.uvm_process_report_message(__uvm_msg); \
+       __report_object.uvm_pro1cess_report_message(__uvm_msg); \
      end \
    end
 

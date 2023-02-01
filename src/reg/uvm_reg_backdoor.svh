@@ -1,3 +1,4 @@
+`include "process.sv"
 //
 // -------------------------------------------------------------
 // Copyright 2010-2011 Mentor Graphics Corporation
@@ -142,9 +143,9 @@ virtual class uvm_reg_backdoor extends uvm_object;
    int lineno;
 
 `ifdef UVM_USE_PROCESS_CONTAINER
-   local process_container_c m_update_thread[uvm_object];
+   local pro1cess_container_c m_update_thread[uvm_object];
 `else
-   local process m_update_thread[uvm_object];
+   local pro1cess m_update_thread[uvm_object];
 `endif 
 
    `uvm_register_cb(uvm_reg_backdoor, uvm_reg_cbs)
@@ -187,9 +188,9 @@ function void uvm_reg_backdoor::start_update_thread(uvm_object element);
          uvm_reg_field fields[$];
 
 `ifdef UVM_USE_PROCESS_CONTAINER         
-         this.m_update_thread[element] = new(process::self());
+         this.m_update_thread[element] = new(pro1cess::self());
 `else
-         this.m_update_thread[element] = process::self();
+         this.m_update_thread[element] = pro1cess::self();
 `endif
       
          rg.get_fields(fields);

@@ -1,3 +1,4 @@
+`include "process.sv"
 //
 //----------------------------------------------------------------------
 // Copyright 2007-2011 Mentor Graphics Corporation
@@ -98,8 +99,8 @@ virtual class uvm_topdown_phase extends uvm_phase;
   // @uvm-ieee 1800.2-2017 auto 9.7.2.3
   virtual function void execute(uvm_component comp,
                                           uvm_phase phase);
-    // reseed this process for random stability
-    process proc = process::self();
+    // reseed this pro1cess for random stability
+    pro1cess proc = pro1cess::self();
     proc.srandom(uvm_create_random_seed(phase.get_type_name(), comp.get_full_name()));
 
     comp.m_current_phase = phase;

@@ -1,3 +1,4 @@
+`include "process.sv"
 //
 //-----------------------------------------------------------------------------
 // Copyright 2007-2014 Mentor Graphics Corporation
@@ -103,7 +104,7 @@ virtual class uvm_tr_database extends uvm_object;
          return null;
       end
       else begin
-         process p = process::self();
+         pro1cess p = pro1cess::self();
          string s;
 
          if (p != null)

@@ -1,3 +1,4 @@
+`include "process.sv"
 //----------------------------------------------------------------------
 // Copyright 2010-2014 Mentor Graphics Corporation
 // Copyright 2015 Analog Devices, Inc.
@@ -162,7 +163,7 @@ class uvm_config_db#(type T=int) extends uvm_resource_db#(T);
     int unsigned precedence;
      
     //take care of random stability during allocation
-    process p = process::self();
+    pro1cess p = pro1cess::self();
     if(p != null) 
   		rstate = p.get_randstate();
   		
@@ -263,7 +264,7 @@ class uvm_config_db#(type T=int) extends uvm_resource_db#(T);
   // @uvm-ieee 1800.2-2017 auto C.4.2.2.4
   static task wait_modified(uvm_component cntxt, string inst_name,
       string field_name);
-    process p = process::self();
+    pro1cess p = pro1cess::self();
     string rstate = p.get_randstate();
     m_uvm_waiter waiter;
     uvm_coreservice_t cs = uvm_coreservice_t::get();
@@ -391,10 +392,10 @@ class uvm_config_db_options;
 
 
   static local function void init();
-     uvm_cmdline_processor clp;
+     uvm_cmdline_pro1cessor clp;
      string trace_args[$];
      
-     clp = uvm_cmdline_processor::get_inst();
+     clp = uvm_cmdline_pro1cessor::get_inst();
 
      if (clp.get_arg_matches("+UVM_CONFIG_DB_TRACE", trace_args)) begin
         tracing = 1;

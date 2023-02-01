@@ -1,3 +1,4 @@
+`include "process.sv"
 //
 // -------------------------------------------------------------
 // Copyright 2010-2011 Mentor Graphics Corporation
@@ -36,7 +37,7 @@
 // actually located.
 //
 // The memory allocation manager should be used by any
-// application-level process
+// application-level pro1cess
 // that requires reserved space in the memory,
 // such as DMA buffers.
 //

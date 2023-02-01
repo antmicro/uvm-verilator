@@ -1,3 +1,4 @@
+`include "process.sv"
 //----------------------------------------------------------------------
 // Copyright 2007-2017 Mentor Graphics Corporation
 // Copyright 2014 Semifore
@@ -30,10 +31,10 @@ typedef uvm_config_db#(uvm_sequence_base) uvm_config_seq;
 typedef class uvm_sequence_request;
 
 // Utility class for tracking default_sequences
-class uvm_sequence_process_wrapper;
-    process pid;
+class uvm_sequence_pro1cess_wrapper;
+    pro1cess pid;
     uvm_sequence_base seq;
-endclass : uvm_sequence_process_wrapper
+endclass : uvm_sequence_pro1cess_wrapper
 
 //------------------------------------------------------------------------------
 //
@@ -60,8 +61,8 @@ class uvm_sequencer_base extends uvm_component;
   protected uvm_sequence_base   lock_list[$];
   protected uvm_sequence_base   reg_sequences[int];
   protected int                 m_sequencer_id;
-  protected int                 m_lock_arb_size;  // used for waiting processes
-  protected int                 m_arb_size;       // used for waiting processes
+  protected int                 m_lock_arb_size;  // used for waiting pro1cesses
+  protected int                 m_arb_size;       // used for waiting pro1cesses
   protected int                 m_wait_for_item_sequence_id,
                                 m_wait_for_item_transaction_id;
   protected int                 m_wait_relevant_count = 0 ;
@@ -106,7 +107,7 @@ class uvm_sequencer_base extends uvm_component;
   extern virtual task execute_item(uvm_sequence_item item);
 
   // Hidden array, keeps track of running default sequences
-  protected uvm_sequence_process_wrapper m_default_sequences[uvm_phase];
+  protected uvm_sequence_pro1cess_wrapper m_default_sequences[uvm_phase];
 
   // Function -- NODOCS -- start_phase_sequence
   //
@@ -552,7 +553,7 @@ function void uvm_sequencer_base::grant_queued_locks();
     // remove and report any zombies
     begin
        uvm_sequence_request zombies[$];
-       zombies = arb_sequence_q.find(item) with (item.request==SEQ_TYPE_LOCK && item.process_id.status inside {process::KILLED,process::FINISHED});
+       zombies = arb_sequence_q.find(item) with (item.request==SEQ_TYPE_LOCK && item.pro1cess_id.status inside {pro1cess::KILLED,pro1cess::FINISHED});
        foreach(zombies[idx]) begin
           `uvm_error("SEQLCKZMB", $sformatf("The task responsible for requesting a lock on sequencer '%s' for sequence '%s' has been killed, to avoid a deadlock the sequence will be removed from the arbitration queues", this.get_full_name(), zombies[idx].sequence_ptr.get_full_name()))
           remove_sequence_from_queues(zombies[idx].sequence_ptr);
@@ -620,8 +621,8 @@ function int uvm_sequencer_base::m_choose_next_request();
 
   i = 0;
   while (i < arb_sequence_q.size()) begin
-     if ((arb_sequence_q[i].process_id.status == process::KILLED) ||
-         (arb_sequence_q[i].process_id.status == process::FINISHED)) begin
+     if ((arb_sequence_q[i].pro1cess_id.status == pro1cess::KILLED) ||
+         (arb_sequence_q[i].pro1cess_id.status == pro1cess::FINISHED)) begin
         `uvm_error("SEQREQZMB", $sformatf("The task responsible for requesting a wait_for_grant on sequencer '%s' for sequence '%s' has been killed, to avoid a deadlock the sequence will be removed from the arbitration queues", this.get_full_name(), arb_sequence_q[i].sequence_ptr.get_full_name()))
          remove_sequence_from_queues(arb_sequence_q[i].sequence_ptr);
          continue;
@@ -945,7 +946,7 @@ task uvm_sequencer_base::wait_for_grant(uvm_sequence_base sequence_ptr,
     req_s.request = SEQ_TYPE_LOCK;
     req_s.sequence_ptr = sequence_ptr;
     req_s.request_id = g_request_id++;
-    req_s.process_id = process::self();
+    req_s.pro1cess_id = pro1cess::self();
     arb_sequence_q.push_back(req_s);
   end
 
@@ -957,7 +958,7 @@ task uvm_sequencer_base::wait_for_grant(uvm_sequence_base sequence_ptr,
   req_s.item_priority = item_priority;
   req_s.sequence_ptr = sequence_ptr;
   req_s.request_id = g_request_id++;
-  req_s.process_id = process::self();
+  req_s.pro1cess_id = pro1cess::self();
   arb_sequence_q.push_back(req_s);
   m_update_lists();
 
@@ -1051,7 +1052,7 @@ task uvm_sequencer_base::m_lock_req(uvm_sequence_base sequence_ptr, bit lock);
   new_req.request = SEQ_TYPE_LOCK;
   new_req.sequence_ptr = sequence_ptr;
   new_req.request_id = g_request_id++;
-  new_req.process_id = process::self();
+  new_req.pro1cess_id = pro1cess::self();
 
   if (lock == 1) begin
     // Locks are arbitrated just like all other requests
@@ -1150,7 +1151,7 @@ function void uvm_sequencer_base::remove_sequence_from_queues(
         if ((arb_sequence_q[i].sequence_id == seq_id) ||
             (is_child(sequence_ptr, arb_sequence_q[i].sequence_ptr))) begin
           if (sequence_ptr.get_sequence_state() == UVM_FINISHED)
-            `uvm_error("SEQFINERR", $sformatf("Parent sequence '%s' should not finish before all items from itself and items from descendent sequences are processed.  The item request from the sequence '%s' is being removed.", sequence_ptr.get_full_name(), arb_sequence_q[i].sequence_ptr.get_full_name()))
+            `uvm_error("SEQFINERR", $sformatf("Parent sequence '%s' should not finish before all items from itself and items from descendent sequences are pro1cessed.  The item request from the sequence '%s' is being removed.", sequence_ptr.get_full_name(), arb_sequence_q[i].sequence_ptr.get_full_name()))
           arb_sequence_q.delete(i);
           m_update_lists();
         end
@@ -1385,9 +1386,9 @@ function void uvm_sequencer_base::start_phase_sequence(uvm_phase phase);
   end
 
   fork begin
-    uvm_sequence_process_wrapper w = new();
-    // reseed this process for random stability
-    w.pid = process::self();
+    uvm_sequence_pro1cess_wrapper w = new();
+    // reseed this pro1cess for random stability
+    w.pid = pro1cess::self();
     w.seq = seq;
     w.pid.srandom(uvm_create_random_seed(seq.get_type_name(), this.get_full_name()));
     m_default_sequences[phase] = w;
@@ -1427,7 +1428,7 @@ class uvm_sequence_request;
   int        sequence_id;
   int        request_id;
   int        item_priority;
-  process    process_id;
+  pro1cess    pro1cess_id;
   uvm_sequencer_base::seq_req_t  request;
   uvm_sequence_base sequence_ptr;
 endclass

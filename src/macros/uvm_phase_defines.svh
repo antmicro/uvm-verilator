@@ -1,3 +1,4 @@
+`include "process.sv"
 `ifndef UVM_PHASE_DEFINES_SVH
 `define UVM_PHASE_DEFINES_SVH
 //

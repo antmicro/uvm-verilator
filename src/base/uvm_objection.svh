@@ -1,3 +1,4 @@
+`include "process.sv"
 //
 //----------------------------------------------------------------------
 // Copyright 2007-2014 Mentor Graphics Corporation
@@ -33,7 +34,7 @@ typedef class uvm_objection;
 typedef class uvm_sequence_base;
 typedef class uvm_objection_callback;
 typedef uvm_callbacks #(uvm_objection,uvm_objection_callback) uvm_objection_cbs_t;
-typedef class uvm_cmdline_processor;
+typedef class uvm_cmdline_pro1cessor;
 
 class uvm_objection_events;
   int waiters;
@@ -92,21 +93,21 @@ class uvm_objection extends uvm_report_object;
   // to grow, but that seems like overkill for the time being.
   local static uvm_objection_context_object m_context_pool[$];
 
-  // These are the active drain processes, which have been
-  // forked off by the background process.  A raise can
+  // These are the active drain pro1cesses, which have been
+  // forked off by the background pro1cess.  A raise can
   // use this array to kill a drain.
 `ifndef UVM_USE_PROCESS_CONTAINER   
-  local process m_drain_proc[uvm_object];
+  local pro1cess m_drain_proc[uvm_object];
 `else
-  local process_container_c m_drain_proc[uvm_object];
+  local pro1cess_container_c m_drain_proc[uvm_object];
 `endif
    
   // These are the contexts which have been scheduled for
-  // retrieval by the background process, but which the
-  // background process hasn't seen yet.
+  // retrieval by the background pro1cess, but which the
+  // background pro1cess hasn't seen yet.
   local static uvm_objection_context_object m_scheduled_list[$];
 
-  // Once a context is seen by the background process, it is
+  // Once a context is seen by the background pro1cess, it is
   // removed from the scheduled list, and placed in the forked
   // list.  At the same time, it is placed in the scheduled
   // contexts array.  A re-raise can use the scheduled contexts
@@ -115,7 +116,7 @@ class uvm_objection extends uvm_report_object;
   local uvm_objection_context_object m_forked_list[$];
 
   // Once the forked drain has actually started (this occurs
-  // ~1 delta AFTER the background process schedules it), the
+  // ~1 delta AFTER the background pro1cess schedules it), the
   // context is removed from the above array and list, and placed
   // in the forked_contexts list.  
   local uvm_objection_context_object m_forked_contexts[uvm_object];
@@ -132,7 +133,7 @@ class uvm_objection extends uvm_report_object;
 
   // @uvm-ieee 1800.2-2017 auto 10.5.1.2
   function new(string name="");
-    uvm_cmdline_processor clp;
+    uvm_cmdline_pro1cessor clp;
     uvm_coreservice_t cs_ ;
     string trace_args[$];
     super.new(name);
@@ -142,7 +143,7 @@ class uvm_objection extends uvm_report_object;
     set_report_verbosity_level(m_top.get_report_verbosity_level());
 
     // Get the command line trace mode setting
-    clp = uvm_cmdline_processor::get_inst();
+    clp = uvm_cmdline_pro1cessor::get_inst();
     if(clp.get_arg_matches("+UVM_OBJECTION_TRACE", trace_args)) begin
       m_trace_mode=1;
     end
@@ -457,19 +458,19 @@ class uvm_objection extends uvm_report_object;
   // If the total objection count reaches zero, propagation up the hierarchy
   // is deferred until a configurable drain-time has passed and the 
   // <uvm_component::all_dropped> callback for the current hierarchy level
-  // has returned. The following process occurs for each instance up
+  // has returned. The following pro1cess occurs for each instance up
   // the hierarchy from the source caller:
   //
-  // A process is forked in a non-blocking fashion, allowing the ~drop~
-  // call to return. The forked process then does the following:
+  // A pro1cess is forked in a non-blocking fashion, allowing the ~drop~
+  // call to return. The forked pro1cess then does the following:
   //
-  // - If a drain time was set for the given ~object~, the process waits for
+  // - If a drain time was set for the given ~object~, the pro1cess waits for
   //   that amount of time.
   //
   // - The objection's <all_dropped> virtual method is called, which calls the
   //   <uvm_component::all_dropped> method (if ~object~ is a component).
   //
-  // - The process then waits for the ~all_dropped~ callback to complete.
+  // - The pro1cess then waits for the ~all_dropped~ callback to complete.
   //
   // - After the drain time has elapsed and all_dropped callback has
   //   completed, propagation of the dropped objection to the parent proceeds
@@ -486,7 +487,7 @@ class uvm_objection extends uvm_report_object;
   // objection comes in, no raises or drops are propagated up the hierarchy,
   //
   // As an optimization, if the ~object~ has no set drain-time and no
-  // registered callbacks, the forked process can be skipped and propagation
+  // registered callbacks, the forked pro1cess can be skipped and propagation
   // proceeds immediately to the parent as described. 
 
   // @uvm-ieee 1800.2-2017 auto 10.5.1.3.4
@@ -559,7 +560,7 @@ class uvm_objection extends uvm_report_object;
         ctxt.count = count;
         ctxt.objection = this;
         // Need to be thread-safe, let the background
-        // process handle it.
+        // pro1cess handle it.
 
         // Why don't we look at in_top_thread here?  Because
         // a re-raise will kill the drain at object that it's
@@ -567,7 +568,7 @@ class uvm_objection extends uvm_report_object;
         // to not cause accidental kills at branch-levels in
         // the propagation.
 
-        // Using the background process just allows us to
+        // Using the background pro1cess just allows us to
         // separate the links of the chain.
         m_scheduled_list.push_back(ctxt);
 
@@ -618,7 +619,7 @@ class uvm_objection extends uvm_report_object;
         void'(m_forked_list.pop_front());
     end
 
-    // running drains have a context and a process
+    // running drains have a context and a pro1cess
     foreach (m_forked_contexts[o]) begin
 `ifndef UVM_USE_PROCESS_CONTAINER       
         m_drain_proc[o].kill();
@@ -643,7 +644,7 @@ class uvm_objection extends uvm_report_object;
   // m_execute_scheduled_forks
   // -------------------------
 
-  // background process; when non
+  // background pro1cess; when non
   static task m_execute_scheduled_forks();
     while(1) begin
       wait(m_scheduled_list.size() != 0);
@@ -669,12 +670,12 @@ class uvm_objection extends uvm_report_object;
                       objection.m_scheduled_contexts.delete(ctxt.obj);
                       // Move it in to forked (so re-raise can figure out props)
                       objection.m_forked_contexts[ctxt.obj] = ctxt;
-                      // Save off our process handle, so a re-raise can kill it...
+                      // Save off our pro1cess handle, so a re-raise can kill it...
 `ifndef UVM_USE_PROCESS_CONTAINER		     
-                      objection.m_drain_proc[ctxt.obj] = process::self();
+                      objection.m_drain_proc[ctxt.obj] = pro1cess::self();
 `else
 		     begin
-			process_container_c c = new(process::self());
+			pro1cess_container_c c = new(pro1cess::self());
 			objection.m_drain_proc[ctxt.obj]=c;
 		     end
 `endif		     
@@ -741,7 +742,7 @@ class uvm_objection extends uvm_report_object;
   // m_init_objections
   // -----------------
 
-  // Forks off the single background process
+  // Forks off the single background pro1cess
   static function void m_init_objections();
     fork 
       uvm_objection::m_execute_scheduled_forks();
@@ -1072,7 +1073,7 @@ endclass
 // TODO: change to plusarg
 //`define UVM_DEFAULT_TIMEOUT 9200s
 
-typedef class uvm_cmdline_processor;
+typedef class uvm_cmdline_pro1cessor;
 
 
 `ifdef UVM_ENABLE_DEPRECATED_API
@@ -1089,7 +1090,7 @@ class uvm_test_done_objection extends uvm_objection;
   protected bit m_forced;
 
   // For communicating all objections dropped and end of phasing
-  local  bit m_executing_stop_processes;
+  local  bit m_executing_stop_pro1cesses;
   local  int m_n_stop_threads;
 
 

@@ -1,3 +1,4 @@
+`include "process.sv"
 //
 //------------------------------------------------------------------------------
 // Copyright 2007-2018 Mentor Graphics Corporation
@@ -1779,7 +1780,7 @@ function string uvm_tree_printer::m_emit_element(uvm_printer_element element, in
       end
       else result = {result, value_str, " ", m_linefeed};
 
-      //process all children (if any) of this element
+      //pro1cess all children (if any) of this element
       foreach (element_children[i]) begin
         result = {result, m_emit_element(element_children[i],level+1)} ;
       end

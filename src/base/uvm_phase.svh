@@ -1,3 +1,4 @@
+`include "process.sv"
 //
 //----------------------------------------------------------------------
 // Copyright 2007-2014 Mentor Graphics Corporation
@@ -429,7 +430,7 @@ class uvm_phase extends uvm_object;
   //-----------------------
   local uvm_phase_state    m_state;
   local int                m_run_count; // num times this phase has executed
-  local process            m_phase_proc;
+  local pro1cess            m_phase_proc;
   local static int         m_default_max_ready_to_end_iters = 20;    // 20 is the initial value defined by 1800.2-2017 9.3.1.3.5
 `ifndef UVM_ENABLE_DEPRECATED_API
   local
@@ -692,7 +693,7 @@ typedef uvm_callbacks#(uvm_phase, uvm_phase_cb) uvm_phase_cb_pool /* @uvm-ieee 1
 //                               IMPLEMENTATION
 //------------------------------------------------------------------------------
 
-typedef class uvm_cmdline_processor;
+typedef class uvm_cmdline_pro1cessor;
 
 `define UVM_PH_TRACE(ID,MSG,PH,VERB) \
    `uvm_info(ID, {$sformatf("Phase '%0s' (id=%0d) ", \
@@ -720,7 +721,7 @@ function uvm_phase::new(string name="uvm_phase",
   m_parent = parent;
 
   begin
-    uvm_cmdline_processor clp = uvm_cmdline_processor::get_inst();
+    uvm_cmdline_pro1cessor clp = uvm_cmdline_pro1cessor::get_inst();
     string val;
     if (clp.get_arg_value("+UVM_PHASE_TRACE", val))
       m_phase_trace = 1;
@@ -1434,10 +1435,10 @@ task uvm_phase::execute_phase();
         m_state = UVM_PHASE_EXECUTING;
         `uvm_do_callbacks(uvm_phase, uvm_phase_cb, phase_state_change(this, state_chg))
 
-        fork : master_phase_process
+        fork : master_phase_pro1cess
           begin
   
-            m_phase_proc = process::self();
+            m_phase_proc = pro1cess::self();
   
             //-----------
             // EXECUTING: (task phases)
@@ -2252,9 +2253,9 @@ endfunction
 // m_run_phases
 // ------------
 
-// This task contains the top-level process that owns all the phase
-// processes.  By hosting the phase processes here we avoid problems
-// associated with phase processes related as parents/children
+// This task contains the top-level pro1cess that owns all the phase
+// pro1cesses.  By hosting the phase pro1cesses here we avoid problems
+// associated with phase pro1cesses related as parents/children
 task uvm_phase::m_run_phases();
   uvm_root top;
   uvm_coreservice_t cs;
@@ -2276,7 +2277,7 @@ task uvm_phase::m_run_phases();
         phase.execute_phase();
       end
     join_none
-    #0;  // let the process start running
+    #0;  // let the pro1cess start running
   end
 endtask
 

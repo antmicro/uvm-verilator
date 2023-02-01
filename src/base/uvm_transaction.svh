@@ -1,3 +1,4 @@
+`include "process.sv"
 //
 //-----------------------------------------------------------------------------
 // Copyright 2007-2014 Mentor Graphics Corporation
@@ -155,7 +156,7 @@ virtual class uvm_transaction extends uvm_object;
   //   time, or to accept_time if provided and non-zero. The ~accept_time~ may be
   //   any time, past or future.
   //
-  // - The transaction's internal accept event is triggered. Any processes
+  // - The transaction's internal accept event is triggered. Any pro1cesses
   //   waiting on the this event will resume in the next delta cycle. 
   //
   // - The <do_accept_tr> method is called to allow for any post-accept
@@ -201,7 +202,7 @@ virtual class uvm_transaction extends uvm_object;
   // - The <do_begin_tr> method is called to allow for any post-begin action in
   //   derived classes.
   //
-  // - The transaction's internal begin event is triggered. Any processes
+  // - The transaction's internal begin event is triggered. Any pro1cesses
   //   waiting on this event will resume in the next delta cycle. 
   //
   // The return value is a transaction handle, which is valid (non-zero) only if
@@ -238,7 +239,7 @@ virtual class uvm_transaction extends uvm_object;
   // - The <do_begin_tr> method is called to allow for any post-begin
   //   action in derived classes.
   //
-  // - The transaction's internal begin event is triggered. Any processes
+  // - The transaction's internal begin event is triggered. Any pro1cesses
   //   waiting on this event will resume in the next delta cycle. 
   //
   // The return value is a transaction handle, which is valid (non-zero) only if
@@ -288,7 +289,7 @@ virtual class uvm_transaction extends uvm_object;
   // - The <do_end_tr> method is called to allow for any post-end
   //   action in derived classes.
   //
-  // - The transaction's internal end event is triggered. Any processes waiting
+  // - The transaction's internal end event is triggered. Any pro1cesses waiting
   //   on this event will resume in the next delta cycle. 
 
   // @uvm-ieee 1800.2-2017 auto 5.4.2.7

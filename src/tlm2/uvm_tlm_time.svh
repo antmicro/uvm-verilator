@@ -1,3 +1,4 @@
+`include "process.sv"
 //----------------------------------------------------------------------
 // Copyright 2011-2014 Mentor Graphics Corporation
 // Copyright 2014 Semifore

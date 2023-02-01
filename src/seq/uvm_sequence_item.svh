@@ -1,3 +1,4 @@
+`include "process.sv"
 //----------------------------------------------------------------------
 // Copyright 2007-2013 Mentor Graphics Corporation
 // Copyright 2014 Semifore
@@ -391,7 +392,7 @@ class uvm_sequence_item extends uvm_transaction;
     l_report_message = uvm_report_message::new_report_message();
     l_report_message.set_report_message(severity, id, message, 
 					verbosity, filename, line, context_name);
-    uvm_process_report_message(l_report_message);
+    uvm_pro1cess_report_message(l_report_message);
 
   endfunction
     
@@ -461,12 +462,12 @@ class uvm_sequence_item extends uvm_transaction;
   endfunction
 
   // @uvm-ieee 1800.2-2017 auto 14.1.3.4
-  virtual function void uvm_process_report_message (uvm_report_message report_message);
+  virtual function void uvm_pro1cess_report_message (uvm_report_message report_message);
     uvm_report_object l_report_object = uvm_get_report_object();
     report_message.set_report_object(l_report_object);
     if (report_message.get_context() == "")
       report_message.set_context(get_sequence_path());
-    l_report_object.m_rh.process_report_message(report_message);
+    l_report_object.m_rh.pro1cess_report_message(report_message);
   endfunction
 
 

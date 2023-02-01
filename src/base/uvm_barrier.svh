@@ -1,3 +1,4 @@
+`include "process.sv"
 //
 //------------------------------------------------------------------------------
 // Copyright 2007-2018 Cadence Design Systems, Inc.
@@ -25,9 +26,9 @@
 //
 // CLASS -- NODOCS -- uvm_barrier
 //
-// The uvm_barrier class provides a multiprocess synchronization mechanism. 
-// It enables a set of processes to block until the desired number of processes
-// get to the synchronization point, at which time all of the processes are
+// The uvm_barrier class provides a multipro1cess synchronization mechanism. 
+// It enables a set of pro1cesses to block until the desired number of pro1cesses
+// get to the synchronization point, at which time all of the pro1cesses are
 // released.
 //-----------------------------------------------------------------------------
 
@@ -59,9 +60,9 @@ class uvm_barrier extends uvm_object;
 
   // Task -- NODOCS -- wait_for
   //
-  // Waits for enough processes to reach the barrier before continuing. 
+  // Waits for enough pro1cesses to reach the barrier before continuing. 
   //
-  // The number of processes to wait for is set by the <set_threshold> method.
+  // The number of pro1cesses to wait for is set by the <set_threshold> method.
 
   // @uvm-ieee 1800.2-2017 auto 10.3.2.2
   virtual task wait_for();
@@ -87,10 +88,10 @@ class uvm_barrier extends uvm_object;
   //
   // Resets the barrier. This sets the waiter count back to zero. 
   //
-  // The threshold is unchanged. After reset, the barrier will force processes
+  // The threshold is unchanged. After reset, the barrier will force pro1cesses
   // to wait for the threshold again. 
   //
-  // If the ~wakeup~ bit is set, any currently waiting processes will
+  // If the ~wakeup~ bit is set, any currently waiting pro1cesses will
   // be activated.
 
   // @uvm-ieee 1800.2-2017 auto 10.3.2.3
@@ -112,9 +113,9 @@ class uvm_barrier extends uvm_object;
   // reached. 
   //
   // The default is on, so when a barrier hits its threshold it will reset, and
-  // new processes will block until the threshold is reached again. 
+  // new pro1cesses will block until the threshold is reached again. 
   //
-  // If auto reset is off, then once the threshold is achieved, new processes
+  // If auto reset is off, then once the threshold is achieved, new pro1cesses
   // pass through without being blocked until the barrier is reset.
 
   // @uvm-ieee 1800.2-2017 auto 10.3.2.4
@@ -126,15 +127,15 @@ class uvm_barrier extends uvm_object;
 
   // Function -- NODOCS -- set_threshold
   //
-  // Sets the process threshold. 
+  // Sets the pro1cess threshold. 
   //
-  // This determines how many processes must be waiting on the barrier before
-  // the processes may proceed. 
+  // This determines how many pro1cesses must be waiting on the barrier before
+  // the pro1cesses may proceed. 
   //
-  // Once the ~threshold~ is reached, all waiting processes are activated. 
+  // Once the ~threshold~ is reached, all waiting pro1cesses are activated. 
   //
   // If ~threshold~ is set to a value less than the number of currently
-  // waiting processes, then the barrier is reset and waiting processes are
+  // waiting pro1cesses, then the barrier is reset and waiting pro1cesses are
   // activated.
 
   // @uvm-ieee 1800.2-2017 auto 10.3.2.6
@@ -157,7 +158,7 @@ class uvm_barrier extends uvm_object;
   
   // Function -- NODOCS -- get_num_waiters
   //
-  // Returns the number of processes currently waiting at the barrier.
+  // Returns the number of pro1cesses currently waiting at the barrier.
 
   // @uvm-ieee 1800.2-2017 auto 10.3.2.7
   virtual function int get_num_waiters ();
@@ -167,7 +168,7 @@ class uvm_barrier extends uvm_object;
 
   // Function -- NODOCS -- cancel
   //
-  // Decrements the waiter count by one. This is used when a process that is
+  // Decrements the waiter count by one. This is used when a pro1cess that is
   // waiting on the barrier is killed or activated by some other means.
 
   // @uvm-ieee 1800.2-2017 auto 10.3.2.8
@@ -179,7 +180,7 @@ class uvm_barrier extends uvm_object;
   local task m_trigger();
     m_event.trigger();
     num_waiters=0;
-    #0; //this process was last to wait; allow other procs to resume first
+    #0; //this pro1cess was last to wait; allow other procs to resume first
   endtask
 
   virtual function void do_print (uvm_printer printer);

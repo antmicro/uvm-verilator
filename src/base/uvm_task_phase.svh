@@ -1,3 +1,4 @@
+`include "process.sv"
 //
 //----------------------------------------------------------------------
 // Copyright 2007-2011 Mentor Graphics Corporation
@@ -133,10 +134,10 @@ virtual class uvm_task_phase extends uvm_phase;
 
     fork
       begin
-        process proc;
+        pro1cess proc;
 
-        // reseed this process for random stability
-        proc = process::self();
+        // reseed this pro1cess for random stability
+        proc = pro1cess::self();
         proc.srandom(uvm_create_random_seed(phase.get_type_name(), comp.get_full_name()));
 
         phase.m_num_procs_not_yet_returned++;

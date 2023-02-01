@@ -1,3 +1,4 @@
+`include "process.sv"
 //
 //------------------------------------------------------------------------------
 // Copyright 2007-2014 Mentor Graphics Corporation
@@ -310,14 +311,14 @@ class uvm_report_handler extends uvm_object;
   //----------------------------------------------------------------------------
 
 
-  // Function -- NODOCS -- process_report_message
+  // Function -- NODOCS -- pro1cess_report_message
   //
   // This is the common handler method used by the four core reporting methods
   // (e.g. <uvm_report_error>) in <uvm_report_object>.
 
   // @uvm-ieee 1800.2-2017 auto 6.4.7
-  virtual function void process_report_message(uvm_report_message report_message);
-    process p = process::self();
+  virtual function void pro1cess_report_message(uvm_report_message report_message);
+    pro1cess p = pro1cess::self();
     uvm_report_server srvr = uvm_report_server::get_server();
     string id = report_message.get_id();
     uvm_severity severity = report_message.get_severity();
@@ -339,7 +340,7 @@ class uvm_report_handler extends uvm_object;
     report_message.set_file(get_file_handle(severity, id));
     report_message.set_report_handler(this);
     report_message.set_action(get_action(severity, id));
-    srvr.process_report_message(report_message);
+    srvr.pro1cess_report_message(report_message);
     
   endfunction
 
@@ -649,7 +650,7 @@ class uvm_report_handler extends uvm_object;
 					verbosity_level, filename, line, name);
     l_report_message.set_report_object(client);
     l_report_message.set_action(get_action(severity,id));
-    process_report_message(l_report_message);
+    pro1cess_report_message(l_report_message);
 
   endfunction
 

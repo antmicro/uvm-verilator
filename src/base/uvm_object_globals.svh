@@ -1,3 +1,4 @@
+`include "process.sv"
 //
 //------------------------------------------------------------------------------
 // Copyright 2007-2014 Mentor Graphics Corporation
@@ -509,7 +510,7 @@ typedef enum { UVM_PHASE_IMP,
 //   UVM_PHASE_STARTED - phase ready to execute, running phase_started() callback
 //
 //   UVM_PHASE_EXECUTING - An executing phase is one where the phase callbacks are
-//              being executed. Its process is tracked by the phaser.
+//              being executed. Its pro1cess is tracked by the phaser.
 //
 //   UVM_PHASE_READY_TO_END - no objections remain in this phase or in any
 //              predecessors of its successors or in any sync'd phases. This 
@@ -524,10 +525,10 @@ typedef enum { UVM_PHASE_IMP,
 //
 //   UVM_PHASE_ENDED - phase completed execution, now running phase_ended() callback
 //
-//   UVM_PHASE_JUMPING - all processes related to phase are being killed and all
+//   UVM_PHASE_JUMPING - all pro1cesses related to phase are being killed and all
 //                       predecessors are forced into the DONE state.
 //
-//   UVM_PHASE_CLEANUP - all processes related to phase are being killed
+//   UVM_PHASE_CLEANUP - all pro1cesses related to phase are being killed
 //
 //   UVM_PHASE_DONE - A phase is done after it terminated execution.  Becoming
 //              done may enable a waiting successor phase to execute.

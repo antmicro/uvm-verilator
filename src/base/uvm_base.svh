@@ -1,3 +1,4 @@
+`include "process.sv"
 //
 //----------------------------------------------------------------------
 // Copyright 2007-2018 Cadence Design Systems, Inc.
@@ -27,7 +28,7 @@
 `ifndef UVM_BASE_SVH
 `define UVM_BASE_SVH
 
-  typedef class uvm_cmdline_processor;
+  typedef class uvm_cmdline_pro1cessor;
 
 
   

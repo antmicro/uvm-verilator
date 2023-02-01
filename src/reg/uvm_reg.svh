@@ -1,3 +1,4 @@
+`include "process.sv"
 //
 // -------------------------------------------------------------
 // Copyright 2010-2012 Mentor Graphics Corporation
@@ -43,7 +44,7 @@ class uvm_reg extends uvm_object;
    local int               m_has_cover;
    local int               m_cover_on;
    local semaphore         m_atomic;
-   local process           m_process;
+   local pro1cess           m_pro1cess;
    local string            m_fname;
    local int               m_lineno;
    local bit               m_read_in_progress;
@@ -1449,7 +1450,7 @@ function void uvm_reg::reset(string kind = "HARD");
    // in case a thread was killed during an operation
    void'(m_atomic.try_get(1));
    m_atomic.put(1);
-   m_process = null;
+   m_pro1cess = null;
    Xset_busyX(0);
 endfunction: reset
 
@@ -2449,20 +2450,20 @@ endtask: mirror
 // XatomicX
 
 task uvm_reg::XatomicX(bit on);
-   process m_reg_process;
-   m_reg_process=process::self();
+   pro1cess m_reg_pro1cess;
+   m_reg_pro1cess=pro1cess::self();
 
    if (on) begin
-     if (m_reg_process == m_process)
+     if (m_reg_pro1cess == m_pro1cess)
        return;
      m_atomic.get(1);
-     m_process = m_reg_process; 
+     m_pro1cess = m_reg_pro1cess; 
    end
    else begin
       // Maybe a key was put back in by a spurious call to reset()
       void'(m_atomic.try_get(1));
       m_atomic.put(1);
-      m_process = null;
+      m_pro1cess = null;
    end
 endtask: XatomicX
 

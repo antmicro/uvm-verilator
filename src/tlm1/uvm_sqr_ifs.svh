@@ -1,3 +1,4 @@
+`include "process.sv"
 //
 //------------------------------------------------------------------------------
 // Copyright 2007-2014 Mentor Graphics Corporation
@@ -132,7 +133,7 @@ virtual class uvm_sqr_if_base #(type T1=uvm_object, T2=T1);
 
   // Function -- NODOCS -- has_do_available
   //
-  // Indicates whether a sequence item is available for immediate processing.
+  // Indicates whether a sequence item is available for immediate pro1cessing.
   // Implementations should return 1 if an item is available, 0 otherwise. 
 
   // @uvm-ieee 1800.2-2017 auto 15.2.1.2.5

@@ -1,3 +1,4 @@
+`include "process.sv"
 // 
 //------------------------------------------------------------------------------
 // Copyright 2007-2014 Mentor Graphics Corporation
@@ -205,7 +206,7 @@ function void uvm_report_fatal(string id,
 endfunction
 
 
-// Function -- NODOCS -- uvm_process_report_message
+// Function -- NODOCS -- uvm_pro1cess_report_message
 //
 // This method, defined in package scope, is a convenience function that
 // delegate to the corresponding component method in ~uvm_top~. It can be
@@ -213,14 +214,14 @@ endfunction
 // components. See <uvm_report_object> for details on the reporting mechanism.
 
 // @uvm-ieee 1800.2-2017 auto F.3.2.3
-function void uvm_process_report_message(uvm_report_message report_message);
+function void uvm_pro1cess_report_message(uvm_report_message report_message);
   uvm_root top;
   uvm_coreservice_t cs;
-  process p;
-  p = process::self();
+  pro1cess p;
+  p = pro1cess::self();
   cs = uvm_coreservice_t::get();
   top = cs.get_root();
-  top.uvm_process_report_message(report_message);
+  top.uvm_pro1cess_report_message(report_message);
 endfunction
 
 
@@ -416,7 +417,7 @@ endfunction
 //
 // This task will block until SystemVerilog's NBA region (or Re-NBA region if 
 // called from a program context).  The purpose is to continue the calling 
-// process only after allowing other processes any number of delta cycles (#0) 
+// pro1cess only after allowing other pro1cesses any number of delta cycles (#0) 
 // to settle out.
 //
 // @uvm-accellera The details of this API are specific to the Accellera implementation, and are not being considered for contribution to 1800.2

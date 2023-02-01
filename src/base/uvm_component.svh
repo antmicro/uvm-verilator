@@ -1,3 +1,4 @@
+`include "process.sv"
 //
 //------------------------------------------------------------------------------
 // Copyright 2010 Paradigm Works
@@ -48,7 +49,7 @@ typedef class uvm_sequence_item;
 //     multiple independent phasing domains to mirror DUT behavior e.g. power
 //
 // Reporting - provides a convenience interface to the <uvm_report_handler>. All
-//     messages, warnings, and errors are processed through this interface.
+//     messages, warnings, and errors are pro1cessed through this interface.
 //
 // Transaction recording - provides methods for recording the transactions
 //     produced or consumed by the component to a transaction database (vendor
@@ -209,7 +210,7 @@ virtual class uvm_component extends uvm_report_object;
   // name with the _phase suffix. For example, the build phase function is
   // <build_phase>.
   //
-  // All processes associated with a task-based phase are killed when the phase
+  // All pro1cesses associated with a task-based phase are killed when the phase
   // ends. See <uvm_task_phase> for more details.
   //----------------------------------------------------------------------------
 
@@ -265,7 +266,7 @@ virtual class uvm_component extends uvm_report_object;
   // Thus the phase will automatically
   // end once all objections are dropped using ~phase.drop_objection()~.
   // 
-  // Any processes forked by this task continue to run
+  // Any pro1cesses forked by this task continue to run
   // after the task returns,
   // but they will be killed once the phase ends.
   //
@@ -286,7 +287,7 @@ virtual class uvm_component extends uvm_report_object;
   // using ~phase.drop_objection()~, or if no components raises an
   // objection, the phase is ended.
   // 
-  // Any processes forked by this task continue to run
+  // Any pro1cesses forked by this task continue to run
   // after the task returns,
   // but they will be killed once the phase ends.
   //
@@ -307,7 +308,7 @@ virtual class uvm_component extends uvm_report_object;
   // using ~phase.drop_objection()~, or if no components raises an
   // objection, the phase is ended.
   // 
-  // Any processes forked by this task continue to run
+  // Any pro1cesses forked by this task continue to run
   // after the task returns,
   // but they will be killed once the phase ends.
   //
@@ -328,7 +329,7 @@ virtual class uvm_component extends uvm_report_object;
   // using ~phase.drop_objection()~, or if no components raises an
   // objection, the phase is ended.
   // 
-  // Any processes forked by this task continue to run
+  // Any pro1cesses forked by this task continue to run
   // after the task returns,
   // but they will be killed once the phase ends.
   //
@@ -349,7 +350,7 @@ virtual class uvm_component extends uvm_report_object;
   // using ~phase.drop_objection()~, or if no components raises an
   // objection, the phase is ended.
   // 
-  // Any processes forked by this task continue to run
+  // Any pro1cesses forked by this task continue to run
   // after the task returns,
   // but they will be killed once the phase ends.
   //
@@ -370,7 +371,7 @@ virtual class uvm_component extends uvm_report_object;
   // using ~phase.drop_objection()~, or if no components raises an
   // objection, the phase is ended.
   // 
-  // Any processes forked by this task continue to run
+  // Any pro1cesses forked by this task continue to run
   // after the task returns,
   // but they will be killed once the phase ends.
   //
@@ -391,7 +392,7 @@ virtual class uvm_component extends uvm_report_object;
   // using ~phase.drop_objection()~, or if no components raises an
   // objection, the phase is ended.
   // 
-  // Any processes forked by this task continue to run
+  // Any pro1cesses forked by this task continue to run
   // after the task returns,
   // but they will be killed once the phase ends.
   //
@@ -412,7 +413,7 @@ virtual class uvm_component extends uvm_report_object;
   // using ~phase.drop_objection()~, or if no components raises an
   // objection, the phase is ended.
   // 
-  // Any processes forked by this task continue to run
+  // Any pro1cesses forked by this task continue to run
   // after the task returns,
   // but they will be killed once the phase ends.
   //
@@ -433,7 +434,7 @@ virtual class uvm_component extends uvm_report_object;
   // using ~phase.drop_objection()~, or if no components raises an
   // objection, the phase is ended.
   // 
-  // Any processes forked by this task continue to run
+  // Any pro1cesses forked by this task continue to run
   // after the task returns,
   // but they will be killed once the phase ends.
   //
@@ -454,7 +455,7 @@ virtual class uvm_component extends uvm_report_object;
   // using ~phase.drop_objection()~, or if no components raises an
   // objection, the phase is ended.
   // 
-  // Any processes forked by this task continue to run
+  // Any pro1cesses forked by this task continue to run
   // after the task returns,
   // but they will be killed once the phase ends.
   //
@@ -475,7 +476,7 @@ virtual class uvm_component extends uvm_report_object;
   // using ~phase.drop_objection()~, or if no components raises an
   // objection, the phase is ended.
   // 
-  // Any processes forked by this task continue to run
+  // Any pro1cesses forked by this task continue to run
   // after the task returns,
   // but they will be killed once the phase ends.
   //
@@ -496,7 +497,7 @@ virtual class uvm_component extends uvm_report_object;
   // using ~phase.drop_objection()~, or if no components raises an
   // objection, the phase is ended.
   // 
-  // Any processes forked by this task continue to run
+  // Any pro1cesses forked by this task continue to run
   // after the task returns,
   // but they will be killed once the phase ends.
   //
@@ -517,7 +518,7 @@ virtual class uvm_component extends uvm_report_object;
   // using ~phase.drop_objection()~, or if no components raises an
   // objection, the phase is ended.
   // 
-  // Any processes forked by this task continue to run
+  // Any pro1cesses forked by this task continue to run
   // after the task returns,
   // but they will be killed once the phase ends.
   //
@@ -612,7 +613,7 @@ virtual class uvm_component extends uvm_report_object;
   // |phase.raise_objection(this,"Reason");
   //
   // It is the responsibility of this component to drop the objection 
-  // once it is ready for this phase to end (and processes killed).
+  // once it is ready for this phase to end (and pro1cesses killed).
   // If no objection to the given ~phase~ or sibling phases are raised,
   // then phase_ended() is called after a delta cycle.  If any objection
   // is raised, then when all objections to ending the given ~phase~
@@ -1111,7 +1112,7 @@ virtual class uvm_component extends uvm_report_object;
 
   // Function -- NODOCS -- print_override_info
   //
-  // This factory debug method performs the same lookup process as create_object
+  // This factory debug method performs the same lookup pro1cess as create_object
   // and create_component, but instead of creating an object, it prints
   // information about what type of object would be created given the
   // provided arguments.
@@ -1266,7 +1267,7 @@ virtual class uvm_component extends uvm_report_object;
   // - Calls this component's <do_accept_tr> method to allow for any post-begin
   //   action in derived classes.
   //
-  // - Triggers the component's internal accept_tr event. Any processes waiting
+  // - Triggers the component's internal accept_tr event. Any pro1cesses waiting
   //   on this event will resume in the next delta cycle. 
 
   // @uvm-ieee 1800.2-2017 auto 13.1.6.1
@@ -1301,7 +1302,7 @@ virtual class uvm_component extends uvm_report_object;
   // - Calls the component's <do_begin_tr> method to allow for any post-begin
   //   action in derived classes.
   //
-  // - Triggers the component's internal begin_tr event. Any processes waiting
+  // - Triggers the component's internal begin_tr event. Any pro1cesses waiting
   //   on this event will resume in the next delta cycle. 
   //
   // A handle to the transaction is returned. The meaning of this handle, as
@@ -1365,7 +1366,7 @@ virtual class uvm_component extends uvm_report_object;
   // - Calls the component's <do_end_tr> method to accommodate any post-end
   //   action in derived classes.
   //
-  // - Triggers the component's internal end_tr event. Any processes waiting on
+  // - Triggers the component's internal end_tr event. Any pro1cesses waiting on
   //   this event will resume in the next delta cycle. 
   //
   // The ~free_handle~ bit indicates that this transaction is no longer needed.
@@ -1489,7 +1490,7 @@ virtual class uvm_component extends uvm_report_object;
 
   //TND review protected, provide read-only accessor.
   uvm_phase            m_current_phase;            // the most recently executed phase
-  protected process    m_phase_process;
+  protected pro1cess    m_phase_pro1cess;
 
   /*protected*/ bit  m_build_done;
   /*protected*/ int  m_phasing_active;
@@ -3026,7 +3027,7 @@ endfunction
 
 // Internal methods for setting messagin parameters from command line switches
 
-typedef class uvm_cmdline_processor;
+typedef class uvm_cmdline_pro1cessor;
 
 
 // m_set_cl_msg_args
@@ -3034,13 +3035,13 @@ typedef class uvm_cmdline_processor;
 
 function void uvm_component::m_set_cl_msg_args;
   string s_;
-  process p_;
+  pro1cess p_;
 	
-  p_=process::self();
+  p_=pro1cess::self();
   if(p_!=null) 
 	  s_=p_.get_randstate();
   else
-	  `uvm_warning("UVM","run_test() invoked from a non process context")
+	  `uvm_warning("UVM","run_test() invoked from a non pro1cess context")
 
   m_set_cl_verb();
   m_set_cl_action();
@@ -3061,7 +3062,7 @@ function void uvm_component::m_set_cl_verb;
   static string values[$];
   static bit first = 1;
   string args[$];
-  uvm_cmdline_processor clp = uvm_cmdline_processor::get_inst();
+  uvm_cmdline_pro1cessor clp = uvm_cmdline_pro1cessor::get_inst();
   uvm_root top;
   uvm_coreservice_t cs;
 	
@@ -3155,7 +3156,7 @@ function void uvm_component::m_set_cl_action;
   static bit initialized = 0;
   uvm_severity sev;
   uvm_action action;
-  uvm_cmdline_processor uvm_cmdline_proc = uvm_cmdline_processor::get_inst();
+  uvm_cmdline_pro1cessor uvm_cmdline_proc = uvm_cmdline_pro1cessor::get_inst();
 
   if(!initialized) begin
 	string values[$];
@@ -3227,7 +3228,7 @@ function void uvm_component::m_set_cl_sev;
 
   static bit initialized;
   uvm_severity orig_sev, sev;
-  uvm_cmdline_processor uvm_cmdline_proc = uvm_cmdline_processor::get_inst();
+  uvm_cmdline_pro1cessor uvm_cmdline_proc = uvm_cmdline_pro1cessor::get_inst();
 
   if(!initialized) begin
 	string values[$];
@@ -3300,7 +3301,7 @@ function void uvm_component::m_apply_verbosity_settings(uvm_phase phase);
             set_report_id_verbosity(m_verbosity_settings[i].id, m_verbosity_settings[i].verbosity);
       end
       else begin
-        process p = process::self();
+        pro1cess p = pro1cess::self();
         string p_rand = p.get_randstate();
         fork begin
           m_verbosity_setting setting = m_verbosity_settings[i];

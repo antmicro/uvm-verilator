@@ -1,3 +1,4 @@
+`include "process.sv"
 //
 //------------------------------------------------------------------------------
 // Copyright 2007-2014 Mentor Graphics Corporation
@@ -150,8 +151,8 @@ virtual class uvm_factory;
   // instance override can be applied in multiple contexts. A ~full_inst_path~
   // of "*" is effectively a type override, as it will match all contexts.
   //
-  // When the factory processes instance overrides, the instance queue is
-  // processed in order of override registrations, and the first override
+  // When the factory pro1cesses instance overrides, the instance queue is
+  // pro1cessed in order of override registrations, and the first override
   // match prevails. Thus, more specific overrides should be registered
   // first, followed by more general overrides.
 

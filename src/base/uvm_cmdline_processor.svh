@@ -1,3 +1,4 @@
+`include "process.sv"
 //
 //------------------------------------------------------------------------------
 // Copyright 2010-2018 Cadence Design Systems, Inc.
@@ -71,11 +72,11 @@ endclass
 
 
 // @uvm-ieee 1800.2-2017 auto G.1
-typedef class uvm_cmdline_processor;
-uvm_cmdline_processor uvm_cmdline_proc;
+typedef class uvm_cmdline_pro1cessor;
+uvm_cmdline_pro1cessor uvm_cmdline_proc;
 
 
-// Class -- NODOCS -- uvm_cmdline_processor
+// Class -- NODOCS -- uvm_cmdline_pro1cessor
 //
 // This class provides an interface to the command line arguments that 
 // were provided for the given simulation.  The class is intended to be
@@ -85,25 +86,25 @@ uvm_cmdline_processor uvm_cmdline_proc;
 // called ~uvm_cmdline_proc~ is created at initialization time and may 
 // be used to access command line information.
 //
-// The uvm_cmdline_processor class also provides support for setting various UVM
+// The uvm_cmdline_pro1cessor class also provides support for setting various UVM
 // variables from the command line such as components' verbosities and configuration
 // settings for integral types and strings.  Each of these capabilities is described 
 // in the Built-in UVM Aware Command Line Arguments section.
 //
 
 // @uvm-ieee 1800.2-2017 auto G.1.1
-class uvm_cmdline_processor extends uvm_report_object;
+class uvm_cmdline_pro1cessor extends uvm_report_object;
 
-  static local uvm_cmdline_processor m_inst;
+  static local uvm_cmdline_pro1cessor m_inst;
 
   // Group -- NODOCS -- Singleton 
 
   // Function -- NODOCS -- get_inst
   //
-  // Returns the singleton instance of the UVM command line processor.
+  // Returns the singleton instance of the UVM command line pro1cessor.
 
   // @uvm-ieee 1800.2-2017 auto G.1.2
-  static function uvm_cmdline_processor get_inst();
+  static function uvm_cmdline_pro1cessor get_inst();
     if(m_inst == null) 
       m_inst = new("uvm_cmdline_proc");
       uvm_cmdline_proc = m_inst;

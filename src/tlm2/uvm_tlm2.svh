@@ -1,3 +1,4 @@
+`include "process.sv"
 //----------------------------------------------------------------------
 // Copyright 2010-2011 Mentor Graphics Corporation
 // Copyright 2010-2017 Synopsys, Inc.

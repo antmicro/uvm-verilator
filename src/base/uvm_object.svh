@@ -1,3 +1,4 @@
+`include "process.sv"
 //
 //-----------------------------------------------------------------------------
 // Copyright 2007-2014 Mentor Graphics Corporation
@@ -567,7 +568,7 @@ virtual class uvm_object extends uvm_void;
   //
   // The return value is the total number of bits packed into the given array.
   // Use the array's built-in ~size~ method to get the number of bytes or ints
-  // consumed during the packing process.
+  // consumed during the packing pro1cess.
 
   // @uvm-ieee 1800.2-2017 auto 5.3.10.1
   extern function int pack_ints (ref int unsigned intstream[],

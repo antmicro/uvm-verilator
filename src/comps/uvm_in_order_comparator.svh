@@ -1,3 +1,4 @@
+`include "process.sv"
 //
 //------------------------------------------------------------------------------
 // Copyright 2007-2011 Mentor Graphics Corporation
@@ -171,7 +172,7 @@ class uvm_in_order_comparator
       end
 
       // we make the assumption here that a transaction "sent for
-      // analysis" is safe from being edited by another process.
+      // analysis" is safe from being edited by another pro1cess.
       // Hence, it is safe not to clone a and b.
       
       pair = new("after/before");

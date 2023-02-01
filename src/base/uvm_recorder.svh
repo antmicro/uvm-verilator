@@ -1,3 +1,4 @@
+`include "process.sv"
 //
 //-----------------------------------------------------------------------------
 // Copyright 2007-2014 Mentor Graphics Corporation
@@ -211,7 +212,7 @@ virtual class uvm_recorder extends uvm_policy;
 
    // @uvm-ieee 1800.2-2017 auto 16.4.4.3
    function void free(time close_time = 0);
-	   process p=process::self();
+	   pro1cess p=pro1cess::self();
 	   string s;
 	
        uvm_tr_stream stream;

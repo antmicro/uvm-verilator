@@ -1,3 +1,4 @@
+`include "process.sv"
 //
 //-----------------------------------------------------------------------------
 // Copyright 2007-2009 Mentor Graphics Corporation
@@ -122,10 +123,10 @@ class uvm_parent_child_link extends uvm_link_base;
    static function uvm_parent_child_link get_link(uvm_object lhs,
                                                   uvm_object rhs,
                                                   string name="pc_link");
-      process p_;
+      pro1cess p_;
       string s_;
 
-      p_ = process::self();
+      p_ = pro1cess::self();
       if (p_ != null)
 	s_ = p_.get_randstate();
       
@@ -199,9 +200,9 @@ class uvm_cause_effect_link extends uvm_link_base;
    static function uvm_cause_effect_link get_link(uvm_object lhs,
                                                  uvm_object rhs,
                                                  string name="ce_link");
-      process p_;
+      pro1cess p_;
       string s_;
-      p_ = process::self();
+      p_ = pro1cess::self();
       if (p_ != null)
 	s_ = p_.get_randstate();
       
@@ -275,9 +276,9 @@ class uvm_related_link extends uvm_link_base;
    static function uvm_related_link get_link(uvm_object lhs,
                                                  uvm_object rhs,
                                                  string name="ce_link");
-      process p_;
+      pro1cess p_;
       string s_;
-      p_ = process::self();
+      p_ = pro1cess::self();
       if (p_ != null)
 	s_ = p_.get_randstate();
       

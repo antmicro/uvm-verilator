@@ -1,3 +1,4 @@
+`include "process.sv"
 //
 //------------------------------------------------------------------------------
 // Copyright 2007-2014 Mentor Graphics Corporation
@@ -161,7 +162,7 @@ class uvm_report_object extends uvm_object;
     l_report_message = uvm_report_message::new_report_message();
     l_report_message.set_report_message(severity, id, message, 
 					verbosity, filename, line, context_name);
-    uvm_process_report_message(l_report_message);
+    uvm_pro1cess_report_message(l_report_message);
   endfunction 
 
 
@@ -246,7 +247,7 @@ class uvm_report_object extends uvm_object;
   //
   //   report_enabled_checked - (Optional) This bit indicates whether the
   //               currently provided message has been checked as to whether
-  //               the message should be processed. If it hasn't been checked, 
+  //               the message should be pro1cessed. If it hasn't been checked, 
   //               it will be checked inside the uvm_report function.
 
   // @uvm-ieee 1800.2-2017 auto 6.3.3.3
@@ -262,17 +263,17 @@ class uvm_report_object extends uvm_object;
                 filename, line, context_name, report_enabled_checked);
   endfunction
 
-  // Function -- NODOCS -- uvm_process_report_message
+  // Function -- NODOCS -- uvm_pro1cess_report_message
   //
   // This method takes a preformed uvm_report_message, populates it with 
-  // the report object and passes it to the report handler for processing.
+  // the report object and passes it to the report handler for pro1cessing.
   // It is expected to be checked for verbosity and populated.
 
   // @uvm-ieee 1800.2-2017 auto 6.3.3.4
-  virtual function void uvm_process_report_message(uvm_report_message report_message);
+  virtual function void uvm_pro1cess_report_message(uvm_report_message report_message);
     m_rh_init();
     report_message.set_report_object(this);
-    m_rh.process_report_message(report_message);
+    m_rh.pro1cess_report_message(report_message);
   endfunction
 
 
@@ -332,7 +333,7 @@ class uvm_report_object extends uvm_object;
   // These methods associate the specified verbosity threshold with reports of the
   // given ~severity~, ~id~, or ~severity-id~ pair. This threshold is compared with
   // the verbosity originally assigned to the report to decide whether it gets
-  // processed.  A verbosity threshold associated with a particular ~severity-id~ 
+  // pro1cessed.  A verbosity threshold associated with a particular ~severity-id~ 
   // pair takes precedence over a verbosity threshold associated with ~id~, which 
   // takes precedence over a verbosity threshold associated with a ~severity~.
   //
