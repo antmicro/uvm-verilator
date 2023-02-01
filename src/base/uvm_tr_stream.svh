@@ -1,3 +1,4 @@
+`include "process.sv"
 //
 //-----------------------------------------------------------------------------
 // Copyright 2007-2014 Mentor Graphics Corporation
@@ -159,7 +160,7 @@ virtual class uvm_tr_stream extends uvm_object;
 
    // @uvm-ieee 1800.2-2017 auto 7.2.4.2
    function void free();
-	   process p;
+	   pro1cess p;
 	   string s;
       uvm_tr_database db;
       if (!is_open() && !is_closed())
@@ -176,7 +177,7 @@ virtual class uvm_tr_stream extends uvm_object;
       // Clear out internal state
       db = get_db();
       m_is_closed = 0;
-      p = process::self();
+      p = pro1cess::self();
       if(p != null)
       	s = p.get_randstate();
       m_cfg_dap = new("cfg_dap");
@@ -268,7 +269,7 @@ virtual class uvm_tr_stream extends uvm_object;
       if (!is_open())
         return null;
       else begin
-         process p = process::self();
+         pro1cess p = pro1cess::self();
          string s;
 
          if (p != null)

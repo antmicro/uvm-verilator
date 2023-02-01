@@ -1,3 +1,4 @@
+`include "process.sv"
 //----------------------------------------------------------------------
 // Copyright 2010-2011 Paradigm Works
 // Copyright 2010-2011 Mentor Graphics Corporation
@@ -44,7 +45,7 @@
 //----------------------------------------------------------------------
 
 typedef class uvm_resource_db_options;
-typedef class uvm_cmdline_processor;
+typedef class uvm_cmdline_pro1cessor;
 
 
 // Class: uvm_resource_db

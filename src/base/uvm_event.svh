@@ -1,3 +1,4 @@
+`include "process.sv"
 //
 //------------------------------------------------------------------------------
 // Copyright 2007-2011 Mentor Graphics Corporation
@@ -63,7 +64,7 @@ virtual class uvm_event_base extends uvm_object;
 	// If the event has already been triggered, this task returns immediately.
 	// If ~delta~ is set, the caller will be forced to wait a single delta #0
 	// before returning. This prevents the caller from returning before
-	// previously waiting processes have had a chance to resume.
+	// previously waiting pro1cesses have had a chance to resume.
 	//
 	// Once an event has been triggered, it will be remain "on" until the event
 	// is <reset>.
@@ -88,7 +89,7 @@ virtual class uvm_event_base extends uvm_object;
 	// If the event has not already been triggered, this task returns immediately.
 	// If ~delta~ is set, the caller will be forced to wait a single delta #0
 	// before returning. This prevents the caller from returning before
-	// previously waiting processes have had a chance to resume.
+	// previously waiting pro1cesses have had a chance to resume.
 
 	// @uvm-ieee 1800.2-2017 auto 10.1.1.2.3
 	virtual task wait_off (bit delta = 0);
@@ -106,7 +107,7 @@ virtual class uvm_event_base extends uvm_object;
 	//
 	// Waits for the event to be triggered. 
 	//
-	// If one process calls wait_trigger in the same delta as another process
+	// If one pro1cess calls wait_trigger in the same delta as another pro1cess
 	// calls <uvm_event#(T)::trigger>, a race condition occurs. If the call to wait occurs
 	// before the trigger, this method will return in this delta. If the wait
 	// occurs after the trigger, this method will not return until the next
@@ -175,7 +176,7 @@ virtual class uvm_event_base extends uvm_object;
 
 	// Function -- NODOCS -- reset
 	//
-	// Resets the event to its off state. If ~wakeup~ is set, then all processes
+	// Resets the event to its off state. If ~wakeup~ is set, then all pro1cesses
 	// currently waiting for the event are activated before the reset.
 	//
 	// No callbacks are called during a reset.
@@ -201,7 +202,7 @@ virtual class uvm_event_base extends uvm_object;
 	//
 	// Decrements the number of waiters on the event. 
 	//
-	// This is used if a process that is waiting on an event is disabled or
+	// This is used if a pro1cess that is waiting on an event is disabled or
 	// activated by some other means.
 
 	// @uvm-ieee 1800.2-2017 auto 10.1.1.2.9
@@ -213,7 +214,7 @@ virtual class uvm_event_base extends uvm_object;
 
 	// Function -- NODOCS -- get_num_waiters
 	//
-	// Returns the number of processes waiting on the event.
+	// Returns the number of pro1cesses waiting on the event.
 
 	// @uvm-ieee 1800.2-2017 auto 10.1.1.2.10
 	virtual function int get_num_waiters ();
@@ -317,7 +318,7 @@ class uvm_event#(type T=uvm_object) extends uvm_event_base;
 
 	// Function -- NODOCS -- trigger
 	//
-	// Triggers the event, resuming all waiting processes.
+	// Triggers the event, resuming all waiting pro1cesses.
 	//
 	// An optional ~data~ argument can be supplied with the enable to provide
 	// trigger-specific information.

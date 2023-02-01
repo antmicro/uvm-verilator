@@ -1,3 +1,4 @@
+`include "process.sv"
 //
 //------------------------------------------------------------------------------
 // Copyright 2007-2011 Mentor Graphics Corporation
@@ -37,7 +38,7 @@ typedef class uvm_tlm_event;
 // Class -- NODOCS -- uvm_tlm_fifo#(T)
 //
 // This class provides storage of transactions between two independently running
-// processes. Transactions are put into the FIFO via the ~put_export~. 
+// pro1cesses. Transactions are put into the FIFO via the ~put_export~. 
 // transactions are fetched from the FIFO in the order they arrived via the
 // ~get_peek_export~. The ~put_export~ and ~get_peek_export~ are inherited from
 // the <uvm_tlm_fifo_base #(T)> super class, and the interface methods provided by

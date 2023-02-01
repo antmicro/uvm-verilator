@@ -1,3 +1,4 @@
+`include "process.sv"
 //----------------------------------------------------------------------
 // Copyright 2010-2011 Paradigm Works
 // Copyright 2010-2018 Mentor Graphics Corporation
@@ -465,7 +466,7 @@ class uvm_resource_pool;
 
      // ensure rand stability during lookup
      begin
-	process p = process::self();
+	pro1cess p = pro1cess::self();
 	string s;
 	if(p!=null) s=p.get_randstate();
 	q=new();

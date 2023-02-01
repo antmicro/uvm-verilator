@@ -1,3 +1,4 @@
+`include "process.sv"
 //------------------------------------------------------------------------------
 // Copyright 2007-2014 Mentor Graphics Corporation
 // Copyright 2014 Intel Corporation
@@ -43,7 +44,7 @@
 // This action creates the item or sequence using the factory. It also sets the
 // parent sequence to the sequence in which the macro is invoked,
 // and it sets the sequencer to the specified ~SEQR~ argument.
-// It intentionally does zero processing.  After this action completes,
+// It intentionally does zero pro1cessing.  After this action completes,
 // the user can manually set values, manipulate rand_mode and constraint_mode, etc.
 
 // @uvm-ieee 1800.2-2017 auto B.3.1.1
@@ -117,8 +118,8 @@
 //
 //| `uvm_send(SEQ_OR_ITEM, PRIORITY=-1)
 //
-// This macro processes the item or sequence that has been created using
-// `uvm_create.  The processing is done without randomization.  Essentially, an
+// This macro pro1cesses the item or sequence that has been created using
+// `uvm_create.  The pro1cessing is done without randomization.  Essentially, an
 // `uvm_do without the create or randomization.
 
 // @uvm-ieee 1800.2-2017 auto B.3.1.2
@@ -137,8 +138,8 @@
 //
 //| `uvm_rand_send(SEQ_OR_ITEM, PRIORITY=-1, CONSTRAINTS={})
 //
-// This macro processes the item or sequence that has been already been
-// allocated (with `uvm_create). The processing is done with
+// This macro pro1cesses the item or sequence that has been already been
+// allocated (with `uvm_create). The pro1cessing is done with
 // randomization.
 
 // @uvm-ieee 1800.2-2017 auto B.3.1.3

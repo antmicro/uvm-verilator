@@ -1,3 +1,4 @@
+`include "process.sv"
 //
 //------------------------------------------------------------------------------
 // Copyright 2007-2011 Mentor Graphics Corporation
@@ -33,7 +34,7 @@ typedef class uvm_callbacks;
 // callback objects which may be attached to <uvm_event#(T)>s. To use, you
 // derive a new class and override any or both <pre_trigger> and <post_trigger>.
 //
-// Callbacks are an alternative to using processes that wait on events. When a
+// Callbacks are an alternative to using pro1cesses that wait on events. When a
 // callback is attached to an event, that callback object's callback function
 // is called each time the event is triggered.
 //

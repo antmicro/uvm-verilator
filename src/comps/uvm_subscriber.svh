@@ -1,3 +1,4 @@
+`include "process.sv"
 //
 //------------------------------------------------------------------------------
 // Copyright 2007-2011 Mentor Graphics Corporation
@@ -28,7 +29,7 @@
 // connected analysis export. Making such a connection "subscribes" this
 // component to any transactions emitted by the connected analysis port.
 //
-// Subtypes of this class must define the write method to process the incoming
+// Subtypes of this class must define the write method to pro1cess the incoming
 // transactions. This class is particularly useful when designing a coverage
 // collector that attaches to a monitor. 
 //------------------------------------------------------------------------------

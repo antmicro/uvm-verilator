@@ -1,3 +1,4 @@
+`include "process.sv"
 //
 //------------------------------------------------------------------------------
 // Copyright 2007-2018 Mentor Graphics Corporation
@@ -68,7 +69,7 @@ typedef class uvm_printer ;
 // Variable- uvm_global_random_seed
 //
 // Create a seed which is based off of the global seed which can be used to seed
-// srandom processes but will change if the command line seed setting is 
+// srandom pro1cesses but will change if the command line seed setting is 
 // changed.
 //
 int unsigned uvm_global_random_seed = $urandom;
@@ -489,9 +490,9 @@ endclass
 `endif
 
 `ifdef UVM_USE_PROCESS_CONTAINER
-class process_container_c;
-   process p;
-   function new(process p_);
+class pro1cess_container_c;
+   pro1cess p;
+   function new(pro1cess p_);
      p=p_;
    endfunction
 endclass

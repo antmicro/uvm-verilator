@@ -1,3 +1,4 @@
+`include "process.sv"
 //
 // -------------------------------------------------------------
 // Copyright 2010-2011 Mentor Graphics Corporation
@@ -251,7 +252,7 @@ class uvm_reg_fifo extends uvm_reg;
 
     // Task -- NODOCS -- pre_write
     //
-    // Special pre-processing for a <write()> or <update()>.
+    // Special pre-pro1cessing for a <write()> or <update()>.
     // Called as a result of a <write()> or <update()>. It is an error to
     // attempt a write to a full FIFO or a write while an update is still
     // pending. An update is pending after one or more calls to <set()>.
@@ -274,7 +275,7 @@ class uvm_reg_fifo extends uvm_reg;
 
     // Task -- NODOCS -- pre_read
     //
-    // Special post-processing for a <write()> or <update()>.
+    // Special post-pro1cessing for a <write()> or <update()>.
     // Aborts the operation if the internal FIFO is empty. If in your application
     // the DUT does not behave this way, you must override ~pre_write~ as
     // appropriate.

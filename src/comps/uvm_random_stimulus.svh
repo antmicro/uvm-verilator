@@ -1,3 +1,4 @@
+`include "process.sv"
 //
 //------------------------------------------------------------------------------
 // Copyright 2007-2011 Mentor Graphics Corporation
@@ -92,7 +93,7 @@ class uvm_random_stimulus #(type T=uvm_transaction) extends uvm_component;
   // max_count is the maximum number of transactions to be
   // generated. A value of zero indicates no maximum - in
   // this case, generate_stimulus will go on indefinitely
-  // unless stopped by some other process
+  // unless stopped by some other pro1cess
   //
   // The transactions are cloned before they are sent out 
   // over the blocking_put_port
@@ -120,7 +121,7 @@ class uvm_random_stimulus #(type T=uvm_transaction) extends uvm_component;
   //
   // Stops the generation of stimulus.
   // If a subclass of this method has forked additional
-  // processes, those processes will also need to be
+  // pro1cesses, those pro1cesses will also need to be
   // stopped in an overridden version of this method
   
   virtual function void stop_stimulus_generation;

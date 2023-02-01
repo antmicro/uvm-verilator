@@ -1,3 +1,4 @@
+`include "process.sv"
 //----------------------------------------------------------------------
 // Copyright 2007-2017 Mentor Graphics Corporation
 // Copyright 2014 Semifore
@@ -181,7 +182,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   local bit do_not_randomize;
 `endif 
 
-  protected process  m_sequence_process;
+  protected pro1cess  m_sequence_pro1cess;
   local bit m_use_response_handler;
 
   // bits to detect if is_relevant()/wait_for_relevant() are implemented
@@ -344,7 +345,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
     m_sequence_state = UVM_PRE_START;
     fork
       begin
-        m_sequence_process = process::self();
+        m_sequence_pro1cess = pro1cess::self();
 
         // absorb delta to ensure PRE_START was seen
         #0;
@@ -833,7 +834,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
 
   // @uvm-ieee 1800.2-2017 auto 14.2.5.11
   function void kill();
-    if (m_sequence_process != null) begin
+    if (m_sequence_pro1cess != null) begin
       // If we are not connected to a sequencer, then issue
       // kill locally.
       if (m_sequencer == null) begin
@@ -878,9 +879,9 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
     foreach(children_array[i]) begin
        i.kill();
     end
-    if (m_sequence_process != null) begin
-      m_sequence_process.kill;
-      m_sequence_process = null;
+    if (m_sequence_pro1cess != null) begin
+      m_sequence_pro1cess.kill;
+      m_sequence_pro1cess = null;
     end
     m_sequence_state = UVM_STOPPED;
     if ((m_parent_sequence != null) && (m_parent_sequence.children_array.exists(this)))

@@ -1,3 +1,4 @@
+`include "process.sv"
 //----------------------------------------------------------------------
 // Copyright 2014-2018 Mentor Graphics Corporation
 // Copyright 2015 Analog Devices, Inc.
@@ -224,7 +225,7 @@ class uvm_default_coreservice_t extends uvm_coreservice_t;
 	// is called, returns an instance of <uvm_text_tr_database>
 	virtual function uvm_tr_database get_default_tr_database();
 		if (tr_database == null) begin
-			process p = process::self();
+			pro1cess p = pro1cess::self();
 			uvm_text_tr_database tx_db;
 			string s;
 			if(p != null)

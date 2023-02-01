@@ -1,3 +1,4 @@
+`include "process.sv"
 //
 //----------------------------------------------------------------------
 // Copyright 2018 Cadence Design Systems, Inc.
@@ -66,7 +67,7 @@ function uvm_run_test_callback::new( string name="uvm_run_test_callback");
 endfunction
 
 
-// Adds cb to the list of callbacks to be processed. The method returns 1 if cb is not already in the list of
+// Adds cb to the list of callbacks to be pro1cessed. The method returns 1 if cb is not already in the list of
 // callbacks; otherwise, a 0 is returned. If cb is null, 0 is returned.
 function bit uvm_run_test_callback::add( uvm_run_test_callback cb );
   bit found;
@@ -92,7 +93,7 @@ function bit uvm_run_test_callback::add( uvm_run_test_callback cb );
 endfunction
 
 
-// Removes cb from the list of callbacks to be processed. The method returns 1 if cb is in the list of callbacks;
+// Removes cb from the list of callbacks to be pro1cessed. The method returns 1 if cb is in the list of callbacks;
 // otherwise, a 0 is returned. If cb is null, 0 is returned.
 function bit uvm_run_test_callback::delete( uvm_run_test_callback cb );
   int cb_idxs[$];

@@ -1,3 +1,4 @@
+`include "process.sv"
 // 
 // -------------------------------------------------------------
 // Copyright 2010-2011 Mentor Graphics Corporation
@@ -123,7 +124,7 @@ class uvm_mem_single_walk_seq extends uvm_reg_sequence #(uvm_sequence #(uvm_reg_
          `uvm_info("uvm_mem_walk_seq", $sformatf("Walking memory %s in map \"%s\"...",
                                     mem.get_full_name(), maps[j].get_full_name()), UVM_LOW)
          
-         // The walking process is, for address k:
+         // The walking pro1cess is, for address k:
          // - Write ~k
          // - Read k-1 and expect ~(k-1) if k > 0
          // - Write k-1 at k-1

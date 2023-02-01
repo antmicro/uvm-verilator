@@ -1,3 +1,4 @@
+`include "process.sv"
 //----------------------------------------------------------------------
 // Copyright 2018 Cadence Design Systems, Inc.
 // Copyright 2018 NVIDIA Corporation
@@ -93,10 +94,10 @@ class uvm_resource_db_options;
 
 
   static local function void init();
-     uvm_cmdline_processor clp;
+     uvm_cmdline_pro1cessor clp;
      string trace_args[$];
      
-     clp = uvm_cmdline_processor::get_inst();
+     clp = uvm_cmdline_pro1cessor::get_inst();
 
      if (clp.get_arg_matches("+UVM_RESOURCE_DB_TRACE", trace_args)) begin
         tracing = 1;

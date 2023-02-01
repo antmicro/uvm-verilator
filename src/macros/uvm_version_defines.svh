@@ -1,3 +1,4 @@
+`include "process.sv"
 //----------------------------------------------------------------------
 // Copyright 2011-2012 Paradigm Works
 // Copyright 2007-2011 Mentor Graphics Corporation

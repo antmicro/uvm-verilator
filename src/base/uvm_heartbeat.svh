@@ -1,3 +1,4 @@
+`include "process.sv"
 //----------------------------------------------------------------------
 // Copyright 2007-2014 Mentor Graphics Corporation
 // Copyright 2014 Semifore
@@ -189,13 +190,13 @@ class uvm_heartbeat extends uvm_object;
     end  
     if(e != null) m_event = e;
     m_enable_cb();
-    m_start_hb_process();
+    m_start_hb_pro1cess();
   endfunction
 
   // Function -- NODOCS -- stop
   //
   // Stops the heartbeat monitor. Current state information is reset so
-  // that if <start> is called again the process will wait for the first
+  // that if <start> is called again the pro1cess will wait for the first
   // event trigger to start the monitoring.
 
   // @uvm-ieee 1800.2-2017 auto 10.6.2.7
@@ -205,11 +206,11 @@ class uvm_heartbeat extends uvm_object;
     m_disable_cb();
   endfunction
 
-  function void m_start_hb_process();
+  function void m_start_hb_pro1cess();
     if(m_started) return;
     m_started = 1;
     fork
-      m_hb_process;
+      m_hb_pro1cess;
     join_none
   endfunction
 
@@ -226,13 +227,13 @@ class uvm_heartbeat extends uvm_object;
     void'(m_cb.callback_mode(0));
   endfunction
 
-  task m_hb_process;
+  task m_hb_pro1cess;
     uvm_object obj;
     bit  triggered;
     time last_trigger=0;
     fork
       begin
-        // The process waits for the event trigger. The first trigger is
+        // The pro1cess waits for the event trigger. The first trigger is
         // ignored, but sets the first start window. On susequent triggers
         // the monitor tests that the mode criteria was full-filled.
         while(1) begin

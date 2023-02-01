@@ -1,3 +1,4 @@
+`include "process.sv"
 //----------------------------------------------------------------------
 // Copyright 2010-2012 Mentor Graphics Corporation
 // Copyright 2014 Semifore
@@ -179,7 +180,7 @@ class uvm_tlm_generic_payload extends uvm_sequence_item;
    // Should a generic payload be transferred to/from a SystemC model,
    // it will be necessary for any multi-byte data in that generic payload
    // to use/be interpreted using the host endianness.
-   // However, this process is currently outside the scope of this standard.
+   // However, this pro1cess is currently outside the scope of this standard.
    //
    rand byte unsigned             m_data[];
 

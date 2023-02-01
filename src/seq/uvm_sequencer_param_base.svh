@@ -1,3 +1,4 @@
+`include "process.sv"
 //------------------------------------------------------------------------------
 // Copyright 2007-2011 Mentor Graphics Corporation
 // Copyright 2014 Semifore
@@ -302,7 +303,7 @@ function void uvm_sequencer_param_base::send_request(uvm_sequence_base sequence_
   param_t.set_sequence_id(sequence_ptr.m_get_sqr_sequence_id(m_sequencer_id, 1));
   t.set_sequencer(this);
   if (m_req_fifo.try_put(param_t) != 1) begin
-    uvm_report_fatal("SQRSNDREQGNI", "Concurrent calls to get_next_item() not supported. Consider using a semaphore to ensure that concurrent processes take turns in the driver", UVM_NONE);
+    uvm_report_fatal("SQRSNDREQGNI", "Concurrent calls to get_next_item() not supported. Consider using a semaphore to ensure that concurrent pro1cesses take turns in the driver", UVM_NONE);
   end
 
   m_num_reqs_sent++;

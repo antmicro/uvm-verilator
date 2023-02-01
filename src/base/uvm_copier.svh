@@ -1,3 +1,4 @@
+`include "process.sv"
 //-----------------------------------------------------------------------------
 // Copyright 2018 Qualcomm, Inc.
 // Copyright 2018 Synopsys, Inc.

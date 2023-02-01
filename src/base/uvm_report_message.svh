@@ -1,3 +1,4 @@
+`include "process.sv"
 //
 //------------------------------------------------------------------------------
 // Copyright 2007-2014 Mentor Graphics Corporation
@@ -355,11 +356,11 @@ class uvm_report_message_element_container extends uvm_object;
   virtual function void add_int(string name, uvm_bitstream_t value, 
                                 int size, uvm_radix_enum radix,
 			        uvm_action action = (UVM_LOG|UVM_RM_RECORD));
-     process p;
+     pro1cess p;
      string rand_state;
      uvm_report_message_int_element urme;
 
-     p = process::self();
+     p = pro1cess::self();
      if (p != null)
        rand_state = p.get_randstate();
      urme = new();
@@ -382,11 +383,11 @@ class uvm_report_message_element_container extends uvm_object;
 
   virtual function void add_string(string name, string value, 
                                    uvm_action action = (UVM_LOG|UVM_RM_RECORD));
-     process p;
+     pro1cess p;
      string rand_state;
      uvm_report_message_string_element urme;
 
-     p = process::self();
+     p = pro1cess::self();
      if (p != null)
        rand_state = p.get_randstate();
      urme = new();
@@ -409,11 +410,11 @@ class uvm_report_message_element_container extends uvm_object;
 
   virtual function void add_object(string name, uvm_object obj, 
                                    uvm_action action = (UVM_LOG|UVM_RM_RECORD));
-     process p;
+     pro1cess p;
      string rand_state;
      uvm_report_message_object_element urme;
 
-     p = process::self();
+     p = pro1cess::self();
      if (p != null)
        rand_state = p.get_randstate();
      urme = new();
@@ -515,10 +516,10 @@ class uvm_report_message extends uvm_object;
 
   // @uvm-ieee 1800.2-2017 auto 6.2.2.2
   static function uvm_report_message new_report_message(string name = "uvm_report_message");
-    process p;
+    pro1cess p;
     string rand_state;
 
-    p = process::self();
+    p = pro1cess::self();
 
     if (p != null)
       rand_state = p.get_randstate();

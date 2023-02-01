@@ -1,3 +1,4 @@
+`include "process.sv"
 //----------------------------------------------------------------------
 // Copyright 2018 Synopsys, Inc.
 // Copyright 2018 Cadence Design Systems, Inc.

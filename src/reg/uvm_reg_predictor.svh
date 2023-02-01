@@ -1,3 +1,4 @@
+`include "process.sv"
 //
 // -------------------------------------------------------------
 // Copyright 2014 Semifore
@@ -61,7 +62,7 @@ class uvm_reg_predictor #(type BUSTYPE=int) extends uvm_component;
   // Variable -- NODOCS -- bus_in
   //
   // Observed bus transactions of type ~BUSTYPE~ are received from this
-  // port and processed.
+  // port and pro1cessed.
   //
   // For each incoming transaction, the predictor will attempt to get the
   // register or memory handle corresponding to the observed bus address. 

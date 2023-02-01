@@ -1,3 +1,4 @@
+`include "process.sv"
 // 
 // -------------------------------------------------------------
 // Copyright 2010-2011 Mentor Graphics Corporation
@@ -32,7 +33,7 @@
 //
 // Verify the accessibility of a memory
 // by writing through its default address map
-// then reading it via the backdoor, then reversing the process,
+// then reading it via the backdoor, then reversing the pro1cess,
 // making sure that the resulting value matches the written value.
 //
 // If bit-type resource named
@@ -108,7 +109,7 @@ class uvm_mem_single_access_seq extends uvm_reg_sequence #(uvm_sequence #(uvm_re
 
          mode = mem.get_access(maps[j]);
          
-         // The access process is, for address k:
+         // The access pro1cess is, for address k:
          // - Write random value via front door
          // - Read via backdoor and expect same random value if RW
          // - Write complement of random value via back door

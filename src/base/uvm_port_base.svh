@@ -1,3 +1,4 @@
+`include "process.sv"
 //
 //------------------------------------------------------------------------------
 // Copyright 2007-2018 Mentor Graphics Corporation
@@ -191,7 +192,7 @@ endclass
 // They can be found in the ../src/tlm*/ directory. See Section 12.1 of the IEEE Spec for details.
 //
 // Just before <uvm_component::end_of_elaboration_phase>, an internal
-// <uvm_component::resolve_bindings> process occurs, after which each port and
+// <uvm_component::resolve_bindings> pro1cess occurs, after which each port and
 // export holds a list of all imps connected to it via hierarchical connections
 // to other ports and exports. In effect, we are collapsing the port's fanout,
 // which can span several levels up and down the component hierarchy, into a
