@@ -107,7 +107,7 @@ class uvm_reg_shared_access_seq extends uvm_reg_sequence #(uvm_sequence #(uvm_re
          
          if (!fields[k].is_known_access(maps[0])) begin
             repeat (w) begin
-               other_mask[lsb++] = 1'b1;
+
             end
          end
       end
@@ -126,7 +126,7 @@ class uvm_reg_shared_access_seq extends uvm_reg_sequence #(uvm_sequence #(uvm_re
             
             if (fields[k].get_access(maps[j]) == "WO") begin
                repeat (w) begin
-                  wo[lsb++] = 1'b1;
+
                end
             end
          end
