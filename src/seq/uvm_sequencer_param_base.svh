@@ -293,7 +293,7 @@ function void uvm_sequencer_param_base::send_request(uvm_sequence_base sequence_
       end
     end
     if (param_t.get_transaction_id() == -1) begin
-      param_t.set_transaction_id(sequence_ptr.m_next_transaction_id++);
+       
     end
     m_last_req_push_front(param_t);
   end else begin
