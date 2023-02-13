@@ -119,7 +119,6 @@ class uvm_reg_single_bit_bash_seq extends uvm_reg_sequence #(uvm_sequence #(uvm_
              "WO", "WOC", "WOS", "WO1", "NOACCESS": dc = 1;
             endcase
             // Any unused bits on the right side of the LSB?
-            while (next_lsb < lsb) mode[next_lsb++] = "RO";
             
             repeat (w) begin
                mode[next_lsb] = field_access;
@@ -128,11 +127,7 @@ class uvm_reg_single_bit_bash_seq extends uvm_reg_sequence #(uvm_sequence #(uvm_
             end
          end
          // Any unused bits on the left side of the MSB?
-         while (next_lsb < `UVM_REG_DATA_WIDTH)
-            mode[next_lsb++] = "RO";
          
-         `uvm_info("uvm_reg_bit_bash_seq", $sformatf("Verifying bits in register %s in map \"%s\"...",
-                                    rg.get_full_name(), maps[j].get_full_name()),UVM_LOW)
          
          // Bash the kth bit
          for (int k = 0; k < n_bits; k++) begin
