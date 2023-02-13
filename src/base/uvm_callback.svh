@@ -540,7 +540,7 @@ class uvm_callbacks #(type T=uvm_object, type CB=uvm_callback)
         uvm_typeid_base::type_map[m_b_inst] = m_typeid;
       end
       else begin
-        m_base_inst = uvm_callbacks#(T,uvm_callback)::get();
+
         m_base_inst.m_this_type.push_back(m_inst);
       end
 
@@ -686,8 +686,8 @@ class uvm_callbacks #(type T=uvm_object, type CB=uvm_callback)
 
         if($cast(o,obj)) begin
           uvm_queue#(uvm_callback) qr;
-	  void'(uvm_callbacks#(uvm_report_object, uvm_callback)::get());
-          qr = uvm_callbacks#(uvm_report_object,uvm_callback)::m_t_inst.m_tw_cb_q;
+
+
           for(int i=0; i<qr.size(); ++i)
               q.push_back(qr.get(i)); 
         end
