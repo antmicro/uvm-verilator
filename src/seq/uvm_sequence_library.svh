@@ -659,13 +659,7 @@ task uvm_sequence_library::body();
         
         
         for (int i=1; i<=sequence_count; i++) begin
-          if (!randomize(select_rand)) begin
-            `uvm_error("SEQLIB/RAND_FAIL", "Random sequence selection failed")
-            break;
-          end
-          else begin
             wrap = sequences[select_rand];
-          end
           execute(wrap);
         end
         
@@ -676,13 +670,7 @@ task uvm_sequence_library::body();
         uvm_object_wrapper q[$];
         
         for (int i=1; i<=sequence_count; i++) begin
-          if (!randomize(select_randc)) begin
-            `uvm_error("SEQLIB/RANDC_FAIL", "Random sequence selection failed")
-            break;
-          end
-          else begin
             wrap = sequences[select_randc];
-          end
           q.push_back(wrap);
         end
         
