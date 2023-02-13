@@ -1081,7 +1081,7 @@ class uvm_tlm_extension #(type T=int) extends uvm_tlm_extension_base;
 
    typedef uvm_tlm_extension#(T) this_type;
 
-   local static this_type m_my_tlm_ext_type = ID();
+   local static this_type m_my_tlm_ext_type;
 
    // Function -- NODOCS -- new
    //
