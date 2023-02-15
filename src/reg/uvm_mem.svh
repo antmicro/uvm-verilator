@@ -1443,7 +1443,11 @@ task uvm_mem::write(output uvm_status_e      status,
                     input  int               lineno = 0);
 
    // create an abstract transaction for this operation
+`ifdef VERILATOR
+   uvm_reg_item rw = uvm_reg_item::type_id_create("mem_write",,get_full_name());
+`else
    uvm_reg_item rw = uvm_reg_item::type_id::create("mem_write",,get_full_name());
+`endif
    rw.element      = this;
    rw.element_kind = UVM_MEM;
    rw.kind         = UVM_WRITE;
@@ -1478,7 +1482,11 @@ task uvm_mem::read(output uvm_status_e       status,
                    input  int                lineno = 0);
    
    uvm_reg_item rw;
+`ifdef VERILATOR
+   rw = uvm_reg_item::type_id_create("mem_read",,get_full_name());
+`else
    rw = uvm_reg_item::type_id::create("mem_read",,get_full_name());
+`endif
    rw.element      = this;
    rw.element_kind = UVM_MEM;
    rw.kind         = UVM_READ;
@@ -1514,7 +1522,11 @@ task uvm_mem::burst_write(output uvm_status_e       status,
                           input  int                lineno = 0);
 
    uvm_reg_item rw;
+`ifdef VERILATOR
+   rw = uvm_reg_item::type_id_create("mem_burst_write",,get_full_name());
+`else
    rw = uvm_reg_item::type_id::create("mem_burst_write",,get_full_name());
+`endif
    rw.element      = this;
    rw.element_kind = UVM_MEM;
    rw.kind         = UVM_BURST_WRITE;
@@ -1549,7 +1561,11 @@ task uvm_mem::burst_read(output uvm_status_e       status,
                          input  int                lineno = 0);
 
    uvm_reg_item rw;
+`ifdef VERILATOR
+   rw = uvm_reg_item::type_id_create("mem_burst_read",,get_full_name());
+`else
    rw = uvm_reg_item::type_id::create("mem_burst_read",,get_full_name());
+`endif
    rw.element      = this;
    rw.element_kind = UVM_MEM;
    rw.kind         = UVM_BURST_READ;
@@ -1885,7 +1901,11 @@ task uvm_mem::poke(output uvm_status_e      status,
    end
 
    // create an abstract transaction for this operation
+`ifdef VERILATOR
+   rw = uvm_reg_item::type_id_create("mem_poke_item",,get_full_name());
+`else
    rw = uvm_reg_item::type_id::create("mem_poke_item",,get_full_name());
+`endif
    rw.element      = this;
    rw.path         = UVM_BACKDOOR;
    rw.element_kind = UVM_MEM;
@@ -1935,7 +1955,11 @@ task uvm_mem::peek(output uvm_status_e      status,
    end
 
    // create an abstract transaction for this operation
+`ifdef VERILATOR
+   rw = uvm_reg_item::type_id_create("mem_peek_item",,get_full_name());
+`else
    rw = uvm_reg_item::type_id::create("mem_peek_item",,get_full_name());
+`endif
    rw.element      = this;
    rw.path         = UVM_BACKDOOR;
    rw.element_kind = UVM_MEM;

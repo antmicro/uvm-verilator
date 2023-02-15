@@ -26,12 +26,12 @@
 
 `ifdef UVM_EMPTY_MACROS
 
-`define uvm_field_utils_begin(T) 
-`define uvm_field_utils_end 
-`define uvm_object_utils(T) 
-`define uvm_object_param_utils(T) 
-`define uvm_object_utils_begin(T) 
-`define uvm_object_param_utils_begin(T) 
+`define uvm_field_utils_begin(T)
+`define uvm_field_utils_end
+`define uvm_object_utils(T)
+`define uvm_object_param_utils(T)
+`define uvm_object_utils_begin(T)
+`define uvm_object_param_utils_begin(T)
 `define uvm_object_utils_end
 `define uvm_component_utils(T)
 `define uvm_component_param_utils(T)
@@ -80,7 +80,7 @@
 //
 // Title: Utility and Field Macros for Components and Objects
 //
-// Group: Utility Macros 
+// Group: Utility Macros
 //
 // The ~utils~ macros define the infrastructure needed to enable the
 // object/component for correct factory operation. See <`uvm_object_utils> and
@@ -93,7 +93,7 @@
 // Below is an example usage of the ~utils~ macro for a user-defined object.
 //
 //|  class mydata extends uvm_object;
-//| 
+//|
 //|     `uvm_object_utils(mydata)
 //|
 //|     // declare data properties
@@ -104,10 +104,10 @@
 //|
 //|  endclass
 //
-// Below is an example usage of a ~utils~ macro for a user-defined component. 
+// Below is an example usage of a ~utils~ macro for a user-defined component.
 //
 //|  class my_comp extends uvm_component;
-//| 
+//|
 //|     `uvm_component_utils(my_comp)
 //|
 //|     // declare data properties
@@ -123,10 +123,10 @@
 // Define- UVM_NO_REGISTERED_CONVERTER
 //
 // if this symbol is defined all auto registration of the proxies to print resources
-// are disabled and you only get the typename printed (printing the objects contents 
+// are disabled and you only get the typename printed (printing the objects contents
 // either requires fill %p support or an appropriate proxy registered)
-// 
-`ifdef UVM_NO_DEPRECATED 
+//
+`ifdef UVM_NO_DEPRECATED
   `define UVM_NO_REGISTERED_CONVERTER
 `endif
 
@@ -137,14 +137,14 @@
 
 // MACRO: `uvm_field_utils_end
 //
-// These macros form a block in which `uvm_field_* macros can be placed. 
+// These macros form a block in which `uvm_field_* macros can be placed.
 // Used as
 //
 //|  `uvm_field_utils_begin(TYPE)
 //|    `uvm_field_* macros here
 //|  `uvm_field_utils_end
 //
-// 
+//
 // These macros do ~not~ perform factory registration nor implement the
 // ~get_type_name~ and ~create~ methods. Use this form when you need custom
 // implementations of these two methods, or when you are setting up field macros
@@ -193,21 +193,21 @@ endfunction \
 //
 // <uvm_object>-based class declarations may contain one of the above forms of
 // utility macros.
-// 
+//
 // For simple objects with no field macros, use
 //
 //|  `uvm_object_utils(TYPE)
-//    
+//
 // For simple objects with field macros, use
 //
 //|  `uvm_object_utils_begin(TYPE)
 //|    `uvm_field_* macro invocations here
 //|  `uvm_object_utils_end
-//    
+//
 // For parameterized objects with no field macros, use
 //
 //|  `uvm_object_param_utils(TYPE)
-//    
+//
 // For parameterized objects, with field macros, use
 //
 //|  `uvm_object_param_utils_begin(TYPE)
@@ -254,13 +254,13 @@ endfunction \
    `m_uvm_object_registry_internal(T,T)  \
    `m_uvm_object_create_func(T) \
    `m_uvm_get_type_name_func(T) \
-   `uvm_field_utils_begin(T) 
+   `uvm_field_utils_begin(T)
 
 `define uvm_object_param_utils_begin(T) \
    `m_uvm_object_registry_param(T)  \
    `m_uvm_object_create_func(T) \
-   `uvm_field_utils_begin(T) 
-       
+   `uvm_field_utils_begin(T)
+
 `define uvm_object_utils_end \
      end \
    endfunction \
@@ -334,14 +334,14 @@ endfunction \
 `define uvm_component_param_utils(T) \
    `m_uvm_component_registry_param(T) \
 
-   
+
 `define uvm_component_utils_begin(T) \
    `uvm_component_utils(T) \
-   `uvm_field_utils_begin(T) 
+   `uvm_field_utils_begin(T)
 
 `define uvm_component_param_utils_begin(T) \
    `uvm_component_param_utils(T) \
-   `uvm_field_utils_begin(T) 
+   `uvm_field_utils_begin(T)
 
 `define uvm_component_utils_end \
      end \
@@ -359,6 +359,21 @@ endfunction \
 // name of the class in quotes. The <`uvm_object_utils>
 // family of macros uses this macro.
 
+`ifdef VERILATOR
+`define uvm_object_registry(T,S) \
+   typedef uvm_object_registry#(T,S) type_id; \
+   static function T type_id_create (string name="", \
+                                     uvm_component parent=null, \
+                                     string contxt=""); \
+     return type_id::create(name, parent, contxt); \
+   endfunction \
+   static function type_id get_type(); \
+     return type_id::get(); \
+   endfunction \
+   virtual function uvm_object_wrapper get_object_type(); \
+     return type_id::get(); \
+   endfunction
+`else
 `define uvm_object_registry(T,S) \
    typedef uvm_object_registry#(T,S) type_id; \
    static function type_id get_type(); \
@@ -366,8 +381,8 @@ endfunction \
    endfunction \
    virtual function uvm_object_wrapper get_object_type(); \
      return type_id::get(); \
-   endfunction 
-
+   endfunction
+`endif
 
 // MACRO: `uvm_component_registry
 //
@@ -380,6 +395,21 @@ endfunction \
 // name of the class in quotes. The <`uvm_object_utils>
 // family of macros uses this macro.
 
+`ifdef VERILATOR
+`define uvm_component_registry(T,S) \
+   typedef uvm_component_registry #(T,S) type_id; \
+   static function T type_id_create (string name="", \
+                                     uvm_component parent=null, \
+                                     string contxt=""); \
+     return type_id::create(name, parent, contxt); \
+   endfunction \
+   static function type_id get_type(); \
+     return type_id::get(); \
+   endfunction \
+   virtual function uvm_object_wrapper get_object_type(); \
+     return type_id::get(); \
+   endfunction
+`else
 `define uvm_component_registry(T,S) \
    typedef uvm_component_registry #(T,S) type_id; \
    static function type_id get_type(); \
@@ -387,7 +417,8 @@ endfunction \
    endfunction \
    virtual function uvm_object_wrapper get_object_type(); \
      return type_id::get(); \
-   endfunction 
+   endfunction
+`endif
 
 
 // uvm_new_func
@@ -428,7 +459,7 @@ endfunction \
    const static string type_name = `"T`"; \
    virtual function string get_type_name (); \
      return type_name; \
-   endfunction 
+   endfunction
 
 
 // m_uvm_object_registry_internal
@@ -436,6 +467,21 @@ endfunction \
 
 //This is needed due to an issue in of passing down strings
 //created by args to lower level macros.
+`ifdef VERILATOR
+`define m_uvm_object_registry_internal(T,S) \
+   typedef uvm_object_registry#(T,`"S`") type_id; \
+   static function T type_id_create (string name="", \
+                                     uvm_component parent=null, \
+                                     string contxt=""); \
+     return type_id::create(name, parent, contxt); \
+   endfunction \
+   static function type_id get_type(); \
+     return type_id::get(); \
+   endfunction \
+   virtual function uvm_object_wrapper get_object_type(); \
+     return type_id::get(); \
+   endfunction
+`else
 `define m_uvm_object_registry_internal(T,S) \
    typedef uvm_object_registry#(T,`"S`") type_id; \
    static function type_id get_type(); \
@@ -443,8 +489,8 @@ endfunction \
    endfunction \
    virtual function uvm_object_wrapper get_object_type(); \
      return type_id::get(); \
-   endfunction 
-
+   endfunction
+`endif
 
 // m_uvm_object_registry_param
 // ---------------------------
@@ -456,7 +502,7 @@ endfunction \
    endfunction \
    virtual function uvm_object_wrapper get_object_type(); \
      return type_id::get(); \
-   endfunction 
+   endfunction
 
 
 // m_uvm_component_registry_internal
@@ -498,15 +544,15 @@ endfunction \
 // `uvm_*_utils_end macro blocks to form "automatic" implementations of the
 // core data methods: copy, compare, pack, unpack, record, print, and sprint.
 //
-// By using the macros, you do not have to implement any of the do_* methods 
+// By using the macros, you do not have to implement any of the do_* methods
 // inherited from <uvm_object>. However, be aware that the field macros expand
 // into general inline code that is not as run-time efficient nor as flexible
-// as direct implementations of the do_* methods. 
+// as direct implementations of the do_* methods.
 //
-// Below is an example usage of the field macros for a sequence item. 
+// Below is an example usage of the field macros for a sequence item.
 //
 //|  class my_trans extends uvm_sequence_item;
-//| 
+//|
 //|    cmd_t  cmd;
 //|    int    addr;
 //|    int    data[$];
@@ -530,7 +576,7 @@ endfunction \
 // Below is an example usage of the field macros for a component.
 //
 //|  class my_comp extends uvm_component;
-//| 
+//|
 //|    my_comp_cfg  cfg;
 //|
 //|    `uvm_component_utils_begin(my_comp)
@@ -564,10 +610,10 @@ endfunction \
 // same bit is not added more than once).
 //
 //   UVM_ALL_ON     - Set all operations on.
-//   UVM_DEFAULT    - This is the recommended set of flags to pass 
+//   UVM_DEFAULT    - This is the recommended set of flags to pass
 //                      to the field macros.  Currently, it enables
 //                      all of the operations, making it functionally
-//                      identical to ~UVM_ALL_ON~.  In the future 
+//                      identical to ~UVM_ALL_ON~.  In the future
 //                      however, additional flags could be added with
 //                      a recommended default value of ~off~.
 //
@@ -601,12 +647,12 @@ endfunction \
 //   specified.
 //
 // A UVM component should ~not~ be specified using the `uvm_field_object macro
-// unless its flag includes UVM_REFERENCE.  Otherwise, the field macro will 
+// unless its flag includes UVM_REFERENCE.  Otherwise, the field macro will
 // implement deep copy, which is an illegal operation for uvm_components.
 // You will get a FATAL error if you tried to copy or clone an object containing
 // a component handle that was registered with a field macro without the
 // UVM_REFERENCE flag. You will also get duplicate entries when printing
-// component topology, as this functionality is already provided by UVM. 
+// component topology, as this functionality is already provided by UVM.
 //------------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
@@ -858,7 +904,7 @@ endfunction \
 
 
 // MACRO: `uvm_field_enum
-// 
+//
 // Implements the data operations for an enumerated property.
 //
 //|  `uvm_field_enum(T,ARG,FLAG)
@@ -1006,7 +1052,7 @@ endfunction \
 
 
 // MACRO: `uvm_field_event
-//   
+//
 // Implements the data operations for an event property.
 //
 //|  `uvm_field_event(ARG,FLAG)
@@ -1058,7 +1104,7 @@ endfunction \
 
 //-----------------------------------------------------------------------------
 // Group: `uvm_field_sarray_* macros
-//                            
+//
 // Macros that implement data operations for one-dimensional static array
 // properties.
 //-----------------------------------------------------------------------------
@@ -1552,11 +1598,11 @@ endfunction \
 //
 // Implementation note:
 // lines flagged with empty multi-line comments, /**/, are not needed or need
-// to be different for fixed arrays, which cannot be resized. Fixed arrays 
+// to be different for fixed arrays, which cannot be resized. Fixed arrays
 // do not need to pack/unpack their size either, because their size is known;
 // wouldn't hurt though if it allowed code consolidation. Unpacking would
 // necessarily be different. */
-// 
+//
 //-----------------------------------------------------------------------------
 
 // M_UVM_QUEUE_RESIZE
@@ -1714,7 +1760,7 @@ endfunction \
 // <Field Macros> above.
 
 `define uvm_field_array_int(ARG,FLAG) \
-   `M_UVM_FIELD_QDA_INT(ARRAY,ARG,FLAG) 
+   `M_UVM_FIELD_QDA_INT(ARRAY,ARG,FLAG)
 
 
 // MACRO: `uvm_field_array_object
@@ -1939,12 +1985,12 @@ endfunction \
         end \
         end \
     endcase \
-  end 
+  end
 
 
 // MACRO: `uvm_field_array_string
 //
-// Implements the data operations for a one-dimensional dynamic array 
+// Implements the data operations for a one-dimensional dynamic array
 // of strings.
 //
 //|  `uvm_field_array_string(ARG,FLAG)
@@ -2087,7 +2133,7 @@ endfunction \
 // one or more flag settings as described in <Field Macros> above.
 
 `define uvm_field_array_enum(T,ARG,FLAG) \
-  `M_FIELD_QDA_ENUM(ARRAY,T,ARG,FLAG) 
+  `M_FIELD_QDA_ENUM(ARRAY,T,ARG,FLAG)
 
 `define M_FIELD_QDA_ENUM(TYPE,T,ARG,FLAG) \
   begin \
@@ -2447,7 +2493,7 @@ endfunction \
 //|  `uvm_field_aa_int_integer_unsigned(ARG,FLAG)
 //
 // ~ARG~ is the name of a property that is an associative array of integrals
-// with ~integer unsigned~ key, and ~FLAG~ is a bitwise OR of one or more 
+// with ~integer unsigned~ key, and ~FLAG~ is a bitwise OR of one or more
 // flag settings as described in <Field Macros> above.
 
 `define uvm_field_aa_int_integer_unsigned(ARG, FLAG) \
@@ -2547,12 +2593,12 @@ endfunction \
 // MACRO: `uvm_field_aa_int_key
 //
 // Implements the data operations for an associative array of integral
-// types indexed by any integral key data type. 
+// types indexed by any integral key data type.
 //
 //|  `uvm_field_aa_int_key(KEY,ARG,FLAG)
 //
-// ~KEY~ is the data type of the integral key, ~ARG~ is the name of a property 
-// that is an associative array of integrals, and ~FLAG~ is a bitwise OR of one 
+// ~KEY~ is the data type of the integral key, ~ARG~ is the name of a property
+// that is an associative array of integrals, and ~FLAG~ is a bitwise OR of one
 // or more flag settings as described in <Field Macros> above.
 
 `define uvm_field_aa_int_key(KEY, ARG, FLAG) \
@@ -2566,12 +2612,12 @@ endfunction \
 // MACRO: `uvm_field_aa_int_enumkey
 //
 // Implements the data operations for an associative array of integral
-// types indexed by any enumeration key data type. 
+// types indexed by any enumeration key data type.
 //
 //|  `uvm_field_aa_int_enumkey(KEY, ARG,FLAG)
 //
-// ~KEY~ is the enumeration type of the key, ~ARG~ is the name of a property 
-// that is an associative array of integrals, and ~FLAG~ is a bitwise OR of one 
+// ~KEY~ is the enumeration type of the key, ~ARG~ is the name of a property
+// that is an associative array of integrals, and ~FLAG~ is a bitwise OR of one
 // or more flag settings as described in <Field Macros> above.
 
 `define uvm_field_aa_int_enumkey(KEY, ARG, FLAG) \
@@ -2586,7 +2632,7 @@ endfunction \
 // Purpose: provide print functionality for a specific integral field. This
 // macro is available for user access. If used externally, a record_options
 // object must be avaialble and must have the name opt.
-// 
+//
 // Postcondition: ~ARG~ is printed using the format set by the FLAGS.
 
 `define m_uvm_print_int(ARG,FLAG) \
@@ -2609,7 +2655,7 @@ endfunction \
 // Purpose: provide record functionality for a specific integral field. This
 // macro is available for user access. If used externally, a record_options
 // object must be avaialble and must have the name opt.
-// 
+//
 // Postcondition: ~ARG~ is printed using the format set by the FLAGS.
 
 `define m_uvm_record_int(ARG,FLAG) \
@@ -2627,9 +2673,9 @@ endfunction \
 // Purpose: provide record functionality for a specific string field. This
 // macro is available for user access. If used externally, a record_options
 // object must be avaialble and must have the name recorder.
-//  
+//
 // Postcondition: ~ARG~ is recorded in string format.
-      
+
 
 `define m_uvm_record_string(ARG,STR,FLAG) \
   if(!((FLAG)&UVM_NORECORD)) begin \
@@ -2960,7 +3006,7 @@ endfunction \
           end \
       endcase \
     end \
-  end 
+  end
 
 
 // M_UVM_FIELD_DATA_AA_object_string
@@ -3314,7 +3360,7 @@ endfunction \
 // independent API. Unlike the <uvm_recorder> policy, fields recorded using
 // the macros do not lose type information--they are passed
 // directly to the vendor-specific API. This results in more efficient recording
-// and no artificial limit on bit-widths. See your simulator vendor's 
+// and no artificial limit on bit-widths. See your simulator vendor's
 // documentation for more information on its transaction recording capabilities.
 //------------------------------------------------------------------------------
 
@@ -3329,7 +3375,7 @@ endfunction \
 // ~VALUE~ through to the <uvm_recorder::record_generic> method.
 //
 // This macro should not be called directly by the user, the
-// other recording macros will call it automatically if 
+// other recording macros will call it automatically if
 // <uvm_recorder::use_record_attribute> returns true.
 //
 
@@ -3339,7 +3385,7 @@ endfunction \
       $add_attribute(TR_HANDLE,VALUE,NAME);
   `else
     `define uvm_record_attribute(TR_HANDLE,NAME,VALUE) \
-      recorder.record_generic(NAME, $sformatf("%p", VALUE)); 
+      recorder.record_generic(NAME, $sformatf("%p", VALUE));
   `endif
 `endif
 
@@ -3437,7 +3483,7 @@ endfunction \
 //
 // Macro for recording arbitrary name-value pairs into a transaction recording database.
 // Requires a valid transaction handle, as provided by the
-// <uvm_transaction::begin_tr> and <uvm_component::begin_tr> methods. 
+// <uvm_transaction::begin_tr> and <uvm_component::begin_tr> methods.
 //
 //| `uvm_record_field(NAME, VALUE)
 //
@@ -3457,7 +3503,7 @@ endfunction \
        recorder.record_generic(NAME, $sformatf("%p", VALUE)); \
    end
 
-  
+
 //------------------------------------------------------------------------------
 // Group: Packing Macros
 //

@@ -181,7 +181,11 @@ class uvm_reg_tlm_adapter extends uvm_reg_adapter;
 
   virtual function uvm_sequence_item reg2bus(const ref uvm_reg_bus_op rw);
 
+`ifdef VERILATOR
+     uvm_tlm_gp gp = uvm_tlm_gp::type_id_create("tlm_gp",, this.get_full_name());
+`else
      uvm_tlm_gp gp = uvm_tlm_gp::type_id::create("tlm_gp",, this.get_full_name());
+`endif
      int nbytes = (rw.n_bits-1)/8+1;
      uvm_reg_addr_t addr=rw.addr;
 

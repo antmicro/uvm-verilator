@@ -111,13 +111,13 @@ virtual class uvm_reg_block extends uvm_object;
    //             and sub-blocks within the map will be at offsets to this
    //             address
    //
-   // n_bytes   - the byte-width of the bus on which this map is used 
+   // n_bytes   - the byte-width of the bus on which this map is used
    //
    // endian    - the endian format. See <uvm_endianness_e> for possible
    //             values
    //
    // byte_addressing - specifies whether consecutive addresses refer are 1 byte
-   //             apart (TRUE) or ~n_bytes~ apart (FALSE). Default is TRUE. 
+   //             apart (TRUE) or ~n_bytes~ apart (FALSE). Default is TRUE.
    //
    //| APB = create_map("APB", 0, 1, UVM_LITTLE_ENDIAN, 1);
    //
@@ -230,7 +230,7 @@ virtual class uvm_reg_block extends uvm_object;
    //
    // Get the parent block
    //
-   // If this a top-level block, returns ~null~. 
+   // If this a top-level block, returns ~null~.
    //
    extern virtual function uvm_reg_block get_parent();
 
@@ -242,7 +242,7 @@ virtual class uvm_reg_block extends uvm_object;
    // Returns an array of all root blocks in the simulation.
    //
    extern static  function void get_root_blocks(ref uvm_reg_block blks[$]);
-      
+
 
    // Function: find_blocks
    //
@@ -257,7 +257,7 @@ virtual class uvm_reg_block extends uvm_object;
                                           ref   uvm_reg_block blks[$],
                                           input uvm_reg_block root = null,
                                           input uvm_object    accessor = null);
-      
+
 
    // Function: find_block
    //
@@ -272,7 +272,7 @@ virtual class uvm_reg_block extends uvm_object;
    extern static function uvm_reg_block find_block(input string        name,
                                                    input uvm_reg_block root = null,
                                                    input uvm_object    accessor = null);
-      
+
 
    // Function: get_blocks
    //
@@ -375,7 +375,7 @@ virtual class uvm_reg_block extends uvm_object;
    //
    // If no blocks are found, returns ~null~.
    //
-   extern virtual function uvm_reg_block get_block_by_name (string name);  
+   extern virtual function uvm_reg_block get_block_by_name (string name);
 
 
    // Function: get_map_by_name
@@ -551,7 +551,7 @@ virtual class uvm_reg_block extends uvm_object;
    // Multiple functional coverage models can be specified by adding the
    // functional coverage model identifiers.
    //
-   // See <uvm_reg_block::set_coverage()> for more details. 
+   // See <uvm_reg_block::set_coverage()> for more details.
    //
    extern virtual function bit get_coverage(uvm_reg_cvr_t is_on = UVM_CVR_ALL);
 
@@ -654,7 +654,7 @@ virtual class uvm_reg_block extends uvm_object;
    // in the design to match the mirrored values in this block and sub-blocks.
    // The update can be performed using the physical
    // interfaces (front-door access) or back-door accesses.
-   // This method performs the reverse operation of <uvm_reg_block::mirror()>. 
+   // This method performs the reverse operation of <uvm_reg_block::mirror()>.
    //
    extern virtual task update(output uvm_status_e       status,
                               input  uvm_path_e         path = UVM_DEFAULT_PATH,
@@ -677,7 +677,7 @@ virtual class uvm_reg_block extends uvm_object;
    // an error message is issued if the current mirrored value
    // does not match the actual value in the design.
    // This method performs the reverse operation of <uvm_reg_block::update()>.
-   // 
+   //
    extern virtual task mirror(output uvm_status_e       status,
                               input  uvm_check_e        check = UVM_NO_CHECK,
                               input  uvm_path_e         path  = UVM_DEFAULT_PATH,
@@ -926,7 +926,7 @@ virtual class uvm_reg_block extends uvm_object;
    extern virtual function void   do_unpack     (uvm_packer packer);
    extern virtual function string convert2string ();
    extern virtual function uvm_object clone();
-   
+
    extern local function void Xinit_address_mapsX();
 
 endclass: uvm_reg_block
@@ -963,7 +963,7 @@ endfunction: new
 // configure
 
 function void uvm_reg_block::configure(uvm_reg_block parent=null, string hdl_path="");
-  this.parent = parent; 
+  this.parent = parent;
   if (parent != null)
     this.parent.add_block(this);
   add_hdl_path(hdl_path);
@@ -1144,7 +1144,7 @@ function void uvm_reg_block::get_fields(ref uvm_reg_field fields[$],
      uvm_reg rg = rg_;
      rg.get_fields(fields);
    end
-   
+
    if (hier == UVM_HIER)
      foreach (blks[blk_])
      begin
@@ -1164,7 +1164,7 @@ function void uvm_reg_block::get_virtual_fields(ref uvm_vreg_field fields[$],
      uvm_vreg vreg = vreg_;
      vreg.get_fields(fields);
    end
-   
+
    if (hier == UVM_HIER)
      foreach (blks[blk_]) begin
        uvm_reg_block blk = blk_;
@@ -1269,7 +1269,7 @@ function int uvm_reg_block::find_blocks(input string        name,
       if (!$cast(blk, rs.get(i))) continue;
       blks.push_back(blk.read(accessor));
    end
-   
+
    return blks.size();
 endfunction
 
@@ -1288,7 +1288,7 @@ function uvm_reg_block uvm_reg_block::find_block(input string        name,
       `uvm_warning("MRTH1BLK",
                    {"More than one block matched the name \"", name, "\"."})
    end
-   
+
 
    return blks[0];
 endfunction
@@ -1642,7 +1642,7 @@ task uvm_reg_block::update(output uvm_status_e  status,
                     fname, lineno, this.get_name()), UVM_HIGH);
       return;
    end
-   
+
    `uvm_info("RegModel", $sformatf("%s:%0d - Updating model block %s with %s path",
                     fname, lineno, this.get_name(), path.name ), UVM_HIGH);
 
@@ -1677,7 +1677,7 @@ task uvm_reg_block::mirror(output uvm_status_e       status,
                            input  int                lineno = 0);
    uvm_status_e final_status = UVM_IS_OK;
 
-   foreach (regs[rg_]) begin 
+   foreach (regs[rg_]) begin
       uvm_reg rg = rg_;
       rg.mirror(status, check, path, null,
                 parent, prior, extension, fname, lineno);
@@ -1694,7 +1694,7 @@ task uvm_reg_block::mirror(output uvm_status_e       status,
          final_status = status;
       end
    end
-   
+
 endtask: mirror
 
 
@@ -1826,7 +1826,11 @@ function uvm_reg_map uvm_reg_block::create_map(string name,
       return null;
    end
 
+`ifdef VERILATOR
+   map = uvm_reg_map::type_id_create(name,,this.get_full_name());
+`else
    map = uvm_reg_map::type_id::create(name,,this.get_full_name());
+`endif
    map.configure(this,base_addr,n_bytes,endian,byte_addressing);
 
    this.maps[map] = 1;
@@ -1878,7 +1882,7 @@ function uvm_reg_map uvm_reg_block::get_map_by_name(string name);
          if (submaps[j].get_name() == name)
             return submaps[j];
    end
-      
+
 
    `uvm_warning("RegModel", {"Map with name '",name,"' does not exist in block"})
    return null;
@@ -2049,7 +2053,7 @@ function void uvm_reg_block::get_full_hdl_path(ref string paths[$],
       `uvm_error("RegModel",{"Block does not have hdl path defined for abstraction '",kind,"'"})
       return;
    end
-   
+
    begin
       uvm_queue #(string) hdl_paths = hdl_paths_pool.get(kind);
       string parent_paths[$];
@@ -2066,7 +2070,7 @@ function void uvm_reg_block::get_full_hdl_path(ref string paths[$],
 
             continue;
          end
-         
+
          foreach (parent_paths[j])  begin
             if (hdl_path == "")
                paths.push_back(parent_paths[j]);
@@ -2075,7 +2079,7 @@ function void uvm_reg_block::get_full_hdl_path(ref string paths[$],
          end
       end
    end
-  
+
 endfunction
 
 
@@ -2137,7 +2141,7 @@ function void uvm_reg_block::do_print (uvm_printer printer);
      uvm_object obj = b;
      printer.print_object(obj.get_name(), obj);
   end
-   
+
   foreach(regs[i]) begin
      uvm_reg r = i;
      uvm_object obj = r;
@@ -2161,7 +2165,7 @@ function void uvm_reg_block::do_print (uvm_printer printer);
      uvm_object obj = m;
      printer.print_object(obj.get_name(), obj);
   end
-  
+
 endfunction
 
 

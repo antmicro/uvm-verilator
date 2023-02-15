@@ -1077,6 +1077,13 @@ class uvm_objection extends uvm_report_object;
   // for factory registration, printing, comparing, etc.
 
   typedef uvm_object_registry#(uvm_objection,"uvm_objection") type_id;
+`ifdef VERILATOR
+  static function uvm_objection type_id_create (string name="",
+                                                uvm_component parent=null,
+                                                string contxt="");
+    return type_id::create(name, parent, contxt);
+  endfunction
+`endif
   static function type_id get_type();
     return type_id::get();
   endfunction
@@ -1343,6 +1350,11 @@ class uvm_test_done_objection extends uvm_objection;
   // for factory registration, printing, comparing, etc.
 
   typedef uvm_object_registry#(uvm_test_done_objection,"uvm_test_done") type_id;
+
+  static function uvm_test_done_objection type_id_create (string name="");
+    return type_id::create(name);
+  endfunction
+
   static function type_id get_type();
     return type_id::get();
   endfunction
@@ -1358,7 +1370,11 @@ class uvm_test_done_objection extends uvm_objection;
 
   static function uvm_test_done_objection get();
     if(m_inst == null)
+ `ifdef VERILATOR
+      m_inst = uvm_test_done_objection::type_id_create("run");
+ `else
       m_inst = uvm_test_done_objection::type_id::create("run");
+ `endif
     return m_inst;
   endfunction
 

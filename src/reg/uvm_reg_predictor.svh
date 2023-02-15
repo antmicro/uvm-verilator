@@ -28,7 +28,7 @@
 //
 // The <uvm_reg_predictor> class defines a predictor component,
 // which is used to update the register model's mirror values
-// based on transactions explicitly observed on a physical bus. 
+// based on transactions explicitly observed on a physical bus.
 //------------------------------------------------------------------------------
 
 class uvm_predict_s;
@@ -61,7 +61,7 @@ class uvm_reg_predictor #(type BUSTYPE=int) extends uvm_component;
   // port and processed.
   //
   // For each incoming transaction, the predictor will attempt to get the
-  // register or memory handle corresponding to the observed bus address. 
+  // register or memory handle corresponding to the observed bus address.
   //
   // If there is a match, the predictor calls the register or memory's
   // predict method, passing in the observed bus data. The register or
@@ -88,13 +88,13 @@ class uvm_reg_predictor #(type BUSTYPE=int) extends uvm_component;
   //
   // The map used to convert a bus address to the corresponding register
   // or memory handle. Must be configured before the run phase.
-  // 
+  //
   uvm_reg_map map;
 
 
   // Variable: adapter
   //
-  // The adapter used to convey the parameters of a bus operation in 
+  // The adapter used to convey the parameters of a bus operation in
   // terms of a canonical <uvm_reg_bus_op> datum.
   // The <uvm_reg_adapter> must be configured before the run phase.
   //
@@ -117,12 +117,16 @@ class uvm_reg_predictor #(type BUSTYPE=int) extends uvm_component;
   virtual function string get_type_name();
     if (type_name == "") begin
       BUSTYPE t;
-      t = BUSTYPE::type_id::create("t");
+ `ifdef VERILATOR
+       t = BUSTYPE::type_id_create("t");
+ `else
+       t = BUSTYPE::type_id::create("t");
+ `endif
       type_name = {"uvm_reg_predictor #(", t.get_type_name(), ")"};
     end
     return type_name;
   endfunction
-  
+
   // Function: pre_predict
   //
   // Override this method to change the value or re-direct the
@@ -143,7 +147,7 @@ class uvm_reg_predictor #(type BUSTYPE=int) extends uvm_component;
      uvm_reg rg;
      uvm_reg_bus_op rw;
     if (adapter == null)
-     `uvm_fatal("REG/WRITE/NULL","write: adapter handle is null") 
+     `uvm_fatal("REG/WRITE/NULL","write: adapter handle is null")
 
      // In case they forget to set byte_en
      rw.byte_en = -1;
@@ -160,7 +164,7 @@ class uvm_reg_predictor #(type BUSTYPE=int) extends uvm_component;
        uvm_predict_s predict_info;
        uvm_reg_indirect_data ireg;
        uvm_reg ir;
- 
+
        if (!m_pending.exists(rg)) begin
          uvm_reg_item item = new;
          predict_info =new;
@@ -193,7 +197,7 @@ class uvm_reg_predictor #(type BUSTYPE=int) extends uvm_component;
            predict_info.addr[rw.addr] = 1;
            if (predict_info.addr.num() == map_info.addr.size()) begin
               // We've captured the entire abstract register transaction.
-              uvm_predict_e predict_kind = 
+              uvm_predict_e predict_kind =
                   (reg_item.kind == UVM_WRITE) ? UVM_PREDICT_WRITE : UVM_PREDICT_READ;
 
               if (reg_item.kind == UVM_READ &&
@@ -201,7 +205,7 @@ class uvm_reg_predictor #(type BUSTYPE=int) extends uvm_component;
                   reg_item.status != UVM_NOT_OK) begin
                  void'(rg.do_check(ir.get_mirrored_value(), reg_item.value[0], local_map));
               end
-              
+
               pre_predict(reg_item);
 
               ir.XsampleX(reg_item.value[0], rw.byte_en,
@@ -217,7 +221,7 @@ class uvm_reg_predictor #(type BUSTYPE=int) extends uvm_component;
               if(reg_item.kind == UVM_WRITE)
                 `uvm_info("REG_PREDICT", {"Observed WRITE transaction to register ",
                          ir.get_full_name(), ": value='h",
-                         $sformatf("%0h",reg_item.value[0]), " : updated value = 'h", 
+                         $sformatf("%0h",reg_item.value[0]), " : updated value = 'h",
                          $sformatf("%0h",ir.get())},UVM_HIGH)
               else
                 `uvm_info("REG_PREDICT", {"Observed READ transaction to register ",
@@ -240,7 +244,7 @@ class uvm_reg_predictor #(type BUSTYPE=int) extends uvm_component;
      end
   endfunction
 
-  
+
   // Function: check_phase
   //
   // Checks that no pending register transactions are still queued.
@@ -248,12 +252,12 @@ class uvm_reg_predictor #(type BUSTYPE=int) extends uvm_component;
   virtual function void check_phase(uvm_phase phase);
 	 string q[$];
      super.check_phase(phase);
-            
+
      foreach (m_pending[l]) begin
 	     uvm_reg rg=l;
          q.push_back($sformatf("\n%s",rg.get_full_name()));
      end
-            
+
     if (m_pending.num() > 0) begin
       `uvm_error("PENDING REG ITEMS",
       	$sformatf("There are %0d incomplete register transactions still pending completion:%s",m_pending.num(),`UVM_STRING_QUEUE_STREAMING_PACK(q)))
