@@ -56,7 +56,8 @@
 
 // @uvm-ieee 1800.2-2017 auto 12.2.10.1.1
 class uvm_analysis_port # (type T = int)
-  extends uvm_port_base # (uvm_tlm_if_base #(T,T));
+   extends uvm_port_base;
+
 
   function new (string name, uvm_component parent);
     super.new (name, parent, UVM_PORT, 0, UVM_UNBOUNDED_CONNECTIONS);
@@ -111,7 +112,8 @@ endclass
 
 // @uvm-ieee 1800.2-2017 auto 12.2.10.2
 class uvm_analysis_imp #(type T=int, type IMP=int)
-  extends uvm_port_base #(uvm_tlm_if_base #(T,T));
+   extends uvm_port_base;
+
   `UVM_IMP_COMMON(`UVM_TLM_ANALYSIS_MASK,"uvm_analysis_imp",IMP)
   function void write (input T t);
     m_imp.write (t);
@@ -128,7 +130,8 @@ endclass
 
 // @uvm-ieee 1800.2-2017 auto 12.2.10.3.1
 class uvm_analysis_export #(type T=int)
-  extends uvm_port_base #(uvm_tlm_if_base #(T,T));
+   extends uvm_port_base;
+
 
 
   // @uvm-ieee 1800.2-2017 auto 12.2.10.3.2
