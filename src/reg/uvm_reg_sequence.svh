@@ -391,32 +391,25 @@ class uvm_reg_sequence #(type BASE=uvm_sequence #(uvm_reg_item)) extends BASE;
 endclass
 
 
+class Foo;
+   function int get_1();
+      return 1;
+   endfunction
+endclass
+
+virtual class uvm_reg_frontdoor1 extends uvm_reg_sequence;
+
+   typedef Foo type_id;
+   static function int get_type();
+      return type_id::get_1();
+   endfunction
+endclass: uvm_reg_frontdoor1
 
 // @uvm-ieee 1800.2-2017 auto 19.4.2.1
-virtual class uvm_reg_frontdoor extends uvm_reg_sequence #(uvm_sequence #(uvm_sequence_item));
+virtual class uvm_reg_frontdoor extends uvm_reg_sequence;
 
-   `uvm_object_abstract_utils(uvm_reg_frontdoor)
-
-
-   // Variable -- NODOCS -- rw_info
-   //
-   // Holds information about the register being read or written
-   //
-   uvm_reg_item rw_info;
-
-   // Variable -- NODOCS -- sequencer
-   //
-   // Sequencer executing the operation
-   //
-   uvm_sequencer_base sequencer;
-
-
-   // @uvm-ieee 1800.2-2017 auto 19.4.2.3
-   function new(string name="");
-      super.new(name);
+   typedef Foo type_id;
+   static function int get_type();
+      return type_id::get_1();
    endfunction
-
-   string fname;
-   int lineno;
-
 endclass: uvm_reg_frontdoor

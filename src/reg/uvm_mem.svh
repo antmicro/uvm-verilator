@@ -353,7 +353,7 @@ class uvm_mem extends uvm_object;
 
 
    // @uvm-ieee 1800.2-2017 auto 18.6.6.2
-   extern function void set_frontdoor(uvm_reg_frontdoor ftdr,
+   extern function void set_frontdoor(uvm_reg_frontdoor1 ftdr,
                                       uvm_reg_map map = null,
                                       string fname = "",
                                       int lineno = 0);
@@ -361,7 +361,7 @@ class uvm_mem extends uvm_object;
 
 
    // @uvm-ieee 1800.2-2017 auto 18.6.6.1
-   extern function uvm_reg_frontdoor get_frontdoor(uvm_reg_map map = null);
+   extern function uvm_reg_frontdoor1 get_frontdoor(uvm_reg_map map = null);
 
 
    //----------------
@@ -1216,7 +1216,7 @@ task uvm_mem::do_write(uvm_reg_item rw);
       uvm_reg_map system_map = rw.local_map.get_root_map();
       
       if (map_info.frontdoor != null) begin
-         uvm_reg_frontdoor fd = map_info.frontdoor;
+         uvm_reg_frontdoor1 fd = map_info.frontdoor;
          fd.rw_info = rw;
          if (fd.sequencer == null)
            fd.sequencer = system_map.get_sequencer();
@@ -1323,7 +1323,7 @@ task uvm_mem::do_read(uvm_reg_item rw);
       uvm_reg_map system_map = rw.local_map.get_root_map();
          
       if (map_info.frontdoor != null) begin
-         uvm_reg_frontdoor fd = map_info.frontdoor;
+         uvm_reg_frontdoor1 fd = map_info.frontdoor;
          fd.rw_info = rw;
          if (fd.sequencer == null)
            fd.sequencer = system_map.get_sequencer();
@@ -1593,7 +1593,7 @@ endtask: peek
 
 // set_frontdoor
 
-function void uvm_mem::set_frontdoor(uvm_reg_frontdoor ftdr,
+function void uvm_mem::set_frontdoor(uvm_reg_frontdoor1 ftdr,
                                      uvm_reg_map       map = null,
                                      string            fname = "",
                                      int               lineno = 0);
@@ -1617,7 +1617,7 @@ endfunction: set_frontdoor
 
 // get_frontdoor
 
-function uvm_reg_frontdoor uvm_mem::get_frontdoor(uvm_reg_map map = null);
+function uvm_reg_frontdoor1 uvm_mem::get_frontdoor(uvm_reg_map map = null);
    uvm_reg_map_info map_info;
 
    map = get_local_map(map);

@@ -43,7 +43,7 @@ typedef class uvm_reg_indirect_ftdr_seq;
 class uvm_reg_indirect_data extends uvm_reg;
 
    protected uvm_reg m_idx;
-   protected uvm_reg m_tbl[];
+   protected uvm_reg1 m_tbl[];
 
 
    // @uvm-ieee 1800.2-2017 auto 18.7.2.1
@@ -271,7 +271,7 @@ class uvm_reg_indirect_data extends uvm_reg;
 endclass : uvm_reg_indirect_data
 
 
-class uvm_reg_indirect_ftdr_seq extends uvm_reg_frontdoor;
+class uvm_reg_indirect_ftdr_seq extends uvm_reg_frontdoor1;
    local uvm_reg m_addr_reg;
    local uvm_reg m_data_reg;
    local int     m_idx;
