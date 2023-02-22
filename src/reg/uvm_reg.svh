@@ -582,18 +582,6 @@ class uvm_reg extends uvm_object;
                                      uvm_reg_map       map = null,
                                      string            fname = "",
                                      int               lineno = 0);
-   uvm_reg_map_info map_info;
-   ftdr.fname = m_fname;
-   ftdr.lineno = m_lineno;
-   map = get_local_map(map);
-   if (map == null)
-     return;
-   map_info = map.get_reg_map_info(this);
-   if (map_info == null)
-      map.add_reg(this, -1, "RW", 1, ftdr);
-   else begin
-      map_info.frontdoor = ftdr;
-   end
 endfunction: set_frontdoor
 
 endclass: uvm_reg
