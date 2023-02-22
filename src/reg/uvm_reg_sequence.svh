@@ -60,7 +60,7 @@
 // @uvm-ieee 1800.2-2017 auto 19.4.1.1
 class uvm_reg_sequence #(type BASE=uvm_sequence #(uvm_reg_item)) extends BASE;
 
-  `uvm_object_param_utils(uvm_reg_sequence #(BASE))
+
 
   // Parameter -- NODOCS -- BASE
   //
@@ -395,7 +395,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto 19.4.2.1
 virtual class uvm_reg_frontdoor extends uvm_reg_sequence #(uvm_sequence #(uvm_sequence_item));
 
-   `uvm_object_abstract_utils(uvm_reg_frontdoor)
+
 
 
    // Variable -- NODOCS -- rw_info
