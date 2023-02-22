@@ -30,58 +30,6 @@
 typedef class uvm_reg_cbs;
 typedef class uvm_reg_frontdoor1;
 
-
-class uvm_reg1 extends uvm_object;
-
-   local bit               m_locked;
-   local uvm_reg_block     m_parent;
-   local uvm_reg_file      m_regfile_parent;
-   local int unsigned      m_n_bits;
-   local int unsigned      m_n_used_bits;
-   protected bit           m_maps[uvm_reg_map];
-   protected uvm_reg_field m_fields[$];   // Fields in LSB to MSB order
-   local int               m_has_cover;
-   local int               m_cover_on;
-   local semaphore         m_atomic;
-   local pro1cess           m_pro1cess;
-   local string            m_fname;
-   local int               m_lineno;
-   local bit               m_read_in_progress;
-   local bit               m_write_in_progress; 
-   protected bit           m_update_in_progress;
-   /*local*/ bit           m_is_busy;
-   /*local*/ bit           m_is_locked_by_field;
-   local uvm_reg_backdoor  m_backdoor;
-
-   local static int unsigned m_max_size;
-
-   local uvm_object_string_pool
-       #(uvm_queue #(uvm_hdl_path_concat)) m_hdl_paths_pool;
-
-   //----------------------
-   // Group -- NODOCS -- Initialization
-   //----------------------
-
-   function void set_frontdoor1(uvm_reg_frontdoor1 ftdr,
-                                     uvm_reg_map       map = null,
-                                     string            fname = "",
-                                     int               lineno = 0);
-   uvm_reg_map_info map_info;
-   ftdr.fname = m_fname;
-   ftdr.lineno = m_lineno;
-   if (map == null)
-     return;
-
-   if (map_info == null)
-      map.add_reg(this, -1, "RW", 1, ftdr);
-   else begin
-      map_info.frontdoor = ftdr;
-   end
-endfunction
-
-endclass
-
-// @uvm-ieee 1800.2-2017 auto 18.4.1
 class uvm_reg extends uvm_object;
 
    local bit               m_locked;
