@@ -93,7 +93,8 @@ class uvm_nonblocking_put_imp #(type T=int, type IMP=int)
 endclass
 
 class uvm_put_imp #(type T=int, type IMP=int)
-  extends uvm_port_base #(uvm_tlm_if_base #(T,T));
+   extends uvm_port_base;
+
   `UVM_IMP_COMMON(`UVM_TLM_PUT_MASK,"uvm_put_imp",IMP)
   `UVM_PUT_IMP (m_imp, T, t)
 endclass
@@ -147,7 +148,8 @@ class uvm_nonblocking_get_peek_imp #(type T=int, type IMP=int)
 endclass
 
 class uvm_get_peek_imp #(type T=int, type IMP=int)
-  extends uvm_port_base #(uvm_tlm_if_base #(T,T));
+   extends uvm_port_base;
+   
   `UVM_IMP_COMMON(`UVM_TLM_GET_PEEK_MASK,"uvm_get_peek_imp",IMP)
   `UVM_GET_PEEK_IMP (m_imp, T, t)
 endclass
