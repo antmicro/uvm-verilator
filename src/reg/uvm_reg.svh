@@ -630,7 +630,7 @@ class uvm_reg extends uvm_object;
    extern virtual function void            do_pack    (uvm_packer packer);
    extern virtual function void            do_unpack  (uvm_packer packer);
 
-   function void set_frontdoor(uvm_reg_frontdoor ftdr,
+   function void set_frontdoor(uvm_reg_frontdoor1 ftdr,
                                      uvm_reg_map       map = null,
                                      string            fname = "",
                                      int               lineno = 0);
