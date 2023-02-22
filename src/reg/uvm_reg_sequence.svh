@@ -393,7 +393,8 @@ endclass
 
 
 // @uvm-ieee 1800.2-2017 auto 19.4.2.1
-virtual class uvm_reg_frontdoor extends uvm_reg_sequence #(uvm_sequence #(uvm_sequence_item));
+virtual class uvm_reg_frontdoor extends uvm_reg_sequence;
+
 
 
 
