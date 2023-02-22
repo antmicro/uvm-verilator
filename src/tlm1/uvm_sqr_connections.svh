@@ -44,7 +44,8 @@
 
 // @uvm-ieee 1800.2-2017 auto 15.2.2.1
 class uvm_seq_item_pull_port #(type REQ=int, type RSP=REQ)
-  extends uvm_port_base #(uvm_sqr_if_base #(REQ, RSP));
+   extends uvm_port_base;
+
   `UVM_SEQ_PORT(`UVM_SEQ_ITEM_PULL_MASK, "uvm_seq_item_pull_port")
   `UVM_SEQ_ITEM_PULL_IMP(this.m_if, REQ, RSP, t, t)
 
@@ -81,7 +82,8 @@ endclass
 
 // @uvm-ieee 1800.2-2017 auto 15.2.2.3
 class uvm_seq_item_pull_imp #(type REQ=int, type RSP=REQ, type IMP=int)
-  extends uvm_port_base #(uvm_sqr_if_base #(REQ, RSP));
+   extends uvm_port_base;
+
    // Function -- NODOCS -- new
   `UVM_IMP_COMMON(`UVM_SEQ_ITEM_PULL_MASK, "uvm_seq_item_pull_imp",IMP)
   `UVM_SEQ_ITEM_PULL_IMP(m_imp, REQ, RSP, t, t)
