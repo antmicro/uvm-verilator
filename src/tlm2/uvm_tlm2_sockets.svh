@@ -57,7 +57,7 @@
 
 // @uvm-ieee 1800.2-2017 auto 12.3.5.2.1
 class uvm_tlm_b_initiator_socket #(type T=uvm_tlm_generic_payload)
-                           extends uvm_tlm_b_initiator_socket_base #(T);
+                           extends uvm_tlm_b_initiator_socket_base;
 
 
   // @uvm-ieee 1800.2-2017 auto 12.3.5.2.3
@@ -106,7 +106,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto 12.3.5.1.1
 class uvm_tlm_b_target_socket #(type IMP=int,
                                 type T=uvm_tlm_generic_payload)
-  extends uvm_tlm_b_target_socket_base #(T);
+  extends uvm_tlm_b_target_socket_base;
 
   local IMP m_imp;
 
@@ -154,7 +154,7 @@ endclass
 class uvm_tlm_nb_initiator_socket #(type IMP=int,
                                     type T=uvm_tlm_generic_payload,
                                     type P=uvm_tlm_phase_e)
-  extends uvm_tlm_nb_initiator_socket_base #(T,P);
+  extends uvm_tlm_nb_initiator_socket_base;
 
   uvm_tlm_nb_transport_bw_imp #(T,P,IMP) bw_imp;
 
@@ -220,7 +220,7 @@ endclass
 class uvm_tlm_nb_target_socket #(type IMP=int,
                                  type T=uvm_tlm_generic_payload,
                                  type P=uvm_tlm_phase_e)
-  extends uvm_tlm_nb_target_socket_base #(T,P);
+  extends uvm_tlm_nb_target_socket_base;
 
   local IMP m_imp;
 
@@ -262,7 +262,7 @@ endclass
 
 // @uvm-ieee 1800.2-2017 auto 12.3.5.7
 class uvm_tlm_b_passthrough_initiator_socket #(type T=uvm_tlm_generic_payload)
-  extends uvm_tlm_b_passthrough_initiator_socket_base #(T);
+  extends uvm_tlm_b_passthrough_initiator_socket_base;
 
   function new(string name, uvm_component parent);
     super.new(name, parent);
@@ -296,7 +296,7 @@ endclass
 
 // @uvm-ieee 1800.2-2017 auto 12.3.5.8
 class uvm_tlm_b_passthrough_target_socket #(type T=uvm_tlm_generic_payload)
-  extends uvm_tlm_b_passthrough_target_socket_base #(T);
+  extends uvm_tlm_b_passthrough_target_socket_base;
 
   function new(string name, uvm_component parent);
     super.new(name, parent);
@@ -336,7 +336,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto 12.3.5.5
 class uvm_tlm_nb_passthrough_initiator_socket #(type T=uvm_tlm_generic_payload,
                                              type P=uvm_tlm_phase_e)
-  extends uvm_tlm_nb_passthrough_initiator_socket_base #(T,P);
+  extends uvm_tlm_nb_passthrough_initiator_socket_base;
 
   function new(string name, uvm_component parent);
     super.new(name, parent);
@@ -387,7 +387,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto 12.3.5.6.1
 class uvm_tlm_nb_passthrough_target_socket #(type T=uvm_tlm_generic_payload,
                                           type P=uvm_tlm_phase_e)
-  extends uvm_tlm_nb_passthrough_target_socket_base #(T,P);
+  extends uvm_tlm_nb_passthrough_target_socket_base;
 
   function new(string name, uvm_component parent);
     super.new(name, parent);
