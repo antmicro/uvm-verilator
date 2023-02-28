@@ -49,7 +49,7 @@ typedef class uvm_mem_access_seq;
 // matches the full name of the register,
 // the register is not tested.
 //
-//| uvm_resource_db#(bit)::set({"REG::",regmodel.blk.r0.get_full_name()},
+//| uvm_resource_db#()::set({"REG::",regmodel.blk.r0.get_full_name()},
 //|                            "NO_REG_TESTS", 1, this);
 //
 // Registers without an available backdoor or
@@ -84,9 +84,9 @@ class uvm_reg_single_access_seq extends uvm_reg_sequence;
       end
 
       // Registers with some attributes are not to be tested
-      if (uvm_resource_db#(bit)::get_by_name({"REG::",rg.get_full_name()},
+      if (uvm_resource_db#()::get_by_name({"REG::",rg.get_full_name()},
                                              "NO_REG_TESTS", 0) != null || 
-          uvm_resource_db#(bit)::get_by_name({"REG::",rg.get_full_name()},
+          uvm_resource_db#()::get_by_name({"REG::",rg.get_full_name()},
                                              "NO_REG_ACCESS_TEST", 0) != null )
             return;
 
@@ -191,7 +191,7 @@ endclass: uvm_reg_single_access_seq
 // matches the full name of the block,
 // the block is not tested.
 //
-//| uvm_resource_db#(bit)::set({"REG::",regmodel.blk.get_full_name(),".*"},
+//| uvm_resource_db#()::set({"REG::",regmodel.blk.get_full_name(),".*"},
 //|                            "NO_REG_TESTS", 1, this);
 //
 //------------------------------------------------------------------------------
@@ -251,9 +251,9 @@ class uvm_reg_access_seq extends uvm_reg_sequence;
    protected virtual task do_block(uvm_reg_block blk);
       uvm_reg regs[$];
       
-      if (uvm_resource_db#(bit)::get_by_name({"REG::",blk.get_full_name()},
+      if (uvm_resource_db#()::get_by_name({"REG::",blk.get_full_name()},
                                              "NO_REG_TESTS", 0) != null ||
-          uvm_resource_db#(bit)::get_by_name({"REG::",blk.get_full_name()},
+          uvm_resource_db#()::get_by_name({"REG::",blk.get_full_name()},
                                              "NO_REG_ACCESS_TEST", 0) != null )
          return;
 
@@ -261,9 +261,9 @@ class uvm_reg_access_seq extends uvm_reg_sequence;
       blk.get_registers(regs, UVM_NO_HIER);
       foreach (regs[i]) begin
          // Registers with some attributes are not to be tested
-         if (uvm_resource_db#(bit)::get_by_name({"REG::",regs[i].get_full_name()},
+         if (uvm_resource_db#()::get_by_name({"REG::",regs[i].get_full_name()},
                                                 "NO_REG_TESTS", 0) != null ||
-	     uvm_resource_db#(bit)::get_by_name({"REG::",regs[i].get_full_name()},
+	     uvm_resource_db#()::get_by_name({"REG::",regs[i].get_full_name()},
                                                 "NO_REG_ACCESS_TEST", 0) != null )
               continue;
          
@@ -342,9 +342,9 @@ class uvm_reg_mem_access_seq extends uvm_reg_sequence;
       uvm_report_info("STARTING_SEQ",
             {"\n\nStarting ",get_name()," sequence...\n"},UVM_LOW);
       
-      if (uvm_resource_db#(bit)::get_by_name({"REG::",model.get_full_name()},
+      if (uvm_resource_db#()::get_by_name({"REG::",model.get_full_name()},
                                              "NO_REG_TESTS", 0) == null) begin
-        if (uvm_resource_db#(bit)::get_by_name({"REG::",model.get_full_name()},
+        if (uvm_resource_db#()::get_by_name({"REG::",model.get_full_name()},
                                                "NO_REG_ACCESS_TEST", 0) == null) begin
            uvm_reg_access_seq sub_seq = new("reg_access_seq");
            this.reset_blk(model);
@@ -352,7 +352,7 @@ class uvm_reg_mem_access_seq extends uvm_reg_sequence;
            sub_seq.model = model;
            sub_seq.start(null,this);
         end
-        if (uvm_resource_db#(bit)::get_by_name({"REG::",model.get_full_name()},
+        if (uvm_resource_db#()::get_by_name({"REG::",model.get_full_name()},
                                                "NO_MEM_ACCESS_TEST", 0) == null) begin
            uvm_mem_access_seq sub_seq = new("mem_access_seq");
            this.reset_blk(model);
