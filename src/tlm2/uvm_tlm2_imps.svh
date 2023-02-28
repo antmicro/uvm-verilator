@@ -168,7 +168,7 @@
 // @uvm-ieee 1800.2-2017 auto 12.3.8.1
 class uvm_tlm_b_transport_imp #(type T=uvm_tlm_generic_payload,
                             type IMP=int)
-  extends uvm_port_base #(uvm_tlm_if #(T));
+  extends uvm_port_base;
   `UVM_IMP_COMMON(`UVM_TLM_B_MASK, "uvm_tlm_b_transport_imp", IMP)
   `UVM_TLM_B_TRANSPORT_IMP(m_imp, T, t, delay)
 endclass
@@ -185,7 +185,7 @@ endclass
 class uvm_tlm_nb_transport_fw_imp #(type T=uvm_tlm_generic_payload,
                                 type P=uvm_tlm_phase_e,
                                 type IMP=int)
-  extends uvm_port_base #(uvm_tlm_if #(T,P));
+  extends uvm_port_base;
   `UVM_IMP_COMMON(`UVM_TLM_NB_FW_MASK, "uvm_tlm_nb_transport_fw_imp", IMP)
   `UVM_TLM_NB_TRANSPORT_FW_IMP(m_imp, T, P, t, p, delay)
 endclass
@@ -202,7 +202,7 @@ endclass
 class uvm_tlm_nb_transport_bw_imp #(type T=uvm_tlm_generic_payload,
                                 type P=uvm_tlm_phase_e,
                                 type IMP=int)
-  extends uvm_port_base #(uvm_tlm_if #(T,P));
+  extends uvm_port_base;
   `UVM_IMP_COMMON(`UVM_TLM_NB_BW_MASK, "uvm_tlm_nb_transport_bw_imp", IMP)
   `UVM_TLM_NB_TRANSPORT_BW_IMP(m_imp, T, P, t, p, delay)
 endclass
