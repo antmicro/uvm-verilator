@@ -49,7 +49,7 @@
 //
 
 // @uvm-ieee 1800.2-2017 auto E.7.1
-class uvm_reg_mem_hdl_paths_seq extends uvm_reg_sequence #(uvm_sequence #(uvm_reg_item));
+class uvm_reg_mem_hdl_paths_seq extends uvm_reg_sequence;
     // Variable -- NODOCS -- abstractions
     // If set, check the HDL paths for the specified design abstractions.
     // If empty, check the HDL path for the default design abstraction,
