@@ -78,14 +78,14 @@ class uvm_reg_predictor #(type BUSTYPE=int) extends uvm_component;
   // predictor will collect the multiple bus transactions needed to
   // determine the value being read or written.
   //
-  uvm_analysis_imp #(BUSTYPE, uvm_reg_predictor #(BUSTYPE)) bus_in;
+  uvm_analysis_imp bus_in;
 
 
   // Variable -- NODOCS -- reg_ap
   //
   // Analysis output port that publishes <uvm_reg_item> transactions
   // converted from bus transactions received on ~bus_in~.
-  uvm_analysis_port #(uvm_reg_item) reg_ap;
+  uvm_analysis_port reg_ap;
 
 
   // Variable -- NODOCS -- map
