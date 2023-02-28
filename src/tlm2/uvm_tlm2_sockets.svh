@@ -69,9 +69,9 @@ class uvm_tlm_b_initiator_socket #(type T=uvm_tlm_generic_payload)
   // @uvm-ieee 1800.2-2017 auto 12.3.5.2.4
   function void connect(this_type provider);
 
-    uvm_tlm_b_passthrough_initiator_socket_base #(T) initiator_pt_socket;
-    uvm_tlm_b_passthrough_target_socket_base #(T) target_pt_socket;
-    uvm_tlm_b_target_socket_base #(T) target_socket;
+    uvm_tlm_b_passthrough_initiator_socket_base  initiator_pt_socket;
+    uvm_tlm_b_passthrough_target_socket_base  target_pt_socket;
+    uvm_tlm_b_target_socket_base  target_socket;
 
     uvm_component c;
 
@@ -156,7 +156,7 @@ class uvm_tlm_nb_initiator_socket #(type IMP=int,
                                     type P=uvm_tlm_phase_e)
   extends uvm_tlm_nb_initiator_socket_base;
 
-  uvm_tlm_nb_transport_bw_imp #(T,P,IMP) bw_imp;
+  uvm_tlm_nb_transport_bw_imp  bw_imp;
 
 
   // @uvm-ieee 1800.2-2017 auto 12.3.5.4.3
@@ -173,9 +173,9 @@ class uvm_tlm_nb_initiator_socket #(type IMP=int,
    // @uvm-ieee 1800.2-2017 auto 12.3.5.4.4
    function void connect(this_type provider);
 
-    uvm_tlm_nb_passthrough_initiator_socket_base #(T,P) initiator_pt_socket;
-    uvm_tlm_nb_passthrough_target_socket_base #(T,P) target_pt_socket;
-    uvm_tlm_nb_target_socket_base #(T,P) target_socket;
+    uvm_tlm_nb_passthrough_initiator_socket_base  initiator_pt_socket;
+    uvm_tlm_nb_passthrough_target_socket_base  target_pt_socket;
+    uvm_tlm_nb_target_socket_base  target_socket;
 
     uvm_component c;
 
@@ -273,9 +273,9 @@ class uvm_tlm_b_passthrough_initiator_socket #(type T=uvm_tlm_generic_payload)
    // Connect this socket to the specified <uvm_tlm_b_target_socket>
   function void connect(this_type provider);
 
-    uvm_tlm_b_passthrough_initiator_socket_base #(T) initiator_pt_socket;
-    uvm_tlm_b_passthrough_target_socket_base #(T) target_pt_socket;
-    uvm_tlm_b_target_socket_base #(T) target_socket;
+    uvm_tlm_b_passthrough_initiator_socket_base  initiator_pt_socket;
+    uvm_tlm_b_passthrough_target_socket_base  target_pt_socket;
+    uvm_tlm_b_target_socket_base  target_socket;
 
     uvm_component c;
 
@@ -307,8 +307,8 @@ class uvm_tlm_b_passthrough_target_socket #(type T=uvm_tlm_generic_payload)
    // Connect this socket to the specified <uvm_tlm_b_initiator_socket>
   function void connect(this_type provider);
 
-    uvm_tlm_b_passthrough_target_socket_base #(T) target_pt_socket;
-    uvm_tlm_b_target_socket_base #(T) target_socket;
+    uvm_tlm_b_passthrough_target_socket_base  target_pt_socket;
+    uvm_tlm_b_target_socket_base  target_socket;
 
     uvm_component c;
 
@@ -347,9 +347,9 @@ class uvm_tlm_nb_passthrough_initiator_socket #(type T=uvm_tlm_generic_payload,
    // Connect this socket to the specified <uvm_tlm_nb_target_socket>
   function void connect(this_type provider);
 
-    uvm_tlm_nb_passthrough_initiator_socket_base #(T,P) initiator_pt_socket;
-    uvm_tlm_nb_passthrough_target_socket_base #(T,P) target_pt_socket;
-    uvm_tlm_nb_target_socket_base #(T,P) target_socket;
+    uvm_tlm_nb_passthrough_initiator_socket_base  initiator_pt_socket;
+    uvm_tlm_nb_passthrough_target_socket_base  target_pt_socket;
+    uvm_tlm_nb_target_socket_base  target_socket;
 
     uvm_component c;
 
@@ -397,8 +397,8 @@ class uvm_tlm_nb_passthrough_target_socket #(type T=uvm_tlm_generic_payload,
   // @uvm-ieee 1800.2-2017 auto 12.3.5.6.2
   function void connect(this_type provider);
 
-    uvm_tlm_nb_passthrough_target_socket_base #(T,P) target_pt_socket;
-    uvm_tlm_nb_target_socket_base #(T,P) target_socket;
+    uvm_tlm_nb_passthrough_target_socket_base  target_pt_socket;
+    uvm_tlm_nb_target_socket_base  target_socket;
 
     uvm_component c;
 
