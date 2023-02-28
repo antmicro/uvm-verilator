@@ -559,10 +559,10 @@ class uvm_registry_common #( type Tregistry=int, type Tcreator=int, type Tcreate
     uvm_object obj;
     if (contxt == "" && parent != null)
       contxt = parent.get_full_name();
-    obj = Tcreator::create_by_type( Tregistry::get(), contxt, name, parent );
+     obj = null;
     if (!$cast(create, obj)) begin
       string msg;
-      msg = {"Factory did not return a ", Tcreator::base_type_name(), " of type '",Tregistry::type_name,
+      msg = {"Factory did not return a ", "abcd", " of type '", "abcd",
         "'. A component of type '",obj == null ? "null" : obj.get_type_name(),
         "' was returned instead. Name=",name," Parent=",
         parent==null?"null":parent.get_type_name()," contxt=",contxt};
@@ -574,7 +574,7 @@ class uvm_registry_common #( type Tregistry=int, type Tcreator=int, type Tcreate
                                           bit replace);
     uvm_factory factory=uvm_factory::get();
 
-    factory.set_type_override_by_type(Tregistry::get(),override_type,replace);
+    factory.set_type_override_by_type(null,override_type,replace);
   endfunction
 
   static function void set_inst_override(uvm_object_wrapper override_type,
@@ -589,7 +589,7 @@ class uvm_registry_common #( type Tregistry=int, type Tcreator=int, type Tcreate
       else
         inst_path = {parent.get_full_name(),".",inst_path};
     end
-    factory.set_inst_override_by_type(Tregistry::get(),override_type,inst_path);
+    factory.set_inst_override_by_type(null,override_type,inst_path);
   endfunction
 
   static function void set_type_alias(string alias_name);
@@ -597,7 +597,7 @@ class uvm_registry_common #( type Tregistry=int, type Tcreator=int, type Tcreate
      m__type_aliases.sort();
      if (uvm_pkg::get_core_state() != UVM_CORE_UNINITIALIZED) begin
         uvm_factory factory = uvm_factory::get();
-        Tregistry rgtry = Tregistry::get();
+        Tregistry rgtry = null;
         if (factory.is_type_registered(rgtry)) begin
            factory.set_type_alias(alias_name,rgtry);
         end
@@ -605,7 +605,7 @@ class uvm_registry_common #( type Tregistry=int, type Tcreator=int, type Tcreate
   endfunction
 
   static function bit __deferred_init();
-     Tregistry rgtry = Tregistry::get();
+     Tregistry rgtry = null;
      // If the core is uninitialized, we defer initialization
      if (uvm_pkg::get_core_state() == UVM_CORE_UNINITIALIZED) begin
 	     uvm_pkg::uvm_deferred_init.push_back(rgtry);
@@ -621,7 +621,7 @@ class uvm_registry_common #( type Tregistry=int, type Tcreator=int, type Tcreate
 
   virtual function void initialize();
      uvm_factory factory =uvm_factory::get();
-     Tregistry rgtry = Tregistry::get();
+     Tregistry rgtry = null;
      factory.register(rgtry);
      // add aliases that were set before
      // the wrapper was registered with the factory
