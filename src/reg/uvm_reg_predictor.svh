@@ -135,7 +135,7 @@ class uvm_reg_predictor #(type BUSTYPE=int) extends uvm_component;
     if (m_type_name == "") begin
       BUSTYPE t;
  `ifdef VERILATOR
-       t = BUSTYPE::type_id_create("t");
+
  `else
        t = BUSTYPE::type_id::create("t");
  `endif
