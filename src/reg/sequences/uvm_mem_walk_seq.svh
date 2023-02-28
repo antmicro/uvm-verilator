@@ -45,7 +45,7 @@
 // matches the full name of the memory,
 // the memory is not tested.
 //
-//| uvm_resource_db#(bit)::set({"REG::",regmodel.blk.mem0.get_full_name()},
+//| uvm_resource_db::set({"REG::",regmodel.blk.mem0.get_full_name()},
 //|                            "NO_MEM_TESTS", 1, this);
 //
 // The walking ones algorithm is performed for each map in which the memory
@@ -100,11 +100,11 @@ class uvm_mem_single_walk_seq extends uvm_reg_sequence;
       end
 
       // Memories with some attributes are not to be tested
-      if (uvm_resource_db#(bit)::get_by_name({"REG::",mem.get_full_name()},
+      if (uvm_resource_db::get_by_name({"REG::",mem.get_full_name()},
                                              "NO_REG_TESTS", 0) != null ||
-          uvm_resource_db#(bit)::get_by_name({"REG::",mem.get_full_name()},
+          uvm_resource_db::get_by_name({"REG::",mem.get_full_name()},
                                              "NO_MEM_TESTS", 0) != null ||
-	  uvm_resource_db#(bit)::get_by_name({"REG::",mem.get_full_name()},
+	  uvm_resource_db::get_by_name({"REG::",mem.get_full_name()},
                                              "NO_MEM_WALK_TEST", 0) != null )
          return;
 
@@ -195,7 +195,7 @@ endclass: uvm_mem_single_walk_seq
 // matches the full name of the block,
 // the block is not tested.
 //
-//| uvm_resource_db#(bit)::set({"REG::",regmodel.blk.get_full_name(),".*"},
+//| uvm_resource_db::set({"REG::",regmodel.blk.get_full_name(),".*"},
 //|                            "NO_MEM_TESTS", 1, this);
 //
 //------------------------------------------------------------------------------
@@ -255,11 +255,11 @@ class uvm_mem_walk_seq extends uvm_reg_sequence;
    protected virtual task do_block(uvm_reg_block blk);
       uvm_mem mems[$];
       
-      if (uvm_resource_db#(bit)::get_by_name({"REG::",blk.get_full_name()},
+      if (uvm_resource_db::get_by_name({"REG::",blk.get_full_name()},
                                              "NO_REG_TESTS", 0) != null ||
-          uvm_resource_db#(bit)::get_by_name({"REG::",blk.get_full_name()},
+          uvm_resource_db::get_by_name({"REG::",blk.get_full_name()},
                                              "NO_MEM_TESTS", 0) != null ||
-          uvm_resource_db#(bit)::get_by_name({"REG::",blk.get_full_name()},
+          uvm_resource_db::get_by_name({"REG::",blk.get_full_name()},
                                              "NO_MEM_ACCESS_TEST", 0) != null )
          return;
       
@@ -267,11 +267,11 @@ class uvm_mem_walk_seq extends uvm_reg_sequence;
       blk.get_memories(mems, UVM_NO_HIER);
       foreach (mems[i]) begin
          // Memories with some attributes are not to be tested
-         if (uvm_resource_db#(bit)::get_by_name({"REG::",mems[i].get_full_name()},
+         if (uvm_resource_db::get_by_name({"REG::",mems[i].get_full_name()},
                                                 "NO_REG_TESTS", 0) != null ||
-             uvm_resource_db#(bit)::get_by_name({"REG::",mems[i].get_full_name()},
+             uvm_resource_db::get_by_name({"REG::",mems[i].get_full_name()},
                                                 "NO_MEM_TESTS", 0) != null ||
-	     uvm_resource_db#(bit)::get_by_name({"REG::",mems[i].get_full_name()},
+	     uvm_resource_db::get_by_name({"REG::",mems[i].get_full_name()},
                                                 "NO_MEM_WALK_TEST", 0) != null )
            continue;
          
