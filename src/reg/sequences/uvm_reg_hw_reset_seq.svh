@@ -51,7 +51,7 @@
 //
 
 // @uvm-ieee 1800.2-2017 auto E.1.1
-class uvm_reg_hw_reset_seq extends uvm_reg_sequence #(uvm_sequence #(uvm_reg_item));
+class uvm_reg_hw_reset_seq extends uvm_reg_sequence;
 
    `uvm_object_utils(uvm_reg_hw_reset_seq)
 
