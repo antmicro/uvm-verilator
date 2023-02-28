@@ -51,7 +51,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto 12.2.8.1.1
 virtual class uvm_tlm_fifo_base #(type T=int) extends uvm_component;
 
-  `uvm_component_abstract_param_utils(uvm_tlm_fifo_base #(T))
+  `uvm_component_abstract_param_utils(uvm_tlm_fifo_base)
   
   typedef uvm_tlm_fifo_base #(T) this_type;
   

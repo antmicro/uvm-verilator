@@ -40,7 +40,7 @@
 // @uvm-ieee 1800.2-2017 auto 11.3.1
 class uvm_queue #(type T=int) extends uvm_object;
 
-  typedef uvm_queue #(T) this_type;
+  typedef uvm_queue this_type;
 
   `uvm_object_param_utils(uvm_queue#(T))
   `uvm_type_name_decl("uvm_queue")

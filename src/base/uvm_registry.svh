@@ -47,7 +47,7 @@ typedef class uvm_registry_object_creator;
 // @uvm-ieee 1800.2-2017 auto 8.2.3.1
 class uvm_component_registry #(type T=uvm_component, string Tname="<unknown>")
                                            extends uvm_object_wrapper;
-  typedef uvm_component_registry #(T,Tname) this_type;
+  typedef uvm_component_registry this_type;
   typedef uvm_registry_common#( this_type, uvm_registry_component_creator, T, Tname ) common_type;
 
   // Function -- NODOCS -- create_component
@@ -168,7 +168,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto 8.2.4.1
 class uvm_object_registry #(type T=uvm_object, string Tname="<unknown>")
                                         extends uvm_object_wrapper;
-  typedef uvm_object_registry #(T,Tname) this_type;
+  typedef uvm_object_registry this_type;
   typedef uvm_registry_common#( this_type, uvm_registry_object_creator, T, Tname ) common_type;
 
   // Function -- NODOCS -- create_object
@@ -290,7 +290,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto 8.2.5.1.1
 class uvm_abstract_component_registry #(type T=uvm_component, string Tname="<unknown>")
                                            extends uvm_object_wrapper;
-  typedef uvm_abstract_component_registry #(T,Tname) this_type;
+  typedef uvm_abstract_component_registry this_type;
   typedef uvm_registry_common#( this_type, uvm_registry_component_creator, T, Tname ) common_type;
 
   // Function -- NODOCS -- create_component
@@ -411,7 +411,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto 8.2.5.2.1
 class uvm_abstract_object_registry #(type T=uvm_object, string Tname="<unknown>")
                                         extends uvm_object_wrapper;
-  typedef uvm_abstract_object_registry #(T,Tname) this_type;
+  typedef uvm_abstract_object_registry this_type;
   typedef uvm_registry_common#( this_type, uvm_registry_object_creator, T, Tname ) common_type;
 
   // Function -- NODOCS -- create_object
@@ -535,7 +535,7 @@ endclass
 
 class uvm_registry_common #( type Tregistry=int, type Tcreator=int, type Tcreated=int, string Tname="<unknown>" );
 
-  typedef uvm_registry_common#(Tregistry,Tcreator,Tcreated,Tname) this_type;
+  typedef uvm_registry_common this_type;
   local static string m__type_aliases[$];
 
   static function string type_name();

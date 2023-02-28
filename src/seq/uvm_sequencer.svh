@@ -35,7 +35,7 @@
 class uvm_sequencer #(type REQ=uvm_sequence_item, RSP=REQ)
                                    extends uvm_sequencer_param_base #(REQ, RSP);
 
-  typedef uvm_sequencer #( REQ , RSP) this_type;
+  typedef uvm_sequencer this_type;
 
   bit sequence_item_requested;
   bit get_next_item_called;

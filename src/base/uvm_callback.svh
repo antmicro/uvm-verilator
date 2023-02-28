@@ -64,8 +64,8 @@ endclass
 //------------------------------------------------------------------------------
 
 class uvm_typeid#(type T=uvm_object) extends uvm_typeid_base;
-  static uvm_typeid#(T) m_b_inst;
-  static function uvm_typeid#(T) get();
+  static uvm_typeid m_b_inst;
+  static function uvm_typeid get();
     if(m_b_inst == null)
       m_b_inst = new;
     return m_b_inst;
@@ -182,7 +182,7 @@ class uvm_typed_callbacks#(type T=uvm_object) extends uvm_callbacks_base;
   static uvm_queue#(uvm_callback) m_tw_cb_q;
   static string m_typename;
 
-  typedef uvm_typed_callbacks#(T) this_type;
+  typedef uvm_typed_callbacks this_type;
   typedef uvm_callbacks_base      super_type;
 
   //The actual global object from the derivative class. Note that this is
@@ -499,8 +499,8 @@ class uvm_callbacks #(type T=uvm_object, type CB=uvm_callback)
   // that users can override in subtypes. This type must be a derivative
   // of <uvm_callback>.
   
-  typedef uvm_typed_callbacks#(T) super_type;
-  typedef uvm_callbacks#(T,CB) this_type;
+  typedef uvm_typed_callbacks super_type;
+  typedef uvm_callbacks this_type;
 
 
   // Singleton instance is used for type checking

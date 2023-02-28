@@ -48,7 +48,7 @@ typedef class uvm_sequence_item;
 class uvm_driver #(type REQ=uvm_sequence_item,
                    type RSP=REQ) extends uvm_component;
 
-  `uvm_component_param_utils(uvm_driver#(REQ,RSP))
+  `uvm_component_param_utils(uvm_driver)
   // TODO: Would it be useful to change this to:
   //| `uvm_type_name_decl($sformatf("uvm_driver #(%s,%s)", REQ::type_name(), RSP::type_name()))
   `uvm_type_name_decl("uvm_driver #(REQ,RSP)")

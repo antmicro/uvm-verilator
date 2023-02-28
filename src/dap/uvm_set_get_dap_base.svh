@@ -32,7 +32,7 @@
 virtual class uvm_set_get_dap_base#(type T=int) extends uvm_object;
 
    // Used for self references
-   typedef uvm_set_get_dap_base#(T) this_type;
+   typedef uvm_set_get_dap_base this_type;
 
    // Function -- NODOCS -- new
    // Constructor

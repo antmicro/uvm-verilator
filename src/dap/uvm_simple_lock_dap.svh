@@ -37,7 +37,7 @@
 class uvm_simple_lock_dap#(type T=int) extends uvm_set_get_dap_base#(T);
 
    // Used for self-references
-   typedef uvm_simple_lock_dap#(T) this_type;
+   typedef uvm_simple_lock_dap this_type;
    
    // Parameterized Utils
    `uvm_object_param_utils(uvm_simple_lock_dap#(T))

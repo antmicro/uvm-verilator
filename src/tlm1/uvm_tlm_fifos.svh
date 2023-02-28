@@ -49,7 +49,7 @@ typedef class uvm_tlm_event;
 // @uvm-ieee 1800.2-2017 auto 18.2.8.2
 class uvm_tlm_fifo #(type T=int) extends uvm_tlm_fifo_base #(T);
 
-  `uvm_component_param_utils(uvm_tlm_fifo#(T))
+  `uvm_component_param_utils(uvm_tlm_fifo)
   `uvm_type_name_decl("uvm_tlm_fifo #(T)")
 
   local mailbox #( T ) m;
