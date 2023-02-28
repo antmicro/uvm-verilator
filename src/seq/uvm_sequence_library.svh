@@ -602,7 +602,7 @@ function void uvm_sequence_library::m_get_config();
   end
   else begin
     if (selection_mode == UVM_SEQ_LIB_ITEM) begin
-      uvm_sequencer #(REQ,RSP) seqr;
+      uvm_sequencer seqr;
       uvm_object_wrapper lhs = REQ::get_type();
       uvm_object_wrapper rhs = uvm_sequence_item::get_type();
       if (lhs == rhs) begin

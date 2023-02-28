@@ -218,13 +218,13 @@ endclass
 virtual class uvm_port_base #(type IF=uvm_void) extends IF;
    
 
-  typedef uvm_port_base #(IF) this_type;
+  typedef uvm_port_base this_type;
   
   // local, protected, and non-user properties
   protected int unsigned  m_if_mask;
   protected this_type     m_if;    // REMOVE
   protected int unsigned  m_def_index;
-  uvm_port_component #(this_type) m_comp;
+  uvm_port_component m_comp;
   local this_type m_provided_by[string];
   local this_type m_provided_to[string];
   local uvm_port_type_e   m_port_type;
@@ -646,7 +646,7 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
   // ----------------
 
   // @uvm-ieee 1800.2-2017 auto 5.5.2.9
-  function void get_connected_to (ref uvm_port_base #(IF) list[string]);
+  function void get_connected_to (ref uvm_port_base list[string]);
     this_type port;
     list.delete();
     foreach (m_provided_by[name]) begin
@@ -660,7 +660,7 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
   // ---------------
 
   // @uvm-ieee 1800.2-2017 auto 5.5.2.10
-  function void get_provided_to (ref uvm_port_base #(IF) list[string]);
+  function void get_provided_to (ref uvm_port_base list[string]);
     this_type port;
     list.delete();
     foreach (m_provided_to[name]) begin
@@ -816,7 +816,7 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
   // This method can only be called at the end_of_elaboration phase or after, as
   // port connections are not resolved before then.
 
-  function uvm_port_base #(IF) get_if(int index=0);
+  function uvm_port_base get_if(int index=0);
     string s;
     if (size()==0) begin
       m_comp.uvm_report_warning("get_if",
