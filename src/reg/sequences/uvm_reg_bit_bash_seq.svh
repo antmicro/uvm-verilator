@@ -56,7 +56,7 @@
 //------------------------------------------------------------------------------
 
 // @uvm-ieee 1800.2-2017 auto E.2.1.1
-class uvm_reg_single_bit_bash_seq extends uvm_reg_sequence #(uvm_sequence #(uvm_reg_item));
+class uvm_reg_single_bit_bash_seq extends uvm_reg_sequence;
 
    // Variable -- NODOCS -- rg
    // The register to be tested
@@ -207,7 +207,7 @@ endclass: uvm_reg_single_bit_bash_seq
 //------------------------------------------------------------------------------
 
 // @uvm-ieee 1800.2-2017 auto E.2.2.1
-class uvm_reg_bit_bash_seq extends uvm_reg_sequence #(uvm_sequence #(uvm_reg_item));
+class uvm_reg_bit_bash_seq extends uvm_reg_sequence;
 
    // Variable -- NODOCS -- model
    //
