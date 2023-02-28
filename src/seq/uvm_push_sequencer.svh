@@ -39,7 +39,7 @@ class uvm_push_sequencer #(type REQ=uvm_sequence_item, RSP=REQ)
   // A continuous stream of sequence items are sent out this port, based on
   // the list of available sequences loaded into this sequencer.
   //
-  uvm_blocking_put_port #(REQ) req_port;
+  uvm_blocking_put_port req_port;
 
 
 
