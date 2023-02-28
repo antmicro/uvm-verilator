@@ -580,26 +580,24 @@ endfunction : __m_uvm_execute_field_op
 //created by args to lower level macros.
 `ifdef VERILATOR
 `define m_uvm_object_registry_internal(T,S) \
-   typedef uvm_object_registry#(T,`"S`") type_id; \
    static function T type_id_create (string name="", \
                                      uvm_component parent=null, \
                                      string contxt=""); \
-     return type_id::create(name, parent, contxt); \
+     return uvm_object_registry#()::create(name, parent, contxt); \
    endfunction \
-   static function type_id get_type(); \
-     return type_id::get(); \
+   static function uvm_object_registry get_type(); \
+     return uvm_object_registry#()::get(); \
    endfunction \
    virtual function uvm_object_wrapper get_object_type(); \
-     return type_id::get(); \
+     return uvm_object_registry#()::get(); \
    endfunction
 `else
 `define m_uvm_object_registry_internal(T,S) \
-   typedef uvm_object_registry#(T,`"S`") type_id; \
-   static function type_id get_type(); \
-     return type_id::get(); \
+   static function uvm_object_registry get_type(); \
+     return uvm_object_registry::get(); \
    endfunction \
    virtual function uvm_object_wrapper get_object_type(); \
-     return type_id::get(); \
+     return uvm_object_registry::get(); \
    endfunction
 `endif
 
