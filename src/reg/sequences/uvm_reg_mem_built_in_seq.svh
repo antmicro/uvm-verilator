@@ -71,9 +71,9 @@ class uvm_reg_mem_built_in_seq extends uvm_reg_sequence;
       uvm_report_info("START_SEQ",{"\n\nStarting ",get_name()," sequence...\n"},UVM_LOW);
       
       if (tests & UVM_DO_REG_HW_RESET &&
-          uvm_resource_db#(bit)::get_by_name({"REG::",model.get_full_name()},
+          uvm_resource_db#()::get_by_name({"REG::",model.get_full_name()},
                                              "NO_REG_TESTS", 0) == null &&
-          uvm_resource_db#(bit)::get_by_name({"REG::",model.get_full_name()},
+          uvm_resource_db#()::get_by_name({"REG::",model.get_full_name()},
                                              "NO_REG_HW_RESET_TEST", 0) == null ) begin
 `ifdef VERILATOR
          uvm_reg_hw_reset_seq seq = uvm_reg_hw_reset_seq::type_id_create("reg_hw_reset_seq");
@@ -86,9 +86,9 @@ class uvm_reg_mem_built_in_seq extends uvm_reg_sequence;
       end
 
       if (tests & UVM_DO_REG_BIT_BASH &&
-          uvm_resource_db#(bit)::get_by_name({"REG::",model.get_full_name()},
+          uvm_resource_db#()::get_by_name({"REG::",model.get_full_name()},
                                              "NO_REG_TESTS", 0) == null &&
-          uvm_resource_db#(bit)::get_by_name({"REG::",model.get_full_name()},
+          uvm_resource_db#()::get_by_name({"REG::",model.get_full_name()},
                                              "NO_REG_BIT_BASH_TEST", 0) == null ) begin
 `ifdef VERILATOR
          uvm_reg_bit_bash_seq seq = uvm_reg_bit_bash_seq::type_id_create("reg_bit_bash_seq");
@@ -101,9 +101,9 @@ class uvm_reg_mem_built_in_seq extends uvm_reg_sequence;
       end
 
       if (tests & UVM_DO_REG_ACCESS &&
-          uvm_resource_db#(bit)::get_by_name({"REG::",model.get_full_name()},
+          uvm_resource_db#()::get_by_name({"REG::",model.get_full_name()},
                                              "NO_REG_TESTS", 0) == null &&
-          uvm_resource_db#(bit)::get_by_name({"REG::",model.get_full_name()},
+          uvm_resource_db#()::get_by_name({"REG::",model.get_full_name()},
                                              "NO_REG_ACCESS_TEST", 0) == null ) begin
 `ifdef VERILATOR
          uvm_reg_access_seq seq = uvm_reg_access_seq::type_id_create("reg_access_seq");
@@ -116,11 +116,11 @@ class uvm_reg_mem_built_in_seq extends uvm_reg_sequence;
       end
 
       if (tests & UVM_DO_MEM_ACCESS &&
-          uvm_resource_db#(bit)::get_by_name({"REG::",model.get_full_name()},
+          uvm_resource_db#()::get_by_name({"REG::",model.get_full_name()},
                                              "NO_REG_TESTS", 0) == null &&
-          uvm_resource_db#(bit)::get_by_name({"REG::",model.get_full_name()},
+          uvm_resource_db#()::get_by_name({"REG::",model.get_full_name()},
                                              "NO_MEM_TESTS", 0) == null &&
-          uvm_resource_db#(bit)::get_by_name({"REG::",model.get_full_name()},
+          uvm_resource_db#()::get_by_name({"REG::",model.get_full_name()},
                                              "NO_MEM_ACCESS_TEST", 0) == null ) begin
 `ifdef VERILATOR
          uvm_mem_access_seq seq = uvm_mem_access_seq::type_id_create("mem_access_seq");
@@ -133,9 +133,9 @@ class uvm_reg_mem_built_in_seq extends uvm_reg_sequence;
       end
 
       if (tests & UVM_DO_SHARED_ACCESS &&
-          uvm_resource_db#(bit)::get_by_name({"REG::",model.get_full_name()},
+          uvm_resource_db#()::get_by_name({"REG::",model.get_full_name()},
                                              "NO_REG_TESTS", 0) == null &&
-          uvm_resource_db#(bit)::get_by_name({"REG::",model.get_full_name()},
+          uvm_resource_db#()::get_by_name({"REG::",model.get_full_name()},
                                              "NO_REG_SHARED_ACCESS_TEST", 0) == null ) begin
 `ifdef VERILATOR
          uvm_reg_mem_shared_access_seq seq = uvm_reg_mem_shared_access_seq::type_id_create("shared_access_seq");
@@ -148,9 +148,9 @@ class uvm_reg_mem_built_in_seq extends uvm_reg_sequence;
       end
 
       if (tests & UVM_DO_MEM_WALK &&
-          uvm_resource_db#(bit)::get_by_name({"REG::",model.get_full_name()},
+          uvm_resource_db#()::get_by_name({"REG::",model.get_full_name()},
                                              "NO_REG_TESTS", 0) == null &&
-          uvm_resource_db#(bit)::get_by_name({"REG::",model.get_full_name()},
+          uvm_resource_db#()::get_by_name({"REG::",model.get_full_name()},
                                              "NO_MEM_WALK_TEST", 0) == null ) begin
 `ifdef VERILATOR
          uvm_mem_walk_seq seq = uvm_mem_walk_seq::type_id_create("mem_walk_seq");
