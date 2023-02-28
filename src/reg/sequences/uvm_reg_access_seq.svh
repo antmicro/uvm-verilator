@@ -62,7 +62,7 @@ typedef class uvm_mem_access_seq;
 //------------------------------------------------------------------------------
 
 // @uvm-ieee 1800.2-2017 auto E.3.1.1
-class uvm_reg_single_access_seq extends uvm_reg_sequence #(uvm_sequence #(uvm_reg_item));
+class uvm_reg_single_access_seq extends uvm_reg_sequence;
 
    // Variable -- NODOCS -- rg
    // The register to be tested
@@ -197,7 +197,7 @@ endclass: uvm_reg_single_access_seq
 //------------------------------------------------------------------------------
 
 // @uvm-ieee 1800.2-2017 auto E.3.2.1
-class uvm_reg_access_seq extends uvm_reg_sequence #(uvm_sequence #(uvm_reg_item));
+class uvm_reg_access_seq extends uvm_reg_sequence;
 
    // Variable -- NODOCS -- model
    //
@@ -323,7 +323,7 @@ endclass: uvm_reg_access_seq
 //------------------------------------------------------------------------------
 
 // @uvm-ieee 1800.2-2017 auto E.3.3.1
-class uvm_reg_mem_access_seq extends uvm_reg_sequence #(uvm_sequence #(uvm_reg_item));
+class uvm_reg_mem_access_seq extends uvm_reg_sequence;
 
    `uvm_object_utils(uvm_reg_mem_access_seq)
 
