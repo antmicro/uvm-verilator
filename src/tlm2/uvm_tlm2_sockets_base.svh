@@ -90,7 +90,7 @@ class uvm_tlm_nb_target_socket_base #(type T=uvm_tlm_generic_payload,
                                    type P=uvm_tlm_phase_e)
   extends uvm_port_base;
 
-  uvm_tlm_nb_transport_bw_port #(T,P) bw_port;
+  uvm_tlm_nb_transport_bw_port  bw_port;
 
   function new (string name, uvm_component parent);
     super.new (name, parent, UVM_IMPLEMENTATION, 1, 1);
@@ -141,7 +141,7 @@ class uvm_tlm_nb_passthrough_initiator_socket_base #(type T=uvm_tlm_generic_payl
                                                   type P=uvm_tlm_phase_e)
   extends uvm_port_base;
 
-  uvm_tlm_nb_transport_bw_export #(T,P) bw_export;
+  uvm_tlm_nb_transport_bw_export bw_export;
 
   function new (string name, uvm_component parent,
                 int min_size=1, int max_size=1);
@@ -169,7 +169,7 @@ class uvm_tlm_nb_passthrough_target_socket_base #(type T=uvm_tlm_generic_payload
                                                type P=uvm_tlm_phase_e)
   extends uvm_port_base;
 
-  uvm_tlm_nb_transport_bw_port #(T,P) bw_port;
+  uvm_tlm_nb_transport_bw_port bw_port;
 
   function new (string name, uvm_component parent,
                 int min_size=1, int max_size=1);

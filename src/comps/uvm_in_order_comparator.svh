@@ -88,7 +88,7 @@ class uvm_in_order_comparator
   // The export to which one stream of data is written. The port must be
   // connected to an analysis port that will provide such data. 
 
-  uvm_analysis_export #(T) before_export;
+  uvm_analysis_export  before_export;
 
 
   // Port --NODOCS-- after_export
@@ -96,7 +96,7 @@ class uvm_in_order_comparator
   // The export to which the other stream of data is written. The port must be
   // connected to an analysis port that will provide such data. 
 
-  uvm_analysis_export #(T) after_export;
+  uvm_analysis_export  after_export;
 
 
   // Port --NODOCS-- pair_ap
@@ -105,10 +105,10 @@ class uvm_in_order_comparator
   // Both matched and unmatched pairs are published via a pair_type objects.
   // Any connected analysis export(s) will receive these transaction pairs.
 
-  uvm_analysis_port   #(pair_type) pair_ap;
+  uvm_analysis_port pair_ap;
   
-  local uvm_tlm_analysis_fifo #(T) m_before_fifo;
-  local uvm_tlm_analysis_fifo #(T) m_after_fifo;
+  local uvm_tlm_analysis_fifo  m_before_fifo;
+  local uvm_tlm_analysis_fifo  m_after_fifo;
 
   int m_matches, m_mismatches;
 
