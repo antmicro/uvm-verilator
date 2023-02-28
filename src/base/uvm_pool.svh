@@ -37,7 +37,7 @@
 // @uvm-ieee 1800.2-2017 auto 11.2.1
 class uvm_pool #(type KEY=int, T=uvm_void) extends uvm_object;
 
-  typedef uvm_pool #(KEY,T) this_type;
+  typedef uvm_pool this_type;
 
   static protected this_type m_global_pool;
   protected T pool[KEY];
@@ -249,7 +249,7 @@ endclass
 
 class uvm_object_string_pool #(type T=uvm_object) extends uvm_pool #(string,T);
 
-  typedef uvm_object_string_pool #(T) this_type;
+  typedef uvm_object_string_pool this_type;
   static protected this_type m_global_pool;
 
   `uvm_object_param_utils(uvm_object_string_pool#(T))
