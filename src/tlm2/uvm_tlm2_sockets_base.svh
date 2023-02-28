@@ -50,7 +50,7 @@
 virtual
 `endif
 class uvm_tlm_b_target_socket_base #(type T=uvm_tlm_generic_payload)
-  extends uvm_port_base #(uvm_tlm_if #(T));
+  extends uvm_port_base;
 
   function new (string name, uvm_component parent);
     super.new (name, parent, UVM_IMPLEMENTATION, 1, 1);
@@ -71,7 +71,7 @@ endclass
 virtual
 `endif
 class uvm_tlm_b_initiator_socket_base #(type T=uvm_tlm_generic_payload)
-  extends uvm_port_base #(uvm_tlm_if #(T));
+  extends uvm_port_base;
 
   `UVM_PORT_COMMON(`UVM_TLM_B_MASK, "uvm_tlm_b_initiator_socket")
   `UVM_TLM_B_TRANSPORT_IMP(this.m_if, T, t, delay)
@@ -88,7 +88,7 @@ virtual
 `endif
 class uvm_tlm_nb_target_socket_base #(type T=uvm_tlm_generic_payload,
                                    type P=uvm_tlm_phase_e)
-  extends uvm_port_base #(uvm_tlm_if #(T,P));
+  extends uvm_port_base;
 
   uvm_tlm_nb_transport_bw_port #(T,P) bw_port;
 
@@ -113,7 +113,7 @@ virtual
 `endif
 class uvm_tlm_nb_initiator_socket_base #(type T=uvm_tlm_generic_payload,
                                       type P=uvm_tlm_phase_e)
-  extends uvm_port_base #(uvm_tlm_if #(T,P));
+  extends uvm_port_base;
 
   function new (string name, uvm_component parent);
     super.new (name, parent, UVM_PORT, 1, 1);
@@ -139,7 +139,7 @@ virtual
 `endif
 class uvm_tlm_nb_passthrough_initiator_socket_base #(type T=uvm_tlm_generic_payload,
                                                   type P=uvm_tlm_phase_e)
-  extends uvm_port_base #(uvm_tlm_if #(T,P));
+  extends uvm_port_base;
 
   uvm_tlm_nb_transport_bw_export #(T,P) bw_export;
 
@@ -167,7 +167,7 @@ virtual
 `endif
 class uvm_tlm_nb_passthrough_target_socket_base #(type T=uvm_tlm_generic_payload,
                                                type P=uvm_tlm_phase_e)
-  extends uvm_port_base #(uvm_tlm_if #(T,P));
+  extends uvm_port_base;
 
   uvm_tlm_nb_transport_bw_port #(T,P) bw_port;
 
@@ -194,7 +194,7 @@ endclass
 virtual 
 `endif
 class uvm_tlm_b_passthrough_initiator_socket_base #(type T=uvm_tlm_generic_payload)
-  extends uvm_port_base #(uvm_tlm_if #(T));
+  extends uvm_port_base;
 
   `UVM_PORT_COMMON(`UVM_TLM_B_MASK, "uvm_tlm_b_passthrough_initiator_socket")
   `UVM_TLM_B_TRANSPORT_IMP(this.m_if, T, t, delay)
@@ -211,7 +211,7 @@ endclass
 virtual 
 `endif
 class uvm_tlm_b_passthrough_target_socket_base #(type T=uvm_tlm_generic_payload)
-  extends uvm_port_base #(uvm_tlm_if #(T));
+  extends uvm_port_base;
 
   `UVM_EXPORT_COMMON(`UVM_TLM_B_MASK, "uvm_tlm_b_passthrough_target_socket")
   `UVM_TLM_B_TRANSPORT_IMP(this.m_if, T, t, delay)
