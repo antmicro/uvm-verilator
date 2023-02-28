@@ -255,7 +255,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto 10.1.2.1
 class uvm_event#(type T=uvm_object) extends uvm_event_base;
 
-        typedef uvm_event#(T) this_type;
+        typedef uvm_event this_type;
         typedef uvm_event_callback#(T) cb_type;
         typedef uvm_callbacks#(this_type, cb_type) cbs_type;
    
