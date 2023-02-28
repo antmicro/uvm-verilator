@@ -51,14 +51,14 @@ class uvm_push_driver #(type REQ=uvm_sequence_item,
   // with an appropriate implementation (and not call super.put). Ports
   // connected to this export will supply the driver with transactions.
 
-  uvm_blocking_put_imp #(REQ, uvm_push_driver #(REQ,RSP)) req_export;
+  uvm_blocking_put_imp req_export;
 
   // Port -- NODOCS -- rsp_port
   //
   // This analysis port is used to send response transactions back to the
   // originating sequencer.
 
-  uvm_analysis_port #(RSP) rsp_port;
+  uvm_analysis_port rsp_port;
 
   REQ req;
   RSP rsp;
