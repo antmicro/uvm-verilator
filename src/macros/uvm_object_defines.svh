@@ -534,10 +534,7 @@ endfunction : __m_uvm_execute_field_op
 
 `define m_uvm_object_create_func(T) \
    function uvm_object create (string name=""); \
-     T tmp; \
-     if (name=="") tmp = new(); \
-     else tmp = new(name); \
-     return tmp; \
+     return null; \
    endfunction
 
 // Macro --NODOCS-- uvm_type_name_decl(TNAME_STRING)
