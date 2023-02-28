@@ -1121,7 +1121,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto C.2.5.1
 class uvm_resource #(type T=int) extends uvm_resource_base;
 
-  typedef uvm_resource#(T) this_type;
+  typedef uvm_resource this_type;
 
   // singleton handle that represents the type of this resource
   static this_type my_type = get_type();
