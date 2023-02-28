@@ -979,7 +979,7 @@ class uvm_objection extends uvm_report_object;
     this_obj_name = obj.get_full_name();
     curr_obj_name = this_obj_name;
 
-    do begin
+
 
       curr_obj = list[curr_obj_name];
   
@@ -1007,7 +1007,7 @@ class uvm_objection extends uvm_report_object;
          m_total_count.exists(curr_obj) ? m_total_count[curr_obj] : 0,
          blank.substr(0,2*depth), name)};
 
-    end while (list.next(curr_obj_name) &&
+    while (list.next(curr_obj_name) &&
         curr_obj_name.substr(0,this_obj_name.len()-1) == this_obj_name);
   
     s = {s,"---------------------------------------------------------\n"};

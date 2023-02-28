@@ -373,14 +373,14 @@ class uvm_typed_callbacks#(type T=uvm_object) extends uvm_callbacks_base;
         qs.push_back("---------------------------------------------------------------\n");
       end
       if(me != null) begin
-        do begin
-          if($cast(me,bobj)) begin
+
+             int i = 0;
             q = m_t_inst.m_pool.get(bobj);
             if (q==null) begin
               q=new;
               m_t_inst.m_pool.add(bobj,q);
             end
-            for(int i=0; i<q.size(); ++i) begin
+             
               cb = q.get(i);
               cbq.push_back(cb.get_name());
               inst_q.push_back(bobj.get_full_name());
@@ -391,9 +391,8 @@ class uvm_typed_callbacks#(type T=uvm_object) extends uvm_callbacks_base;
               max_cb_name = max_cb_name > str.len() ? max_cb_name : str.len();
               str = bobj.get_full_name();
               max_inst_name = max_inst_name > str.len() ? max_inst_name : str.len();
-            end
-          end
-        end while (m_t_inst.m_pool.next(bobj));
+
+
       end
       else begin
         qs.push_back($sformatf("No callbacks registered for any instances of type %s\n", tname));

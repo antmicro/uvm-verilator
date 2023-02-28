@@ -138,20 +138,17 @@ class uvm_report_handler extends uvm_object;
 
     // id verbs
     if(id_verbosities.first(idx)) begin
+                string l_str;
       printer.print_array_header("id_verbosities",id_verbosities.num(),
         "uvm_pool");
-      do begin
         l_int = id_verbosities.get(idx);
         if ($cast(l_verbosity, l_int))
           printer.print_generic($sformatf("[%s]", idx), "uvm_verbosity", 32, 
             l_verbosity.name());
-        else begin
-          string l_str;
           l_str.itoa(l_int);
           printer.print_generic($sformatf("[%s]", idx), "int", 32, 
             l_str);
-        end
-      end while(id_verbosities.next(idx));
+      while(id_verbosities.next(idx));
       printer.print_array_footer();
     end
 
@@ -163,22 +160,22 @@ class uvm_report_handler extends uvm_object;
       printer.print_array_header("severity_id_verbosities", _total_cnt,
         "array");
       if(severity_id_verbosities.first(l_severity)) begin
-        do begin
+           string l_str;
           uvm_id_verbosities_array id_v_ary = severity_id_verbosities[l_severity];
           if(id_v_ary.first(idx))
-          do begin
+
             l_int = id_v_ary.get(idx);
             if ($cast(l_verbosity, l_int))
               printer.print_generic($sformatf("[%s:%s]", l_severity.name(), idx), 
 				    "uvm_verbosity", 32, l_verbosity.name());
-            else begin
-              string l_str;
+
+
               l_str.itoa(l_int);
               printer.print_generic($sformatf("[%s:%s]", l_severity.name(), idx), 
 				    "int", 32, l_str);
-            end
-          end while(id_v_ary.next(idx));
-        end while(severity_id_verbosities.next(l_severity));
+
+          while(id_v_ary.next(idx));
+        while(severity_id_verbosities.next(l_severity));
       end
       printer.print_array_footer();
     end
@@ -213,27 +210,25 @@ class uvm_report_handler extends uvm_object;
       printer.print_array_header("severity_id_actions", _total_cnt,
         "array");
       if(severity_id_actions.first(l_severity)) begin
-        do begin
           uvm_id_actions_array id_a_ary = severity_id_actions[l_severity];
           if(id_a_ary.first(idx))
           do begin
             printer.print_generic($sformatf("[%s:%s]", l_severity.name(), idx), 
 				  "uvm_action", 32, format_action(id_a_ary.get(idx)));
           end while(id_a_ary.next(idx));
-        end while(severity_id_actions.next(l_severity));
+        while(severity_id_actions.next(l_severity));
       end
       printer.print_array_footer();
     end
 
     // sev overrides
     if(sev_overrides.first(l_severity)) begin
+       uvm_severity l_severity_new = sev_overrides.get(l_severity);
       printer.print_array_header("sev_overrides",sev_overrides.num(),
         "uvm_pool");
-      do begin
-        uvm_severity l_severity_new = sev_overrides.get(l_severity);
         printer.print_generic($sformatf("[%s]", l_severity.name()),
           "uvm_severity", 32, l_severity_new.name());
-      end while(sev_overrides.next(l_severity));
+      while(sev_overrides.next(l_severity));
       printer.print_array_footer();
     end
 
@@ -245,15 +240,14 @@ class uvm_report_handler extends uvm_object;
       printer.print_array_header("sev_id_overrides", _total_cnt,
         "array");
       if(sev_id_overrides.first(idx)) begin
-        do begin
+
           uvm_sev_override_array sev_o_ary = sev_id_overrides[idx];
-          if(sev_o_ary.first(l_severity))
-          do begin
             uvm_severity new_sev = sev_o_ary.get(l_severity);
+          if(sev_o_ary.first(l_severity))
             printer.print_generic($sformatf("[%s:%s]", l_severity.name(), idx), 
               "uvm_severity", 32, new_sev.name());
-          end while(sev_o_ary.next(l_severity));
-        end while(sev_id_overrides.next(idx));
+          while(sev_o_ary.next(l_severity));
+        while(sev_id_overrides.next(idx));
       end
       printer.print_array_footer();
     end
@@ -291,14 +285,13 @@ class uvm_report_handler extends uvm_object;
       printer.print_array_header("severity_id_file_handles", _total_cnt,
         "array");
       if(severity_id_file_handles.first(l_severity)) begin
-        do begin
           uvm_id_file_array id_f_ary = severity_id_file_handles[l_severity];
           if(id_f_ary.first(idx))
           do begin
             printer.print_field($sformatf("[%s:%s]", l_severity.name(), idx),
               id_f_ary.get(idx), 32, UVM_HEX, ".", "UVM_FILE");
           end while(id_f_ary.next(idx));
-        end while(severity_id_file_handles.next(l_severity));
+        while(severity_id_file_handles.next(l_severity));
       end
       printer.print_array_footer();
     end

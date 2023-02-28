@@ -1721,7 +1721,7 @@ function void uvm_phase::get_adjacent_predecessor_nodes(ref uvm_phase pred[]);
 
    // Replace any terminal / schedule nodes with their predecessors,
    // recursively.
-   do begin
+
       done = 1;
       foreach (predecessors[p]) begin
          if (p.get_phase_type() != UVM_PHASE_NODE) begin
@@ -1731,7 +1731,7 @@ function void uvm_phase::get_adjacent_predecessor_nodes(ref uvm_phase pred[]);
             done = 0;
          end
       end
-   end while (!done); 
+   while (!done); 
 
    pred = new [predecessors.size()];
    foreach (predecessors[p]) begin
@@ -1750,7 +1750,7 @@ function void uvm_phase::get_adjacent_successor_nodes(ref uvm_phase succ[]);
 
    // Replace any terminal / schedule nodes with their successors,
    // recursively.
-   do begin
+
       done = 1;
       foreach (successors[s]) begin
          if (s.get_phase_type() != UVM_PHASE_NODE) begin
@@ -1760,7 +1760,7 @@ function void uvm_phase::get_adjacent_successor_nodes(ref uvm_phase succ[]);
             done = 0;
          end
       end
-   end while (!done); 
+   while (!done); 
 
    succ = new [successors.size()];
    foreach (successors[s]) begin
@@ -1783,7 +1783,6 @@ function void uvm_phase::get_predecessors_for_successors(output bit pred_of_succ
     
     // replace any terminal nodes with their predecessors, recursively.
     // we are only interested in "real" phase nodes
-    do begin
       done=1;
       foreach (pred_of_succ[pred]) begin
         if (pred.get_phase_type() != UVM_PHASE_NODE) begin
@@ -1793,7 +1792,7 @@ function void uvm_phase::get_predecessors_for_successors(output bit pred_of_succ
           done =0;
         end
       end
-    end while (!done);
+    while (!done);
 
 
     // remove ourselves from the list

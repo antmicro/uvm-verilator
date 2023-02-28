@@ -727,12 +727,12 @@ class uvm_resource_pool;
     if(rtab.last(name)) begin
     do begin
       rq = rtab[name];
-      for(int i = 0; i < rq.size(); ++i) begin
+       i =0;
+       
         r = rq.get(i);
         if(ri_tab.exists(r) && uvm_is_match(ri_tab[r].scope, scope)) begin
           q.push_back(r);
         end
-      end
     end while(rtab.prev(name));
     end
 
