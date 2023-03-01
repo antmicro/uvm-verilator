@@ -1524,7 +1524,7 @@ function string uvm_table_printer::emit();
       int qq[$];
 
       q = '{m_max_name,m_max_type,m_max_size,m_max_value,100};
-      qq = q.max;
+      qq = {};
       m = qq[0];
   	if(dash.len()<m) begin
   		dash = {m{"-"}};
