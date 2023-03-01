@@ -186,7 +186,7 @@ virtual class uvm_event_base extends uvm_object;
 		event e;
 		if (wakeup)
 			->m_event;
-		m_event = e;
+
 		num_waiters = 0;
 		on = 0;
 		trigger_time = 0;
@@ -234,7 +234,7 @@ virtual class uvm_event_base extends uvm_object;
 		super.do_copy(rhs);
 		if(!$cast(e, rhs) || (e==null)) return;
 
-		m_event = e.m_event;
+
 		num_waiters = e.num_waiters;
 		on = e.on;
 		trigger_time = e.trigger_time;
