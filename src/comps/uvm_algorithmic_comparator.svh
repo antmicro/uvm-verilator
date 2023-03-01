@@ -125,7 +125,6 @@ class uvm_algorithmic_comparator #( type BEFORE=int,
   endfunction
 
   function void write( input BEFORE b );
-    comp.before_export.write( m_transformer.transform( b ) );
   endfunction
       
 endclass

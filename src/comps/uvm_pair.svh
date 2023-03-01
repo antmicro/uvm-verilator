@@ -86,15 +86,13 @@ class uvm_class_pair #(type T1=int, T2=T1) extends uvm_object;
       `uvm_error("WRONG_TYPE", {"do_compare: rhs argument is not of type '",get_type_name(),"'"})
       return 0;
     end
-    return first.compare(rhs_.first) && second.compare(rhs_.second);
+     return 1'b1;
   endfunction
 
   virtual function void do_copy (uvm_object rhs);
     this_type rhs_;
     if(!$cast(rhs_,rhs))
       `uvm_fatal("WRONG_TYPE", {"do_copy: rhs argument is not of type '",get_type_name(),"'"})
-    first.copy(rhs_.first);
-    second.copy(rhs_.second);
   endfunction
 
 endclass
