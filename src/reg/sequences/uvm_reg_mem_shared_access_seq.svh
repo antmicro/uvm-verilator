@@ -146,7 +146,7 @@ class uvm_reg_shared_access_seq extends uvm_reg_sequence;
          v = ({$random, $random} & ~other_mask) | (prev & other_mask);
          
          `uvm_info("uvm_reg_shared_access_seq", $sformatf("Writing register %s via map \"%s\"...",
-                                    rg.get_full_name(), maps[j].get_full_name), UVM_LOW)
+                                    rg.get_full_name(), maps[j].get_full_name()), UVM_LOW)
          
          `uvm_info("uvm_reg_shared_access_seq", $sformatf("Writing 'h%h over 'h%h", v, prev),UVM_DEBUG)
          

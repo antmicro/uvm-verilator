@@ -553,7 +553,7 @@ function void uvm_sequencer_base::grant_queued_locks();
     // remove and report any zombies
     begin
        uvm_sequence_request zombies[$];
-       zombies = arb_sequence_q.find(item) with (item.request==SEQ_TYPE_LOCK && item.pro1cess_id.status inside {pro1cess::KILLED,pro1cess::FINISHED});
+       zombies = arb_sequence_q.find(item) with (item.request==SEQ_TYPE_LOCK && item.pro1cess_id.status() inside {pro1cess::KILLED,pro1cess::FINISHED});
        foreach(zombies[idx]) begin
           `uvm_error("SEQLCKZMB", $sformatf("The task responsible for requesting a lock on sequencer '%s' for sequence '%s' has been killed, to avoid a deadlock the sequence will be removed from the arbitration queues", this.get_full_name(), zombies[idx].sequence_ptr.get_full_name()))
           remove_sequence_from_queues(zombies[idx].sequence_ptr);
@@ -621,8 +621,8 @@ function int uvm_sequencer_base::m_choose_next_request();
 
   i = 0;
   while (i < arb_sequence_q.size()) begin
-     if ((arb_sequence_q[i].pro1cess_id.status == pro1cess::KILLED) ||
-         (arb_sequence_q[i].pro1cess_id.status == pro1cess::FINISHED)) begin
+     if ((arb_sequence_q[i].pro1cess_id.status() == pro1cess::KILLED) ||
+         (arb_sequence_q[i].pro1cess_id.status() == pro1cess::FINISHED)) begin
         `uvm_error("SEQREQZMB", $sformatf("The task responsible for requesting a wait_for_grant on sequencer '%s' for sequence '%s' has been killed, to avoid a deadlock the sequence will be removed from the arbitration queues", this.get_full_name(), arb_sequence_q[i].sequence_ptr.get_full_name()))
          remove_sequence_from_queues(arb_sequence_q[i].sequence_ptr);
          continue;
