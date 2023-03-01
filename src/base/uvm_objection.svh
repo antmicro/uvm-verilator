@@ -714,7 +714,7 @@ class uvm_objection extends uvm_report_object;
       all_dropped(obj,source_obj,description, count);
           
           // wait for all_dropped cbs to complete
-      wait fork;
+
 
       /* NOT NEEDED - Any raise would have killed us!
       if(!m_total_count.exists(obj))
