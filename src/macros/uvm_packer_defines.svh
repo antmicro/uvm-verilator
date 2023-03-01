@@ -88,7 +88,6 @@
 `define uvm_pack_intN(VAR,SIZE,PACKER=packer) \
   begin \
     bit __array[]; \
-    { << bit { __array}} = VAR; \
     __array = new [SIZE] (__array); \
     PACKER.pack_bits(__array, SIZE); \
   end
@@ -198,7 +197,6 @@
     bit __array[] = new [SIZE]; \
     PACKER.unpack_bits(__array, SIZE); \
     __array = new [$bits(VAR)] (__array); \
-    VAR = { << bit { __array }}; \
   end
 
 
@@ -209,7 +207,6 @@
     bit __array[] = new [SIZE]; \
     PACKER.unpack_bits(__array, SIZE); \
     __array = new [$bits(VAR)] (__array); \
-    VAR = TYPE'({ << bit { __array }}); \
   end
 
 
