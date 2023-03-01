@@ -117,7 +117,6 @@ class uvm_analysis_imp #(type T=int, type IMP=int)
 
   `UVM_IMP_COMMON(`UVM_TLM_ANALYSIS_MASK,"uvm_analysis_imp",IMP)
   function void write (input T t);
-    m_imp.write (t);
   endfunction
 endclass
 
