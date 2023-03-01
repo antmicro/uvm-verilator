@@ -147,7 +147,7 @@ class uvm_get_to_lock_dap#(type T=int) extends uvm_set_get_dap_base#(T);
       printer.print_generic("value", 
                             `uvm_typename(m_value), 
                             0, 
-                            $sformatf("%0p", m_value));
+                            "");
       
    endfunction : do_print
 

@@ -114,8 +114,7 @@ class uvm_set_before_get_dap#(type T=int) extends uvm_set_get_dap_base#(T);
    virtual  function T get();
       if (!m_set) begin
          `uvm_error("UVM/SET_BEFORE_GET_DAP/NO_SET",
-                    $sformatf("Attempt to get value on '%s', but the data access policy forbits calling 'get' prior to calling 'set' or 'try_set'!",
-                              get_full_name()))
+                    "")
       end
       return m_value;
    endfunction : get
@@ -165,9 +164,9 @@ class uvm_set_before_get_dap#(type T=int) extends uvm_set_get_dap_base#(T);
    // Function- convert2string
    virtual function string convert2string();
       if (m_set)
-        return $sformatf("(%s) %0p [SET]", `uvm_typename(m_value), m_value);
+        return "";
       else
-        return $sformatf("(%s) %0p [UNSET]", `uvm_typename(m_value), m_value);
+        return "";
    endfunction : convert2string
    
    // Function- do_print
@@ -177,7 +176,7 @@ class uvm_set_before_get_dap#(type T=int) extends uvm_set_get_dap_base#(T);
       printer.print_generic("value", 
                             `uvm_typename(m_value), 
                             0, 
-                            $sformatf("%0p", m_value));
+                            "");
       
    endfunction : do_print
 
