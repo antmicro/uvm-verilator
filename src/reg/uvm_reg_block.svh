@@ -1036,7 +1036,7 @@ function void uvm_reg_block::add_block (uvm_reg_block blk);
    end
    if (this.blks.exists(blk)) begin
       `uvm_error("RegModel", {"Subblock '",blk.get_name(),
-         "' has already been registered with block '",get_name(),"'"})
+         "' has already been registered with block '","","'"})
        return;
    end
    blks[blk] = id++;
@@ -1059,7 +1059,7 @@ function void uvm_reg_block::add_reg(uvm_reg rg);
 
    if (this.regs.exists(rg)) begin
       `uvm_error("RegModel", {"Register '",rg.get_name(),
-         "' has already been registered with block '",get_name(),"'"})
+         "' has already been registered with block '","","'"})
        return;
    end
 
@@ -1077,7 +1077,7 @@ function void uvm_reg_block::add_vreg(uvm_vreg vreg);
 
    if (this.vregs.exists(vreg)) begin
       `uvm_error("RegModel", {"Virtual register '",vreg.get_name(),
-         "' has already been registered with block '",get_name(),"'"})
+         "' has already been registered with block '","","'"})
        return;
    end
    vregs[vreg] = id++;
@@ -1094,7 +1094,7 @@ function void uvm_reg_block::add_mem(uvm_mem mem);
 
    if (this.mems.exists(mem)) begin
       `uvm_error("RegModel", {"Memory '",mem.get_name(),
-         "' has already been registered with block '",get_name(),"'"})
+         "' has already been registered with block '","","'"})
        return;
    end
    mems[mem] = id++;

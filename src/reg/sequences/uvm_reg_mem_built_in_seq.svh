@@ -68,7 +68,7 @@ class uvm_reg_mem_built_in_seq extends uvm_reg_sequence;
          return;
       end
 
-      uvm_report_info("START_SEQ",{"\n\nStarting ",get_name()," sequence...\n"},UVM_LOW);
+      uvm_report_info("START_SEQ",{"\n\nStarting ",""," sequence...\n"},UVM_LOW);
       
       if (tests & UVM_DO_REG_HW_RESET &&
           uvm_resource_db#()::get_by_name({"REG::",model.get_full_name()},

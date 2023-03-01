@@ -239,7 +239,7 @@ class uvm_reg_bit_bash_seq extends uvm_reg_sequence;
          return;
       end
 
-      uvm_report_info("STARTING_SEQ",{"\n\nStarting ",get_name()," sequence...\n"},UVM_LOW);
+      uvm_report_info("STARTING_SEQ",{"\n\nStarting ",""," sequence...\n"},UVM_LOW);
 
 `ifdef VERILATOR
       reg_seq = uvm_reg_single_bit_bash_seq::type_id_create("reg_single_bit_bash_seq");
