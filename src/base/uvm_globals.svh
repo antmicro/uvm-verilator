@@ -200,10 +200,6 @@ function void uvm_report_fatal(string id,
                                bit report_enabled_checked = 0);
   uvm_root top;
   uvm_coreservice_t cs;
-  cs = uvm_coreservice_t::get();
-  top = cs.get_root();
-  top.uvm_report_fatal(id, message, verbosity, filename, line, context_name,
-    report_enabled_checked);
 endfunction
 
 
