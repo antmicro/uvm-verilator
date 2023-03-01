@@ -229,7 +229,7 @@ class uvm_reg_access_seq extends uvm_reg_sequence;
          return;
       end
 
-      uvm_report_info("STARTING_SEQ",{"\n\nStarting ",get_name()," sequence...\n"},UVM_LOW);
+      uvm_report_info("STARTING_SEQ",{"\n\nStarting ",""," sequence...\n"},UVM_LOW);
       
 `ifdef VERILATOR
       reg_seq = uvm_reg_single_access_seq::type_id_create("single_reg_access_seq");
@@ -340,7 +340,7 @@ class uvm_reg_mem_access_seq extends uvm_reg_sequence;
       end
 
       uvm_report_info("STARTING_SEQ",
-            {"\n\nStarting ",get_name()," sequence...\n"},UVM_LOW);
+            {"\n\nStarting ",""," sequence...\n"},UVM_LOW);
       
       if (uvm_resource_db#()::get_by_name({"REG::",model.get_full_name()},
                                              "NO_REG_TESTS", 0) == null) begin

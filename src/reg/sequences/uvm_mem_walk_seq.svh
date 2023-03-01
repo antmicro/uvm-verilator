@@ -232,7 +232,7 @@ class uvm_mem_walk_seq extends uvm_reg_sequence;
          return;
       end
 
-      uvm_report_info("STARTING_SEQ",{"\n\nStarting ",get_name()," sequence...\n"},UVM_LOW);
+      uvm_report_info("STARTING_SEQ",{"\n\nStarting ",""," sequence...\n"},UVM_LOW);
 
 `ifdef VERILATOR
       mem_seq = uvm_mem_single_walk_seq::type_id_create("single_mem_walk_seq");
