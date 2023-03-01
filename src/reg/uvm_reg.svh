@@ -851,11 +851,6 @@ endfunction
 function void uvm_reg::get_hdl_path_kinds (ref string kinds[$]);
   string kind;
   kinds.delete();
-  if (!m_hdl_paths_pool.first(kind))
-    return;
-  do
-    kinds.push_back(kind);
-  while (m_hdl_paths_pool.next(kind));
 endfunction
 
 
