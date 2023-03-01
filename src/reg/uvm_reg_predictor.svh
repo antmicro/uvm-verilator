@@ -140,7 +140,7 @@ class uvm_reg_predictor #(type BUSTYPE=int) extends uvm_component;
  `else
        t = BUSTYPE::type_id::create("t");
  `endif
-      m_type_name = {"uvm_reg_predictor #(", t.get_type_name(), ")"};
+      m_type_name = {"uvm_reg_predictor #(", "", ")"};
     end
     return m_type_name;
   endfunction // type_name
