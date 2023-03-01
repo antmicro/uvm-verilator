@@ -1614,7 +1614,7 @@ function uvm_object_wrapper uvm_default_factory::find_override_by_name (string r
         m_override_info = {m_override_info,matched_overrides};
       end
       else begin
-        m_override_info.push_back(matched_overrides[$]);
+         m_override_info.push_back(null);
       end
     end
   end
@@ -1726,7 +1726,7 @@ function uvm_object_wrapper uvm_default_factory::find_override_by_type(uvm_objec
         m_override_info = {m_override_info,matched_overrides};
       end
       else begin
-        m_override_info.push_back(matched_overrides[$]);
+         m_override_info.push_back(null);
       end
     end
   end

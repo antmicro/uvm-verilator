@@ -1135,7 +1135,7 @@ function uvm_printer_element uvm_printer::get_bottom_element ();
 endfunction
 
 function uvm_printer_element uvm_printer::get_top_element ();
-   if (m_element_stack.size() > 0) return m_element_stack[$] ;
+   if (m_element_stack.size() > 0) return null;
    else return null ;
 endfunction
 
