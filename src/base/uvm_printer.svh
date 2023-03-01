@@ -1527,8 +1527,8 @@ function string uvm_table_printer::emit();
       qq = {};
       m = qq[0];
   	if(dash.len()<m) begin
-  		dash = {m{"-"}};
-  		m_space = {m{" "}};
+
+
   	end
   end
 
