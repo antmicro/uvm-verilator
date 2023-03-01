@@ -814,7 +814,7 @@ task uvm_sequencer_base::m_wait_for_available_sequence();
           join_any
         end
       join_any
-      disable fork;
+
     end
   join
 endtask
