@@ -446,7 +446,6 @@ class uvm_reg_mem_shared_access_seq extends uvm_reg_sequence;
                                                 "NO_REG_SHARED_ACCESS_TEST", 0) != null )
            continue;
          reg_seq.rg = regs[i];
-         reg_seq.start(this.get_sequencer(), this);
       end
 
       // Iterate over all memories, checking accesses
@@ -463,7 +462,7 @@ class uvm_reg_mem_shared_access_seq extends uvm_reg_sequence;
                                                 "NO_MEM_SHARED_ACCESS_TEST", 0) != null )
             continue;
          mem_seq.mem = mems[i];
-         mem_seq.start(this.get_sequencer(), this);
+
       end
 
       begin
