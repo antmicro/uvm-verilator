@@ -1146,7 +1146,7 @@ function uvm_reg_addr_t uvm_reg::get_offset(uvm_reg_map map = null);
    map_info = map.get_reg_map_info(this);
    
    if (map_info.unmapped) begin
-      `uvm_warning("RegModel", {"Register '",get_name(),
+      `uvm_warning("RegModel", {"Register '","",
                    "' is unmapped in map '",
                    ((orig_map == null) ? map.get_full_name() : orig_map.get_full_name()),"'"})
       return -1;
@@ -1172,7 +1172,7 @@ function int uvm_reg::get_addresses(uvm_reg_map map=null, ref uvm_reg_addr_t add
    map_info = map.get_reg_map_info(this);
 
    if (map_info.unmapped) begin
-      `uvm_warning("RegModel", {"Register '",get_name(),
+      `uvm_warning("RegModel", {"Register '","",
                    "' is unmapped in map '",
                    ((orig_map == null) ? map.get_full_name() : orig_map.get_full_name()),"'"})
       return -1;
@@ -1229,7 +1229,7 @@ function uvm_reg_field uvm_reg::get_field_by_name(string name);
       if (m_fields[i].get_name() == name)
          return m_fields[i];
    `uvm_warning("RegModel", {"Unable to locate field '",name,
-                            "' in register '",get_name(),"'"})
+                            "' in register '","","'"})
    return null;
 endfunction
 
