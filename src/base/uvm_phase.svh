@@ -530,9 +530,9 @@ class uvm_phase extends uvm_object;
 
 
   function string convert2string();
-  //return $sformatf("PHASE %s = %p",get_name(),this);
+  //return $sformatf("PHASE %s = %p","",this);
   string s;
-    s = $sformatf("phase: %s parent=%s  pred=%s  succ=%s",get_name(),
+    s = $sformatf("phase: %s parent=%s  pred=%s  succ=%s","",
                      (m_parent==null) ? "null" : get_schedule_name(),
                      m_aa2string(m_predecessors),
                      m_aa2string(m_successors));
@@ -767,7 +767,7 @@ function void uvm_phase::add(uvm_phase phase,
     with_phase = find(with_phase);
     if (with_phase == null)
       `uvm_fatal("PH_BAD_ADD",
-         {"cannot find with_phase '",nm,"' within node '",get_name(),"'"})
+         {"cannot find with_phase '",nm,"' within node '","","'"})
   end
 
   if (before_phase != null && before_phase.get_phase_type() == UVM_PHASE_IMP) begin
@@ -775,7 +775,7 @@ function void uvm_phase::add(uvm_phase phase,
     before_phase = find(before_phase);
     if (before_phase == null)
       `uvm_fatal("PH_BAD_ADD",
-         {"cannot find before_phase '",nm,"' within node '",get_name(),"'"})
+         {"cannot find before_phase '",nm,"' within node '","","'"})
   end
 
   if (after_phase != null && after_phase.get_phase_type() == UVM_PHASE_IMP) begin
@@ -783,7 +783,7 @@ function void uvm_phase::add(uvm_phase phase,
     after_phase = find(after_phase);
     if (after_phase == null)
       `uvm_fatal("PH_BAD_ADD",
-         {"cannot find after_phase '",nm,"' within node '",get_name(),"'"})
+         {"cannot find after_phase '",nm,"' within node '","","'"})
   end
 
   if (start_with_phase != null && start_with_phase.get_phase_type() == UVM_PHASE_IMP) begin
@@ -791,7 +791,7 @@ function void uvm_phase::add(uvm_phase phase,
     start_with_phase = find(start_with_phase);
     if (start_with_phase == null)
       `uvm_fatal("PH_BAD_ADD",
-         {"cannot find start_with_phase '",nm,"' within node '",get_name(),"'"})
+         {"cannot find start_with_phase '",nm,"' within node '","","'"})
   end
 
   if (end_with_phase != null && end_with_phase.get_phase_type() == UVM_PHASE_IMP) begin
@@ -799,7 +799,7 @@ function void uvm_phase::add(uvm_phase phase,
      end_with_phase = find(end_with_phase);
      if (end_with_phase == null)
       `uvm_fatal("PH_BAD_ADD",
-         {"cannot find end_with_phase '",nm,"' within node '",get_name(),"'"})
+         {"cannot find end_with_phase '",nm,"' within node '","","'"})
   end
 
   if (((with_phase != null) + (after_phase != null) + (start_with_phase != null)) > 1)
@@ -1160,7 +1160,7 @@ function void uvm_phase::m_print_successors();
   static int level;
   if (m_phase_type == UVM_PHASE_DOMAIN)
     level = 0;
-  `uvm_info("UVM/PHASE/SUCC",$sformatf("%s%s (%s) id=%0d",spaces.substr(0,level*2),get_name(), m_phase_type.name(),get_inst_id()),UVM_NONE)
+  `uvm_info("UVM/PHASE/SUCC",$sformatf("%s%s (%s) id=%0d",spaces.substr(0,level*2),"", m_phase_type.name(),get_inst_id()),UVM_NONE)
   level++;
   foreach (m_successors[succ]) begin
     succ.m_print_successors();
@@ -1174,7 +1174,7 @@ endfunction
 
 function uvm_phase uvm_phase::m_find_predecessor(uvm_phase phase, bit stay_in_scope=1, uvm_phase orig_phase=null);
   uvm_phase found;
-  //$display("  FIND PRED node '",phase.get_name(),"' (id=",$sformatf("%0d",phase.get_inst_id()),") - checking against ",get_name()," (",m_phase_type.name()," id=",$sformatf("%0d",get_inst_id()),(m_imp==null)?"":{"/",$sformatf("%0d",m_imp.get_inst_id())},")");
+  //$display("  FIND PRED node '",phase.get_name(),"' (id=",$sformatf("%0d",phase.get_inst_id()),") - checking against ",""," (",m_phase_type.name()," id=",$sformatf("%0d",get_inst_id()),(m_imp==null)?"":{"/",$sformatf("%0d",m_imp.get_inst_id())},")");
   if (phase == null) begin
     return null ;
   end
@@ -1200,7 +1200,7 @@ endfunction
 
 function uvm_phase uvm_phase::m_find_predecessor_by_name(string name, bit stay_in_scope=1, uvm_phase orig_phase=null);
   uvm_phase found;
-  //$display("  FIND PRED node '",name,"' - checking against ",get_name()," (",m_phase_type.name()," id=",$sformatf("%0d",get_inst_id()),(m_imp==null)?"":{"/",$sformatf("%0d",m_imp.get_inst_id())},")");
+  //$display("  FIND PRED node '",name,"' - checking against ",""," (",m_phase_type.name()," id=",$sformatf("%0d",get_inst_id()),(m_imp==null)?"":{"/",$sformatf("%0d",m_imp.get_inst_id())},")");
   if (get_name() == name)
     return this;
   foreach (m_predecessors[pred]) begin
@@ -1223,7 +1223,7 @@ endfunction
 
 function uvm_phase uvm_phase::m_find_successor(uvm_phase phase, bit stay_in_scope=1, uvm_phase orig_phase=null);
   uvm_phase found;
-  //$display("  FIND SUCC node '",phase.get_name(),"' (id=",$sformatf("%0d",phase.get_inst_id()),") - checking against ",get_name()," (",m_phase_type.name()," id=",$sformatf("%0d",get_inst_id()),(m_imp==null)?"":{"/",$sformatf("%0d",m_imp.get_inst_id())},")");
+  //$display("  FIND SUCC node '",phase.get_name(),"' (id=",$sformatf("%0d",phase.get_inst_id()),") - checking against ",""," (",m_phase_type.name()," id=",$sformatf("%0d",get_inst_id()),(m_imp==null)?"":{"/",$sformatf("%0d",m_imp.get_inst_id())},")");
   if (phase == null) begin
     return null ;
   end
@@ -1251,7 +1251,7 @@ endfunction
 
 function uvm_phase uvm_phase::m_find_successor_by_name(string name, bit stay_in_scope=1, uvm_phase orig_phase=null);
   uvm_phase found;
-  //$display("  FIND SUCC node '",name,"' - checking against ",get_name()," (",m_phase_type.name()," id=",$sformatf("%0d",get_inst_id()),(m_imp==null)?"":{"/",$sformatf("%0d",m_imp.get_inst_id())},")");
+  //$display("  FIND SUCC node '",name,"' - checking against ",""," (",m_phase_type.name()," id=",$sformatf("%0d",get_inst_id()),(m_imp==null)?"":{"/",$sformatf("%0d",m_imp.get_inst_id())},")");
   if (get_name() == name)
     return this;
   foreach (m_successors[succ]) begin
@@ -1274,7 +1274,7 @@ endfunction
 
 function uvm_phase uvm_phase::find(uvm_phase phase, bit stay_in_scope=1);
   // TBD full search
-  //$display({"\nFIND node '",phase.get_name(),"' within ",get_name()," (scope ",m_phase_type.name(),")", (stay_in_scope) ? " staying within scope" : ""});
+  //$display({"\nFIND node '",phase.get_name(),"' within ",""," (scope ",m_phase_type.name(),")", (stay_in_scope) ? " staying within scope" : ""});
   if (phase == m_imp || phase == this)
     return phase;
   find = m_find_predecessor(phase,stay_in_scope,this);
@@ -1288,7 +1288,7 @@ endfunction
 
 function uvm_phase uvm_phase::find_by_name(string name, bit stay_in_scope=1);
   // TBD full search
-  //$display({"\nFIND node named '",name,"' within ",get_name()," (scope ",m_phase_type.name(),")", (stay_in_scope) ? " staying within scope" : ""});
+  //$display({"\nFIND node named '",name,"' within ",""," (scope ",m_phase_type.name(),")", (stay_in_scope) ? " staying within scope" : ""});
   if (get_name() == name)
     return this;
   find_by_name = m_find_predecessor_by_name(name,stay_in_scope,this);
@@ -1309,7 +1309,7 @@ endfunction
 // ---------
 
 function bit uvm_phase::is_before(uvm_phase phase);
-  //$display("this=%s is before phase=%s?",get_name(),phase.get_name());
+  //$display("this=%s is before phase=%s?","",phase.get_name());
   // TODO: add support for 'stay_in_scope=1' functionality
   return (!is(phase) && m_find_successor(phase,0,this) != null);
 endfunction
@@ -1319,7 +1319,7 @@ endfunction
 // --------
   
 function bit uvm_phase::is_after(uvm_phase phase);
-  //$display("this=%s is after phase=%s?",get_name(),phase.get_name());
+  //$display("this=%s is after phase=%s?","",phase.get_name());
   // TODO: add support for 'stay_in_scope=1' functionality
   return (!is(phase) && m_find_predecessor(phase,0,this) != null);
 endfunction

@@ -81,7 +81,7 @@ class uvm_reg_hw_reset_seq extends uvm_reg_sequence;
          `uvm_error("uvm_reg_hw_reset_seq", "Not block or system specified to run sequence on")
          return;
       end
-      `uvm_info("STARTING_SEQ",{"\n\nStarting ",get_name()," sequence...\n"},UVM_LOW)
+      `uvm_info("STARTING_SEQ",{"\n\nStarting ",""," sequence...\n"},UVM_LOW)
       
       this.reset_blk(model);
       model.reset();
