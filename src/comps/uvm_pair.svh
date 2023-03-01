@@ -77,8 +77,6 @@ class uvm_class_pair #(type T1=int, T2=T1) extends uvm_object;
   
   virtual function string convert2string;
     string s;
-    $sformat(s, "pair : %s, %s",
-             first.convert2string(), second.convert2string());
     return s;    
   endfunction
 
