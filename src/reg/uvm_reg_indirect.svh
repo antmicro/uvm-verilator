@@ -292,7 +292,7 @@ class uvm_reg_indirect_ftdr_seq extends uvm_reg_frontdoor;
       $cast(rw,rw_info.clone());
       rw.element = m_addr_reg;
       rw.kind    = UVM_WRITE;
-      rw.value[0]= m_idx;
+
 
       m_addr_reg.XatomicX(1);
       m_data_reg.XatomicX(1);
@@ -309,7 +309,7 @@ class uvm_reg_indirect_ftdr_seq extends uvm_reg_frontdoor;
         m_data_reg.do_write(rw);
       else begin
         m_data_reg.do_read(rw);
-        rw_info.value[0] = rw.value[0];
+
       end
 
       m_addr_reg.XatomicX(0);
