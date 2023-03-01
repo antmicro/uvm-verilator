@@ -567,7 +567,7 @@ function string uvm_reg_field::get_access(uvm_reg_map map = null);
        begin
          field_access = "NOACCESS";
          `uvm_warning("RegModel", {"Register '",m_parent.get_full_name(),
-                      "' containing field '",get_name(),"' is mapped in map '",
+                      "' containing field '","","' is mapped in map '",
                       map.get_full_name(),"' with unknown access right '", m_parent.get_rights(map), "'"})
        end
    endcase

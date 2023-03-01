@@ -399,7 +399,7 @@ class uvm_reg_mem_shared_access_seq extends uvm_reg_sequence;
          return;
       end
       
-      uvm_report_info("STARTING_SEQ",{"\n\nStarting ",get_name()," sequence...\n"},UVM_LOW);
+      uvm_report_info("STARTING_SEQ",{"\n\nStarting ",""," sequence...\n"},UVM_LOW);
 
 `ifdef VERILATOR
       reg_seq = uvm_reg_shared_access_seq::type_id_create("reg_shared_access_seq");

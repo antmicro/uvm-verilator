@@ -813,7 +813,7 @@ function uvm_reg_addr_t uvm_mem::get_offset(uvm_reg_addr_t offset = 0,
    map_info = map.get_mem_map_info(this);
    
    if (map_info.unmapped) begin
-      `uvm_warning("RegModel", {"Memory '",get_name(),
+      `uvm_warning("RegModel", {"Memory '","",
                    "' is unmapped in map '",
                    ((orig_map == null) ? map.get_full_name() : orig_map.get_full_name()),"'"})
       return -1;
@@ -909,7 +909,7 @@ function int uvm_mem::get_addresses(uvm_reg_addr_t offset = 0,
    map_info = map.get_mem_map_info(this);
 
    if (map_info.unmapped) begin
-      `uvm_warning("RegModel", {"Memory '",get_name(),
+      `uvm_warning("RegModel", {"Memory '","",
                    "' is unmapped in map '",
                    ((orig_map == null) ? map.get_full_name() : orig_map.get_full_name()),"'"})
       return 0;
