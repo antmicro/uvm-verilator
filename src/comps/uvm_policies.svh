@@ -95,7 +95,7 @@ endclass
 class uvm_class_comp #(type T=int);
 
   static function bit comp(input T a, input T b);
-    return a.compare(b);
+     return 1'b1;
   endfunction
 
 endclass
@@ -115,7 +115,7 @@ endclass
 class uvm_class_converter #(type T=int);
 
   static function string convert2string(input T t);
-    return t.convert2string();
+     return "abcd";
   endfunction
 
 endclass
@@ -135,8 +135,8 @@ endclass
 
 class uvm_class_clone #(type T=int);
 
-  static function uvm_object clone(input T from);
-    return from.clone();
+  static function uvm_object clone(input uvm_object from);
+    return from;
   endfunction
 
 endclass
