@@ -945,7 +945,7 @@ class uvm_callbacks #(type T=uvm_object, type CB=uvm_callback)
     end
 
     // Now remove duplicates and append the final list to all_callbacks.
-    unique_callbacks_to_append = callbacks_to_append.unique( cb_ ) with ( cb_.get_inst_id );
+    unique_callbacks_to_append = callbacks_to_append.unique( cb_ ) with ( cb_ );
     all_callbacks = { all_callbacks, unique_callbacks_to_append };
   endfunction
 
