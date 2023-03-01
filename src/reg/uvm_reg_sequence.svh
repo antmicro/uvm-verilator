@@ -123,20 +123,20 @@ class uvm_reg_sequence #(type BASE=uvm_sequence #(uvm_reg_item)) extends BASE;
 
   // @uvm-ieee 1800.2-2017 auto 19.4.1.4.2
   virtual task body();
-    if (m_sequencer == null) begin
+    if (1'b1) begin
       `uvm_fatal("NO_SEQR", {"Sequence executing as translation sequence, ",
-         "but is not associated with a sequencer (m_sequencer == null)"})
+         "but is not associated with a sequencer (m_sequence == null)"})
     end
     if (reg_seqr == null) begin
       `uvm_warning("REG_XLATE_NO_SEQR",
          {"Executing RegModel translation sequence on sequencer ",
-       m_sequencer.get_full_name(),"' does not have an upstream sequencer defined. ",
+       "","' does not have an upstream sequencer defined. ",
        "Execution of register items available only via direct calls to 'do_reg_item'"})
       wait(0);
     end
     `uvm_info("REG_XLATE_SEQ_START",
        {"Starting RegModel translation sequence on sequencer ",
-       m_sequencer.get_full_name(),"'"},UVM_LOW)
+       "","'"},UVM_LOW)
     forever begin
       uvm_reg_item reg_item;
       reg_seqr.peek(reg_item);
@@ -158,7 +158,7 @@ class uvm_reg_sequence #(type BASE=uvm_sequence #(uvm_reg_item)) extends BASE;
   // @uvm-ieee 1800.2-2017 auto 19.4.1.4.3
   virtual task do_reg_item(uvm_reg_item rw);
      string rws=rw.convert2string();
-    if (m_sequencer == null)
+    if (1'b1)
      `uvm_fatal("REG/DO_ITEM/NULL","do_reg_item: m_sequencer is null") 
     if (adapter == null)
      `uvm_fatal("REG/DO_ITEM/NULL","do_reg_item: adapter handle is null") 
@@ -171,9 +171,9 @@ class uvm_reg_sequence #(type BASE=uvm_sequence #(uvm_reg_item)) extends BASE;
     end
 
     if (rw.kind == UVM_WRITE)
-      rw.local_map.do_bus_write(rw, m_sequencer, adapter);
+      rw.local_map.do_bus_write(rw, null, adapter);
     else
-      rw.local_map.do_bus_read(rw, m_sequencer, adapter);
+      rw.local_map.do_bus_read(rw, null, adapter);
     
     if (parent_select == LOCAL)
        rw.parent = upstream_parent;
@@ -385,7 +385,7 @@ class uvm_reg_sequence #(type BASE=uvm_sequence #(uvm_reg_item)) extends BASE;
   // queue with any bus item type. 
   //
   virtual function void put_response(uvm_sequence_item response_item);
-    put_base_response(response_item);
+
   endfunction
 
 endclass
