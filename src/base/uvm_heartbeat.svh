@@ -294,7 +294,7 @@ class uvm_heartbeat extends uvm_object;
       end
       @(m_stop_event);
     join_any
-    disable fork;
+
   endtask
 endclass
 
