@@ -65,12 +65,12 @@ class uvm_class_pair #(type T1=int, T2=T1) extends uvm_object;
     super.new(name);
 
     if (f == null)
-      first = new;
+      ;
     else
       first = f;
 
     if (s == null)
-      second = new;
+      ;
     else
       second = s;
 
