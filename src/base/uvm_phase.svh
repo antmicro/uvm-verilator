@@ -1560,7 +1560,7 @@ task uvm_phase::execute_phase();
 
   
            join_any
-           disable fork;
+
         
           end
   
