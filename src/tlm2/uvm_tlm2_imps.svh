@@ -60,13 +60,14 @@
    
 `define UVM_TLM_NB_TRANSPORT_FW_IMP(imp, T, P, t, p, delay)              \
   function uvm_tlm_sync_e nb_transport_fw(T t, ref P p, input uvm_tlm_time delay);  \
+     uvm_tlm_sync_e a; \
     if (delay == null) begin \
        `uvm_error("UVM/TLM/NULLDELAY", \
                   {get_full_name(), \
                    ".nb_transport_fw() called with 'null' delay"}) \
        return UVM_TLM_COMPLETED; \
-    end \
-    return imp.nb_transport_fw(t, p, delay);                          \
+         end \
+    return a;                          \
   endfunction
 
 
@@ -112,13 +113,14 @@
 
 `define UVM_TLM_NB_TRANSPORT_BW_IMP(imp, T, P, t, p, delay) \
   function uvm_tlm_sync_e nb_transport_bw(T t, ref P p, input uvm_tlm_time delay);  \
+     uvm_tlm_sync_e a; \
     if (delay == null) begin \
        `uvm_error("UVM/TLM/NULLDELAY", \
                   {get_full_name(), \
                    ".nb_transport_bw() called with 'null' delay"}) \
        return UVM_TLM_COMPLETED; \
     end \
-    return imp.nb_transport_bw(t, p, delay); \
+     return a; \
   endfunction
 
 
@@ -149,7 +151,6 @@
                    ".b_transport() called with 'null' delay"}) \
        return; \
     end \
-    imp.b_transport(t, delay);                                        \
   endtask
 
 

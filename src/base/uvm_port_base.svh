@@ -132,7 +132,6 @@ class uvm_port_component #(type PORT=uvm_object) extends uvm_port_component_base
   endfunction
     
   virtual function void resolve_bindings();
-    m_port.resolve_bindings();
   endfunction
   
   // Function -- NODOCS -- get_port
@@ -151,23 +150,21 @@ class uvm_port_component #(type PORT=uvm_object) extends uvm_port_component_base
 
   virtual function void get_connected_to(ref uvm_port_list list);
     PORT list1[string];
-    m_port.get_connected_to(list1);
     list.delete();
     foreach(list1[name]) begin
-      list[name] = list1[name].get_comp();
     end
   endfunction
 
   function bit is_port ();
-    return m_port.is_port();
+     return 1'b1;
   endfunction
 
   function bit is_export ();
-    return m_port.is_export();
+     return 1'b1;
   endfunction
 
   function bit is_imp ();
-    return m_port.is_imp();
+     return 1'b1;
   endfunction
 
 endclass
