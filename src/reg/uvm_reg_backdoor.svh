@@ -63,7 +63,8 @@ virtual class uvm_reg_backdoor extends uvm_object;
    protected task do_post_read(uvm_reg_item rw);
       uvm_callback_iter#(uvm_reg_backdoor, uvm_reg_cbs) iter = new(this);
       for(uvm_reg_cbs cb = iter.last(); cb != null; cb=iter.prev())
-         cb.decode(rw.value);
+        ;
+      
       `uvm_do_obj_callbacks(uvm_reg_backdoor,uvm_reg_cbs,this,post_read(rw))
       post_read(rw);
    endtask
@@ -76,7 +77,8 @@ virtual class uvm_reg_backdoor extends uvm_object;
       pre_write(rw);
       `uvm_do_obj_callbacks(uvm_reg_backdoor,uvm_reg_cbs,this,pre_write(rw))
       for(uvm_reg_cbs cb = iter.first(); cb != null; cb = iter.next())
-         cb.encode(rw.value);
+        ;
+      
    endtask
 
 
