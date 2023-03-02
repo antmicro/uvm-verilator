@@ -478,8 +478,6 @@ endfunction
 // ---------------------
 
 function void uvm_sequence_library::init_sequence_library();
-  foreach (this_type::m_typewide_sequences[i])
-    sequences.push_back(this_type::m_typewide_sequences[i]);
 endfunction
 
 
