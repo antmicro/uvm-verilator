@@ -148,13 +148,13 @@ class uvm_callbacks_base extends uvm_object;
       if(m_b_inst != m_this_type[i] && m_this_type[i].m_is_registered(obj,cb))
         return 1;
 
-    if(obj == null) begin
+
       foreach(m_derived_types[i]) begin
         dt = uvm_typeid_base::typeid_map[m_derived_types[i] ];
         if(dt != null && dt.check_registration(null,cb))
           return 1;
       end
-    end
+
 
     return 0;
   endfunction

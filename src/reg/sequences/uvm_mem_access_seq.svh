@@ -251,6 +251,7 @@ class uvm_mem_access_seq extends uvm_reg_sequence;
    //
    protected virtual task do_block(uvm_reg_block blk);
       uvm_mem mems[$];
+      uvm_reg_block blks[$];
       
       if (uvm_resource_db::get_by_name({"REG::",blk.get_full_name()},
                                              "NO_REG_TESTS", 0) != null ||
@@ -284,14 +285,14 @@ class uvm_mem_access_seq extends uvm_reg_sequence;
          mem_seq.start(null, this);
       end
 
-      begin
-         uvm_reg_block blks[$];
+
+
          
          blk.get_blocks(blks);
-         foreach (blks[i]) begin
-            do_block(blks[i]);
-         end
-      end
+
+            do_block(blks[0]);
+
+
    endtask: do_block
 
 
