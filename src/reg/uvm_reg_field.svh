@@ -450,8 +450,7 @@ function void uvm_reg_field::configure(uvm_reg        parent,
       "WOC", "WOS": is_rand = 0;
    endcase
 
-   if (!is_rand)
-     value.rand_mode(0);
+   if (!is_rand);
 
 endfunction: configure
 

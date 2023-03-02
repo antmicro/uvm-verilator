@@ -611,7 +611,7 @@ class uvm_registry_common #( type Tregistry=int, type Tcreator=int, type Tcreate
      // If the core is initialized, then we're static racing,
      // initialize immediately
      else begin
-	     rgtry.initialize();
+
      end
      return 1;
   endfunction
