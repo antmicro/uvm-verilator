@@ -158,7 +158,7 @@ class uvm_sequence_library #(type REQ=uvm_sequence_item,RSP=REQ) extends uvm_seq
    // library is started. If in <UVM_SEQ_LIB_ITEM> mode, specifies the
    // number of sequence items that will be generated.
    //
-   rand  int unsigned sequence_count = 10;
+    int unsigned sequence_count = 10;
 
 
    // Variable -- NODOCS -- select_rand
@@ -168,7 +168,7 @@ class uvm_sequence_library #(type REQ=uvm_sequence_item,RSP=REQ) extends uvm_seq
    //
    // Extensions may place additional constraints on this variable.
    //
-   rand  int unsigned select_rand;
+    int unsigned select_rand;
 
 
    // Variable -- NODOCS -- select_randc
