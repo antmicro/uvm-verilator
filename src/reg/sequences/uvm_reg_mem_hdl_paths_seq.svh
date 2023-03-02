@@ -139,7 +139,7 @@ class uvm_reg_mem_hdl_paths_seq extends uvm_reg_sequence;
                     `uvm_error("uvm_reg_mem_hdl_paths_seq",
                                $sformatf("HDL path \"%s\" for register \"%s\" is not readable",
                                          p_, r.get_full_name()))
-                if (!uvm_hdl_check_path(p_))
+
                     `uvm_error("uvm_reg_mem_hdl_paths_seq",
                                $sformatf("HDL path \"%s\" for register \"%s\" is not accessible",
                                          p_, r.get_full_name()))
@@ -164,7 +164,7 @@ class uvm_reg_mem_hdl_paths_seq extends uvm_reg_sequence;
             foreach (path.slices[j]) 
             begin
                string p_ = "";
-                if(!uvm_hdl_check_path(p_))
+
                     `uvm_error("uvm_reg_mem_hdl_paths_seq",
                                $sformatf("HDL path \"%s\" for memory \"%s\" is not accessible",
                                          p_, m.get_full_name()))
