@@ -1,4 +1,4 @@
-// 
+//
 // -------------------------------------------------------------
 // Copyright 2010-2011 Mentor Graphics Corporation
 // Copyright 2013 Semifore
@@ -260,8 +260,9 @@ class uvm_reg_bit_bash_seq extends uvm_reg_sequence #(uvm_sequence #(uvm_reg_ite
    //
    protected virtual task do_block(uvm_reg_block blk);
       uvm_reg regs[$];
-
-      if (uvm_resource_db#(bit)::get_by_name({"REG::",blk.get_full_name()},
+      uvm_reg_block blks[$];
+      
+      if (uvm_resource_db#()::get_by_name({"REG::",blk.get_full_name()},
                                              "NO_REG_TESTS", 0) != null ||
           uvm_resource_db#(bit)::get_by_name({"REG::",blk.get_full_name()},
                                              "NO_REG_BIT_BASH_TEST", 0) != null )
@@ -281,14 +282,14 @@ class uvm_reg_bit_bash_seq extends uvm_reg_sequence #(uvm_sequence #(uvm_reg_ite
          reg_seq.start(null,this);
       end
 
-      begin
-         uvm_reg_block blks[$];
+
+
          
          blk.get_blocks(blks,UVM_NO_HIER);
          foreach (blks[i]) begin
             do_block(blks[i]);
          end
-      end
+
    endtask: do_block
 
 
