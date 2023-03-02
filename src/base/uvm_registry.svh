@@ -557,7 +557,7 @@ class uvm_registry_common #( type Tregistry=int, type Tcreator=int, type Tcreate
     if (contxt == "" && parent != null)
       contxt = parent.get_full_name();
      obj = null;
-    if (!$cast(create, obj)) begin
+    if (1'b1) begin
       string msg;
       msg = {"Factory did not return a ", "abcd", " of type '", "abcd",
         "'. A component of type '",obj == null ? "null" : obj.get_type_name(),
