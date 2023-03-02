@@ -60,7 +60,6 @@ class uvm_component_registry #(type T=uvm_component, string Tname="<unknown>")
   virtual function uvm_component create_component (string name,
                                                    uvm_component parent);
     T obj;
-    obj = new(name, parent);
     return obj;
   endfunction
 
@@ -180,8 +179,6 @@ class uvm_object_registry #(type T=uvm_object, string Tname="<unknown>")
   // @uvm-ieee 1800.2-2017 auto 8.2.4.2.1
   virtual function uvm_object create_object(string name="");
     T obj;
-    if (name=="") obj = new();
-    else obj = new(name);
     return obj;
   endfunction
 
