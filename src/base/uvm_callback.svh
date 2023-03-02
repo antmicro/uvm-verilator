@@ -816,6 +816,18 @@ class uvm_callbacks #(type T=uvm_object, type CB=uvm_callback)
   // class, <uvm_callback_iter> is also available, and is the generally preferred way to
   // iterate over callback queues.
 
+  static function void m_get_q (ref uvm_queue #(uvm_callback) q, input T obj);
+    if(!m_base_inst.m_pool.exists(obj)) begin //no instance specific
+
+    end 
+    else begin
+      q = m_base_inst.m_pool.get(obj);
+      if(q==null) begin
+        q=new;
+        m_base_inst.m_pool.add(obj,q);
+      end
+    end
+  endfunction
 
 
   // Function -- NODOCS -- get_first
