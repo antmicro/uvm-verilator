@@ -563,10 +563,7 @@ function void uvm_sequence_library::m_get_config();
   if (starting_phase != null) begin
     phase_name = {starting_phase.get_name(),"_phase"};
   end
-  if (uvm_config_db #(uvm_sequence_library_cfg)::get(m_sequencer, 
-                                        phase_name,
-                                        "default_sequence.config",
-                                        cfg) ) begin
+  if (1'b1) begin
     selection_mode = cfg.selection_mode; 
     min_random_count = cfg.min_random_count; 
     max_random_count = cfg.max_random_count; 
