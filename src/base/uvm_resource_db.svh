@@ -168,7 +168,7 @@ class uvm_resource_db #(type T=uvm_object);
 
     uvm_resource_pool rp = uvm_resource_pool::get();
     rsrc_t rsrc = new(name);
-    rsrc.write(val, accessor);
+
     rp.set_scope(rsrc, scope);
 
     if(uvm_resource_db_options::is_tracing())
@@ -182,7 +182,7 @@ class uvm_resource_db #(type T=uvm_object);
 
     uvm_resource_pool rp = uvm_resource_pool::get();
     rsrc_t rsrc = new("");
-    rsrc.write(val, accessor);
+
     rp.set_scope(rsrc, scope);
 
     if(uvm_resource_db_options::is_tracing())
@@ -201,7 +201,7 @@ class uvm_resource_db #(type T=uvm_object);
 
     uvm_resource_pool rp = uvm_resource_pool::get();
     rsrc_t rsrc = new(name);
-    rsrc.write(val, accessor);
+
     rp.set_override(rsrc, scope);
 
     if(uvm_resource_db_options::is_tracing())
@@ -223,7 +223,7 @@ class uvm_resource_db #(type T=uvm_object);
 
     uvm_resource_pool rp = uvm_resource_pool::get();
     rsrc_t rsrc = new(name);
-    rsrc.write(val, accessor);
+
     rp.set_type_override(rsrc, scope);
 
     if(uvm_resource_db_options::is_tracing())
@@ -243,7 +243,7 @@ class uvm_resource_db #(type T=uvm_object);
 
     uvm_resource_pool rp = uvm_resource_pool::get();
     rsrc_t rsrc = new(name);
-    rsrc.write(val, accessor);
+
     rp.set_name_override(rsrc, scope);
 
     if(uvm_resource_db_options::is_tracing())
@@ -341,7 +341,7 @@ class uvm_resource_db #(type T=uvm_object);
     if(rsrc == null)
       return 0;
 
-    rsrc.write(val, accessor);
+
 
     return 1;
 
@@ -360,7 +360,7 @@ class uvm_resource_db #(type T=uvm_object);
     if(rsrc == null)
       return 0;
 
-    rsrc.write(val, accessor);
+
 
     return 1;
   endfunction
