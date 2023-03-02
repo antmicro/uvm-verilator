@@ -912,22 +912,22 @@ task uvm_vreg::write(input  longint unsigned   idx,
       msk = ((1<<f.get_n_bits())-1) << lsb;
       tmp = (value & msk) >> lsb;
 
-      f.pre_write(idx, tmp, path, map);
+
       for (uvm_vreg_field_cbs cb = cbs.first(); cb != null;
            cb = cbs.next()) begin
          cb.fname = this.fname;
          cb.lineno = this.lineno;
-         cb.pre_write(f, idx, tmp, path, map);
+
       end
 
       value = (value & ~msk) | (tmp << lsb);
    end
-   this.pre_write(idx, value, path, map);
+
    for (uvm_vreg_cbs cb = cbs.first(); cb != null;
         cb = cbs.next()) begin
       cb.fname = this.fname;
       cb.lineno = this.lineno;
-      cb.pre_write(this, idx, value, path, map);
+
    end
 
    addr = this.offset + (idx * this.incr);
@@ -1014,20 +1014,20 @@ task uvm_vreg::read(input  longint unsigned   idx,
       uvm_vreg_field_cb_iter cbs = new(fields[i]);
       uvm_vreg_field f = fields[i];
 
-      f.pre_read(idx, path, map);
+
       for (uvm_vreg_field_cbs cb = cbs.first(); cb != null;
            cb = cbs.next()) begin
          cb.fname = this.fname;
          cb.lineno = this.lineno;
-         cb.pre_read(f, idx, path, map);
+
       end
    end
-   this.pre_read(idx, path, map);
+
    for (uvm_vreg_cbs cb = cbs.first(); cb != null;
         cb = cbs.next()) begin
       cb.fname = this.fname;
       cb.lineno = this.lineno;
-      cb.pre_read(this, idx, path, map);
+
    end
 
    addr = this.offset + (idx * this.incr);
@@ -1065,9 +1065,9 @@ task uvm_vreg::read(input  longint unsigned   idx,
            cb = cbs.next()) begin
          cb.fname = this.fname;
          cb.lineno = this.lineno;
-         cb.post_read(f, idx, tmp, path, map, status);
+
       end
-      f.post_read(idx, tmp, path, map, status);
+
 
       value = (value & ~msk) | (tmp << lsb);
    end

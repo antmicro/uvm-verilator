@@ -421,12 +421,12 @@ task uvm_vreg_field::write(input  longint unsigned    idx,
    end
    tmp = 0;
 
-   this.pre_write(idx, value, path, map);
+
    for (uvm_vreg_field_cbs cb = cbs.first(); cb != null;
         cb = cbs.next()) begin
       cb.fname = this.fname;
       cb.lineno = this.lineno;
-      cb.pre_write(this, idx, value, path, map);
+
    end
 
    segsiz = mem.get_n_bytes() * 8;
@@ -553,12 +553,12 @@ task uvm_vreg_field::read(input longint unsigned     idx,
 
    value = 0;
 
-   this.pre_read(idx, path, map);
+
    for (uvm_vreg_field_cbs cb = cbs.first(); cb != null;
         cb = cbs.next()) begin
       cb.fname = this.fname;
       cb.lineno = this.lineno;
-      cb.pre_read(this, idx, path, map);
+
    end
 
    segsiz = mem.get_n_bytes() * 8;
@@ -587,12 +587,12 @@ task uvm_vreg_field::read(input longint unsigned     idx,
    // Any bits on the MSB side we need to get rid of?
    value &= (1<<this.get_n_bits()) - 1;
 
-   this.post_read(idx, value, path, map, status);
+
    for (uvm_vreg_field_cbs cb = cbs.first(); cb != null;
         cb = cbs.next()) begin
       cb.fname = this.fname;
       cb.lineno = this.lineno;
-      cb.post_read(this, idx, value, path, map, status);
+
    end
 
    this.parent.XatomicX(0);
