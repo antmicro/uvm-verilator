@@ -340,7 +340,7 @@ function void uvm_init(uvm_coreservice_t cs=null);
       uvm_coreservice_t actual;
 `ifdef VERILATOR
       // If it is a subsequent call, uvm_coreservice_t::get returns uvm_coreservice_t::inst, but there is no recursion.
-      actual = uvm_coreservice_t::inst;
+
 `else
       actual = uvm_coreservice_t::get();
 `endif
