@@ -298,7 +298,6 @@ class uvm_object_string_pool #(type T=uvm_object) extends uvm_pool #(string,T);
 
   virtual function T get (string key);
     if (!pool.exists(key))
-      pool[key] = new (key);
     return pool[key];
   endfunction
   
