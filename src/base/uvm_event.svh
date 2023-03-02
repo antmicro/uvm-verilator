@@ -333,7 +333,7 @@ class uvm_event#(type T=uvm_object) extends uvm_event_base;
 	        // if any return !0
 	        foreach (cb_q[i])
 		  skip += cb_q[i].pre_trigger(this, data);
-		if (skip==0) begin
+
 			->m_event;
 		        foreach (cb_q[i])
 			  cb_q[i].post_trigger(this, data);
@@ -341,7 +341,7 @@ class uvm_event#(type T=uvm_object) extends uvm_event_base;
 			on = 1;
 			trigger_time = $realtime;
 			trigger_data = data;
-		end
+
 	endfunction
 
 
