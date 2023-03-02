@@ -1697,7 +1697,7 @@ function uvm_status_e uvm_mem::backdoor_read_func(uvm_reg_item rw);
            begin
               uvm_reg_data_t slice;
               int k = hdl_concat.slices[j].offset;
-              ok &= uvm_hdl_read(hdl_path, slice);
+
               repeat (hdl_concat.slices[j].size) begin
                  val[k++] = slice[0];
                  slice >>= 1;
