@@ -261,8 +261,6 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
     m_max_size  = max_size;
     m_comp = new(name, parent, this);
 
-    if (!uvm_config_int::get(m_comp, "", "check_connection_relationships",tmp))
-      m_comp.set_report_id_action(s_connection_warning_id, UVM_NO_ACTION);
 
   endfunction
 
