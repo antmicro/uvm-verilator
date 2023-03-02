@@ -327,7 +327,7 @@ class uvm_event#(type T=uvm_object) extends uvm_event_base;
 		int skip;
 	        cb_type cb_q[$];
 		skip=0;
-	        cbs_type::get_all(cb_q, this);
+
 
 	        // Call all pre_trigger, bail out after
 	        // if any return !0
@@ -402,7 +402,7 @@ class uvm_event#(type T=uvm_object) extends uvm_event_base;
 	   super.do_print(printer);
 
 	   // Printing the callbacks
-	   cbs_type::get_all(cb_q, this);
+
            printer.print_array_header("callbacks", cb_q.size(), "queue");
 	   foreach(cb_q[e])
 	     printer.print_object($sformatf("[%0d]", e), cb_q[e], "[");
@@ -434,14 +434,14 @@ class uvm_event#(type T=uvm_object) extends uvm_event_base;
 	      // bump into Mantis 6450, which would result in
 	      // incorrect behavior until that mantis is fixed.
               // \todo Remove this note when 6450 is resolved.
-	      cbs_type::get_all(cb_q, this);
+
 	      foreach(cb_q[i])
 		cbs_type::delete(this, cb_q[i]);
 
 	      // We now have an empty instance queue, which we'll fill
 	      // using the rhs.
 	      cb_q.delete();
-	      cbs_type::get_all(cb_q, e);
+
 	      foreach(cb_q[i])
 		cbs_type::add(this, cb_q[i]);
 
