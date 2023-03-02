@@ -1064,19 +1064,17 @@ class uvm_derived_callbacks#(type T=uvm_object, type ST=uvm_object, type CB=uvm_
     uvm_callbacks_base s_obj;
 
     void'(this_type::get()); // make sure it exists
-    this_user_type::m_t_inst.m_typename = tname;
+
 
     if(sname != "") m_s_typeid.typename = sname;
 
     if(u_inst.m_super_type != null) begin
       if(u_inst.m_super_type == m_s_typeid) return 1;
       uvm_report_warning("CBTPREG", { "Type ", tname, " is already registered to super type ", 
-        this_super_type::m_t_inst.m_typename, ". Ignoring attempt to register to super type ",
+        "", ". Ignoring attempt to register to super type ",
         sname}, UVM_NONE); 
       return 1;
     end
-    if(this_super_type::m_t_inst.m_typename == "")
-      this_super_type::m_t_inst.m_typename = sname;
     u_inst.m_super_type = m_s_typeid;
     u_inst.m_base_inst.m_super_type = m_s_typeid;
     s_obj = uvm_typeid_base::typeid_map[m_s_typeid];
