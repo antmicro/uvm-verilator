@@ -49,7 +49,7 @@ class uvm_reg_fifo extends uvm_reg;
     // to be no larger than the size parameter. It is public
     // to enable subtypes to add constraints on it and randomize.
     //
-    rand uvm_reg_data_t fifo[$];
+    uvm_reg_data_t fifo[$];
 
     constraint valid_fifo_size {
       fifo.size() <= m_size;

@@ -463,7 +463,7 @@ class uvm_mem_mam_policy;
 
    // variable -- NODOCS -- start_offset
    // The starting offset of the region
-   rand bit [63:0] start_offset;
+   bit [63:0] start_offset;
 
    // variable -- NODOCS -- min_offset
    // Minimum address offset in the managed address space
@@ -498,24 +498,24 @@ endclass
 class uvm_mem_mam_cfg;
    // variable -- NODOCS -- n_bytes
    // Number of bytes in each memory location
-   rand int unsigned n_bytes;
+   int unsigned n_bytes;
 
 // Mantis 6601 calls for these two offset fields to be type longint unsigned
    // variable -- NODOCS -- start_offset
    // Lowest address of managed space
-   rand bit [63:0] start_offset;
+   bit [63:0] start_offset;
 
    // variable -- NODOCS -- end_offset
    // Last address of managed space
-   rand bit [63:0] end_offset;
+   bit [63:0] end_offset;
 
    // variable -- NODOCS -- mode
    // Region allocation mode
-   rand uvm_mem_mam::alloc_mode_e mode;
+   uvm_mem_mam::alloc_mode_e mode;
 
    // variable -- NODOCS -- locality
    // Region location mode
-   rand uvm_mem_mam::locality_e   locality;
+   uvm_mem_mam::locality_e   locality;
 
    constraint uvm_mem_mam_cfg_valid {
       end_offset > start_offset;
