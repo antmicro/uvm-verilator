@@ -596,9 +596,9 @@ class uvm_registry_common #( type Tregistry=int, type Tcreator=int, type Tcreate
      if (uvm_pkg::get_core_state() != UVM_CORE_UNINITIALIZED) begin
         uvm_factory factory = uvm_factory::get();
         Tregistry rgtry = null;
-        if (factory.is_type_registered(rgtry)) begin
-           factory.set_type_alias(alias_name,rgtry);
-        end
+
+
+
      end
   endfunction
 
@@ -620,11 +620,11 @@ class uvm_registry_common #( type Tregistry=int, type Tcreator=int, type Tcreate
   virtual function void initialize();
      uvm_factory factory =uvm_factory::get();
      Tregistry rgtry = null;
-     factory.register(rgtry);
+
      // add aliases that were set before
      // the wrapper was registered with the factory
      foreach(m__type_aliases[i]) begin
-        factory.set_type_alias(m__type_aliases[i],rgtry);
+
      end
   endfunction
 endclass
