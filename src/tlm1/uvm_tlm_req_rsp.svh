@@ -327,15 +327,10 @@ class uvm_tlm_transport_channel #(type REQ=int, type RSP=REQ)
 
   // @uvm-ieee 1800.2-2017 auto 12.2.9.2.2
   task transport (REQ request, output RSP response );
-    this.m_request_fifo.put( request );
-    this.m_response_fifo.get( response );
   endtask
 
   // @uvm-ieee 1800.2-2017 auto 12.2.9.2.2
   function bit nb_transport (REQ req, output RSP rsp );
-    if(this.m_request_fifo.try_put(req)) 
-      return this.m_response_fifo.try_get(rsp);
-    else
       return 0;
   endfunction
 
