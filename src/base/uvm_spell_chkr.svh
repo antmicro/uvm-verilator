@@ -74,7 +74,8 @@ class uvm_spell_chkr #(type T=int);
     int distance;
     int unsigned min;
     string min_key[$];
-
+    string q[$];
+     
     if(strtab.exists(s)) begin
       return 1;
     end
@@ -109,10 +110,6 @@ class uvm_spell_chkr #(type T=int);
     if(min == max) begin
 	  `uvm_info("UVM/CONFIGDB/SPELLCHK",$sformatf("%s not located, no alternatives to suggest", s),UVM_NONE)
     end	
-    else
-    // dump all the alternatives with the minimum distance    
-    begin
-	   	string q[$];
 	    
 	   	foreach(min_key[i]) begin
      			q.push_back(min_key[i]);
@@ -122,7 +119,7 @@ class uvm_spell_chkr #(type T=int);
 	   		void'(q.pop_back());
 	   		
 	   	`uvm_info("UVM/CONFIGDB/SPELLCHK",$sformatf("%s not located, did you mean %s", s, `UVM_STRING_QUEUE_STREAMING_PACK(q)),UVM_NONE)
-    end	
+
     
     return 0;
 
