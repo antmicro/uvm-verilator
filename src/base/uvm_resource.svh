@@ -817,7 +817,7 @@ class uvm_resource_pool;
     end
 
     q = ttab[type_handle];
-    set_priority_queue(rsrc, q, pri);
+
   endfunction
 
 
@@ -848,7 +848,7 @@ class uvm_resource_pool;
     end
 
     q = rtab[name];
-    set_priority_queue(rsrc, q, pri);
+
 
   endfunction
 
