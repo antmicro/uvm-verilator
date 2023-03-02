@@ -114,8 +114,8 @@ class uvm_tlm_b_target_socket #(type IMP=int,
   // @uvm-ieee 1800.2-2017 auto 12.3.5.1.3
   function new (string name, uvm_component parent, IMP imp = null);
     super.new (name, parent);
-    if (imp == null) $cast(m_imp, parent);
-    else m_imp = imp;
+
+    m_imp = imp;
     if (m_imp == null)
        `uvm_error("UVM/TLM2/NOIMP", {"b_target socket ", name,
                                      " has no implementation"})
@@ -162,7 +162,7 @@ class uvm_tlm_nb_initiator_socket #(type IMP=int,
   // @uvm-ieee 1800.2-2017 auto 12.3.5.4.3
   function new(string name, uvm_component parent, IMP imp = null);
     super.new (name, parent);
-    if (imp == null) $cast(imp, parent);
+
     if (imp == null)
        `uvm_error("UVM/TLM2/NOIMP", {"nb_initiator socket ", name,
                                      " has no implementation"})
@@ -228,8 +228,8 @@ class uvm_tlm_nb_target_socket #(type IMP=int,
   // @uvm-ieee 1800.2-2017 auto 12.3.5.3.3
   function new (string name, uvm_component parent, IMP imp = null);
     super.new (name, parent);
-    if (imp == null) $cast(m_imp, parent);
-    else m_imp = imp;
+
+    m_imp = imp;
     bw_port = new("bw_port", get_comp());
     if (m_imp == null)
        `uvm_error("UVM/TLM2/NOIMP", {"nb_target socket ", name,
