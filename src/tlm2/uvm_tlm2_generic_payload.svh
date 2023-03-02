@@ -508,8 +508,7 @@ class uvm_tlm_generic_payload extends uvm_sequence_item;
      if ( !comparer.get_threshold() || (comparer.get_result() < comparer.get_threshold()) )
       foreach (m_extensions[ext_]) begin
          uvm_tlm_extension_base ext = ext_;
-         uvm_tlm_extension_base rhs_ext = gp.m_extensions.exists(ext) ?
-                                          gp.m_extensions[ext] : null;
+         uvm_tlm_extension_base rhs_ext = null;
 
 	   void'(comparer.compare_object(ext.get_name(),
                                          m_extensions[ext], rhs_ext));
