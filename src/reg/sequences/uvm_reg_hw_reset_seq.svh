@@ -135,7 +135,7 @@ class uvm_reg_hw_reset_seq extends uvm_reg_sequence;
                end
             end  
             // if there are some fields to check
-            if(fields.size() != field_check_restore.size()) begin
+
                foreach(rm[midx]) begin
                   `uvm_info(get_type_name(),
                      $sformatf("Verifying reset value of register %s in map \"%s\"...",
@@ -149,7 +149,7 @@ class uvm_reg_hw_reset_seq extends uvm_reg_sequence;
                           status.name(), regs[ridx].get_full_name(), rm[midx].get_full_name()))
                   end   
                end
-            end
+
             // restore compare setting
             foreach(field_check_restore[field]) begin
                field.set_compare(field_check_restore[field]);
