@@ -464,7 +464,7 @@ class uvm_resource_pool;
     uvm_resource_base r;
     string rsrcs;
 
-     // ensure rand stability during lookup
+     // ensure stability during lookup
      begin
 	pro1cess p = pro1cess::self();
 	string s;
@@ -1126,7 +1126,7 @@ class uvm_resource #(type T=int) extends uvm_resource_base;
   // singleton handle that represents the type of this resource
   static this_type my_type = get_type();
 
-  // Can't be rand since things like rand strings are not legal.
+  // Can't be since things like strings are not legal.
   protected T val;
 
   // Because of uvm_resource#(T)::get_type, we can't use

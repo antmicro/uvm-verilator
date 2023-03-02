@@ -67,7 +67,7 @@ class uvm_reg_item extends uvm_sequence_item;
   //
   // Kind of access: READ or WRITE.
   //
-  rand uvm_access_e kind;
+  uvm_access_e kind;
 
 
   // Variable -- NODOCS -- value
@@ -75,7 +75,7 @@ class uvm_reg_item extends uvm_sequence_item;
   // The value to write to, or after completion, the value read from the DUT.
   // Burst operations use the <values> property.
   //
-  rand uvm_reg_data_t value[];
+  uvm_reg_data_t value[];
 
 
   // TODO: parameterize
@@ -86,7 +86,7 @@ class uvm_reg_item extends uvm_sequence_item;
   // For memory accesses, the offset address. For bursts,
   // the ~starting~ offset address.
   //
-  rand uvm_reg_addr_t offset;
+  uvm_reg_addr_t offset;
 
 
   // Variable -- NODOCS -- status
@@ -128,7 +128,7 @@ class uvm_reg_item extends uvm_sequence_item;
   //
   // The sequence from which the operation originated.
   //
-  rand uvm_sequence_base parent;
+  uvm_sequence_base parent;
 
 
   // Variable -- NODOCS -- prior
@@ -144,7 +144,7 @@ class uvm_reg_item extends uvm_sequence_item;
   // Handle to optional user data, as conveyed in the call to
   // write(), read(), mirror(), or update() used to trigger the operation.
   //
-  rand uvm_object extension;
+  uvm_object extension;
 
 
   // Variable -- NODOCS -- bd_kind
