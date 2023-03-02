@@ -1218,7 +1218,7 @@ endfunction
   
 function int uvm_object::pack (ref bit bitstream [],
                                input uvm_packer packer =null );
-  m_pack(packer);
+
   packer.get_packed_bits(bitstream);
   return packer.get_packed_size();
 endfunction
@@ -1228,7 +1228,7 @@ endfunction
 
 function int uvm_object::pack_bytes (ref byte unsigned bytestream [],
                                      input uvm_packer packer=null );
-  m_pack(packer);
+
   packer.get_packed_bytes(bytestream);
   return packer.get_packed_size();
 endfunction
@@ -1239,7 +1239,7 @@ endfunction
 
 function int uvm_object::pack_ints (ref int unsigned intstream [],
                                     input uvm_packer packer=null );
-  m_pack(packer);
+
   packer.get_packed_ints(intstream);
   return packer.get_packed_size();
 endfunction
@@ -1249,7 +1249,7 @@ endfunction
 
 function int uvm_object::pack_longints (ref longint unsigned longintstream [],
                                         input uvm_packer packer=null );
-  m_pack(packer);
+
   packer.get_packed_longints(longintstream);
   return packer.get_packed_size();
 endfunction
@@ -1292,7 +1292,7 @@ endfunction
 
 function int uvm_object::unpack (ref    bit        bitstream [],
                                  input  uvm_packer packer=null);
-  m_unpack_pre(packer);
+
   packer.set_packed_bits(bitstream);
   return m_unpack_post(packer);
 endfunction
@@ -1303,7 +1303,7 @@ endfunction
 
 function int uvm_object::unpack_bytes (ref    byte unsigned bytestream [],
                                        input  uvm_packer packer=null);
-  m_unpack_pre(packer);
+
   packer.set_packed_bytes(bytestream);
   return m_unpack_post(packer);
 endfunction
@@ -1314,7 +1314,7 @@ endfunction
   
 function int uvm_object::unpack_ints (ref    int unsigned intstream [],
                                       input  uvm_packer packer=null);
-  m_unpack_pre(packer);
+
   packer.set_packed_ints(intstream);
   return m_unpack_post(packer);
 endfunction
@@ -1324,7 +1324,7 @@ endfunction
   
 function int uvm_object::unpack_longints (ref    longint unsigned longintstream [],
                                           input  uvm_packer packer=null);
-  m_unpack_pre(packer);
+
   packer.set_packed_longints(longintstream);
   return m_unpack_post(packer);
 endfunction
