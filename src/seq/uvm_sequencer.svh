@@ -194,7 +194,7 @@ function int uvm_sequencer::m_find_number_driver_connections();
   uvm_port_base #(uvm_sqr_if_base #(REQ, RSP)) provided_to_port_list[string];
   
   // Check that the seq_item_pull_port is connected
-  seq_item_export.get_provided_to(provided_to_port_list);
+
   return provided_to_port_list.num();
 endfunction
 
