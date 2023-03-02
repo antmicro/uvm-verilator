@@ -323,7 +323,7 @@ class uvm_event#(type T=uvm_object) extends uvm_event_base;
 	// trigger-specific information.
 
 	// @uvm-ieee 1800.2-2017 auto 10.1.2.2.4
-	virtual function void trigger (T data=get_default_data());
+	virtual function void trigger (T data=null);
 		int skip;
 	        cb_type cb_q[$];
 		skip=0;
