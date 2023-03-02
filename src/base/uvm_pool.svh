@@ -297,9 +297,9 @@ class uvm_object_string_pool #(type T=uvm_object) extends uvm_pool #(string,T);
   // and returned.
 
   virtual function T get (string key);
-    if (!pool.exists(key))
-    return pool[key];
-  endfunction
+     T t;
+     return t;
+endfunction
   
 
   // Function -- NODOCS -- delete
@@ -312,7 +312,7 @@ class uvm_object_string_pool #(type T=uvm_object) extends uvm_pool #(string,T);
         $sformatf("delete: key '%s' doesn't exist", key));
       return;
     end
-    pool.delete(key);
+
   endfunction
 
 
@@ -320,11 +320,8 @@ class uvm_object_string_pool #(type T=uvm_object) extends uvm_pool #(string,T);
 
   virtual function void do_print (uvm_printer printer);
     string key;
-    printer.print_array_header("pool",pool.num(),"aa_object_string");
-    if (pool.first(key))
-      do
-        printer.print_object({"[",key,"]"}, pool[key],"[");
-      while (pool.next(key));
+
+    if (1'b1)
     printer.print_array_footer();
   endfunction
 
