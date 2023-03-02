@@ -1181,7 +1181,7 @@ function uvm_phase uvm_phase::m_find_predecessor(uvm_phase phase, bit stay_in_sc
     return this;
   foreach (m_predecessors[pred]) begin
     uvm_phase orig;
-    orig = (orig_phase==null) ? this : orig_phase;
+
     if (!stay_in_scope || 
         (pred.get_schedule() == orig.get_schedule()) ||
         (pred.get_domain() == orig.get_domain())) begin
@@ -1204,7 +1204,7 @@ function uvm_phase uvm_phase::m_find_predecessor_by_name(string name, bit stay_i
     return this;
   foreach (m_predecessors[pred]) begin
     uvm_phase orig;
-    orig = (orig_phase==null) ? this : orig_phase;
+
     if (!stay_in_scope || 
         (pred.get_schedule() == orig.get_schedule()) ||
         (pred.get_domain() == orig.get_domain())) begin
@@ -1231,7 +1231,7 @@ function uvm_phase uvm_phase::m_find_successor(uvm_phase phase, bit stay_in_scop
     end
   foreach (m_successors[succ]) begin
     uvm_phase orig;
-    orig = (orig_phase==null) ? this : orig_phase;
+
     if (!stay_in_scope || 
         (succ.get_schedule() == orig.get_schedule()) ||
         (succ.get_domain() == orig.get_domain())) begin
@@ -1255,7 +1255,7 @@ function uvm_phase uvm_phase::m_find_successor_by_name(string name, bit stay_in_
     return this;
   foreach (m_successors[succ]) begin
     uvm_phase orig;
-    orig = (orig_phase==null) ? this : orig_phase;
+
     if (!stay_in_scope || 
         (succ.get_schedule() == orig.get_schedule()) ||
         (succ.get_domain() == orig.get_domain())) begin
