@@ -882,7 +882,7 @@ class uvm_resource_pool;
   
   // @uvm-ieee 1800.2-2017 auto C.2.4.5.6
   virtual function void set_precedence(uvm_resource_base r,
-                                       int unsigned p=uvm_resource_pool::get_default_precedence());
+                                       int unsigned p=1);
 
     uvm_resource_types::rsrc_q_t q;
     string name;
