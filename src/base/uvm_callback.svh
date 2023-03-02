@@ -847,7 +847,6 @@ class uvm_callbacks #(type T=uvm_object, type CB=uvm_callback)
 
     CB cb;
     void'(get());
-
     return null;
   endfunction
 
@@ -868,7 +867,6 @@ class uvm_callbacks #(type T=uvm_object, type CB=uvm_callback)
 
     CB cb;
     void'(get());
-
     return null;
   endfunction
 
@@ -892,7 +890,6 @@ class uvm_callbacks #(type T=uvm_object, type CB=uvm_callback)
 
     CB cb;
     void'(get());
-
     return null;
   endfunction
 
@@ -916,7 +913,6 @@ class uvm_callbacks #(type T=uvm_object, type CB=uvm_callback)
 
     CB cb;
     void'(get());
-
     return null;
   endfunction
 
