@@ -37,7 +37,7 @@ class uvm_reg_field extends uvm_object;
    // Mirrored field value.
    // This value can be sampled in a functional coverage model
    // or constrained when randomized.
-   rand  uvm_reg_data_t  value; // Mirrored after randomize()
+    uvm_reg_data_t  value; // Mirrored after randomize()
 
    local uvm_reg_data_t  m_mirrored; // What we think is in the HW
    local uvm_reg_data_t  m_desired;  // Mirrored after set()

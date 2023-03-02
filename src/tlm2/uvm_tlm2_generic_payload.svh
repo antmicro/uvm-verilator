@@ -122,7 +122,7 @@ class uvm_tlm_generic_payload extends uvm_sequence_item;
    // for example) it shall generate a standard error response. The
    // recommended response status is ~UVM_TLM_ADDRESS_ERROR_RESPONSE~.
    //
-   rand bit [63:0]             m_address;
+   bit [63:0]             m_address;
 
  
    // Variable -- NODOCS -- m_command
@@ -145,7 +145,7 @@ class uvm_tlm_generic_payload extends uvm_sequence_item;
    // The command attribute shall be set by the initiator, and shall
    // not be overwritten by any interconnect
    //
-   rand uvm_tlm_command_e          m_command;
+   uvm_tlm_command_e          m_command;
 
    
    // Variable -- NODOCS -- m_data
@@ -181,7 +181,7 @@ class uvm_tlm_generic_payload extends uvm_sequence_item;
    // to use/be interpreted using the host endianness.
    // However, this process is currently outside the scope of this standard.
    //
-   rand byte unsigned             m_data[];
+   byte unsigned             m_data[];
 
 
    // Variable -- NODOCS -- m_length
@@ -196,7 +196,7 @@ class uvm_tlm_generic_payload extends uvm_sequence_item;
    // In order to transfer zero bytes, the <m_command> attribute
    // should be set to <UVM_TLM_IGNORE_COMMAND>.
    //
-   rand int unsigned           m_length;
+   int unsigned           m_length;
    
 
    // Variable -- NODOCS -- m_response_status
@@ -243,7 +243,7 @@ class uvm_tlm_generic_payload extends uvm_sequence_item;
    // other words, the initiator ignores the
    // response status at its own risk.
    //
-   rand uvm_tlm_response_status_e  m_response_status;
+   uvm_tlm_response_status_e  m_response_status;
 
 
    // Variable -- NODOCS -- m_dmi
@@ -293,7 +293,7 @@ class uvm_tlm_generic_payload extends uvm_sequence_item;
    // component or target should not modify the values of disabled
    // bytes in the <m_data> array.
    //
-   rand byte unsigned          m_byte_enable[];
+   byte unsigned          m_byte_enable[];
 
 
    // Variable -- NODOCS -- m_byte_enable_length
@@ -303,7 +303,7 @@ class uvm_tlm_generic_payload extends uvm_sequence_item;
    // It shall be set by the initiator, and shall not be overwritten
    // by any interconnect component or target.
    //
-   rand int unsigned m_byte_enable_length;
+   int unsigned m_byte_enable_length;
 
 
    // Variable -- NODOCS -- m_streaming_width
@@ -356,10 +356,10 @@ class uvm_tlm_generic_payload extends uvm_sequence_item;
    // response. The recommended response status is
    // TLM_BURST_ERROR_RESPONSE.
    //
-   rand int unsigned m_streaming_width;
+   int unsigned m_streaming_width;
 
    protected uvm_tlm_extension_base m_extensions [uvm_tlm_extension_base];
-   local rand uvm_tlm_extension_base m_rand_exts[];
+   local uvm_tlm_extension_base m_rand_exts[];
 
 
    `uvm_object_utils(uvm_tlm_generic_payload)
