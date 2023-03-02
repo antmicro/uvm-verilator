@@ -55,9 +55,6 @@ class uvm_reg_mem_hdl_paths_seq extends uvm_reg_sequence #(uvm_sequence #(uvm_re
     // as specified with <uvm_reg_block::set_default_hdl_path()>
     string abstractions[$];
     
-    `uvm_object_utils_begin(uvm_reg_mem_hdl_paths_seq)
-        `uvm_field_queue_string(abstractions, UVM_DEFAULT)
-    `uvm_object_utils_end
     
     // @uvm-ieee 1800.2-2017 auto E.7.3
     function new(string name="uvm_reg_mem_hdl_paths_seq");
@@ -143,7 +140,7 @@ class uvm_reg_mem_hdl_paths_seq extends uvm_reg_sequence #(uvm_sequence #(uvm_re
                     `uvm_error("uvm_reg_mem_hdl_paths_seq",
                                $sformatf("HDL path \"%s\" for register \"%s\" is not readable",
                                          p_, r.get_full_name()))
-                if (!uvm_hdl_check_path(p_))
+
                     `uvm_error("uvm_reg_mem_hdl_paths_seq",
                                $sformatf("HDL path \"%s\" for register \"%s\" is not accessible",
                                          p_, r.get_full_name()))
