@@ -44,7 +44,6 @@ begin                                                           \
   uvm_resource __tmp_rsrc__;                             \
   SUCCESS = $cast(__tmp_rsrc__, RSRC);                          \
   if (SUCCESS) begin                                            \
-    VAL = __tmp_rsrc__.read(OBJ);                               \
   end                                                           \
 end                                                             
 
