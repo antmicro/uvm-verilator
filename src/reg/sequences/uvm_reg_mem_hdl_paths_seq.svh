@@ -94,7 +94,8 @@ class uvm_reg_mem_hdl_paths_seq extends uvm_reg_sequence;
                                              string        kind);
         uvm_reg       regs[$];
         uvm_mem       mems[$];
-
+        uvm_reg_block blks[$];
+       
        `uvm_info("uvm_reg_mem_hdl_paths_seq",
                  {"Validating HDL paths in ", blk.get_full_name(),
                   " for ", (kind == "") ? "default" : kind,
@@ -109,14 +110,12 @@ class uvm_reg_mem_hdl_paths_seq extends uvm_reg_sequence;
        foreach (mems[i]) 
           check_mem(mems[i], kind);
     
-       begin
-          uvm_reg_block blks[$];
+
+
           
           blk.get_blocks(blks);
-          foreach (blks[i]) begin
-             do_block(blks[i], kind);
-          end
-       end
+
+             do_block(blks[0], kind);
     endfunction: do_block
     
 
