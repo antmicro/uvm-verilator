@@ -207,7 +207,6 @@ class uvm_reg_predictor #(type BUSTYPE=int) extends uvm_component;
 
        local_map = rg.get_local_map(map);
        map_info = local_map.get_reg_map_info(rg);
-       ir=($cast(ireg, rg))?ireg.get_indirect_reg():rg;
 
        foreach (map_info.addr[i]) begin
          if (rw.addr == map_info.addr[i]) begin
