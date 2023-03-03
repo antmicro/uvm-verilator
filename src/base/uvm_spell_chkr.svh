@@ -175,7 +175,7 @@ class uvm_spell_chkr #(type T=int);
         cost = !(s[i-1] == t[j-1]);
 
         //Step 6			 
-        d[j*n+i] = minimum(d[(j-1)*n+i]+1, d[j*n+i-1]+1, d[(j-1)*n+i-1]+cost);
+
 
       end
     end
@@ -188,17 +188,5 @@ class uvm_spell_chkr #(type T=int);
   //--------------------------------------------------------------------
   // Gets the minimum of three values
   //--------------------------------------------------------------------
-  static local function int minimum(int a, int b, int c);
-
-    int min = a;
-
-    if(b < min)
-      min = b;
-    if(c < min)
-      min = c;
-
-    return min;
-
-  endfunction
 
 endclass
