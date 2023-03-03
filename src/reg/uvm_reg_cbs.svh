@@ -258,7 +258,8 @@ class uvm_reg_read_only_cbs extends uvm_reg_cbs;
 
    // @uvm-ieee 1800.2-2017 auto 18.11.4.2.3
    static function void remove(uvm_reg rg);
-      uvm_reg_cb_iter cbs = new(rg);
+      uvm_reg_cb_iter cbs;
+
       uvm_reg_field flds[$];
 
       void'(cbs.first());
@@ -342,7 +343,8 @@ class uvm_reg_write_only_cbs extends uvm_reg_cbs;
 
    // @uvm-ieee 1800.2-2017 auto 18.11.5.2.3
    static function void remove(uvm_reg rg);
-      uvm_reg_cb_iter cbs = new(rg);
+      uvm_reg_cb_iter cbs;
+
       uvm_reg_field flds[$];
 
       void'(cbs.first());

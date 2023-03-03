@@ -328,114 +328,7 @@ class uvm_typed_callbacks#(type T=uvm_object) extends uvm_callbacks_base;
 
 
   static function void display(T obj=null);
-    T me;
-    string cbq[$];
-    string inst_q[$];
-    string mode_q[$];
-    uvm_callback cb;
-    string blanks = "                             ";
-    uvm_object bobj = obj;
-    string qs[$];
 
-    uvm_queue#(uvm_callback) q;
-    string tname, str;
-
-    int max_cb_name=0, max_inst_name=0;
-
-    m_tracing = 0; //don't allow tracing during display
-
-    if(m_typename != "") tname = m_typename;
-    else if(obj != null) tname = obj.get_type_name();
-    else tname = "*";
-
-    q = m_t_inst.m_tw_cb_q;
-    for(int i=0; i<q.size(); ++i) begin
-      cb = q.get(i);
-      cbq.push_back(cb.get_name());
-      inst_q.push_back("(*)");
-      if(cb.is_enabled()) mode_q.push_back("ON");
-      else mode_q.push_back("OFF");
-
-      str = cb.get_name();
-      max_cb_name = max_cb_name > str.len() ? max_cb_name : str.len();
-      str = "(*)";
-      max_inst_name = max_inst_name > str.len() ? max_inst_name : str.len();
-    end
-
-    if(obj ==null) begin
-      if(m_t_inst.m_pool.first(bobj)) begin
-        do
-          if($cast(me,bobj)) break;
-        while(m_t_inst.m_pool.next(bobj));
-      end
-      if(me != null || m_t_inst.m_tw_cb_q.size()) begin
-        qs.push_back($sformatf("Registered callbacks for all instances of %s\n", tname)); 
-        qs.push_back("---------------------------------------------------------------\n");
-      end
-      if(me != null) begin
-        do begin
-          if($cast(me,bobj)) begin
-            q = m_t_inst.m_pool.get(bobj);
-            if (q==null) begin
-              q=new;
-              m_t_inst.m_pool.add(bobj,q);
-            end
-            for(int i=0; i<q.size(); ++i) begin
-              cb = q.get(i);
-              cbq.push_back(cb.get_name());
-              inst_q.push_back(bobj.get_full_name());
-              if(cb.is_enabled()) mode_q.push_back("ON");
-              else mode_q.push_back("OFF");
-  
-              str = cb.get_name();
-              max_cb_name = max_cb_name > str.len() ? max_cb_name : str.len();
-              str = bobj.get_full_name();
-              max_inst_name = max_inst_name > str.len() ? max_inst_name : str.len();
-            end
-          end
-        end while (m_t_inst.m_pool.next(bobj));
-      end
-      else begin
-        qs.push_back($sformatf("No callbacks registered for any instances of type %s\n", tname));
-      end
-    end
-    else begin
-      if(m_t_inst.m_pool.exists(bobj) || m_t_inst.m_tw_cb_q.size()) begin
-       qs.push_back($sformatf("Registered callbacks for instance %s of %s\n", obj.get_full_name(), tname)); 
-       qs.push_back("---------------------------------------------------------------\n");
-      end
-      if(m_t_inst.m_pool.exists(bobj)) begin
-        q = m_t_inst.m_pool.get(bobj);
-        if(q==null) begin
-          q=new;
-          m_t_inst.m_pool.add(bobj,q);
-        end
-        for(int i=0; i<q.size(); ++i) begin
-          cb = q.get(i);
-          cbq.push_back(cb.get_name());
-          inst_q.push_back(bobj.get_full_name());
-          if(cb.is_enabled()) mode_q.push_back("ON");
-          else mode_q.push_back("OFF");
-
-          str = cb.get_name();
-          max_cb_name = max_cb_name > str.len() ? max_cb_name : str.len();
-          str = bobj.get_full_name();
-          max_inst_name = max_inst_name > str.len() ? max_inst_name : str.len();
-        end
-      end
-    end
-    if(!cbq.size()) begin
-      if(obj == null) str = "*";
-      else str = obj.get_full_name();
-      qs.push_back($sformatf("No callbacks registered for instance %s of type %s\n", str, tname));
-    end
-
-    foreach (cbq[i]) begin
-      qs.push_back($sformatf("%s  %s %s on %s  %s\n", cbq[i], blanks.substr(0,max_cb_name-cbq[i].len()-1), inst_q[i], blanks.substr(0,max_inst_name - inst_q[i].len()-1), mode_q[i]));
-    end
-    `uvm_info("UVM/CB/DISPLAY",`UVM_STRING_QUEUE_STREAMING_PACK(qs),UVM_NONE)
-
-    m_tracing = 1; //allow tracing to be resumed
   endfunction
 
 endclass
@@ -767,33 +660,6 @@ class uvm_callbacks #(type T=uvm_object, type CB=uvm_callback)
 
   // @uvm-ieee 1800.2-2017 auto 10.7.2.3.3
   static function void delete(T obj, uvm_callback cb);
-    uvm_object b_obj = obj;
-    uvm_queue#(uvm_callback) q;
-    bit found;
-    int pos;
-    void'(get());
-
-    if(obj == null) begin
-      `uvm_cb_trace_noobj(cb,$sformatf("Delete typewide callback %0s for type %s",
-                       cb.get_name(), m_base_inst.m_typename))
-      found = m_t_inst.m_delete_tw_cbs(cb);
-    end
-    else begin
-      `uvm_cb_trace_noobj(cb,$sformatf("Delete callback %0s from object %0s ",
-                      cb.get_name(), obj.get_full_name()))
-      q = m_base_inst.m_pool.get(b_obj);
-      pos = m_cb_find(q,cb);
-      if(pos != -1) begin
-        q.delete(pos);
-        found = 1;
-      end
-    end
-    if(!found) begin
-      string nm;
-      if(obj==null) nm = "(*)"; else nm = obj.get_full_name();
-      uvm_report_warning("CBUNREG", { "Callback ", cb.get_name(), " cannot be removed from object ",
-        nm, " because it is not currently registered to that object." }, UVM_NONE);
-    end
   endfunction
 
 
