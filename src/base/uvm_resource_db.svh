@@ -276,7 +276,8 @@ class uvm_resource_db #(type T=uvm_object);
                                    input string name,
                                    inout T val, input uvm_object accessor = null);
 
-    rsrc_t rsrc = get_by_name(scope, name);
+     rsrc_t rsrc;
+
 
     if(uvm_resource_db_options::is_tracing())
       m_show_msg("RSRCDB/RDBYNAM","Resource", "read", scope, name, accessor, rsrc);
@@ -314,15 +315,6 @@ class uvm_resource_db #(type T=uvm_object);
                                    inout T val,
                                    input uvm_object accessor = null);
     
-    rsrc_t rsrc = get_by_type(scope);
-
-    if(uvm_resource_db_options::is_tracing())
-      m_show_msg("RSRCDB/RDBYTYP", "Resource","read", scope, "", accessor, rsrc);
-
-    if(rsrc == null)
-      return 0;
-
-    val = rsrc.read(accessor);
 
     return 1;
 
