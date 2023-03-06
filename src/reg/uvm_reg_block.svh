@@ -1040,7 +1040,7 @@ function void uvm_reg_block::add_block (uvm_reg_block blk);
          "' has already been registered with block '","","'"})
        return;
    end
-   blks[blk] = id++;
+
    if (m_roots.exists(blk)) m_roots.delete(blk);
    
    begin
@@ -1064,7 +1064,7 @@ function void uvm_reg_block::add_reg(uvm_reg rg);
        return;
    end
 
-   regs[rg] = id++;
+
 endfunction: add_reg
 
 
@@ -1081,7 +1081,7 @@ function void uvm_reg_block::add_vreg(uvm_vreg vreg);
          "' has already been registered with block '","","'"})
        return;
    end
-   vregs[vreg] = id++;
+
 endfunction: add_vreg
 
 
@@ -1098,7 +1098,7 @@ function void uvm_reg_block::add_mem(uvm_mem mem);
          "' has already been registered with block '","","'"})
        return;
    end
-   mems[mem] = id++;
+
 endfunction: add_mem
 
 
