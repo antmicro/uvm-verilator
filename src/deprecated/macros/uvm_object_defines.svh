@@ -561,7 +561,7 @@ endfunction : __m_uvm_execute_field_op
 //This is needed due to an issue in of passing down strings
 //created by args to lower level macros.
 `define m_uvm_object_abstract_registry_internal(T,S) \
-   typedef uvm_abstract_object_registry#(T,`"S`") type_id; \
+   typedef uvm_abstract_object_registry type_id; \
    static function type_id get_type(); \
      return type_id::get(); \
    endfunction \
@@ -574,7 +574,7 @@ endfunction : __m_uvm_execute_field_op
 // ------------------------------------
 
 `define m_uvm_object_abstract_registry_param(T) \
-   typedef uvm_abstract_object_registry #(T) type_id; \
+   typedef uvm_abstract_object_registry type_id; \
    static function type_id get_type(); \
      return type_id::get(); \
    endfunction \
