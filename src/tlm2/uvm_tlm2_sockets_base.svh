@@ -54,7 +54,7 @@ class uvm_tlm_b_target_socket_base #(type T=uvm_tlm_generic_payload)
 
   function new (string name, uvm_component parent);
     super.new (name, parent, UVM_IMPLEMENTATION, 1, 1);
-    m_if_mask = `UVM_TLM_B_MASK;
+    
   endfunction
 
   `UVM_TLM_GET_TYPE_NAME("uvm_tlm_b_target_socket")
@@ -94,7 +94,7 @@ class uvm_tlm_nb_target_socket_base #(type T=uvm_tlm_generic_payload,
 
   function new (string name, uvm_component parent);
     super.new (name, parent, UVM_IMPLEMENTATION, 1, 1);
-    m_if_mask = `UVM_TLM_NB_FW_MASK;
+    
   endfunction
 
   `UVM_TLM_GET_TYPE_NAME("uvm_tlm_nb_target_socket")
@@ -117,7 +117,7 @@ class uvm_tlm_nb_initiator_socket_base #(type T=uvm_tlm_generic_payload,
 
   function new (string name, uvm_component parent);
     super.new (name, parent, UVM_PORT, 1, 1);
-    m_if_mask = `UVM_TLM_NB_FW_MASK;
+    
   endfunction
 
   `UVM_TLM_GET_TYPE_NAME("uvm_tlm_nb_initiator_socket")
@@ -146,8 +146,8 @@ class uvm_tlm_nb_passthrough_initiator_socket_base #(type T=uvm_tlm_generic_payl
   function new (string name, uvm_component parent,
                 int min_size=1, int max_size=1);
     super.new (name, parent, UVM_PORT, min_size, max_size);
-    m_if_mask = `UVM_TLM_NB_FW_MASK;
-    bw_export = new("bw_export", get_comp());
+    
+
   endfunction
 
   `UVM_TLM_GET_TYPE_NAME("uvm_tlm_nb_passthrough_initiator_socket")
@@ -174,8 +174,8 @@ class uvm_tlm_nb_passthrough_target_socket_base #(type T=uvm_tlm_generic_payload
   function new (string name, uvm_component parent,
                 int min_size=1, int max_size=1);
     super.new (name, parent, UVM_EXPORT, min_size, max_size);
-    m_if_mask = `UVM_TLM_NB_FW_MASK;
-    bw_port = new("bw_port", get_comp());
+    
+
   endfunction
 
   `UVM_TLM_GET_TYPE_NAME("uvm_tlm_nb_passthrough_target_socket")

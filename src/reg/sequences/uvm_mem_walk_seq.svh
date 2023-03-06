@@ -107,7 +107,7 @@ class uvm_mem_single_walk_seq extends uvm_reg_sequence #(uvm_sequence #(uvm_reg_
                                              "NO_MEM_WALK_TEST", 0) != null )
          return;
 
-      n_bits = mem.get_n_bits();
+
 
       // Memories may be accessible from multiple physical interfaces (maps)
       mem.get_maps(maps);
@@ -143,7 +143,7 @@ class uvm_mem_single_walk_seq extends uvm_reg_sequence #(uvm_sequence #(uvm_reg_
                                               status.name(), mem.get_full_name(), k, maps[j].get_full_name()))
                end
                else begin
-                  exp = ~(k-1) & ((1'b1<<n_bits)-1);
+
                   if (val !== exp) begin
                      `uvm_error("uvm_mem_walk_seq", $sformatf("\"%s[%0d]\" read back as 'h%h instead of 'h%h.",
                                                  mem.get_full_name(), k-1, val, exp))
@@ -165,7 +165,7 @@ class uvm_mem_single_walk_seq extends uvm_reg_sequence #(uvm_sequence #(uvm_reg_
                                               status.name(), mem.get_full_name(), k, maps[j].get_full_name()))
                end
                else begin
-                  exp = ~(k) & ((1'b1<<n_bits)-1);
+
                   if (val !== exp) begin
                      `uvm_error("uvm_mem_walk_seq", $sformatf("\"%s[%0d]\" read back as 'h%h instead of 'h%h.",
                                                  mem.get_full_name(), k, val, exp))
@@ -235,7 +235,7 @@ class uvm_mem_walk_seq extends uvm_reg_sequence #(uvm_sequence #(uvm_reg_item));
       uvm_report_info("STARTING_SEQ",{"\n\nStarting ",get_name()," sequence...\n"},UVM_LOW);
 
 `ifdef VERILATOR
-      mem_seq = uvm_mem_single_walk_seq::type_id_create("single_mem_walk_seq");
+
 `else
       mem_seq = uvm_mem_single_walk_seq::type_id::create("single_mem_walk_seq");
 `endif
