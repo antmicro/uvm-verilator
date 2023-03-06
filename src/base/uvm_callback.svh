@@ -1087,7 +1087,7 @@ class uvm_callback extends uvm_object;
 
   // @uvm-ieee 1800.2-2017 auto 10.7.1.2.1
   function new(string name="uvm_callback");
-    super.new(name);
+    
   endfunction
 
 

@@ -72,7 +72,7 @@ class uvm_text_tr_database extends uvm_tr_database;
    // @uvm-accellera The details of this API are specific to the Accellera implementation, and are not being considered for contribution to 1800.2
   
    function new(string name="unnamed-uvm_text_tr_database");
-      super.new(name);
+      
 
       m_filename_dap = new("filename_dap");
       m_filename_dap.set("tr_db.log");

@@ -57,7 +57,7 @@ class uvm_sequence_item extends uvm_transaction;
   
   // @uvm-ieee 1800.2-2017 auto 14.1.2.1
   function new (string name = "uvm_sequence_item");
-    super.new(name);
+    
   endfunction
 
   function string get_type_name();

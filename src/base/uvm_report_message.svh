@@ -299,7 +299,7 @@ class uvm_report_message_element_container extends uvm_object;
   //
 
   function new(string name = "element_container");
-    super.new(name);
+    
   endfunction
 
 
@@ -503,7 +503,7 @@ class uvm_report_message extends uvm_object;
 
   // @uvm-ieee 1800.2-2017 auto 6.2.2.1
   function new(string name = "uvm_report_message");
-    super.new(name);
+    
     _report_message_element_container = new();
   endfunction
 

@@ -67,7 +67,7 @@ class uvm_reg_single_bit_bash_seq extends uvm_reg_sequence;
 
    // @uvm-ieee 1800.2-2017 auto E.2.1.3
    function new(string name="uvm_reg_single_bit_bash_seq");
-     super.new(name);
+     
    endfunction
 
    virtual task body();
@@ -222,7 +222,7 @@ class uvm_reg_bit_bash_seq extends uvm_reg_sequence;
 
    // @uvm-ieee 1800.2-2017 auto E.2.2.3.1
    function new(string name="uvm_reg_bit_bash_seq");
-     super.new(name);
+     
    endfunction
 
 

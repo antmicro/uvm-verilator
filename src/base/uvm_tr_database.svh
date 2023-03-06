@@ -64,7 +64,7 @@ virtual class uvm_tr_database extends uvm_object;
 
    // @uvm-ieee 1800.2-2017 auto 7.1.2
    function new(string name="unnamed-uvm_tr_database");
-      super.new(name);
+      
    endfunction : new
 
    // Group -- NODOCS -- Database API

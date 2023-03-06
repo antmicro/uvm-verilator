@@ -1187,7 +1187,7 @@ endfunction
 
 // Constructor implementation
 function uvm_packer::new(string name="");
-  super.new(name);
+  
   flush();
 endfunction
 

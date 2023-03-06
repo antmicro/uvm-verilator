@@ -49,7 +49,7 @@ class uvm_barrier extends uvm_object;
 
   // @uvm-ieee 1800.2-2017 auto 10.3.2.1
   function new (string name="", int threshold=0);
-    super.new(name);
+    
     m_event = new({"barrier_",name});
     this.threshold = threshold;
     num_waiters = 0;

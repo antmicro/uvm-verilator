@@ -68,7 +68,7 @@ virtual class uvm_tr_stream extends uvm_object;
 
    // @uvm-ieee 1800.2-2017 auto 7.2.2
    function new(string name="unnamed-uvm_tr_stream");
-      super.new(name);
+      
       m_cfg_dap = new("cfg_dap");
    endfunction : new
 

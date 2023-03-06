@@ -37,7 +37,7 @@ virtual class uvm_link_base extends uvm_object;
 
    // @uvm-ieee 1800.2-2017 auto 7.3.1.2
    function new(string name="unnamed-uvm_link_base");
-      super.new(name);
+      
    endfunction : new
 
    // Group -- NODOCS --  Accessors
@@ -115,7 +115,7 @@ class uvm_parent_child_link extends uvm_link_base;
 
    // @uvm-ieee 1800.2-2017 auto 7.3.2.2.1
    function new(string name="unnamed-uvm_parent_child_link");
-      super.new(name);
+      
    endfunction : new
 
 
@@ -192,7 +192,7 @@ class uvm_cause_effect_link extends uvm_link_base;
 
    // @uvm-ieee 1800.2-2017 auto 7.3.3.2.1
    function new(string name="unnamed-uvm_cause_effect_link");
-      super.new(name);
+      
    endfunction : new
 
 
@@ -268,7 +268,7 @@ class uvm_related_link extends uvm_link_base;
 
    // @uvm-ieee 1800.2-2017 auto 7.3.4.2.1
    function new(string name="unnamed-uvm_related_link");
-      super.new(name);
+      
    endfunction : new
 
 

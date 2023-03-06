@@ -511,7 +511,7 @@ endclass
 function uvm_transaction::new (string name="", 
                                uvm_component initiator = null);
 
-  super.new(name);
+  
   this.initiator = initiator;
   m_transaction_id = -1;
 `ifdef UVM_ENABLE_DEPRECATED_API
