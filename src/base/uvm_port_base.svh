@@ -607,11 +607,7 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
     end
 
     if (level == 0) begin
-      if (save != "")
-        save = {"This port's fanin network:\n\n  ",
-               get_full_name()," (",get_type_name(),")\n",save,"\n"};
-      if (m_provided_to.num() == 0)
-        save = {save,indent,"This port has not been bound\n"};
+
       m_comp.uvm_report_info("debug_provided_to", save);
     end
   
