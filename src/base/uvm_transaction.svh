@@ -695,7 +695,7 @@ endfunction
 // ---------
 
 function void uvm_transaction::accept_tr (time accept_time = 0);
-  uvm_event#(uvm_object) e;
+  uvm_event e;
    
   if(accept_time != 0)
     this.accept_time = accept_time;
@@ -778,7 +778,7 @@ function int uvm_transaction::m_begin_tr (time begin_time=0,
    do_begin_tr(); //execute callback before event trigger
    
    begin
-      uvm_event#(uvm_object) begin_event ;
+      uvm_event begin_event ;
       begin_event = events.get("begin");
       begin_event.trigger();
    end
@@ -809,7 +809,7 @@ function void uvm_transaction::end_tr (time end_time=0, bit free_handle=1);
    tr_recorder = null;
 
    begin
-      uvm_event#(uvm_object) end_event ;
+      uvm_event end_event ;
       end_event = events.get("end") ;
       end_event.trigger();
    end
