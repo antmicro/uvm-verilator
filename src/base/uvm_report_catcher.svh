@@ -33,8 +33,8 @@ typedef class uvm_report_handler;
 typedef class uvm_report_server;
 typedef class uvm_report_catcher;
 
-typedef uvm_callbacks    #(uvm_report_object, uvm_report_catcher) uvm_report_cb;
-typedef uvm_callback_iter#(uvm_report_object, uvm_report_catcher) uvm_report_cb_iter /* @uvm-ieee 1800.2-2017 auto D.4.5*/   ;
+typedef uvm_callbacks uvm_report_cb;
+typedef uvm_callback_iter uvm_report_cb_iter /* @uvm-ieee 1800.2-2017 auto D.4.5*/   ;
 
 class sev_id_struct;
   bit sev_specified ;
@@ -356,7 +356,7 @@ virtual class uvm_report_catcher extends uvm_callback;
 
 	  q.push_back("-------------UVM REPORT CATCHERS----------------------------\n");
 
-	  catcher = iter.first();
+	  $cast(catcher, iter.first());
 	  while(catcher != null) begin
 		  if(catcher.callback_mode())
 			  enabled = "ON";        
@@ -364,7 +364,7 @@ virtual class uvm_report_catcher extends uvm_callback;
 			  enabled = "OFF";        
 
 		  q.push_back($sformatf("%20s : %s\n", catcher.get_name(),enabled));
-		  catcher = iter.next();
+		  $cast(catcher, iter.next());
 	  end
 	  q.push_back("--------------------------------------------------------------\n");
 

@@ -20,7 +20,7 @@
 //----------------------------------------------------------------------
 
 
-class uvm_sequencer_analysis_fifo #(type RSP = uvm_sequence_item) extends uvm_tlm_fifo #(RSP);
+class uvm_sequencer_analysis_fifo #(type RSP = uvm_sequence_item) extends uvm_tlm_fifo;
 
   uvm_analysis_imp #(RSP, uvm_sequencer_analysis_fifo) analysis_export;
   uvm_sequencer_base sequencer_ptr;
