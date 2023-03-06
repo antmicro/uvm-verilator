@@ -908,7 +908,7 @@ function void uvm_root::m_process_config(string cfg, bit is_int);
 	end
 	else begin
 		uvm_report_info("UVM_CMDLINE_PROC", {"Applying config setting from the command line: +uvm_set_config_string=", cfg}, UVM_NONE);
-		uvm_config_string::set(m_uvm_top, split_val[0], split_val[1], split_val[2]);
+		uvm_config_string::set(m_uvm_top, split_val[0], split_val[1], 0);
 	end
 
 endfunction
@@ -951,7 +951,7 @@ function void uvm_root::m_process_default_sequence(string cfg);
 	end
 	else begin
 		uvm_report_info("UVM_CMDLINE_PROC", {"Setting default sequence from the command line: +uvm_set_default_sequence=", cfg}, UVM_NONE);
-		uvm_config_db#(uvm_object_wrapper)::set(this, {split_val[0], ".", split_val[1]}, "default_sequence", w);
+		uvm_config_db::set(this, {split_val[0], ".", split_val[1]}, "default_sequence", null);
 	end
 
 endfunction : m_process_default_sequence

@@ -32,7 +32,7 @@
 
 // @uvm-ieee 1800.2-2017 auto 15.5.1
 class uvm_sequencer #(type REQ=uvm_sequence_item, RSP=REQ)
-                                   extends uvm_sequencer_param_base #(REQ, RSP);
+                                   extends uvm_sequencer_param_base;
 
   typedef uvm_sequencer this_type;
 
@@ -219,7 +219,7 @@ task uvm_sequencer::get_next_item(output REQ t);
   // is called between requests
   sequence_item_requested = 1;
   get_next_item_called = 1;
-  m_req_fifo.peek(t);
+
 endtask
 
 
@@ -261,12 +261,6 @@ task uvm_sequencer::try_next_item(output REQ t);
   wait_for_sequences();
 
   // attempt to get the item; if it fails, produce an error and return
-  if (!m_req_fifo.try_peek(t))
-    uvm_report_error("TRY_NEXT_BLOCKED", {"try_next_item: the selected sequence '",
-      seq.get_full_name(), "' did not produce an item within an NBA delay. ",
-      "Sequences should not consume time between calls to start_item and finish_item. ",
-      "Returning null item."}, UVM_NONE);
-
 endtask
 
 
@@ -280,7 +274,7 @@ function void uvm_sequencer::item_done(RSP item = null);
   sequence_item_requested = 0;
   get_next_item_called = 0;
   
-  if (m_req_fifo.try_get(t) == 0) begin
+  if (1'b0) begin
     uvm_report_fatal("SQRBADITMDN", {"Item_done() called with no outstanding requests.",
       " Each call to item_done() must be paired with a previous call to get_next_item()."});
   end else begin
@@ -313,7 +307,7 @@ task uvm_sequencer::get(output REQ t);
     m_select_sequence();
   end
   sequence_item_requested = 1;
-  m_req_fifo.peek(t);
+
   item_done();
 endtask
 
@@ -330,7 +324,7 @@ task uvm_sequencer::peek(output REQ t);
   // Set flag indicating that the item has been requested to ensure that item_done or get
   // is called between requests
   sequence_item_requested = 1;
-  m_req_fifo.peek(t);
+
 endtask
 
 

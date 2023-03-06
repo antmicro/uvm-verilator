@@ -400,7 +400,7 @@ endclass: uvm_vreg_cbs
 // Use this declaration to register virtual register callbacks rather than
 // the more verbose parameterized class
 //
-typedef uvm_callbacks#(uvm_vreg, uvm_vreg_cbs) uvm_vreg_cb /* @uvm-ieee 1800.2-2017 auto D.4.6.9*/   ;
+typedef uvm_callbacks uvm_vreg_cb /* @uvm-ieee 1800.2-2017 auto D.4.6.9*/   ;
 
 //
 // Type -- NODOCS -- uvm_vreg_cb_iter
@@ -409,7 +409,7 @@ typedef uvm_callbacks#(uvm_vreg, uvm_vreg_cbs) uvm_vreg_cb /* @uvm-ieee 1800.2-2
 // Use this declaration to iterate over registered virtual register callbacks
 // rather than the more verbose parameterized class
 //
-typedef uvm_callback_iter#(uvm_vreg, uvm_vreg_cbs) uvm_vreg_cb_iter /* @uvm-ieee 1800.2-2017 auto D.4.6.10*/   ;
+typedef uvm_callback_iter uvm_vreg_cb_iter /* @uvm-ieee 1800.2-2017 auto D.4.6.10*/   ;
 
 
 
@@ -912,9 +912,10 @@ task uvm_vreg::write(input  longint unsigned   idx,
       msk = ((1<<f.get_n_bits())-1) << lsb;
       tmp = (value & msk) >> lsb;
 
-
-      for (uvm_vreg_field_cbs cb = cbs.first(); cb != null;
-           cb = cbs.next()) begin
+      for (uvm_callback cb_ = cbs.first(); cb_ != null;
+           cb_ = cbs.next()) begin
+         uvm_vreg_field_cbs cb;
+         $cast(cb, cb_);
          cb.fname = this.fname;
          cb.lineno = this.lineno;
 
@@ -923,8 +924,10 @@ task uvm_vreg::write(input  longint unsigned   idx,
       value = (value & ~msk) | (tmp << lsb);
    end
 
-   for (uvm_vreg_cbs cb = cbs.first(); cb != null;
-        cb = cbs.next()) begin
+   for (uvm_callback cb_ = cbs.first(); cb_ != null;
+           cb_ = cbs.next()) begin
+      uvm_vreg_cbs cb;
+      $cast(cb, cb_);
       cb.fname = this.fname;
       cb.lineno = this.lineno;
 
@@ -944,8 +947,10 @@ task uvm_vreg::write(input  longint unsigned   idx,
       lsb += this.mem.get_n_bytes() * 8;
    end
 
-   for (uvm_vreg_cbs cb = cbs.first(); cb != null;
-        cb = cbs.next()) begin
+   for (uvm_callback cb_ = cbs.first(); cb_ != null;
+           cb_ = cbs.next()) begin
+      uvm_vreg_cbs cb;
+      $cast(cb, cb_);
       cb.fname = this.fname;
       cb.lineno = this.lineno;
       cb.post_write(this, idx, value, path, map, status);
@@ -959,8 +964,10 @@ task uvm_vreg::write(input  longint unsigned   idx,
       msk = ((1<<f.get_n_bits())-1) << lsb;
       tmp = (value & msk) >> lsb;
 
-      for (uvm_vreg_field_cbs cb = cbs.first(); cb != null;
-           cb = cbs.next()) begin
+      for (uvm_callback cb_ = cbs.first(); cb_ != null;
+           cb_ = cbs.next()) begin
+         uvm_vreg_field_cbs cb;
+         $cast(cb, cb_);
          cb.fname = this.fname;
          cb.lineno = this.lineno;
          cb.post_write(f, idx, tmp, path, map, status);
@@ -1014,17 +1021,20 @@ task uvm_vreg::read(input  longint unsigned   idx,
       uvm_vreg_field_cb_iter cbs = new(fields[i]);
       uvm_vreg_field f = fields[i];
 
-
-      for (uvm_vreg_field_cbs cb = cbs.first(); cb != null;
-           cb = cbs.next()) begin
+      for (uvm_callback cb_ = cbs.first(); cb_ != null;
+           cb_ = cbs.next()) begin
+         uvm_vreg_field_cbs cb;
+         $cast(cb, cb_);
          cb.fname = this.fname;
          cb.lineno = this.lineno;
 
       end
    end
 
-   for (uvm_vreg_cbs cb = cbs.first(); cb != null;
-        cb = cbs.next()) begin
+   for (uvm_callback cb_ = cbs.first(); cb_ != null;
+        cb_ = cbs.next()) begin
+      uvm_vreg_cbs cb;
+      $cast(cb, cb_);
       cb.fname = this.fname;
       cb.lineno = this.lineno;
 
@@ -1045,8 +1055,10 @@ task uvm_vreg::read(input  longint unsigned   idx,
       lsb += this.mem.get_n_bytes() * 8;
    end
 
-   for (uvm_vreg_cbs cb = cbs.first(); cb != null;
-        cb = cbs.next()) begin
+   for (uvm_callback cb_ = cbs.first(); cb_ != null;
+        cb_ = cbs.next()) begin
+      uvm_vreg_cbs cb;
+      $cast(cb, cb_);
       cb.fname = this.fname;
       cb.lineno = this.lineno;
       cb.post_read(this, idx, value, path, map, status);
@@ -1061,8 +1073,10 @@ task uvm_vreg::read(input  longint unsigned   idx,
       msk = ((1<<f.get_n_bits())-1) << lsb;
       tmp = (value & msk) >> lsb;
 
-      for (uvm_vreg_field_cbs cb = cbs.first(); cb != null;
-           cb = cbs.next()) begin
+      for (uvm_callback cb_ = cbs.first(); cb_ != null;
+           cb_ = cbs.next()) begin
+         uvm_vreg_field_cbs cb;
+         $cast(cb, cb_);
          cb.fname = this.fname;
          cb.lineno = this.lineno;
 

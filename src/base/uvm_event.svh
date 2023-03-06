@@ -253,17 +253,17 @@ endclass
 //------------------------------------------------------------------------------
 
 // @uvm-ieee 1800.2-2017 auto 10.1.2.1
-class uvm_event#(type T=uvm_object) extends uvm_event_base;
+class uvm_event extends uvm_event_base;
 
         typedef uvm_event this_type;
-        typedef uvm_event_callback#(T) cb_type;
-        typedef uvm_callbacks#(this_type, cb_type) cbs_type;
+        typedef uvm_event_callback cb_type;
+        typedef uvm_callbacks cbs_type;
    
         // Not using `uvm_register_cb(this_type, cb_type)
         // so as to try and get ~slightly~ better debug
         // output for names.
         static local function bit m_register_cb();
-	   return uvm_callbacks#(this_type,cb_type)::m_register_pair(
+	   return uvm_callbacks::m_register_pair(
                                                 "uvm_pkg::uvm_event#(T)",
                                                 "uvm_pkg::uvm_event_callback#(T)"
 				                                     );
@@ -277,8 +277,8 @@ class uvm_event#(type T=uvm_object) extends uvm_event_base;
 	   return "uvm_pkg::uvm_event#(T)";
 	endfunction : get_type_name
 
-	local T trigger_data;
-        local T default_data;
+	local uvm_object trigger_data;
+        local uvm_object default_data;
 
 	// Function -- NODOCS -- new
 	//
@@ -294,7 +294,7 @@ class uvm_event#(type T=uvm_object) extends uvm_event_base;
 	// This method calls <uvm_event_base::wait_trigger> followed by <get_trigger_data>.
 
 	// @uvm-ieee 1800.2-2017 auto 10.1.2.2.2
-	virtual task wait_trigger_data (output T data);
+	virtual task wait_trigger_data (output uvm_object data);
 		wait_trigger();
 		data = get_trigger_data();
 	endtask
@@ -305,7 +305,7 @@ class uvm_event#(type T=uvm_object) extends uvm_event_base;
 	// This method calls <uvm_event_base::wait_ptrigger> followed by <get_trigger_data>.
 
 	// @uvm-ieee 1800.2-2017 auto 10.1.2.2.3
-	virtual task wait_ptrigger_data (output T data);
+	virtual task wait_ptrigger_data (output uvm_object data);
 		wait_ptrigger();
 		data = get_trigger_data();
 	endtask
@@ -323,7 +323,7 @@ class uvm_event#(type T=uvm_object) extends uvm_event_base;
 	// trigger-specific information.
 
 	// @uvm-ieee 1800.2-2017 auto 10.1.2.2.4
-	virtual function void trigger (T data=null);
+	virtual function void trigger (uvm_object data=null);
 		int skip;
 	        cb_type cb_q[$];
 		skip=0;
@@ -350,19 +350,19 @@ class uvm_event#(type T=uvm_object) extends uvm_event_base;
 	// Gets the data, if any, provided by the last call to <trigger>.
 
 	// @uvm-ieee 1800.2-2017 auto 10.1.2.2.5
-	virtual function T get_trigger_data ();
+	virtual function uvm_object get_trigger_data ();
 		return trigger_data;
 	endfunction
 
         // Function -- NODOCS -- default data
 
         // @uvm-ieee 1800.2-2017 auto 10.1.2.2.6
-        virtual function T get_default_data();
+        virtual function uvm_object get_default_data();
 	   return default_data;
 	endfunction : get_default_data
 
         // @uvm-ieee 1800.2-2017 auto 10.1.2.2.6
-        virtual function void set_default_data(T data);
+        virtual function void set_default_data(uvm_object data);
 	   default_data = data;
 	endfunction : set_default_data
 
@@ -378,7 +378,7 @@ class uvm_event#(type T=uvm_object) extends uvm_event_base;
 	// to 1, the default, ~cb~ is added to the back of the callback list. Otherwise,
 	// ~cb~ is placed at the front of the callback list.
 
-	virtual function void add_callback (uvm_event_callback#(T) cb, bit append=1);
+	virtual function void add_callback (uvm_event_callback#(uvm_object) cb, bit append=1);
 	   if (append)
 	     cbs_type::add(this, cb, UVM_APPEND);
 	   else
@@ -390,13 +390,13 @@ class uvm_event#(type T=uvm_object) extends uvm_event_base;
 	//
 	// Unregisters the given callback, ~cb~, from this event. 
 
-	virtual function void delete_callback (uvm_event_callback#(T) cb);
+	virtual function void delete_callback (uvm_event_callback#(uvm_object) cb);
 	   cbs_type::delete(this, cb);
 	endfunction // delete_callback
 `endif   
 
 	virtual function void do_print (uvm_printer printer);
-	   uvm_event#(uvm_object) oe;
+	   uvm_event oe;
 	   cb_type cb_q[$];
 	   
 	   super.do_print(printer);
@@ -412,9 +412,9 @@ class uvm_event#(type T=uvm_object) extends uvm_event_base;
 	     printer.print_object("trigger_data", oe.get_trigger_data());
 	   end
 	   else begin
-	      uvm_event#(string) se;
+	      uvm_event se;
 	      if ($cast(se, this))
-		printer.print_string("trigger_data", se.get_trigger_data());
+		printer.print_string("trigger_data", "");
 	   end
 	endfunction
 	
