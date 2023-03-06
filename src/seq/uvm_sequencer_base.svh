@@ -497,7 +497,6 @@ function int uvm_sequencer_base::m_register_sequence(uvm_sequence_base sequence_
   if (sequence_ptr.m_get_sqr_sequence_id(m_sequencer_id, 1) > 0)
     return sequence_ptr.get_sequence_id();
 
-  sequence_ptr.m_set_sqr_sequence_id(m_sequencer_id, g_sequence_id++);
   reg_sequences[sequence_ptr.get_sequence_id()] = sequence_ptr;
   return sequence_ptr.get_sequence_id();
 endfunction

@@ -112,8 +112,6 @@ function string uvm_instance_scope();
   //remove the extraneous .uvm_instance_scope piece or ::uvm_instance_scope
   pos = uvm_instance_scope.len()-1;
   c = uvm_instance_scope[pos];
-  while(pos && (c != ".") && (c != ":")) 
-    c = uvm_instance_scope[--pos];
   if(pos == 0)
     uvm_report_error("SCPSTR", $sformatf("Illegal name %s in scope string",uvm_instance_scope));
   uvm_instance_scope = uvm_instance_scope.substr(0,pos);
