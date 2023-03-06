@@ -93,7 +93,7 @@ class uvm_mem_single_access_seq extends uvm_reg_sequence;
          return;
       end
 
-      n_bits = mem.get_n_bits();
+
       
       // Memories may be accessible from multiple physical interfaces (maps)
       mem.get_maps(maps);
@@ -107,7 +107,7 @@ class uvm_mem_single_access_seq extends uvm_reg_sequence;
              mem.get_full_name(),"' in map '", maps[j].get_full_name(),
              "' ..."}, UVM_LOW)
 
-         mode = mem.get_access(maps[j]);
+
          
          // The access pro1cess is, for address k:
          // - Write random value via front door
@@ -115,7 +115,7 @@ class uvm_mem_single_access_seq extends uvm_reg_sequence;
          // - Write complement of random value via back door
          // - Read via front door and expect inverted random value
          for (int k = 0; k < mem.get_size(); k++) begin
-            val = $random & uvm_reg_data_t'((1'b1<<n_bits)-1);
+
             if (n_bits > 32)
               val = uvm_reg_data_t'(val << 32) | $random;
             if (mode == "RO") begin
@@ -134,7 +134,7 @@ class uvm_mem_single_access_seq extends uvm_reg_sequence;
             end
             #1;
             
-            val = 'x;
+
             mem.peek(status, k, val);
             if (status != UVM_IS_OK) begin
                `uvm_error("uvm_mem_access_seq", $sformatf("Status was %s when reading \"%s[%0d]\" through backdoor.",
@@ -147,7 +147,7 @@ class uvm_mem_single_access_seq extends uvm_reg_sequence;
                end
             end
             
-            exp = ~exp & ((1'b1<<n_bits)-1);
+
             mem.poke(status, k, exp);
             if (status != UVM_IS_OK) begin
                `uvm_error("uvm_mem_access_seq", $sformatf("Status was %s when writing \"%s[%0d-1]\" through backdoor.",
@@ -233,7 +233,7 @@ class uvm_mem_access_seq extends uvm_reg_sequence;
       uvm_report_info("STARTING_SEQ",{"\n\nStarting ",""," sequence...\n"},UVM_LOW);
       
 `ifdef VERILATOR
-      mem_seq = uvm_mem_single_access_seq::type_id_create("single_mem_access_seq");
+
 `else
       mem_seq = uvm_mem_single_access_seq::type_id::create("single_mem_access_seq");
 `endif
