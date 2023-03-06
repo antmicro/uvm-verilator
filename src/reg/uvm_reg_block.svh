@@ -55,7 +55,7 @@ class uvm_reg_block extends uvm_object;
 
    local string         default_hdl_path = "RTL";
    local uvm_reg_backdoor backdoor;
-   local uvm_object_string_pool #(uvm_queue #(string)) hdl_paths_pool;
+   local uvm_object_string_pool hdl_paths_pool;
    local string         root_hdl_paths[string];
 
    local bit            locked;
@@ -1610,9 +1610,6 @@ endfunction
 
 function uvm_reg_cvr_t uvm_reg_block::build_coverage(uvm_reg_cvr_t models);
    build_coverage = UVM_NO_COVERAGE;
-   void'(uvm_reg_cvr_rsrc_db::read_by_name({"uvm_reg::", get_full_name()},
-                                           "include_coverage",
-                                           build_coverage, this));
    return build_coverage & models;
 endfunction: build_coverage
 

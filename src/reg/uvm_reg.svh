@@ -56,7 +56,7 @@ class uvm_reg extends uvm_object;
    local static int unsigned m_max_size;
 
    local uvm_object_string_pool
-       #(uvm_queue #(uvm_hdl_path_concat)) m_hdl_paths_pool;
+       m_hdl_paths_pool;
 
    //----------------------
    // Group -- NODOCS -- Initialization
@@ -1277,9 +1277,6 @@ endfunction
 function void uvm_reg::include_coverage(string scope,
                                         uvm_reg_cvr_t models,
                                         uvm_object accessor = null);
-   uvm_reg_cvr_rsrc_db::set({"uvm_reg::", scope},
-                            "include_coverage",
-                            models, accessor);
 endfunction
 
 
@@ -1287,9 +1284,6 @@ endfunction
 
 function uvm_reg_cvr_t uvm_reg::build_coverage(uvm_reg_cvr_t models);
    build_coverage = UVM_NO_COVERAGE;
-   void'(uvm_reg_cvr_rsrc_db::read_by_name({"uvm_reg::", get_full_name()},
-                                           "include_coverage",
-                                           build_coverage, this));
    return build_coverage & models;
 endfunction: build_coverage
 
@@ -1608,7 +1602,9 @@ task uvm_reg::do_write (uvm_reg_item rw);
          msk = ((1<<f.get_n_bits())-1) << lsb;
          rw.value[0] = (value & msk) >> lsb;
          f.pre_write(rw);
-         for (uvm_reg_cbs cb=cbs.first(); cb!=null; cb=cbs.next()) begin
+         for (uvm_callback cb_ = cbs.first(); cb_ != null; cb_ = cbs.next()) begin
+            uvm_reg_cbs cb;
+            $cast(cb, cb_);
             rw.element = f;
             rw.element_kind = UVM_FIELD;
             cb.pre_write(rw);
@@ -1623,8 +1619,11 @@ task uvm_reg::do_write (uvm_reg_item rw);
 
    // PRE-WRITE CBS - REG
    pre_write(rw);
-   for (uvm_reg_cbs cb=cbs.first(); cb!=null; cb=cbs.next())
+   for (uvm_callback cb_ = cbs.first(); cb_ != null; cb_ = cbs.next()) begin
+      uvm_reg_cbs cb;
+      $cast(cb, cb_);
       cb.pre_write(rw);
+   end
 
    if (rw.status != UVM_IS_OK) begin
      m_write_in_progress = 1'b0;
@@ -1732,8 +1731,11 @@ task uvm_reg::do_write (uvm_reg_item rw);
    value = rw.value[0];
 
    // POST-WRITE CBS - REG
-   for (uvm_reg_cbs cb=cbs.first(); cb!=null; cb=cbs.next())
+   for (uvm_callback cb_ = cbs.first(); cb_ != null; cb_ = cbs.next()) begin
+      uvm_reg_cbs cb;
+      $cast(cb, cb_);
       cb.post_write(rw);
+   end
    post_write(rw);
 
    // POST-WRITE CBS - FIELDS
@@ -1745,8 +1747,11 @@ task uvm_reg::do_write (uvm_reg_item rw);
       rw.element_kind = UVM_FIELD;
       rw.value[0] = (value >> f.get_lsb_pos()) & ((1<<f.get_n_bits())-1);
       
-      for (uvm_reg_cbs cb=cbs.first(); cb!=null; cb=cbs.next())
+      for (uvm_callback cb_ = cbs.first(); cb_ != null; cb_ = cbs.next()) begin
+         uvm_reg_cbs cb;
+         $cast(cb, cb_);
          cb.post_write(rw);
+      end
       f.post_write(rw);
    end
    
@@ -1857,8 +1862,11 @@ task uvm_reg::do_read(uvm_reg_item rw);
       rw.element = f;
       rw.element_kind = UVM_FIELD;
       m_fields[i].pre_read(rw);
-      for (uvm_reg_cbs cb=cbs.first(); cb!=null; cb=cbs.next())
+      for (uvm_callback cb_ = cbs.first(); cb_ != null; cb_ = cbs.next()) begin
+         uvm_reg_cbs cb;
+         $cast(cb, cb_);
          cb.pre_read(rw);
+      end
    end
 
    rw.element = this;
@@ -1866,8 +1874,11 @@ task uvm_reg::do_read(uvm_reg_item rw);
 
    // PRE-READ CBS - REG
    pre_read(rw);
-   for (uvm_reg_cbs cb=cbs.first(); cb!=null; cb=cbs.next())
+   for (uvm_callback cb_ = cbs.first(); cb_ != null; cb_ = cbs.next()) begin
+      uvm_reg_cbs cb;
+      $cast(cb, cb_);
       cb.pre_read(rw);
+   end
 
    if (rw.status != UVM_IS_OK) begin
      m_read_in_progress = 1'b0;
@@ -2014,8 +2025,11 @@ task uvm_reg::do_read(uvm_reg_item rw);
    value = rw.value[0]; // preserve 
 
    // POST-READ CBS - REG
-   for (uvm_reg_cbs cb = cbs.first(); cb != null; cb = cbs.next())
+   for (uvm_callback cb_ = cbs.first(); cb_ != null; cb_ = cbs.next()) begin
+      uvm_reg_cbs cb;
+      $cast(cb, cb_);
       cb.post_read(rw);
+   end
    post_read(rw);
 
    // POST-READ CBS - FIELDS
@@ -2027,8 +2041,11 @@ task uvm_reg::do_read(uvm_reg_item rw);
       rw.element_kind = UVM_FIELD;
       rw.value[0] = (value >> f.get_lsb_pos()) & ((1<<f.get_n_bits())-1);
 
-      for (uvm_reg_cbs cb=cbs.first(); cb!=null; cb=cbs.next())
+      for (uvm_callback cb_ = cbs.first(); cb_ != null; cb_ = cbs.next()) begin
+         uvm_reg_cbs cb;
+         $cast(cb, cb_);
          cb.post_read(rw);
+      end
       f.post_read(rw);
    end
 

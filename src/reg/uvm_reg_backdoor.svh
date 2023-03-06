@@ -61,8 +61,8 @@ virtual class uvm_reg_backdoor extends uvm_object;
 
    // @uvm-ieee 1800.2-2017 auto 19.5.2.3
    protected task do_post_read(uvm_reg_item rw);
-      uvm_callback_iter#(uvm_reg_backdoor, uvm_reg_cbs) iter = new(this);
-      for(uvm_reg_cbs cb = iter.last(); cb != null; cb=iter.prev())
+      uvm_callback_iter iter = new(this);
+      for (uvm_callback cb_ = iter.first(); cb_ != null; cb_ = iter.next())
         ;
       
       `uvm_do_obj_callbacks(uvm_reg_backdoor,uvm_reg_cbs,this,post_read(rw))
@@ -73,10 +73,10 @@ virtual class uvm_reg_backdoor extends uvm_object;
 
    // @uvm-ieee 1800.2-2017 auto 19.5.2.4
    protected task do_pre_write(uvm_reg_item rw);
-      uvm_callback_iter#(uvm_reg_backdoor, uvm_reg_cbs) iter = new(this);
+      uvm_callback_iter iter = new(this);
       pre_write(rw);
       `uvm_do_obj_callbacks(uvm_reg_backdoor,uvm_reg_cbs,this,pre_write(rw))
-      for(uvm_reg_cbs cb = iter.first(); cb != null; cb = iter.next())
+      for (uvm_callback cb_ = iter.first(); cb_ != null; cb_ = iter.next())
         ;
       
    endtask

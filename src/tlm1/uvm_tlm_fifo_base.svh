@@ -48,11 +48,11 @@ endclass
 //------------------------------------------------------------------------------
 
 // @uvm-ieee 1800.2-2017 auto 12.2.8.1.1
-virtual class uvm_tlm_fifo_base #(type T=int) extends uvm_component;
+virtual class uvm_tlm_fifo_base extends uvm_component;
 
   `uvm_component_abstract_param_utils(uvm_tlm_fifo_base)
   
-  typedef uvm_tlm_fifo_base #(T) this_type;
+  typedef uvm_tlm_fifo_base this_type;
   
   // Port -- NODOCS -- put_export
   //
@@ -67,7 +67,7 @@ virtual class uvm_tlm_fifo_base #(type T=int) extends uvm_component;
   // export, provided the transaction types match. See <uvm_tlm_if_base #(T1,T2)>
   // for more information on each of the above interface methods.
 
-  uvm_put_imp #(T, this_type) put_export;
+  uvm_put_imp #(int, this_type) put_export;
   
 
   // Port -- NODOCS -- get_peek_export
@@ -87,7 +87,7 @@ virtual class uvm_tlm_fifo_base #(type T=int) extends uvm_component;
   // <uvm_tlm_if_base #(T1,T2)> for more information on each of the above interface
   // methods.
 
-  uvm_get_peek_imp #(T, this_type) get_peek_export;  
+  uvm_get_peek_imp #(int, this_type) get_peek_export;  
 
 
   // Port -- NODOCS -- put_ap
@@ -101,7 +101,7 @@ virtual class uvm_tlm_fifo_base #(type T=int) extends uvm_component;
   // See <uvm_tlm_if_base #(T1,T2)> for more information on the ~write~ interface
   // method.
 
-  uvm_analysis_port #(T) put_ap;
+  uvm_analysis_port #(int) put_ap;
 
 
   // Port -- NODOCS -- get_ap
@@ -115,27 +115,27 @@ virtual class uvm_tlm_fifo_base #(type T=int) extends uvm_component;
   // All connected analysis exports and imps will receive get transactions.
   // See <uvm_tlm_if_base #(T1,T2)> for more information on the ~write~ method.
 
-  uvm_analysis_port #(T) get_ap;
+  uvm_analysis_port #(int) get_ap;
 
 
   // The following are aliases to the above put_export.
 
-  uvm_put_imp      #(T, this_type) blocking_put_export;
-  uvm_put_imp      #(T, this_type) nonblocking_put_export;
+  uvm_put_imp      #(int, this_type) blocking_put_export;
+  uvm_put_imp      #(int, this_type) nonblocking_put_export;
 
   // The following are all aliased to the above get_peek_export, which provides
   // the superset of these interfaces.
 
-  uvm_get_peek_imp #(T, this_type) blocking_get_export;
-  uvm_get_peek_imp #(T, this_type) nonblocking_get_export;
-  uvm_get_peek_imp #(T, this_type) get_export;
+  uvm_get_peek_imp #(int, this_type) blocking_get_export;
+  uvm_get_peek_imp #(int, this_type) nonblocking_get_export;
+  uvm_get_peek_imp #(int, this_type) get_export;
   
-  uvm_get_peek_imp #(T, this_type) blocking_peek_export;
-  uvm_get_peek_imp #(T, this_type) nonblocking_peek_export;
-  uvm_get_peek_imp #(T, this_type) peek_export;
+  uvm_get_peek_imp #(int, this_type) blocking_peek_export;
+  uvm_get_peek_imp #(int, this_type) nonblocking_peek_export;
+  uvm_get_peek_imp #(int, this_type) peek_export;
   
-  uvm_get_peek_imp #(T, this_type) blocking_get_peek_export;
-  uvm_get_peek_imp #(T, this_type) nonblocking_get_peek_export;
+  uvm_get_peek_imp #(int, this_type) blocking_get_peek_export;
+  uvm_get_peek_imp #(int, this_type) nonblocking_get_peek_export;
 
 
   // Function -- NODOCS -- new
@@ -187,34 +187,34 @@ virtual class uvm_tlm_fifo_base #(type T=int) extends uvm_component;
   endfunction
 
   // @uvm-ieee 1800.2-2017 auto 12.2.8.1.3
-  virtual task put(T t);
+  virtual task put(int t);
     uvm_report_error("put", `UVM_TLM_FIFO_TASK_ERROR, UVM_NONE);
   endtask
 
   // @uvm-ieee 1800.2-2017 auto 12.2.8.1.4
-  virtual task get(output T t);
+  virtual task get(output int t);
     uvm_report_error("get", `UVM_TLM_FIFO_TASK_ERROR, UVM_NONE);
   endtask
 
   // @uvm-ieee 1800.2-2017 auto 12.2.8.1.4
-  virtual task peek(output T t);
+  virtual task peek(output int t);
     uvm_report_error("peek", `UVM_TLM_FIFO_TASK_ERROR, UVM_NONE);
   endtask
   
   // @uvm-ieee 1800.2-2017 auto 12.2.8.1.3
-  virtual function bit try_put(T t);
+  virtual function bit try_put(int t);
     uvm_report_error("try_put", `UVM_TLM_FIFO_FUNCTION_ERROR, UVM_NONE);
     return 0;
   endfunction
 
   // @uvm-ieee 1800.2-2017 auto 12.2.8.1.4
-  virtual function bit try_get(output T t);
+  virtual function bit try_get(output int t);
     uvm_report_error("try_get", `UVM_TLM_FIFO_FUNCTION_ERROR, UVM_NONE);
     return 0;
   endfunction
 
   // @uvm-ieee 1800.2-2017 auto 12.2.8.1.4
-  virtual function bit try_peek(output T t);
+  virtual function bit try_peek(output int t);
     uvm_report_error("try_peek", `UVM_TLM_FIFO_FUNCTION_ERROR, UVM_NONE);
     return 0;
   endfunction

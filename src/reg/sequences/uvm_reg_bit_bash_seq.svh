@@ -45,7 +45,7 @@
 // matches the full name of the register,
 // the register is not tested.
 //
-//| uvm_resource_db#()::set({"REG::",regmodel.blk.r0.get_full_name()},
+//| uvm_resource_db::set({"REG::",regmodel.blk.r0.get_full_name()},
 //|                            "NO_REG_TESTS", 1, this);
 //
 // Registers that contain fields with unknown access policies
@@ -84,9 +84,9 @@ class uvm_reg_single_bit_bash_seq extends uvm_reg_sequence;
       end
 
       // Registers with some attributes are not to be tested
-      if (uvm_resource_db#()::get_by_name({"REG::",rg.get_full_name()},
+      if (uvm_resource_db::get_by_name({"REG::",rg.get_full_name()},
                                              "NO_REG_TESTS", 0) != null ||
-          uvm_resource_db#()::get_by_name({"REG::",rg.get_full_name()},
+          uvm_resource_db::get_by_name({"REG::",rg.get_full_name()},
                                              "NO_REG_BIT_BASH_TEST", 0) != null )
             return;
       
@@ -196,7 +196,7 @@ endclass: uvm_reg_single_bit_bash_seq
 // matches the full name of the block,
 // the block is not tested.
 //
-//| uvm_resource_db#()::set({"REG::",regmodel.blk.get_full_name(),".*"},
+//| uvm_resource_db::set({"REG::",regmodel.blk.get_full_name(),".*"},
 //|                            "NO_REG_TESTS", 1, this);
 //
 //------------------------------------------------------------------------------
@@ -257,9 +257,9 @@ class uvm_reg_bit_bash_seq extends uvm_reg_sequence;
       uvm_reg regs[$];
       uvm_reg_block blks[$];
       
-      if (uvm_resource_db#()::get_by_name({"REG::",blk.get_full_name()},
+      if (uvm_resource_db::get_by_name({"REG::",blk.get_full_name()},
                                              "NO_REG_TESTS", 0) != null ||
-          uvm_resource_db#()::get_by_name({"REG::",blk.get_full_name()},
+          uvm_resource_db::get_by_name({"REG::",blk.get_full_name()},
                                              "NO_REG_BIT_BASH_TEST", 0) != null )
          return;
 
@@ -267,9 +267,9 @@ class uvm_reg_bit_bash_seq extends uvm_reg_sequence;
       blk.get_registers(regs, UVM_NO_HIER);
       foreach (regs[i]) begin
          // Registers with some attributes are not to be tested
-         if (uvm_resource_db#()::get_by_name({"REG::",regs[i].get_full_name()},
+         if (uvm_resource_db::get_by_name({"REG::",regs[i].get_full_name()},
                                                 "NO_REG_TESTS", 0) != null ||
-	     uvm_resource_db#()::get_by_name({"REG::",regs[i].get_full_name()},
+	     uvm_resource_db::get_by_name({"REG::",regs[i].get_full_name()},
                                                 "NO_REG_BIT_BASH_TEST", 0) != null )
             continue;
          

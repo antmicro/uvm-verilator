@@ -43,47 +43,43 @@
 
 //------------------------------------------------------------------------------
 //
-// CLASS --NODOCS-- uvm_algorithmic_comparator #(BEFORE,AFTER,TRANSFORMER)
+// CLASS --NODOCS-- uvm_algorithmic_comparator #(int,AFTER,TRANSFORMER)
 //
-// Compares two streams of data objects of different types, ~BEFORE~ and ~AFTER~.
+// Compares two streams of data objects of different types, ~int~ and ~AFTER~.
 //
 // The algorithmic comparator is a wrapper around <uvm_in_order_class_comparator #(T)>.
 // Like the in-order comparator, the algorithmic comparator compares two streams
-// of transactions, the ~BEFORE~ stream and the ~AFTER~ stream. It is often the case
+// of transactions, the ~int~ stream and the ~AFTER~ stream. It is often the case
 // when two streams of transactions need to be compared that the two streams are
-// in different forms. That is, the type of the ~BEFORE~ transaction stream is
+// in different forms. That is, the type of the ~int~ transaction stream is
 // different than the type of the ~AFTER~ transaction stream.
 //
 // The uvm_algorithmic_comparator's ~TRANSFORMER~ type parameter specifies the
-// class responsible for converting transactions of type ~BEFORE~ into those of
-// type ~AFTER~. This transformer class must provide a transform() method with the
+// class responsible for converting transactions of type ~int~ into those of
+// type ~int~. This transformer class must provide a transform() method with the
 // following prototype:
 //
-//|    function AFTER transform (BEFORE b);
+//|    function int transform (int b);
 //
-// Matches and mismatches are reported in terms of the ~AFTER~ transactions.
+// Matches and mismatches are reported in terms of the ~int~ transactions.
 // For more information, see the 
 // <uvm_in_order_comparator #(T,comp_type,convert,pair_type)> class.
 //
 //------------------------------------------------------------------------------
 
 
-class uvm_algorithmic_comparator #( type BEFORE=int,
-                                    type AFTER=int,
-                                    type TRANSFORMER=int) extends uvm_component;
+class uvm_algorithmic_comparator extends uvm_component;
 
-  typedef uvm_algorithmic_comparator #( BEFORE , 
-                                        AFTER , 
-                                        TRANSFORMER ) this_type;
+  typedef uvm_algorithmic_comparator this_type;
   
   `uvm_component_param_utils(this_type)
-  `uvm_type_name_decl("uvm_algorithmic_comparator #(BEFORE,AFTER,TRANSFORMER)")
+  `uvm_type_name_decl("uvm_algorithmic_comparator #(int,int,int)")
 
   // Port --NODOCS-- before_export
   //
-  // The export to which a data stream of type BEFORE is sent via a connected
+  // The export to which a data stream of type int is sent via a connected
   // analysis port. Publishers (monitors) can send in an ordered stream of
-  // transactions against which the transformed BEFORE transactions will
+  // transactions against which the transformed int transactions will
   // (be compared.
 
   uvm_analysis_imp before_export;
@@ -91,15 +87,15 @@ class uvm_algorithmic_comparator #( type BEFORE=int,
 
   // Port --NODOCS-- after_export
   //
-  // The export to which a data stream of type AFTER is sent via a connected
+  // The export to which a data stream of type int is sent via a connected
   // analysis port. Publishers (monitors) can send in an ordered stream of
-  // transactions to be transformed and compared to the AFTER transactions.
+  // transactions to be transformed and compared to the int transactions.
 
   uvm_analysis_export  after_export;
 
  
   local uvm_in_order_class_comparator comp;
-  local TRANSFORMER m_transformer;
+  local int m_transformer;
      
   // Function --NODOCS-- new
   //
@@ -109,7 +105,7 @@ class uvm_algorithmic_comparator #( type BEFORE=int,
   // which must already be allocated (handles can't be ~null~) and must implement
   // the transform() method.
 
- function new(string name, uvm_component parent=null, TRANSFORMER transformer=null);
+ function new(string name, uvm_component parent=null, int transformer=null);
 
     super.new( name , parent );
      
@@ -124,7 +120,7 @@ class uvm_algorithmic_comparator #( type BEFORE=int,
     after_export.connect( comp.after_export );
   endfunction
 
-  function void write( input BEFORE b );
+  function void write( input int b );
   endfunction
       
 endclass

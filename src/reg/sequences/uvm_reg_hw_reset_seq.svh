@@ -44,7 +44,7 @@
 // matches the full name of the block or register,
 // the block or register is not tested.
 //
-//| uvm_resource_db#()::set({"REG::",regmodel.blk.get_full_name(),".*"},
+//| uvm_resource_db::set({"REG::",regmodel.blk.get_full_name(),".*"},
 //|                            "NO_REG_TESTS", 1, this);
 //
 // This is usually the first test executed on any DUT.
@@ -97,9 +97,9 @@ class uvm_reg_hw_reset_seq extends uvm_reg_sequence;
       uvm_reg_map sub_maps[$];
 	  uvm_reg regs[$];
 
-      if (uvm_resource_db#()::get_by_name({"REG::",blk.get_full_name()},
+      if (uvm_resource_db::get_by_name({"REG::",blk.get_full_name()},
                                              "NO_REG_TESTS", 0) != null ||
-          uvm_resource_db#()::get_by_name({"REG::",blk.get_full_name()},
+          uvm_resource_db::get_by_name({"REG::",blk.get_full_name()},
                                              "NO_REG_HW_RESET_TEST", 0) != null ) begin
             return;
 
@@ -108,10 +108,10 @@ class uvm_reg_hw_reset_seq extends uvm_reg_sequence;
       blk.get_registers(regs, UVM_NO_HIER);
                                              
       foreach(regs[ridx]) begin
-	                if (uvm_resource_db#()::get_by_name({"REG::",regs[ridx].get_full_name()},
+	                if (uvm_resource_db::get_by_name({"REG::",regs[ridx].get_full_name()},
                                                  "NO_REG_TESTS", 0) != null ||
                       regs[ridx].has_reset() == 0 ||
-		                uvm_resource_db#()::get_by_name({"REG::",regs[ridx].get_full_name()},
+		                uvm_resource_db::get_by_name({"REG::",regs[ridx].get_full_name()},
                                                  "NO_REG_HW_RESET_TEST", 0) != null )
 			                	continue;
 	      
@@ -128,7 +128,7 @@ class uvm_reg_hw_reset_seq extends uvm_reg_sequence;
             foreach(fields[fidx]) begin
                if (fields[fidx].has_reset() == 0 ||
                    fields[fidx].get_compare() == UVM_NO_CHECK || 
-                   uvm_resource_db#()::get_by_name({"REG::",fields[fidx].get_full_name()},
+                   uvm_resource_db::get_by_name({"REG::",fields[fidx].get_full_name()},
                                                        "NO_REG_HW_RESET_TEST", 0) != null) begin
                   field_check_restore[fields[fidx]] = fields[fidx].get_compare();  
                   fields[fidx].set_compare(UVM_NO_CHECK);
