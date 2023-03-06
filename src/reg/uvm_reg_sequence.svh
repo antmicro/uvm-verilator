@@ -58,7 +58,7 @@
 //------------------------------------------------------------------------------
 
 // @uvm-ieee 1800.2-2017 auto 19.4.1.1
-class uvm_reg_sequence #(type BASE=uvm_sequence #(uvm_reg_item)) extends BASE;
+class uvm_reg_sequence #(type BASE=uvm_sequence) extends BASE;
 
 
 

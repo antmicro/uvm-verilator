@@ -34,8 +34,8 @@ typedef class uvm_report_handler;
 typedef class uvm_report_server;
 typedef class uvm_report_catcher;
 
-typedef uvm_callbacks    #(uvm_report_object, uvm_report_catcher) uvm_report_cb;
-typedef uvm_callback_iter#(uvm_report_object, uvm_report_catcher) uvm_report_cb_iter /* @uvm-ieee 1800.2-2017 auto D.4.5*/   ;
+typedef uvm_callbacks uvm_report_cb;
+typedef uvm_callback_iter uvm_report_cb_iter /* @uvm-ieee 1800.2-2017 auto D.4.5*/   ;
 
 class sev_id_struct;
   bit sev_specified ;

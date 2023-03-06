@@ -296,7 +296,7 @@ endclass: uvm_vreg_field_cbs
 // Use this declaration to register virtual field callbacks rather than
 // the more verbose parameterized class
 //
-typedef uvm_callbacks#(uvm_vreg_field, uvm_vreg_field_cbs) uvm_vreg_field_cb /* @uvm-ieee 1800.2-2017 auto D.4.6.11*/   ;
+typedef uvm_callbacks uvm_vreg_field_cb /* @uvm-ieee 1800.2-2017 auto D.4.6.11*/   ;
 
 //
 // Type -- NODOCS -- uvm_vreg_field_cb_iter
@@ -305,7 +305,7 @@ typedef uvm_callbacks#(uvm_vreg_field, uvm_vreg_field_cbs) uvm_vreg_field_cb /* 
 // Use this declaration to iterate over registered virtual field callbacks
 // rather than the more verbose parameterized class
 //
-typedef uvm_callback_iter#(uvm_vreg_field, uvm_vreg_field_cbs) uvm_vreg_field_cb_iter /* @uvm-ieee 1800.2-2017 auto D.4.6.12*/   ;
+typedef uvm_callback_iter uvm_vreg_field_cb_iter /* @uvm-ieee 1800.2-2017 auto D.4.6.12*/   ;
 
 
 

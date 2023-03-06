@@ -40,15 +40,14 @@ typedef class uvm_registry_common;
 typedef class uvm_registry_component_creator;
 typedef class uvm_registry_object_creator;
 
-// Class: uvm_component_registry#(T,Tname)
-// Implementation of uvm_component_registry#(T,Tname), as defined by section
+// Class: uvm_component_registry#(T,"<unknown>")
+// Implementation of uvm_component_registry#(T,"<unknown>"), as defined by section
 // 8.2.3.1 of 1800.2-2017.
   
 // @uvm-ieee 1800.2-2017 auto 8.2.3.1
-class uvm_component_registry #(type T=uvm_component, string Tname="<unknown>")
-                                           extends uvm_object_wrapper;
-  typedef uvm_component_registry this_type;
-  typedef uvm_registry_common#( this_type, uvm_registry_component_creator, T, Tname ) common_type;
+class uvm_component_registry extends uvm_object_wrapper;
+  typedef uvm_component_registry this_type; 
+  typedef uvm_registry_common#( this_type, uvm_registry_component_creator, uvm_object, "<unknown>" ) common_type;
 
   // Function -- NODOCS -- create_component
   //
@@ -60,7 +59,7 @@ class uvm_component_registry #(type T=uvm_component, string Tname="<unknown>")
   // @uvm-ieee 1800.2-2017 auto 8.2.3.2.1
   virtual function uvm_component create_component (string name,
                                                    uvm_component parent);
-    T obj;
+    uvm_object obj;
     return obj;
   endfunction
 
@@ -71,7 +70,7 @@ class uvm_component_registry #(type T=uvm_component, string Tname="<unknown>")
 
   // Function -- NODOCS -- get_type_name
   //
-  // Returns the value given by the string parameter, ~Tname~. This method
+  // Returns the value given by the string parameter, ~"<unknown>"~. This method
   // overrides the method in <uvm_object_wrapper>.
 
   // @uvm-ieee 1800.2-2017 auto 8.2.3.2.2
@@ -104,7 +103,7 @@ class uvm_component_registry #(type T=uvm_component, string Tname="<unknown>")
   // and ~parent~.
 
   // @uvm-ieee 1800.2-2017 auto 8.2.3.2.4
-  static function T create(string name, uvm_component parent, string contxt="");
+  static function uvm_object create(string name, uvm_component parent, string contxt="");
     return common_type::create( name, parent, contxt );
   endfunction
 
@@ -160,15 +159,17 @@ class uvm_component_registry #(type T=uvm_component, string Tname="<unknown>")
 endclass
 
 
-// Class: uvm_object_registry#(T,Tname)
-// Implementation of uvm_object_registry#(T,Tname), as defined by section
+// Class: uvm_object_registry#(T,"<unknown>")
+// Implementation of uvm_object_registry#(T,"<unknown>"), as defined by section
 // 8.2.4.1 of 1800.2-2017.
 
 // @uvm-ieee 1800.2-2017 auto 8.2.4.1
-class uvm_object_registry #(type T=uvm_object, string Tname="<unknown>")
+class uvm_object_registry 
                                         extends uvm_object_wrapper;
+
+
   typedef uvm_object_registry this_type;
-  typedef uvm_registry_common#( this_type, uvm_registry_object_creator, T, Tname ) common_type;
+  typedef uvm_registry_common#( this_type, uvm_registry_object_creator, uvm_object, "<unknown>" ) common_type;
 
   // Function -- NODOCS -- create_object
   //
@@ -179,7 +180,7 @@ class uvm_object_registry #(type T=uvm_object, string Tname="<unknown>")
 
   // @uvm-ieee 1800.2-2017 auto 8.2.4.2.1
   virtual function uvm_object create_object(string name="");
-    T obj;
+    uvm_object obj;
     return obj;
   endfunction
 
@@ -189,7 +190,7 @@ class uvm_object_registry #(type T=uvm_object, string Tname="<unknown>")
 
   // Function -- NODOCS -- get_type_name
   //
-  // Returns the value given by the string parameter, ~Tname~. This method
+  // Returns the value given by the string parameter, ~"<unknown>"~. This method
   // overrides the method in <uvm_object_wrapper>.
 
   // @uvm-ieee 1800.2-2017 auto 8.2.4.2.2
@@ -219,7 +220,7 @@ class uvm_object_registry #(type T=uvm_object, string Tname="<unknown>")
   // if provided.
 
   // @uvm-ieee 1800.2-2017 auto 8.2.4.2.4
-  static function T create (string name="", uvm_component parent=null,
+  static function uvm_object create (string name="", uvm_component parent=null,
                             string contxt="");
     return common_type::create( name, parent, contxt );
   endfunction
@@ -280,15 +281,15 @@ class uvm_object_registry #(type T=uvm_object, string Tname="<unknown>")
   endfunction
 endclass
 
-// Class: uvm_abstract_component_registry#(T,Tname)
-// Implementation of uvm_abstract_component_registry#(T,Tname), as defined by section
+// Class: uvm_abstract_component_registry#(T,"<unknown>")
+// Implementation of uvm_abstract_component_registry#(T,"<unknown>"), as defined by section
 // 8.2.5.1.1 of 1800.2-2017.
 
 // @uvm-ieee 1800.2-2017 auto 8.2.5.1.1
-class uvm_abstract_component_registry #(type T=uvm_component, string Tname="<unknown>")
+class uvm_abstract_component_registry
                                            extends uvm_object_wrapper;
   typedef uvm_abstract_component_registry this_type;
-  typedef uvm_registry_common#( this_type, uvm_registry_component_creator, T, Tname ) common_type;
+  typedef uvm_registry_common#( this_type, uvm_registry_component_creator, uvm_component, "<unknown>" ) common_type;
 
   // Function -- NODOCS -- create_component
   //
@@ -313,7 +314,7 @@ class uvm_abstract_component_registry #(type T=uvm_component, string Tname="<unk
 
   // Function -- NODOCS -- get_type_name
   //
-  // Returns the value given by the string parameter, ~Tname~. This method
+  // Returns the value given by the string parameter, ~"<unknown>"~. This method
   // overrides the method in <uvm_object_wrapper>.
 
   virtual function string get_type_name();
@@ -343,7 +344,7 @@ class uvm_abstract_component_registry #(type T=uvm_component, string Tname="<unk
   // ~parent~'s context. The new instance will have the given leaf ~name~
   // and ~parent~.
 
-  static function T create(string name, uvm_component parent, string contxt="");
+  static function uvm_component create(string name, uvm_component parent, string contxt="");
     return common_type::create( name, parent, contxt );
   endfunction
 
@@ -401,15 +402,15 @@ class uvm_abstract_component_registry #(type T=uvm_component, string Tname="<unk
 endclass
 
 
-// Class: uvm_abstract_object_registry#(T,Tname)
-// Implementation of uvm_abstract_object_registry#(T,Tname), as defined by section
+// Class: uvm_abstract_object_registry
+// Implementation of uvm_abstract_object_registry, as defined by section
 // 8.2.5.2.1 of 1800.2-2017.
 
 // @uvm-ieee 1800.2-2017 auto 8.2.5.2.1
-class uvm_abstract_object_registry #(type T=uvm_object, string Tname="<unknown>")
+class uvm_abstract_object_registry
                                         extends uvm_object_wrapper;
   typedef uvm_abstract_object_registry this_type;
-  typedef uvm_registry_common#( this_type, uvm_registry_object_creator, T, Tname ) common_type;
+  typedef uvm_registry_common#( this_type, uvm_registry_object_creator, uvm_object, "<unknown>" ) common_type;
 
   // Function -- NODOCS -- create_object
   //
@@ -433,7 +434,7 @@ class uvm_abstract_object_registry #(type T=uvm_object, string Tname="<unknown>"
 
   // Function -- NODOCS -- get_type_name
   //
-  // Returns the value given by the string parameter, ~Tname~. This method
+  // Returns the value given by the string parameter, ~"<unknown>"~. This method
   // overrides the method in <uvm_object_wrapper>.
 
   virtual function string get_type_name();
@@ -462,7 +463,7 @@ class uvm_abstract_object_registry #(type T=uvm_object, string Tname="<unknown>"
   // ~parent~'s context. The new instance will have the given leaf ~name~,
   // if provided.
 
-  static function T create (string name="", uvm_component parent=null,
+  static function uvm_object create (string name="", uvm_component parent=null,
                             string contxt="");
     return common_type::create( name, parent, contxt );
   endfunction
@@ -523,7 +524,7 @@ endclass
 
 //------------------------------------------------------------------------------
 //
-// CLASS -- NODOCS -- uvm_registry_common #(T,Tname)
+// CLASS -- NODOCS -- uvm_registry_common #(T,"<unknown>")
 //
 // This is a helper class which implements the functioanlity that is identical
 // between uvm_component_registry and uvm_abstract_component_registry.
@@ -536,10 +537,10 @@ class uvm_registry_common #( type Tregistry=int, type Tcreator=int, type Tcreate
   local static string m__type_aliases[$];
 
   static function string type_name();
-     if((Tname == "<unknown>") && (m__type_aliases.size() != 0)) begin
+     if(("<unknown>" == "<unknown>") && (m__type_aliases.size() != 0)) begin
         return m__type_aliases[0];
      end
-     return Tname;
+     return "<unknown>";
   endfunction : type_name
 
   virtual function string get_type_name();
@@ -702,13 +703,13 @@ endclass
 //|  endclass
 //
 // The <`uvm_component_utils> macro is for non-parameterized classes. In this
-// example, the typedef underlying the macro specifies the ~Tname~
+// example, the typedef underlying the macro specifies the ~"<unknown>"~
 // parameter as "mycomp", and ~mycomp~'s get_type_name() is defined to return
-// the same. With ~Tname~ defined, you can use the factory's name-based methods to
+// the same. With ~"<unknown>"~ defined, you can use the factory's name-based methods to
 // set overrides and create objects and components of non-parameterized types.
 //
 // For parameterized types, the type name changes with each specialization, so
-// you cannot specify a ~Tname~ inside a parameterized class and get the behavior
+// you cannot specify a ~"<unknown>"~ inside a parameterized class and get the behavior
 // you want; the same type name string would be registered for all
 // specializations of the class! (The factory would produce warnings for each
 // specialization beyond the first.) To avoid the warnings and simulator
@@ -725,7 +726,7 @@ endclass
 //
 // The <`uvm_component_param_utils> and <`uvm_object_param_utils> macros are used
 // to register parameterized classes with the factory. Unlike the non-param
-// versions, these macros do not specify the ~Tname~ parameter in the underlying
+// versions, these macros do not specify the ~"<unknown>"~ parameter in the underlying
 // uvm_component_registry typedef, and they do not define the get_type_name
 // method for the user class. Consequently, you will not be able to use the
 // factory's name-based methods for parameterized classes.

@@ -248,8 +248,9 @@ endclass
 // ~uvm_barrier_pool~ (a uvm_obejct_string_pool storing <uvm_barrier>).
 //------------------------------------------------------------------------------
 
-class uvm_object_string_pool #(type T=uvm_object) extends uvm_pool #(string,T);
+class uvm_object_string_pool extends uvm_pool #(string, uvm_object);
 
+   parameter type T=uvm_object;
   typedef uvm_object_string_pool this_type;
   static protected this_type m_global_pool;
 
@@ -332,4 +333,4 @@ typedef class uvm_barrier;
 typedef class uvm_event;
 
 typedef uvm_object_string_pool #(uvm_barrier) uvm_barrier_pool /* @uvm-ieee 1800.2-2017 auto 10.4.2.1*/   ;
-typedef uvm_object_string_pool #(uvm_event#(uvm_object)) uvm_event_pool /* @uvm-ieee 1800.2-2017 auto 10.4.1.1*/   ;
+typedef uvm_object_string_pool uvm_event_pool /* @uvm-ieee 1800.2-2017 auto 10.4.1.1*/   ;

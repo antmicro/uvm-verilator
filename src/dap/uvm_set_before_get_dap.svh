@@ -43,7 +43,7 @@
 //|   seqr_dap = seqr_dap_t::type_id::create("seqr_dap");
 //|   // Pass the DAP, because we don't have a reference to the
 //|   // real sequencer yet...
-//|   uvm_config_db#(seqr_dap_t)::set(this, "virtual_sequencer", "seqr_dap", seqr_dap);
+//|   uvm_config_db::set(this, "virtual_sequencer", "seqr_dap", seqr_dap);
 //|
 //|   // Create the virtual sequencer
 //|   virtual_sequencer = virtual_sequencer_type::type_id::create("virtual_sequencer", this);

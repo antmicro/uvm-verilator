@@ -32,27 +32,27 @@
 
 //------------------------------------------------------------------------------
 //
-// CLASS -- NODOCS -- uvm_tlm_req_rsp_channel #(REQ,RSP)
+// CLASS -- NODOCS -- uvm_tlm_req_rsp_channel #(REQ,int)
 //
 // The uvm_tlm_req_rsp_channel contains a request FIFO of type ~REQ~ and a response
-// FIFO of type ~RSP~. These FIFOs can be of any size. This channel is
+// FIFO of type ~int~. These FIFOs can be of any size. This channel is
 // particularly useful for dealing with pipelined protocols where the request
 // and response are not tightly coupled.
 //
 // Type parameters:
 //
 // REQ - Type of the request transactions conveyed by this channel.
-// RSP - Type of the response transactions conveyed by this channel.
+// int - Type of the response transactions conveyed by this channel.
 //
 //------------------------------------------------------------------------------
 
 // @uvm-ieee 1800.2-2017 auto 12.2.9.1.1
-class uvm_tlm_req_rsp_channel #(type REQ=int, type RSP=REQ) extends uvm_component;
+class uvm_tlm_req_rsp_channel extends uvm_component;
 
-  typedef uvm_tlm_req_rsp_channel #(REQ, RSP) this_type;
+  typedef uvm_tlm_req_rsp_channel this_type;
 
-  `uvm_component_param_utils(uvm_tlm_req_rsp_channel#(REQ,RSP))
-  `uvm_type_name_decl("uvm_tlm_req_rsp_channel #(REQ,RSP)")
+  `uvm_component_param_utils(uvm_tlm_req_rsp_channel)
+  `uvm_type_name_decl("uvm_tlm_req_rsp_channel #(int,int)")
 
   // Port -- NODOCS -- put_request_export
   //
@@ -279,9 +279,9 @@ endclass
 
 //------------------------------------------------------------------------------
 //
-// CLASS -- NODOCS -- uvm_tlm_transport_channel #(REQ,RSP)
+// CLASS -- NODOCS -- uvm_tlm_transport_channel #(int,int)
 //
-// A uvm_tlm_transport_channel is a <uvm_tlm_req_rsp_channel #(REQ,RSP)> that implements
+// A uvm_tlm_transport_channel is a <uvm_tlm_req_rsp_channel #(int,int)> that implements
 // the transport interface. It is useful when modeling a non-pipelined bus at
 // the transaction level. Because the requests and responses have a tightly
 // coupled one-to-one relationship, the request and response FIFO sizes are both
@@ -290,21 +290,21 @@ endclass
 //------------------------------------------------------------------------------
 
 // @uvm-ieee 1800.2-2017 auto 12.2.9.2.1
-class uvm_tlm_transport_channel #(type REQ=int, type RSP=REQ) 
-                                     extends uvm_tlm_req_rsp_channel #(REQ, RSP);
+class uvm_tlm_transport_channel 
+                                     extends uvm_tlm_req_rsp_channel;
 
-  `uvm_component_param_utils(uvm_tlm_transport_channel#(REQ,RSP))
-  `uvm_type_name_decl("uvm_tlm_transport_channel #(REQ,RSP)")
+  `uvm_component_param_utils(uvm_tlm_transport_channel)
+  `uvm_type_name_decl("uvm_tlm_transport_channel #(int,int)")
   
-  typedef uvm_tlm_transport_channel #(REQ, RSP) this_type;
+  typedef uvm_tlm_transport_channel this_type;
 
   // Port -- NODOCS -- transport_export
   //
   // The put_export provides both the blocking and non-blocking transport
   // interface methods to the response FIFO:
   //
-  //|  task transport(REQ request, output RSP response);
-  //|  function bit nb_transport(REQ request, output RSP response);
+  //|  task transport(int request, output int response);
+  //|  function bit nb_transport(int request, output int response);
   //
   // Any transport port variant can connect to and send requests and retrieve
   // responses via this export, provided the transaction types match. Upon
@@ -327,11 +327,11 @@ class uvm_tlm_transport_channel #(type REQ=int, type RSP=REQ)
   endfunction
 
   // @uvm-ieee 1800.2-2017 auto 12.2.9.2.2
-  task transport (REQ request, output RSP response );
+  task transport (int request, output int response );
   endtask
 
   // @uvm-ieee 1800.2-2017 auto 12.2.9.2.2
-  function bit nb_transport (REQ req, output RSP rsp );
+  function bit nb_transport (int req, output int rsp );
       return 0;
   endfunction
 

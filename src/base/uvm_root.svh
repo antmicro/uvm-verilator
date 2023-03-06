@@ -952,7 +952,7 @@ function void uvm_root::m_pro1cess_default_sequence(string cfg);
 	end
 	else begin
 		uvm_report_info("UVM_CMDLINE_PROC", {"Setting default sequence from the command line: +uvm_set_default_sequence=", cfg}, UVM_NONE);
-		uvm_config_db#(uvm_object_wrapper)::set(this, {split_val[0], ".", split_val[1]}, "default_sequence", w);
+		uvm_config_db::set(this, {split_val[0], ".", split_val[1]}, "default_sequence", w);
 	end
 
 endfunction : m_pro1cess_default_sequence

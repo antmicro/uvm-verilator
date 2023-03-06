@@ -1704,7 +1704,7 @@ task uvm_reg_map::do_write(uvm_reg_item rw);
   end
 
   if (adapter == null) begin
-    uvm_event#(uvm_object) end_event ;
+    uvm_event end_event ;
     uvm_event_pool ep;
     ep = rw.get_event_pool();
     end_event = ep.get("end") ;
@@ -1763,7 +1763,7 @@ task uvm_reg_map::do_read(uvm_reg_item rw);
   end
 
   if (adapter == null) begin
-    uvm_event#(uvm_object) end_event ;
+    uvm_event end_event ;
     uvm_event_pool ep;
     ep = rw.get_event_pool();
     end_event = ep.get("end") ;
@@ -1831,7 +1831,7 @@ task uvm_reg_map::perform_accesses(ref uvm_reg_bus_op    accesses[$],
 
       rw.parent.finish_item(bus_req);
       begin
-        uvm_event#(uvm_object) end_event ;
+        uvm_event end_event ;
 	uvm_event_pool ep;
 	ep = bus_req.get_event_pool();
         end_event = ep.get("end") ;
