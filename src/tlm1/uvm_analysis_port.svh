@@ -60,7 +60,7 @@ class uvm_analysis_port # (type T = int)
 
   function new (string name, uvm_component parent);
     super.new (name, parent, UVM_PORT, 0, UVM_UNBOUNDED_CONNECTIONS);
-    m_if_mask = `UVM_TLM_ANALYSIS_MASK;  
+      
   endfunction
 
   virtual function string get_type_name();
@@ -134,7 +134,7 @@ class uvm_analysis_export #(type T=int)
   // @uvm-ieee 1800.2-2017 auto 12.2.10.3.2
   function new (string name, uvm_component parent = null);
     super.new (name, parent, UVM_EXPORT, 1, UVM_UNBOUNDED_CONNECTIONS);
-    m_if_mask = `UVM_TLM_ANALYSIS_MASK;
+    
   endfunction
 
   virtual function string get_type_name();
