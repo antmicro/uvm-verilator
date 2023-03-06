@@ -32,7 +32,7 @@
 `include "seq/uvm_sequence.svh"
 `include "seq/uvm_sequence_library.svh"
 
-typedef uvm_sequence  #(uvm_sequence_item, uvm_sequence_item) uvm_default_sequence_type;
+typedef uvm_sequence uvm_default_sequence_type;
 typedef uvm_sequencer #(uvm_sequence_item, uvm_sequence_item) uvm_default_sequencer_type;
 typedef uvm_driver    #(uvm_sequence_item, uvm_sequence_item) uvm_default_driver_type;
-typedef uvm_sequencer_param_base #(uvm_sequence_item, uvm_sequence_item) uvm_default_sequencer_param_type;
+typedef uvm_sequencer_param_base  uvm_default_sequencer_param_type;

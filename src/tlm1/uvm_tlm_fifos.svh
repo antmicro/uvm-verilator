@@ -46,12 +46,12 @@ typedef class uvm_tlm_event;
 //------------------------------------------------------------------------------
 
 // @uvm-ieee 1800.2-2017 auto 18.2.8.2
-class uvm_tlm_fifo #(type T=int) extends uvm_tlm_fifo_base #(T);
+class uvm_tlm_fifo extends uvm_tlm_fifo_base;
 
   `uvm_component_param_utils(uvm_tlm_fifo)
-  `uvm_type_name_decl("uvm_tlm_fifo #(T)")
+  `uvm_type_name_decl("uvm_tlm_fifo #(int)")
 
-  local mailbox #( T ) m;
+  local mailbox #( int ) m;
   local int m_size;
   protected int m_pending_blocked_gets;
 
@@ -109,23 +109,23 @@ class uvm_tlm_fifo #(type T=int) extends uvm_tlm_fifo_base #(T);
  
 
 
-  virtual task put( input T t );
+  virtual task put( input int t );
     m.put( t );
     put_ap.write( t );
   endtask
 
-  virtual task get( output T t );
+  virtual task get( output int t );
     m_pending_blocked_gets++;
     m.get( t );
     m_pending_blocked_gets--;
     get_ap.write( t );
   endtask
   
-  virtual task peek( output T t );
+  virtual task peek( output int t );
     m.peek( t );
   endtask
    
-  virtual function bit try_get( output T t );
+  virtual function bit try_get( output int t );
     if( !m.try_get( t ) ) begin
       return 0;
     end
@@ -134,14 +134,14 @@ class uvm_tlm_fifo #(type T=int) extends uvm_tlm_fifo_base #(T);
     return 1;
   endfunction 
   
-  virtual function bit try_peek( output T t );
+  virtual function bit try_peek( output int t );
     if( !m.try_peek( t ) ) begin
       return 0;
     end
     return 1;
   endfunction
 
-  virtual function bit try_put( input T t );
+  virtual function bit try_put( input int t );
     if( !m.try_put( t ) ) begin
       return 0;
     end
@@ -169,7 +169,7 @@ class uvm_tlm_fifo #(type T=int) extends uvm_tlm_fifo_base #(T);
   // and <is_empty> returns 1.
 
   virtual function void flush();
-    T t;
+    int t;
     bit r;
 
     r = 1; 
@@ -196,7 +196,7 @@ endclass
 //
 //------------------------------------------------------------------------------
 
-class uvm_tlm_analysis_fifo #(type T = int) extends uvm_tlm_fifo #(T);
+class uvm_tlm_analysis_fifo #(type T = int) extends uvm_tlm_fifo;
   `uvm_component_param_utils(uvm_tlm_analysis_fifo#(T))
   `uvm_type_name_decl("uvm_tlm_analysis_fifo #(T)")
 

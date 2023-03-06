@@ -64,11 +64,11 @@ typedef class uvm_sequence_library_cfg;
 //------------------------------------------------------------------------------
 
 // @uvm-ieee 1800.2-2017 auto 14.4.1
-class uvm_sequence_library #(type REQ=uvm_sequence_item,RSP=REQ) extends uvm_sequence #(REQ,RSP);
+class uvm_sequence_library extends uvm_sequence;
 
 
   `uvm_object_param_utils(uvm_sequence_library)
-  `uvm_type_name_decl("uvm_sequence_library #(REQ,RSP)")
+  `uvm_type_name_decl("uvm_sequence_library")
   
    // @uvm-ieee 1800.2-2017 auto 14.4.2
    // @uvm-ieee 1800.2-2017 auto 14.4.3
@@ -95,12 +95,12 @@ class uvm_sequence_library #(type REQ=uvm_sequence_item,RSP=REQ) extends uvm_seq
    // relative to that component.
    // 
    //
-   //| uvm_config_db #(uvm_object_wrapper)::set(null,
+   //| uvm_config_db::set(null,
    //|                                    "env.agent.sequencer.main_phase",
    //|                                    "default_sequence",
    //|                                    main_seq_lib::get_type());
    //|
-   //| uvm_config_db #(uvm_sequence_lib_mode)::set(null,
+   //| uvm_config_db::set(null,
    //|                                    "env.agent.sequencer.main_phase",
    //|                                    "default_sequence.selection_mode",
    //|                                    UVM_SEQ_LIB_RANDC);
@@ -117,7 +117,7 @@ class uvm_sequence_library #(type REQ=uvm_sequence_item,RSP=REQ) extends uvm_seq
    //| my_seq_lib.max_random_count = 1000;
    //| void'(my_seq_lib.randomize());
    //|
-   //| uvm_config_db #(uvm_sequence_base)::set(null,
+   //| uvm_config_db::set(null,
    //|                                    "env.agent.sequencer.main_phase",
    //|                                    "default_sequence",
    //|                                    my_seq_lib);
@@ -308,7 +308,7 @@ class uvm_sequence_library #(type REQ=uvm_sequence_item,RSP=REQ) extends uvm_seq
    // PRIVATE - INTERNAL - NOT PART OF STANDARD
    //------------------------------------------
 
-   typedef uvm_sequence_library #(REQ,RSP) this_type;
+   typedef uvm_sequence_library this_type;
 
    static protected uvm_object_wrapper m_typewide_sequences[$];
    bit m_abort;
@@ -338,7 +338,7 @@ endclass
 //| uvm_sequence_library_cfg cfg;
 //| cfg = new("seqlib_cfg", UVM_SEQ_LIB_RANDC, 1000, 2000);
 //|
-//| uvm_config_db #(uvm_sequence_library_cfg)::set(null,
+//| uvm_config_db::set(null,
 //|                                    "env.agent.sequencer.main_ph",
 //|                                    "default_sequence.config",
 //|                                    cfg);
@@ -566,17 +566,17 @@ function void uvm_sequence_library::m_get_config();
     max_random_count = cfg.max_random_count; 
   end
   else begin
-    void'(uvm_config_db #(int unsigned)::get(m_sequencer, 
+    void'(uvm_config_db::get(m_sequencer, 
                                         phase_name,
                                         "default_sequence.min_random_count",
                                         min_random_count) );
 
-    void'(uvm_config_db #(int unsigned)::get(m_sequencer, 
+    void'(uvm_config_db::get(m_sequencer, 
                                         phase_name,
                                         "default_sequence.max_random_count",
                                         max_random_count) );
 
-    void'(uvm_config_db #(uvm_sequence_lib_mode)::get(m_sequencer, 
+    void'(uvm_config_db::get(m_sequencer, 
                                         phase_name,
                                         "default_sequence.selection_mode",
                                         selection_mode) );
@@ -597,12 +597,12 @@ function void uvm_sequence_library::m_get_config();
   end
   else begin
     if (selection_mode == UVM_SEQ_LIB_ITEM) begin
-      uvm_sequencer #(REQ,RSP) seqr;
-      uvm_object_wrapper lhs = REQ::get_type();
+      uvm_sequencer seqr;
+      uvm_object_wrapper lhs = uvm_sequence_item::get_type();
       uvm_object_wrapper rhs = uvm_sequence_item::get_type();
       if (lhs == rhs) begin
         `uvm_error("SEQLIB/BASE_ITEM", {"selection_mode cannot be UVM_SEQ_LIB_ITEM when ",
-          "the REQ type is the base uvm_sequence_item. Using UVM_SEQ_LIB_RAND mode"})
+          "the uvm_sequence_item type is the base uvm_sequence_item. Using UVM_SEQ_LIB_RAND mode"})
         selection_mode = UVM_SEQ_LIB_RAND;
       end
       if (m_sequencer == null || !$cast(seqr,m_sequencer)) begin
@@ -678,7 +678,7 @@ task uvm_sequence_library::body();
 
       UVM_SEQ_LIB_ITEM: begin
         for (int i=1; i<=sequence_count; i++) begin
-          wrap = REQ::get_type();
+          wrap = uvm_sequence_item::get_type();
           execute(wrap);
         end
       end
@@ -689,7 +689,7 @@ task uvm_sequence_library::body();
           user_selection = select_sequence(sequences.size()-1);
           if (user_selection >= sequences.size()) begin
             `uvm_error("SEQLIB/USER_FAIL", "User sequence selection out of range")
-            wrap = REQ::get_type();
+            wrap = uvm_sequence_item::get_type();
           end
           else begin
             wrap = sequences[user_selection];
@@ -722,7 +722,7 @@ task uvm_sequence_library::execute(uvm_object_wrapper wrap);
   uvm_object obj;
   uvm_sequence_item seq_or_item;
   uvm_sequence_base seq_base;
-  REQ req_item;
+  uvm_sequence_item req_item;
   
   uvm_coreservice_t cs = uvm_coreservice_t::get();                                                     
   uvm_factory factory=cs.get_factory();
@@ -735,7 +735,7 @@ task uvm_sequence_library::execute(uvm_object_wrapper wrap);
      if (!$cast(req_item, obj)) begin
         // But it's not our item type (This can happen if we were parameterized with
         // a pure virtual type, because we're getting get_type() from the base class)
-        `uvm_error("SEQLIB/WRONG_ITEM_TYPE", {"The item created by '", get_full_name(), "' when in 'UVM_SEQ_LIB_ITEM' mode doesn't match the REQ type which  was passed in to the uvm_sequence_library#(REQ[,RSP]), this can happen if the REQ type which was passed in was a pure-virtual type.  Either configure the factory overrides to properly generate items for this sequence library, or do not execute this sequence library in UVM_SEQ_LIB_ITEM mode."})
+        `uvm_error("SEQLIB/WRONG_ITEM_TYPE", {"The item created by '", get_full_name(), "' when in 'UVM_SEQ_LIB_ITEM' mode doesn't match the uvm_sequence_item type which  was passed in to the uvm_sequence_library#(uvm_sequence_item[,uvm_sequence_item]), this can happen if the uvm_sequence_item type which was passed in was a pure-virtual type.  Either configure the factory overrides to properly generate items for this sequence library, or do not execute this sequence library in UVM_SEQ_LIB_ITEM mode."})
          return;
      end
   end

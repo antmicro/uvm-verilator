@@ -22,7 +22,7 @@
 
 //------------------------------------------------------------------------------
 //
-// CLASS -- NODOCS -- uvm_push_driver #(REQ,RSP)
+// CLASS -- NODOCS -- uvm_push_driver #(REQ,uvm_sequence_item)
 //
 // Base class for a driver that passively receives transactions, i.e. does not
 // initiate requests transactions. Also known as ~push~ mode. Its ports are
@@ -37,11 +37,11 @@
 //------------------------------------------------------------------------------
 
 // @uvm-ieee 1800.2-2017 auto 13.8.1
-class uvm_push_driver #(type REQ=uvm_sequence_item,
-                        type RSP=REQ) extends uvm_component;
+class uvm_push_driver extends uvm_component;
 
-  `uvm_component_param_utils(uvm_push_driver#(REQ,RSP))
-  `uvm_type_name_decl("uvm_push_driver #(REQ,RSP)")
+   parameter type REQ=uvm_sequence_item, RSP=REQ;
+  `uvm_component_param_utils(uvm_push_driver)
+  `uvm_type_name_decl("uvm_push_driver")
   
   // Port -- NODOCS -- req_export
   //
@@ -50,7 +50,7 @@ class uvm_push_driver #(type REQ=uvm_sequence_item,
   // with an appropriate implementation (and not call super.put). Ports
   // connected to this export will supply the driver with transactions.
 
-  uvm_blocking_put_imp #(REQ, uvm_push_driver #(REQ,RSP)) req_export;
+  uvm_blocking_put_imp #(REQ, uvm_push_driver) req_export;
 
   // Port -- NODOCS -- rsp_port
   //
@@ -59,8 +59,8 @@ class uvm_push_driver #(type REQ=uvm_sequence_item,
 
   uvm_analysis_port #(RSP) rsp_port;
 
-  REQ req;
-  RSP rsp;
+  uvm_sequence_item req;
+  uvm_sequence_item rsp;
 
   // Function -- NODOCS -- new
   //
@@ -86,7 +86,7 @@ class uvm_push_driver #(type REQ=uvm_sequence_item,
     check_port_connections();
   endfunction
   
-  virtual task put(REQ item);
+  virtual task put(uvm_sequence_item item);
     uvm_report_fatal("UVM_PUSH_DRIVER", "Put task for push driver is not implemented", UVM_NONE);
   endtask
 

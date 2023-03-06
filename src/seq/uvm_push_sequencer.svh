@@ -28,10 +28,10 @@
 //------------------------------------------------------------------------------
 
 // @uvm-ieee 1800.2-2017 auto 15.6.1
-class uvm_push_sequencer #(type REQ=uvm_sequence_item, RSP=REQ)
-                                   extends uvm_sequencer_param_base #(REQ, RSP);
-
-  typedef uvm_push_sequencer #( REQ , RSP) this_type;
+class uvm_push_sequencer
+                                   extends uvm_sequencer_param_base;
+   parameter type REQ=uvm_sequence_item;
+  typedef uvm_push_sequencer this_type;
 
   // Port -- NODOCS -- req_port
   //
@@ -56,11 +56,11 @@ class uvm_push_sequencer #(type REQ=uvm_sequence_item, RSP=REQ)
   // sequences and sends the next item from the selected sequence out its
   // <req_port> using req_port.put(item). Typically, the req_port would be
   // connected to the req_export on an instance of a
-  // <uvm_push_driver #(REQ,RSP)>, which would be responsible for
+  // <uvm_push_driver #(uvm_sequence_item,RSP)>, which would be responsible for
   // executing the item.
   //
   task run_phase(uvm_phase phase);
-    REQ t;
+    uvm_sequence_item t;
     int selected_sequence;
 
     fork
@@ -68,7 +68,7 @@ class uvm_push_sequencer #(type REQ=uvm_sequence_item, RSP=REQ)
       forever
         begin
           m_select_sequence();
-          m_req_fifo.get(t);
+
           req_port.put(t);
           m_wait_for_item_sequence_id = t.get_sequence_id();
           m_wait_for_item_transaction_id = t.get_transaction_id();
