@@ -179,29 +179,29 @@
 `define UVM_PORT_COMMON(MASK,TYPE_NAME) \
   function new (string name, uvm_component parent, \
                 int min_size=1, int max_size=1); \
-    m_if_mask = MASK; \
+     \
   endfunction \
   `UVM_TLM_GET_TYPE_NAME(TYPE_NAME)
 
 `define UVM_SEQ_PORT(MASK,TYPE_NAME) \
   function new (string name, uvm_component parent, \
                 int min_size=0, int max_size=1); \
-    m_if_mask = MASK; \
+     \
   endfunction \
   `UVM_TLM_GET_TYPE_NAME(TYPE_NAME)
   
 `define UVM_EXPORT_COMMON(MASK,TYPE_NAME) \
   function new (string name, uvm_component parent, \
                 int min_size=1, int max_size=1); \
-    m_if_mask = MASK; \
+     \
   endfunction \
   `UVM_TLM_GET_TYPE_NAME(TYPE_NAME)
   
 `define UVM_IMP_COMMON(MASK,TYPE_NAME,IMP) \
   local IMP m_imp; \
   function new (string name, IMP imp); \
-    m_imp = imp; \
-    m_if_mask = MASK; \
+    \
+     \
   endfunction \
   `UVM_TLM_GET_TYPE_NAME(TYPE_NAME)
 
@@ -210,11 +210,11 @@
   local this_rsp_type m_rsp_imp; \
   function new (string name, this_imp_type imp, \
                 this_req_type req_imp = null, this_rsp_type rsp_imp = null); \
-    if(req_imp==null) $cast(req_imp, imp); \
-    if(rsp_imp==null) $cast(rsp_imp, imp); \
-    m_req_imp = req_imp; \
-    m_rsp_imp = rsp_imp; \
-    m_if_mask = MASK; \
+     \
+     \
+    \
+    \
+     \
   endfunction  \
   `UVM_TLM_GET_TYPE_NAME(TYPE_NAME)
 
