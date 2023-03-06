@@ -277,9 +277,7 @@ class uvm_reg_indirect_ftdr_seq extends uvm_reg_frontdoor;
                 int idx,
                 uvm_reg data_reg);
       super.new("uvm_reg_indirect_ftdr_seq");
-      m_addr_reg = addr_reg;
-      m_idx      = idx;
-      m_data_reg = data_reg;
+
    endfunction: new
 
    virtual task body();
