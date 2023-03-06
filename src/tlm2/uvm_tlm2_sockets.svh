@@ -116,7 +116,7 @@ class uvm_tlm_b_target_socket #(type IMP=int,
   function new (string name, uvm_component parent, IMP imp = null);
     super.new (name, parent);
 
-    m_imp = imp;
+   
     if (m_imp == null)
        `uvm_error("UVM/TLM2/NOIMP", {"b_target socket ", name,
                                      " has no implementation"})
@@ -230,7 +230,7 @@ class uvm_tlm_nb_target_socket #(type IMP=int,
   function new (string name, uvm_component parent, IMP imp = null);
     super.new (name, parent);
 
-    m_imp = imp;
+   
     bw_port = new("bw_port", get_comp());
     if (m_imp == null)
        `uvm_error("UVM/TLM2/NOIMP", {"nb_target socket ", name,
