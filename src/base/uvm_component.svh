@@ -1530,7 +1530,7 @@ virtual class uvm_component extends uvm_report_object;
 
   string m_name;
 
-  typedef uvm_abstract_component_registry#(uvm_component, "uvm_component") type_id;
+  typedef uvm_abstract_component_registry type_id;
   `uvm_type_name_decl("uvm_component")
 
   protected uvm_event_pool event_pool;
@@ -2435,7 +2435,7 @@ endfunction
 
 function void uvm_component::accept_tr (uvm_transaction tr,
                                         time accept_time=0);
-  uvm_event#(uvm_object) e;
+  uvm_event e;
   
   if(tr == null)
     return;
@@ -2555,7 +2555,7 @@ function int uvm_component::m_begin_tr (uvm_transaction tr,
                                             string label="",
                                             string desc="",
                                             time begin_time=0);
-   uvm_event#(uvm_object) e;
+   uvm_event e;
    string    name;
    string    kind;
    uvm_tr_database db;
@@ -2647,7 +2647,7 @@ endfunction
 function void uvm_component::end_tr (uvm_transaction tr,
                                      time end_time=0,
                                      bit free_handle=1);
-   uvm_event#(uvm_object) e;
+   uvm_event e;
    uvm_recorder recorder;
 
    if (tr == null)

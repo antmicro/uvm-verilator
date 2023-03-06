@@ -58,11 +58,11 @@ typedef class uvm_config_db_options;
 
 
 // @uvm-ieee 1800.2-2017 auto C.4.2.1
-class uvm_config_db#(type T=int) extends uvm_resource_db#(T);
+class uvm_config_db extends uvm_resource_db;
 
   // Internal lookup of config settings so they can be reused
   // The context has a pool that is keyed by the inst/field name.
-  static uvm_pool#(string,uvm_resource#(T)) m_rsc[uvm_component];
+  static uvm_pool#(string,uvm_resource) m_rsc[uvm_component];
 
   // Internal waiter list for wait_modified
   static local uvm_queue#(m_uvm_waiter) m_waiters[string];
@@ -78,17 +78,17 @@ class uvm_config_db#(type T=int) extends uvm_resource_db#(T);
   // The basic ~get_config_*~ methods from <uvm_component> are mapped to
   // this function as:
   //
-  //| get_config_int(...) => uvm_config_db#(uvm_bitstream_t)::get(cntxt,...)
-  //| get_config_string(...) => uvm_config_db#(string)::get(cntxt,...)
-  //| get_config_object(...) => uvm_config_db#(uvm_object)::get(cntxt,...)
+  //| get_config_int(...) => uvm_config_db::get(cntxt,...)
+  //| get_config_string(...) => uvm_config_db::get(cntxt,...)
+  //| get_config_object(...) => uvm_config_db::get(cntxt,...)
 
   // @uvm-ieee 1800.2-2017 auto C.4.2.2.2
   static function bit get(uvm_component cntxt,
                           string inst_name,
                           string field_name,
-                          inout T value);
+                          inout int value);
 //TBD: add file/line
-    uvm_resource#(T) r;
+    uvm_resource#(int) r;
     uvm_resource_pool rp = uvm_resource_pool::get();
     uvm_resource_types::rsrc_q_t rq;
     uvm_coreservice_t cs = uvm_coreservice_t::get();
@@ -100,8 +100,8 @@ class uvm_config_db#(type T=int) extends uvm_resource_db#(T);
     else if(cntxt.get_full_name() != "") 
       inst_name = {cntxt.get_full_name(), ".", inst_name};
  
-    rq = rp.lookup_regex_names(inst_name, field_name, uvm_resource#(T)::get_type());
-    r = uvm_resource#(T)::get_highest_precedence(rq);
+    rq = rp.lookup_regex_names(inst_name, field_name, uvm_resource#(int)::get_type());
+    r = uvm_resource#(int)::get_highest_precedence(rq);
     
      if(uvm_config_db_options::is_tracing());
      
@@ -141,22 +141,22 @@ class uvm_config_db#(type T=int) extends uvm_resource_db#(T);
   // The basic ~set_config_*~ methods from <uvm_component> are mapped to
   // this function as:
   //
-  //| set_config_int(...) => uvm_config_db#(uvm_bitstream_t)::set(cntxt,...)
-  //| set_config_string(...) => uvm_config_db#(string)::set(cntxt,...)
-  //| set_config_object(...) => uvm_config_db#(uvm_object)::set(cntxt,...)
+  //| set_config_int(...) => uvm_config_db::set(cntxt,...)
+  //| set_config_string(...) => uvm_config_db::set(cntxt,...)
+  //| set_config_object(...) => uvm_config_db::set(cntxt,...)
 
   // @uvm-ieee 1800.2-2017 auto C.4.2.2.1
   static function void set(uvm_component cntxt,
                            string inst_name,
                            string field_name,
-                           T value);
+                           int value);
 
     uvm_root top;
     uvm_phase curr_phase;
-    uvm_resource#(T) r;
+    uvm_resource#(int) r;
     bit exists;
     string lookup;
-    uvm_pool#(string,uvm_resource#(T)) pool;
+    uvm_pool#(string,uvm_resource#(int)) pool;
     string rstate;
     uvm_coreservice_t cs = uvm_coreservice_t::get();
     uvm_resource_pool rp = cs.get_resource_pool();
@@ -251,7 +251,7 @@ class uvm_config_db#(type T=int) extends uvm_resource_db#(T);
     else if(cntxt.get_full_name() != "")
       inst_name = {cntxt.get_full_name(), ".", inst_name};
 
-    return (uvm_resource_db#(T)::get_by_name(inst_name,field_name,spell_chk) != null);
+    return (uvm_resource_db::get_by_name(inst_name,field_name,spell_chk) != null);
   endfunction
 
 
@@ -306,34 +306,34 @@ endclass
 //----------------------------------------------------------------------
 // Topic -- NODOCS -- uvm_config_int
 //
-// Convenience type for uvm_config_db#(uvm_bitstream_t)
+// Convenience type for uvm_config_db
 //
-//| typedef uvm_config_db#(uvm_bitstream_t) uvm_config_int;
-typedef uvm_config_db#(uvm_bitstream_t) uvm_config_int /* @uvm-ieee 1800.2-2017 auto C.4.2.3.1*/   ;
+//| typedef uvm_config_db uvm_config_int;
+typedef uvm_config_db uvm_config_int /* @uvm-ieee 1800.2-2017 auto C.4.2.3.1*/   ;
 
 //----------------------------------------------------------------------
 // Topic -- NODOCS -- uvm_config_string
 //
-// Convenience type for uvm_config_db#(string)
+// Convenience type for uvm_config_db
 //
-//| typedef uvm_config_db#(string) uvm_config_string;
-typedef uvm_config_db#(string) uvm_config_string /* @uvm-ieee 1800.2-2017 auto C.4.2.3.2*/   ;
+//| typedef uvm_config_db uvm_config_string;
+typedef uvm_config_db uvm_config_string /* @uvm-ieee 1800.2-2017 auto C.4.2.3.2*/   ;
 
 //----------------------------------------------------------------------
 // Topic -- NODOCS -- uvm_config_object
 //
-// Convenience type for uvm_config_db#(uvm_object)
+// Convenience type for uvm_config_db
 //
-//| typedef uvm_config_db#(uvm_object) uvm_config_object;
-typedef uvm_config_db#(uvm_object) uvm_config_object /* @uvm-ieee 1800.2-2017 auto C.4.2.3.3*/   ;
+//| typedef uvm_config_db uvm_config_object;
+typedef uvm_config_db uvm_config_object /* @uvm-ieee 1800.2-2017 auto C.4.2.3.3*/   ;
 
 //----------------------------------------------------------------------
 // Topic -- NODOCS -- uvm_config_wrapper
 //
-// Convenience type for uvm_config_db#(uvm_object_wrapper)
+// Convenience type for uvm_config_db
 //
-//| typedef uvm_config_db#(uvm_object_wrapper) uvm_config_wrapper;   
-typedef uvm_config_db#(uvm_object_wrapper) uvm_config_wrapper /* @uvm-ieee 1800.2-2017 auto C.4.2.3.4*/   ;
+//| typedef uvm_config_db uvm_config_wrapper;   
+typedef uvm_config_db uvm_config_wrapper /* @uvm-ieee 1800.2-2017 auto C.4.2.3.4*/   ;
 
 
 //----------------------------------------------------------------------

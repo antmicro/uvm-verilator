@@ -74,13 +74,9 @@
 //------------------------------------------------------------------------------
 
 class uvm_in_order_comparator 
-  #( type T = int ,
-     type comp_type = uvm_built_in_comp #( T ) ,
-     type convert = uvm_built_in_converter #( T ) , 
-     type pair_type = uvm_built_in_pair #( T ) )
     extends uvm_component;
 
-  typedef uvm_in_order_comparator #(T,comp_type,convert,pair_type) this_type;
+  typedef uvm_in_order_comparator this_type;
   `uvm_component_param_utils(this_type)
   `uvm_type_name_decl("uvm_in_order_comparator #(T,comp_type,convert,pair_type)")
 
@@ -144,9 +140,9 @@ class uvm_in_order_comparator
 
   virtual task run_phase(uvm_phase phase);
  
-    pair_type pair;
-    T b;
-    T a;
+
+    int b;
+    int a;
   
     string s;
     super.run_phase(phase); 
@@ -155,30 +151,11 @@ class uvm_in_order_comparator
       m_before_fifo.get(b);
       m_after_fifo.get(a);
       
-      if(!comp_type::comp(b, a)) begin
-
-        $sformat(s, "%s differs from %s", convert::convert2string(a),
-                                          convert::convert2string(b));
-
-        uvm_report_warning("Comparator Mismatch", s);
-
-        m_mismatches++;
-
-      end
-      else begin
-        s = convert::convert2string(b);
-        uvm_report_info("Comparator Match", s);
-        m_matches++;
-      end
 
       // we make the assumption here that a transaction "sent for
       // analysis" is safe from being edited by another pro1cess.
       // Hence, it is safe not to clone a and b.
       
-      pair = new("after/before");
-      pair.first = a;
-      pair.second = b;
-      pair_ap.write(pair);
     end
   
   endtask
@@ -206,12 +183,12 @@ endclass
 //
 //------------------------------------------------------------------------------
 
-class uvm_in_order_built_in_comparator #(type T=int)
-  extends uvm_in_order_comparator #(T);
+class uvm_in_order_built_in_comparator
+  extends uvm_in_order_comparator;
 
-  typedef uvm_in_order_built_in_comparator #(T) this_type;
+  typedef uvm_in_order_built_in_comparator this_type;
   `uvm_component_param_utils(this_type)
-  `uvm_type_name_decl("uvm_in_order_built_in_comparator #(T)")
+  `uvm_type_name_decl("uvm_in_order_built_in_comparator")
 
   function new(string name, uvm_component parent);
     super.new(name, parent);
@@ -230,15 +207,12 @@ endclass
 //
 //------------------------------------------------------------------------------
 
-class uvm_in_order_class_comparator #( type T = int )
-  extends uvm_in_order_comparator #( T , 
-                                     uvm_class_comp #( T ) , 
-                                     uvm_class_converter #( T ) , 
-                                     uvm_class_pair #( T, T ) );
+class uvm_in_order_class_comparator
+  extends uvm_in_order_comparator;
 
-  typedef uvm_in_order_class_comparator #(T) this_type;
+  typedef uvm_in_order_class_comparator this_type;
   `uvm_component_param_utils(this_type)
-  `uvm_type_name_decl("uvm_in_order_class_comparator #(T)")
+  `uvm_type_name_decl("uvm_in_order_class_comparator")
 
   function new( string name  , uvm_component parent);
     super.new( name, parent );

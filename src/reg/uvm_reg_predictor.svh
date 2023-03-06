@@ -55,13 +55,13 @@ endclass
 //------------------------------------------------------------------------------
 
 // @uvm-ieee 1800.2-2017 auto 19.3.1
-class uvm_reg_predictor #(type BUSTYPE=int) extends uvm_component;
+class uvm_reg_predictor extends uvm_component;
 
-  `uvm_component_param_utils(uvm_reg_predictor#(BUSTYPE))
+  `uvm_component_param_utils(uvm_reg_predictor)
 
   // Variable -- NODOCS -- bus_in
   //
-  // Observed bus transactions of type ~BUSTYPE~ are received from this
+  // Observed bus transactions of type ~int~ are received from this
   // port and pro1cessed.
   //
   // For each incoming transaction, the predictor will attempt to get the
@@ -118,11 +118,11 @@ class uvm_reg_predictor #(type BUSTYPE=int) extends uvm_component;
   static string type_name = "";
   virtual function string get_type_name();
     if (type_name == "") begin
-      BUSTYPE t;
+      int t;
  `ifdef VERILATOR
-       t = BUSTYPE::type_id_create("t");
+       t = int::type_id_create("t");
  `else
-       t = BUSTYPE::type_id::create("t");
+       t = int::type_id::create("t");
  `endif
       type_name = {"uvm_reg_predictor #(", t.get_type_name(), ")"};
     end
@@ -130,15 +130,15 @@ class uvm_reg_predictor #(type BUSTYPE=int) extends uvm_component;
   endfunction
 `else // !`ifdef UVM_ENABLE_DEPRECATED_API
   // TODO:  Is it better to replace this with:
-  //| `uvm_type_name_decl($sformatf("uvm_reg_predictor #(%s)", BUSTYPE::type_name())
+  //| `uvm_type_name_decl($sformatf("uvm_reg_predictor #(%s)", int::type_name())
   static function string type_name();
     static string m_type_name;
     if (m_type_name == "") begin
-      BUSTYPE t;
+      int t;
  `ifdef VERILATOR
 
  `else
-       t = BUSTYPE::type_id::create("t");
+       t = int::type_id::create("t");
  `endif
       m_type_name = {"uvm_reg_predictor #(", "", ")"};
     end
@@ -162,7 +162,7 @@ class uvm_reg_predictor #(type BUSTYPE=int) extends uvm_component;
   // not a user-level method. Do not call directly. See documentation
   // for the ~bus_in~ member.
   //
-  virtual function void write(BUSTYPE tr);
+  virtual function void write(int tr);
      uvm_reg rg;
      uvm_reg_bus_op rw;
     if (adapter == null)

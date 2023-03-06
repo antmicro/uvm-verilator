@@ -60,7 +60,7 @@
 
 // @uvm-ieee 1800.2-2017 auto B.4.1
 `define uvm_register_cb(T,CB) \
-  static local bit m_register_cb_``CB = uvm_callbacks#(T,CB)::m_register_pair(`"T`",`"CB`");
+  static local bit m_register_cb_``CB = uvm_callbacks::m_register_pair(`"T`",`"CB`");
 
 
 //-----------------------------------------------------------------------------
@@ -167,7 +167,7 @@
 // @uvm-ieee 1800.2-2017 auto B.4.4
 `define uvm_do_obj_callbacks(T,CB,OBJ,METHOD) \
    begin \
-     uvm_callback_iter#(T,CB) iter = new(OBJ); \
+     uvm_callback_iter iter = new(OBJ); \
      CB cb = iter.first(); \
      while(cb != null) begin \
        `uvm_cb_trace_noobj(cb,$sformatf(`"Executing callback method 'METHOD' for callback %s (CB) from %s (T)`",cb.get_name(), OBJ.get_full_name())) \
@@ -262,7 +262,7 @@
 // @uvm-ieee 1800.2-2017 auto B.4.6
 `define uvm_do_obj_callbacks_exit_on(T,CB,OBJ,METHOD,VAL) \
    begin \
-     uvm_callback_iter#(T,CB) iter = new(OBJ); \
+     uvm_callback_iter iter = new(OBJ); \
      CB cb = iter.first(); \
      while(cb != null) begin \
        if (cb.METHOD == VAL) begin \

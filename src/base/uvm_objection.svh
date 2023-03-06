@@ -33,7 +33,7 @@ typedef class uvm_objection_context_object;
 typedef class uvm_objection;
 typedef class uvm_sequence_base;
 typedef class uvm_objection_callback;
-typedef uvm_callbacks #(uvm_objection,uvm_objection_callback) uvm_objection_cbs_t;
+typedef uvm_callbacks uvm_objection_cbs_t;
 typedef class uvm_cmdline_pro1cessor;
 
 class uvm_objection_events;
@@ -1038,7 +1038,7 @@ class uvm_objection extends uvm_report_object;
   // Below is all of the basic data stuff that is needed for a uvm_object
   // for factory registration, printing, comparing, etc.
 
-  typedef uvm_object_registry#(uvm_objection,"uvm_objection") type_id;
+  typedef uvm_object_registry type_id;
 `ifdef VERILATOR
   static function uvm_objection type_id_create (string name="",
                                                 uvm_component parent=null,

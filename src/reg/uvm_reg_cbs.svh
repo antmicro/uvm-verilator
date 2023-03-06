@@ -116,7 +116,7 @@ endclass
 // Use this declaration to register the register callbacks rather than
 // the more verbose parameterized class
 //
-typedef uvm_callbacks#(uvm_reg, uvm_reg_cbs) uvm_reg_cb /* @uvm-ieee 1800.2-2017 auto D.4.6.1*/   ;
+typedef uvm_callbacks uvm_reg_cb /* @uvm-ieee 1800.2-2017 auto D.4.6.1*/   ;
 
 
 // Type -- NODOCS -- uvm_reg_cb_iter
@@ -126,7 +126,7 @@ typedef uvm_callbacks#(uvm_reg, uvm_reg_cbs) uvm_reg_cb /* @uvm-ieee 1800.2-2017
 // Use this declaration to iterate over registered register callbacks
 // rather than the more verbose parameterized class
 //
-typedef uvm_callback_iter#(uvm_reg, uvm_reg_cbs) uvm_reg_cb_iter /* @uvm-ieee 1800.2-2017 auto D.4.6.2*/   ;
+typedef uvm_callback_iter uvm_reg_cb_iter /* @uvm-ieee 1800.2-2017 auto D.4.6.2*/   ;
 
 
 // Type -- NODOCS -- uvm_reg_bd_cb
@@ -136,7 +136,7 @@ typedef uvm_callback_iter#(uvm_reg, uvm_reg_cbs) uvm_reg_cb_iter /* @uvm-ieee 18
 // Use this declaration to register register backdoor callbacks rather than
 // the more verbose parameterized class
 //
-typedef uvm_callbacks#(uvm_reg_backdoor, uvm_reg_cbs) uvm_reg_bd_cb /* @uvm-ieee 1800.2-2017 auto D.4.6.3*/   ;
+typedef uvm_callbacks uvm_reg_bd_cb /* @uvm-ieee 1800.2-2017 auto D.4.6.3*/   ;
 
 
 // Type -- NODOCS -- uvm_reg_bd_cb_iter
@@ -146,7 +146,7 @@ typedef uvm_callbacks#(uvm_reg_backdoor, uvm_reg_cbs) uvm_reg_bd_cb /* @uvm-ieee
 // rather than the more verbose parameterized class
 //
 
-typedef uvm_callback_iter#(uvm_reg_backdoor, uvm_reg_cbs) uvm_reg_bd_cb_iter /* @uvm-ieee 1800.2-2017 auto D.4.6.4*/   ;
+typedef uvm_callback_iter uvm_reg_bd_cb_iter /* @uvm-ieee 1800.2-2017 auto D.4.6.4*/   ;
 
 
 // Type -- NODOCS -- uvm_mem_cb
@@ -156,7 +156,7 @@ typedef uvm_callback_iter#(uvm_reg_backdoor, uvm_reg_cbs) uvm_reg_bd_cb_iter /* 
 // Use this declaration to register memory callbacks rather than
 // the more verbose parameterized class
 //
-typedef uvm_callbacks#(uvm_mem, uvm_reg_cbs) uvm_mem_cb /* @uvm-ieee 1800.2-2017 auto D.4.6.5*/   ;
+typedef uvm_callbacks uvm_mem_cb /* @uvm-ieee 1800.2-2017 auto D.4.6.5*/   ;
 
 
 // Type -- NODOCS -- uvm_mem_cb_iter
@@ -166,7 +166,7 @@ typedef uvm_callbacks#(uvm_mem, uvm_reg_cbs) uvm_mem_cb /* @uvm-ieee 1800.2-2017
 // Use this declaration to iterate over registered memory callbacks
 // rather than the more verbose parameterized class
 //
-typedef uvm_callback_iter#(uvm_mem, uvm_reg_cbs) uvm_mem_cb_iter /* @uvm-ieee 1800.2-2017 auto D.4.6.6*/   ;
+typedef uvm_callback_iter uvm_mem_cb_iter /* @uvm-ieee 1800.2-2017 auto D.4.6.6*/   ;
 
 
 // Type -- NODOCS -- uvm_reg_field_cb
@@ -176,7 +176,7 @@ typedef uvm_callback_iter#(uvm_mem, uvm_reg_cbs) uvm_mem_cb_iter /* @uvm-ieee 18
 // Use this declaration to register field callbacks rather than
 // the more verbose parameterized class
 //
-typedef uvm_callbacks#(uvm_reg_field, uvm_reg_cbs) uvm_reg_field_cb /* @uvm-ieee 1800.2-2017 auto D.4.6.7*/   ;
+typedef uvm_callbacks uvm_reg_field_cb /* @uvm-ieee 1800.2-2017 auto D.4.6.7*/   ;
 
 
 // Type -- NODOCS -- uvm_reg_field_cb_iter
@@ -186,7 +186,7 @@ typedef uvm_callbacks#(uvm_reg_field, uvm_reg_cbs) uvm_reg_field_cb /* @uvm-ieee
 // Use this declaration to iterate over registered field callbacks
 // rather than the more verbose parameterized class
 //
-typedef uvm_callback_iter#(uvm_reg_field, uvm_reg_cbs) uvm_reg_field_cb_iter /* @uvm-ieee 1800.2-2017 auto D.4.6.8*/   ;
+typedef uvm_callback_iter uvm_reg_field_cb_iter /* @uvm-ieee 1800.2-2017 auto D.4.6.8*/   ;
 
 
 //-----------------------------

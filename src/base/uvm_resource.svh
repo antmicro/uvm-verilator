@@ -1131,7 +1131,7 @@ class uvm_resource #(type T=int) extends uvm_resource_base;
 
   // Because of uvm_resource#(T)::get_type, we can't use
   // the macros.  We need to do it all manually.
-  typedef uvm_object_registry#(this_type) type_id;
+  typedef uvm_object_registry type_id;
   virtual function uvm_object_wrapper get_object_type();
     return type_id::get();
   endfunction : get_object_type

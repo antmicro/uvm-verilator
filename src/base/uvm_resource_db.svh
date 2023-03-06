@@ -55,9 +55,9 @@ typedef class uvm_cmdline_pro1cessor;
 //| class uvm_resource_db#(type T=uvm_object)
   
 // @uvm-ieee 1800.2-2017 auto C.3.2.1
-class uvm_resource_db #(type T=uvm_object);
+class uvm_resource_db;
 
-  typedef uvm_resource #(T) rsrc_t;
+  typedef uvm_resource rsrc_t;
 
   protected function new();
   endfunction
@@ -151,7 +151,7 @@ class uvm_resource_db #(type T=uvm_object);
           input uvm_object accessor,
           input rsrc_t rsrc);
 
-          T foo;
+          uvm_object foo;
           string msg=`uvm_typename(foo);
 
           $sformat(msg, "%s scope='%s' name='%s' (type %s) %s accessor=%s = %s",
@@ -165,13 +165,13 @@ class uvm_resource_db #(type T=uvm_object);
 
   // @uvm-ieee 1800.2-2017 auto C.3.2.2.1
   static function void set(input string scope, input string name,
-                           T val, input uvm_object accessor = null);
+                           uvm_object val, input uvm_object accessor = null);
   endfunction
 
 
   // @uvm-ieee 1800.2-2017 auto C.3.2.2.3
   static function void set_anonymous(input string scope,
-                                     T val, input uvm_object accessor = null);
+                                     uvm_object val, input uvm_object accessor = null);
 
     uvm_resource_pool rp = uvm_resource_pool::get();
     rsrc_t rsrc = new("");
@@ -190,7 +190,7 @@ class uvm_resource_db #(type T=uvm_object);
   // resource with the specified name and type.
 
   static function void set_override(input string scope, input string name,
-                                    T val, uvm_object accessor = null);
+                                    uvm_object val, uvm_object accessor = null);
 
     uvm_resource_pool rp = uvm_resource_pool::get();
      rsrc_t rsrc;
@@ -213,7 +213,7 @@ class uvm_resource_db #(type T=uvm_object);
   // queue) in the name map.
 
   static function void set_override_type(input string scope, input string name,
-                                         T val, uvm_object accessor = null);
+                                         uvm_object val, uvm_object accessor = null);
 
     uvm_resource_pool rp = uvm_resource_pool::get();
      rsrc_t rsrc;
@@ -234,7 +234,7 @@ class uvm_resource_db #(type T=uvm_object);
   // queue) in the type map.
 
   static function void set_override_name(input string scope, input string name,
-                                  T val, uvm_object accessor = null);
+                                  uvm_object val, uvm_object accessor = null);
 
     uvm_resource_pool rp = uvm_resource_pool::get();
      rsrc_t rsrc;
@@ -270,7 +270,7 @@ class uvm_resource_db #(type T=uvm_object);
   // @uvm-ieee 1800.2-2017 auto C.3.2.2.6
   static function bit read_by_name(input string scope,
                                    input string name,
-                                   inout T val, input uvm_object accessor = null);
+                                   inout uvm_object val, input uvm_object accessor = null);
 
      rsrc_t rsrc;
 
@@ -281,7 +281,7 @@ class uvm_resource_db #(type T=uvm_object);
     if(rsrc == null)
       return 0;
 
-    val = rsrc.read(accessor);
+
 
     return 1;
   
@@ -308,7 +308,7 @@ class uvm_resource_db #(type T=uvm_object);
 
   // @uvm-ieee 1800.2-2017 auto C.3.2.2.7
   static function bit read_by_type(input string scope,
-                                   inout T val,
+                                   inout uvm_object val,
                                    input uvm_object accessor = null);
     
 
@@ -319,7 +319,7 @@ class uvm_resource_db #(type T=uvm_object);
 
   // @uvm-ieee 1800.2-2017 auto C.3.2.2.8
   static function bit write_by_name(input string scope, input string name,
-                                    input T val, input uvm_object accessor = null);
+                                    input uvm_object val, input uvm_object accessor = null);
 
     return 1;
 
@@ -328,7 +328,7 @@ class uvm_resource_db #(type T=uvm_object);
 
   // @uvm-ieee 1800.2-2017 auto C.3.2.2.9
   static function bit write_by_type(input string scope,
-                                    input T val, input uvm_object accessor = null);
+                                    input uvm_object val, input uvm_object accessor = null);
 
     return 1;
   endfunction

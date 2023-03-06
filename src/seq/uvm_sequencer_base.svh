@@ -27,7 +27,7 @@
 //   permissions and limitations under the License.
 //----------------------------------------------------------------------
 
-typedef uvm_config_db#(uvm_sequence_base) uvm_config_seq;
+typedef uvm_config_db uvm_config_seq;
 typedef class uvm_sequence_request;
 
 // Utility class for tracking default_sequences
@@ -135,14 +135,14 @@ class uvm_sequencer_base extends uvm_component;
   //
   //| myseq_t myseq = new("myseq");
   //| myseq.randomize() with { ... };
-  //| uvm_config_db #(uvm_sequence_base)::set(null, "top.agent.myseqr.main_phase",
+  //| uvm_config_db::set(null, "top.agent.myseqr.main_phase",
   //|                                         "default_sequence",
   //|                                         myseq);
   //
   // Configuration by type is shorter and can be substituted via
   // the factory.
   //
-  //| uvm_config_db #(uvm_object_wrapper)::set(null, "top.agent.myseqr.main_phase",
+  //| uvm_config_db::set(null, "top.agent.myseqr.main_phase",
   //|                                          "default_sequence",
   //|                                          myseq_type::type_id::get());
   //
@@ -1331,7 +1331,7 @@ function void uvm_sequencer_base::start_phase_sequence(uvm_phase phase);
     uvm_resource#(uvm_sequence_base)  sbr;
     uvm_resource#(uvm_object_wrapper) owr;
 
-    // uvm_config_db#(uvm_sequence_base)?
+    // uvm_config_db?
     // Priority is given to uvm_sequence_base because it is a specific sequence instance
     // and thus more specific than one that is dynamically created via the
     // factory and the object wrapper.
@@ -1344,7 +1344,7 @@ function void uvm_sequencer_base::start_phase_sequence(uvm_phase phase);
       end
     end
 
-    // uvm_config_db#(uvm_object_wrapper)?
+    // uvm_config_db?
     else if ($cast(owr, rsrc) && owr != null) begin
       uvm_object_wrapper wrapper;
 

@@ -35,9 +35,9 @@
 //------------------------------------------------------------------------------
 
 // @uvm-ieee 1800.2-2017 auto 13.9.1
-virtual class uvm_subscriber #(type T=int) extends uvm_component;
+virtual class uvm_subscriber extends uvm_component;
 
-  typedef uvm_subscriber #(T) this_type;
+  typedef uvm_subscriber this_type;
 
   // Port -- NODOCS -- analysis_export
   //
@@ -64,6 +64,6 @@ virtual class uvm_subscriber #(type T=int) extends uvm_component;
   // analysis_export.
 
   // @uvm-ieee 1800.2-2017 auto 13.9.3.2
-  pure virtual function void write(T t);
+  pure virtual function void write(int t);
     
 endclass
