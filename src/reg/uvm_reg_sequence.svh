@@ -166,7 +166,7 @@ class uvm_reg_sequence #(type BASE=uvm_sequence) extends BASE;
     `uvm_info("DO_RW_ACCESS",{"Doing transaction: ",rws},UVM_HIGH)
 
     if (parent_select == LOCAL) begin
-      upstream_parent = rw.parent;
+
       rw.parent = this;
     end
 

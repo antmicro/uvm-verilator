@@ -148,7 +148,7 @@ class uvm_tlm_nb_passthrough_initiator_socket_base #(type T=uvm_tlm_generic_payl
                 int min_size=1, int max_size=1);
     super.new (name, parent, UVM_PORT, min_size, max_size);
     
-    bw_export = new("bw_export", get_comp());
+
   endfunction
 
   `UVM_TLM_GET_TYPE_NAME("uvm_tlm_nb_passthrough_initiator_socket")
@@ -176,7 +176,7 @@ class uvm_tlm_nb_passthrough_target_socket_base #(type T=uvm_tlm_generic_payload
                 int min_size=1, int max_size=1);
     super.new (name, parent, UVM_EXPORT, min_size, max_size);
     
-    bw_port = new("bw_port", get_comp());
+
   endfunction
 
   `UVM_TLM_GET_TYPE_NAME("uvm_tlm_nb_passthrough_target_socket")

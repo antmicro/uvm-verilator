@@ -459,7 +459,7 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
   virtual function void connect (this_type provider);
      uvm_root top;
      uvm_coreservice_t cs;
-     cs = uvm_coreservice_t::get();
+
 
     if (end_of_elaboration_ph.get_state() == UVM_PHASE_EXECUTING || // TBD tidy
         end_of_elaboration_ph.get_state() == UVM_PHASE_DONE ) begin
@@ -551,7 +551,7 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
 	 uvm_root top;
 	 uvm_coreservice_t cs;
 
-	 top = cs.get_root();
+
         if (end_of_elaboration_ph.get_state() == UVM_PHASE_EXECUTING ||
             end_of_elaboration_ph.get_state() == UVM_PHASE_DONE ) ;
 
@@ -560,12 +560,12 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
                  "  Connected implementations: not resolved until end-of-elab\n"};
       end
       else begin
-        save = {save,"  Resolved implementation list:\n"};
+
         foreach (m_imp_list[nm]) begin
-          port = m_imp_list[nm];
+
           s_sz.itoa(sz);
-          save = {save, indent, s_sz, ": ",nm," (",port.get_type_name(),")\n"};
-          sz++;
+
+
         end
       end
       m_comp.uvm_report_info("debug_connected_to", save);
@@ -591,22 +591,18 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
     static string indent, save;
   
     if (level <  0) level = 0; 
-    if (level == 0) begin save = ""; indent = "  "; end
+
 
     if (max_level != -1 && level > max_level)
       return;
   
-    num = m_provided_to.num();
+
   
     if (num != 0) begin
       foreach (m_provided_to[nm]) begin
-        curr_num++;
-        port = m_provided_to[nm];
-        save = {save, indent, "  | \n"};
-        save = {save, indent, "  |_",nm," (",port.get_type_name(),")\n"};
-        indent = (num > 1 && curr_num != num) ?  {indent,"  | "}:{indent, "    "};
+
         port.debug_provided_to(level+1, max_level);
-        indent = indent.substr(0,indent.len()-4-1);
+
       end
     end
 
@@ -630,7 +626,7 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
     this_type port;
     list.delete();
     foreach (m_provided_by[name]) begin
-      port = m_provided_by[name];
+
       list[name] = port;
     end
   endfunction
@@ -644,7 +640,7 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
     this_type port;
     list.delete();
     foreach (m_provided_to[name]) begin
-      port = m_provided_to[name];
+
       list[name] = port;
     end
   endfunction
@@ -669,25 +665,20 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
     if (get_type_name() == "uvm_analysis_port")
       return 1;
     
-    from         = this;
-    from_parent  = get_parent();
-    to_parent    = provider.get_parent();
+
+
+
   
     // skip check if we have a parentless port
     if (from_parent == null || to_parent == null)
       return 1;
   
-    from_gparent = from_parent.get_parent();
-    to_gparent   = to_parent.get_parent();
+
+
   
     // Connecting port-to-port: CHILD.port.connect(PARENT.port)
     //
     if (from.is_port() && provider.is_port() && from_gparent != to_parent) begin
-      s = {provider.get_full_name(),
-           " (of type ",provider.get_type_name(),
-           ") is not up one level of hierarchy from this port. ",
-           "A port-to-port connection takes the form ",
-           "child_component.child_port.connect(parent_port)"};
       m_comp.uvm_report_warning(s_connection_warning_id, s, UVM_NONE);
       return 0;
     end    
@@ -697,11 +688,6 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
     //
     else if (from.is_port() && (provider.is_export() || provider.is_imp()) &&
              from_gparent != to_gparent) begin
-        s = {provider.get_full_name(),
-           " (of type ",provider.get_type_name(),
-           ") is not at the same level of hierarchy as this port. ",
-           "A port-to-export connection takes the form ",
-           "component1.port.connect(component2.export)"};
       m_comp.uvm_report_warning(s_connection_warning_id, s, UVM_NONE);
       return 0;
     end
@@ -711,11 +697,6 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
     //
     else if (from.is_export() && (provider.is_export() || provider.is_imp()) &&
              from_parent != to_gparent) begin
-      s = {provider.get_full_name(),
-           " (of type ",provider.get_type_name(),
-           ") is not down one level of hierarchy from this export. ",
-           "An export-to-export or export-to-imp connection takes the form ",
-           "parent_export.connect(child_component.child_export)"};
       m_comp.uvm_report_warning(s_connection_warning_id, s, UVM_NONE);
       return 0;
     end
@@ -733,7 +714,7 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
     this_type imp;
 
     for (int i = 0; i < provider.size(); i++) begin
-      imp = provider.get_if(i);
+
       if (!m_imp_list.exists(imp.get_full_name()))
         m_imp_list[imp.get_full_name()] = imp;
     end
@@ -763,13 +744,13 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
     else begin
       foreach (m_provided_by[nm]) begin
         this_type port;
-        port = m_provided_by[nm];
+
         port.resolve_bindings();
         m_add_list(port);
       end
     end
   
-    m_resolved = 1;
+
   
     if (size() < min_size() ) begin
       m_comp.uvm_report_error(s_connection_error_id, 
@@ -811,7 +792,7 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
     foreach (m_imp_list[nm]) begin
       if (index == 0)
         return m_imp_list[nm];
-      index--;
+
     end
   endfunction
 
