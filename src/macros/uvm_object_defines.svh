@@ -581,21 +581,21 @@ endfunction : __m_uvm_execute_field_op
    static function T type_id_create (string name="", \
                                      uvm_component parent=null, \
                                      string contxt=""); \
-     return uvm_object_registry::create(name, parent, contxt); \
+     return uvm_object_registry#()::create(name, parent, contxt); \
    endfunction \
    static function uvm_object_registry get_type(); \
-     return uvm_object_registry::get(); \
+     return uvm_object_registry#()::get(); \
    endfunction \
    virtual function uvm_object_wrapper get_object_type(); \
-     return uvm_object_registry::get(); \
+     return uvm_object_registry#()::get(); \
    endfunction
 `else
 `define m_uvm_object_registry_internal(T,S) \
    static function uvm_object_registry get_type(); \
-     return uvm_object_registry::get(); \
+     return uvm_object_registry#()::get(); \
    endfunction \
    virtual function uvm_object_wrapper get_object_type(); \
-     return uvm_object_registry::get(); \
+     return uvm_object_registry#()::get(); \
    endfunction
 `endif
 
