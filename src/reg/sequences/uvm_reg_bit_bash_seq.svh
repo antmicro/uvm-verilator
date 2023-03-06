@@ -90,7 +90,7 @@ class uvm_reg_single_bit_bash_seq extends uvm_reg_sequence;
                                              "NO_REG_BIT_BASH_TEST", 0) != null )
             return;
       
-      n_bits = rg.get_n_bytes() * 8;
+
          
       // Let's see what kind of bits we have...
       rg.get_fields(fields);
@@ -104,26 +104,20 @@ class uvm_reg_single_bit_bash_seq extends uvm_reg_sequence;
          uvm_reg_data_t  val, exp, v;
          int next_lsb;
          
-         next_lsb = 0;
-         dc_mask  = 0;
+
+
          foreach (fields[k]) begin
             int lsb, w, dc;
 
-            field_access = fields[k].get_access(maps[j]);
-            dc = (fields[k].get_compare() == UVM_NO_CHECK);
-            lsb = fields[k].get_lsb_pos();
-            w   = fields[k].get_n_bits();
             // Ignore Write-only fields because
             // you are not supposed to read them
-            case (field_access)
-             "WO", "WOC", "WOS", "WO1", "NOACCESS": dc = 1;
-            endcase
+
             // Any unused bits on the right side of the LSB?
             
             repeat (w) begin
                mode[next_lsb] = field_access;
                dc_mask[next_lsb] = dc;
-               next_lsb++;
+
             end
          end
          // Any unused bits on the left side of the MSB?
@@ -153,11 +147,6 @@ class uvm_reg_single_bit_bash_seq extends uvm_reg_sequence;
       `uvm_info("uvm_reg_bit_bash_seq", $sformatf("...Bashing %s bit #%0d", mode, k),UVM_HIGH)
       
       repeat (2) begin
-         val = rg.get();
-         v   = val;
-         exp = val;
-         val[k] = ~val[k];
-         bit_val = val[k];
          
          rg.write(status, val, UVM_FRONTDOOR, map, this);
          if (status != UVM_IS_OK) begin
@@ -165,14 +154,14 @@ class uvm_reg_single_bit_bash_seq extends uvm_reg_sequence;
                                         status.name(), rg.get_full_name(), map.get_full_name()))
          end
          
-         exp = rg.get() & ~dc_mask;
+
          rg.read(status, val, UVM_FRONTDOOR, map, this);
          if (status != UVM_IS_OK) begin
             `uvm_error("uvm_reg_bit_bash_seq", $sformatf("Status was %s when reading register \"%s\" through map \"%s\".",
                                         status.name(), rg.get_full_name(), map.get_full_name()))
          end
 
-         val &= ~dc_mask;
+
          if (val !== exp) begin
             `uvm_error("uvm_reg_bit_bash_seq", $sformatf("Writing a %b in bit #%0d of register \"%s\" with initial value 'h%h yielded 'h%h instead of 'h%h",
                                         bit_val, k, rg.get_full_name(), v, val, exp))
@@ -237,7 +226,7 @@ class uvm_reg_bit_bash_seq extends uvm_reg_sequence;
       uvm_report_info("STARTING_SEQ",{"\n\nStarting ",""," sequence...\n"},UVM_LOW);
 
 `ifdef VERILATOR
-      reg_seq = uvm_reg_single_bit_bash_seq::type_id_create("reg_single_bit_bash_seq");
+
 `else
       reg_seq = uvm_reg_single_bit_bash_seq::type_id::create("reg_single_bit_bash_seq");
 `endif
