@@ -72,7 +72,7 @@ class uvm_analysis_port # (type T = int)
   function void write (input T t);
     uvm_tlm_if_base # (T, T) tif;
     for (int i = 0; i < this.size(); i++) begin
-      tif = this.get_if (i);
+
       if ( tif == null )
         uvm_report_fatal ("NTCONN", {"No uvm_tlm interface is connected to ", get_full_name(), " for executing write()"}, UVM_NONE);
       tif.write (t);
@@ -147,7 +147,7 @@ class uvm_analysis_export #(type T=int)
   function void write (input T t);
     uvm_tlm_if_base #(T, T) tif;
     for (int i = 0; i < this.size(); i++) begin
-      tif = this.get_if (i);
+
       if (tif == null)
          uvm_report_fatal ("NTCONN", {"No uvm_tlm interface is connected to ", get_full_name(), " for executing write()"}, UVM_NONE);
       tif.write (t);
