@@ -32,7 +32,7 @@
 // @uvm-ieee 1800.2-2017 auto F.5.1.1
 virtual class uvm_visitor#(type NODE=uvm_component) extends uvm_object;
   function new (string name = "");
-    super.new(name);
+    
   endfunction 
 
   // Function -- NODOCS -- begin_v
@@ -68,7 +68,7 @@ endclass
 virtual class uvm_structure_proxy#(type STRUCTURE=uvm_component) extends uvm_object;
   // @uvm-ieee 1800.2-2017 auto F.5.2.2.1
   function new (string name = "");
-    super.new(name);
+    
   endfunction     
 
   // Function -- NODOCS -- get_immediate_children
@@ -101,7 +101,7 @@ virtual class uvm_visitor_adapter#(type STRUCTURE=uvm_component,VISITOR=uvm_visi
 
   // @uvm-ieee 1800.2-2017 auto F.5.3.2.1
   function new (string name = "");
-    super.new(name);
+    
   endfunction 
 endclass
 
@@ -120,7 +120,7 @@ class uvm_top_down_visitor_adapter#(type STRUCTURE=uvm_component,VISITOR=uvm_vis
 
   // @uvm-ieee 1800.2-2017 auto F.5.4.2
   function new (string name = "");
-    super.new(name);
+    
   endfunction         
 
   virtual function void accept(STRUCTURE s, VISITOR v,uvm_structure_proxy#(STRUCTURE) p, bit invoke_begin_end=1);
@@ -156,7 +156,7 @@ class uvm_bottom_up_visitor_adapter#(type STRUCTURE=uvm_component,VISITOR=uvm_vi
 
   // @uvm-ieee 1800.2-2017 auto F.5.5.2
   function new (string name = "");
-    super.new(name);
+    
   endfunction         
 
   virtual function void accept(STRUCTURE s, VISITOR v,uvm_structure_proxy#(STRUCTURE) p, bit invoke_begin_end=1);
@@ -191,7 +191,7 @@ class uvm_by_level_visitor_adapter#(type STRUCTURE=uvm_component,VISITOR=uvm_vis
 
   // @uvm-ieee 1800.2-2017 auto F.5.6.2
   function new (string name = "");
-    super.new(name);
+    
   endfunction         
 
   virtual function void accept(STRUCTURE s, VISITOR v,uvm_structure_proxy#(STRUCTURE) p, bit invoke_begin_end=1);
@@ -233,7 +233,7 @@ class uvm_component_proxy extends uvm_structure_proxy#(uvm_component);
 
   // @uvm-ieee 1800.2-2017 auto F.5.7.2
   function new (string name = "");
-    super.new(name);
+    
   endfunction 
 endclass
 
@@ -278,7 +278,7 @@ class uvm_component_name_check_visitor extends uvm_visitor#(uvm_component);
   endfunction 
 
   function new (string name = "");
-    super.new(name);
+    
   endfunction 
 
   virtual function void begin_v(); 

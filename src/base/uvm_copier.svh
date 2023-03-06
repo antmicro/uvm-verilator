@@ -50,7 +50,7 @@ class uvm_copier extends uvm_policy;
 
    // @uvm-ieee 1800.2-2017 auto 16.6.2.1
    function new(string name="uvm_copier") ; 
-	super.new(name);
+	
    endfunction
 	
    // Implementation only.

@@ -1006,7 +1006,7 @@ endfunction
 // new
 
 function uvm_reg_block::new(string name="", int has_coverage=UVM_NO_COVERAGE);
-   super.new(name);
+   
    hdl_paths_pool = new("hdl_paths");
    this.has_cover = has_coverage;
    // Root block until registered with a parent

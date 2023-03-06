@@ -57,7 +57,7 @@ virtual class uvm_report_server extends uvm_object;
                 return "uvm_report_server";
         endfunction
         function new(string name="base");
-                super.new(name);
+                
         endfunction
 
 
@@ -298,7 +298,7 @@ class uvm_default_report_server extends uvm_report_server;
   // Creates an instance of the class.
 
   function new(string name = "uvm_report_server");
-    super.new(name);
+    
     set_max_quit_count(0);
     reset_quit_count();
     reset_severity_counts();

@@ -137,7 +137,7 @@ endclass: uvm_reg_file
 // new
 
 function uvm_reg_file::new(string name="");
-   super.new(name);
+   
    hdl_paths_pool = new("hdl_paths");
 endfunction: new
 

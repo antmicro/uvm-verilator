@@ -76,7 +76,7 @@ class uvm_int_rsrc extends uvm_resource #(int);
 
   function new(string name, string s = "*");
     uvm_resource_pool rp;
-    super.new(name);
+    
     rp = uvm_resource_pool::get();
     rp.set_scope(this, s);
   endfunction
@@ -104,7 +104,7 @@ class uvm_string_rsrc extends uvm_resource #(string);
 
   function new(string name, string s = "*");
     uvm_resource_pool rp;
-    super.new(name);
+    
     rp = uvm_resource_pool::get();
     rp.set_scope(this, s);
   endfunction
@@ -130,7 +130,7 @@ class uvm_obj_rsrc extends uvm_resource #(uvm_object);
 
   function new(string name, string s = "*");
     uvm_resource_pool rp;
-    super.new(name);
+    
     rp = uvm_resource_pool::get();
     rp.set_scope(this, s);
   endfunction
@@ -152,7 +152,7 @@ class uvm_bit_rsrc #(int unsigned N=1) extends uvm_resource #(bit[N-1:0]);
 
   function new(string name, string s = "*");
     uvm_resource_pool rp;
-    super.new(name);
+    
     rp = uvm_resource_pool::get();
     rp.set_scope(this, s);
   endfunction
@@ -180,7 +180,7 @@ class uvm_byte_rsrc #(int unsigned N=1) extends uvm_resource #(bit[7:0][N-1:0]);
 
   function new(string name, string s = "*");
     uvm_resource_pool rp;
-    super.new(name);
+    
     rp = uvm_resource_pool::get();
     rp.set_scope(this, s);
   endfunction

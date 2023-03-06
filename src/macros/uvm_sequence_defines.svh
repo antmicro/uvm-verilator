@@ -191,7 +191,7 @@
 //| class seqA extends uvm_sequence_base #(simple_item);
 //|
 //|    function new(string name=`"TYPE`");
-//|      super.new(name);
+//|      
 //|    endfunction
 //|
 //|    `uvm_object_utils(seqA)
@@ -234,7 +234,7 @@
 //|   `uvm_sequence_library_utils(simple_seq_lib_RST)
 //|
 //|   function new(string name="");
-//|     super.new(name);
+//|     
 //|   endfunction
 //|
 //| endclass

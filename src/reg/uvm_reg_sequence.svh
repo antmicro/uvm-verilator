@@ -116,7 +116,7 @@ class uvm_reg_sequence #(type BASE=uvm_sequence #(uvm_reg_item)) extends BASE;
 
   // @uvm-ieee 1800.2-2017 auto 19.4.1.4.1
   function new (string name="uvm_reg_sequence_inst");
-    super.new(name);
+    
   endfunction
 
 
@@ -414,7 +414,7 @@ virtual class uvm_reg_frontdoor extends uvm_reg_sequence;
 
    // @uvm-ieee 1800.2-2017 auto 19.4.2.3
    function new(string name="");
-      super.new(name);
+      
    endfunction
 
    string fname;

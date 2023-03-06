@@ -257,10 +257,6 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
                 int max_size=1);
     uvm_component comp;
     int tmp;
-    m_port_type = port_type;
-    m_min_size  = min_size;
-    m_max_size  = max_size;
-    m_comp = new(name, parent, this);
 
 
   endfunction
@@ -399,9 +395,6 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
 
 
   function void set_if (int index=0);
-    m_if = get_if(index);
-    if (m_if != null)
-      m_def_index = index;
   endfunction
 
   function int m_get_if_mask();
@@ -418,7 +411,7 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
 
   // @uvm-ieee 1800.2-2017 auto 5.5.2.13
   function void set_default_index (int index);
-    m_def_index = index;
+
   endfunction
 
 
@@ -467,7 +460,7 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
      uvm_root top;
      uvm_coreservice_t cs;
      cs = uvm_coreservice_t::get();
-     top = cs.get_root();
+
     if (end_of_elaboration_ph.get_state() == UVM_PHASE_EXECUTING || // TBD tidy
         end_of_elaboration_ph.get_state() == UVM_PHASE_DONE ) begin
        m_comp.uvm_report_warning("Late Connection", 
@@ -540,37 +533,28 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
     this_type port;
   
     if (level <  0) level = 0;
-    if (level == 0) begin save = ""; indent="  "; end
+
   
     if (max_level != -1 && level >= max_level)
       return;
   
-    num = m_provided_by.num();
+
   
     if (m_provided_by.num() != 0) begin
       foreach (m_provided_by[nm]) begin
-        curr_num++;
-        port = m_provided_by[nm];
-        save = {save, indent, "  | \n"};
-        save = {save, indent, "  |_",nm," (",port.get_type_name(),")\n"};
-        indent = (num > 1 && curr_num != num) ?  {indent,"  | "}:{indent, "    "};
-        port.debug_connected_to(level+1, max_level);
-        indent = indent.substr(0,indent.len()-4-1);
       end
     end
   
     if (level == 0) begin
-      if (save != "")
-        save = {"This port's fanout network:\n\n  ",
-               get_full_name()," (",get_type_name(),")\n",save,"\n"};
+       
       if (m_imp_list.num() == 0) begin
 	 uvm_root top;
 	 uvm_coreservice_t cs;
-	 cs = uvm_coreservice_t::get();
+
 	 top = cs.get_root();
         if (end_of_elaboration_ph.get_state() == UVM_PHASE_EXECUTING ||
-            end_of_elaboration_ph.get_state() == UVM_PHASE_DONE )  // TBD tidy
-           save = {save,"  Connected implementations: none\n"};
+            end_of_elaboration_ph.get_state() == UVM_PHASE_DONE ) ;
+
         else
            save = {save,
                  "  Connected implementations: not resolved until end-of-elab\n"};

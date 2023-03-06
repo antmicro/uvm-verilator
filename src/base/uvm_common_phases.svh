@@ -82,7 +82,7 @@ class uvm_build_phase extends uvm_topdown_phase;
       return m_inst; 
    endfunction
    protected function new(string name="build");
-      super.new(name); 
+       
    endfunction
 endclass
 
@@ -125,7 +125,7 @@ class uvm_connect_phase extends uvm_bottomup_phase;
       return m_inst; 
    endfunction
    protected function new(string name="connect");
-      super.new(name); 
+       
    endfunction
 endclass
 
@@ -166,7 +166,7 @@ class uvm_end_of_elaboration_phase extends uvm_bottomup_phase;
       return m_inst; 
    endfunction
    protected function new(string name="end_of_elaboration");
-      super.new(name); 
+       
    endfunction
 endclass
 
@@ -210,7 +210,7 @@ class uvm_start_of_simulation_phase extends uvm_bottomup_phase;
       return m_inst; 
    endfunction
    protected function new(string name="start_of_simulation");
-      super.new(name); 
+       
    endfunction
 endclass
 
@@ -231,7 +231,7 @@ class uvm_run_phase extends uvm_task_phase;
       return m_inst; 
    endfunction
    protected function new(string name="run"); 
-      super.new(name); 
+       
    endfunction
 endclass
 
@@ -253,7 +253,7 @@ class uvm_extract_phase extends uvm_bottomup_phase;
       return m_inst; 
    endfunction
    protected function new(string name="extract");
-      super.new(name); 
+       
    endfunction
 endclass
 
@@ -274,7 +274,7 @@ class uvm_check_phase extends uvm_bottomup_phase;
       return m_inst; 
    endfunction
    protected function new(string name="check");
-      super.new(name); 
+       
    endfunction
 endclass
 
@@ -295,7 +295,7 @@ class uvm_report_phase extends uvm_bottomup_phase;
       return m_inst; 
    endfunction
    protected function new(string name="report");
-      super.new(name); 
+       
    endfunction
 endclass
 
@@ -334,6 +334,6 @@ class uvm_final_phase extends uvm_topdown_phase;
       return m_inst; 
    endfunction
    protected function new(string name="final");
-      super.new(name); 
+       
    endfunction
 endclass

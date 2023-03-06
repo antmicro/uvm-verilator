@@ -906,7 +906,7 @@ endfunction
 // so that it can be constructed for execute_item
 class m_uvm_sqr_seq_base extends uvm_sequence_base;
    function new(string name="unnamed-m_uvm_sqr_seq_base");
-      super.new(name);
+      
    endfunction : new
 endclass : m_uvm_sqr_seq_base
    

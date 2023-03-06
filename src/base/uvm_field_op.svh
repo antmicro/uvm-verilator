@@ -53,7 +53,7 @@ class uvm_field_op extends uvm_object;
    // @uvm-ieee 1800.2-2017 auto 5.3.13.2.3
    // @uvm-ieee 1800.2-2017 auto 5.3.2
    function new (string name="");
-      super.new(name);
+      
       m_is_set = 1'b0;
       m_user_hook = 1'b1;
    endfunction

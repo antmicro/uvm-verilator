@@ -1598,7 +1598,7 @@ function uvm_component::new (string name, uvm_component parent);
   uvm_root top;
   uvm_coreservice_t cs;
 
-  super.new(name);
+  
 
   // If uvm_top, reset name to "" so it doesn't show in full paths then return
   if (parent==null && name == "__top__") begin

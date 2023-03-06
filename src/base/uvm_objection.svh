@@ -136,7 +136,7 @@ class uvm_objection extends uvm_report_object;
     uvm_cmdline_pro1cessor clp;
     uvm_coreservice_t cs_ ;
     string trace_args[$];
-    super.new(name);
+    
     cs_ = uvm_coreservice_t::get();
     m_top  = cs_.get_root();
      
@@ -1100,7 +1100,7 @@ class uvm_test_done_objection extends uvm_objection;
   // this method directly.
 
   function new(string name="uvm_test_done");
-    super.new(name);
+    
   endfunction
 
 
@@ -1190,7 +1190,7 @@ typedef uvm_objection uvm_callbacks_objection;
 //
 //| class my_objection_cb extends uvm_objection_callback;
 //|   function new(string name);
-//|     super.new(name);
+//|     
 //|   endfunction
 //|
 //|   virtual function void raised (uvm_objection objection, uvm_object obj, 
@@ -1209,7 +1209,7 @@ typedef uvm_objection uvm_callbacks_objection;
 // @uvm-ieee 1800.2-2017 auto 10.5.2.1
 class uvm_objection_callback extends uvm_callback;
   function new(string name);
-    super.new(name);
+    
   endfunction
 
   // Function -- NODOCS -- raised

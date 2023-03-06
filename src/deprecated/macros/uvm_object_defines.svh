@@ -119,7 +119,7 @@
 //|     // declare data properties
 //|
 //|    function new(string name="mydata_inst");
-//|      super.new(name);
+//|      
 //|    endfunction
 //|
 //|  endclass
@@ -676,7 +676,7 @@ endfunction : __m_uvm_execute_field_op
 //|    `uvm_object_utils_end
 //|
 //|    function new(string name="mydata_inst");
-//|      super.new(name);
+//|      
 //|    endfunction
 //|
 //|  endclass
@@ -692,7 +692,7 @@ endfunction : __m_uvm_execute_field_op
 //|    `uvm_object_utils_end
 //|
 //|    function new(string name="my_comp_inst", uvm_component parent=null);
-//|      super.new(name);
+//|      
 //|    endfunction
 //|
 //|  endclass

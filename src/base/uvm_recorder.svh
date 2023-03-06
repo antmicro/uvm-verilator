@@ -162,7 +162,7 @@ virtual class uvm_recorder extends uvm_policy;
 
 
   function new(string name = "uvm_recorder");
-     super.new(name);
+     
      m_stream_dap = new("stream_dap");
      m_warn_null_stream = 1;
   endfunction
@@ -658,7 +658,7 @@ class uvm_text_recorder extends uvm_recorder;
    // Parameters --NODOCS--
    // name - Instance name
    function new(string name="unnamed-uvm_text_recorder");
-      super.new(name);
+      
    endfunction : new
 
    // Group --NODOCS-- Implementation Agnostic API

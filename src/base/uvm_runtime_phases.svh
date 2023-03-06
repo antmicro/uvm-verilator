@@ -63,7 +63,7 @@ class uvm_pre_reset_phase extends uvm_task_phase;
       return m_inst; 
    endfunction
    protected function new(string name="pre_reset"); 
-      super.new(name); 
+       
    endfunction
 endclass
 
@@ -84,7 +84,7 @@ class uvm_reset_phase extends uvm_task_phase;
       return m_inst; 
    endfunction
    protected function new(string name="reset"); 
-      super.new(name); 
+       
    endfunction
 endclass
 
@@ -105,7 +105,7 @@ class uvm_post_reset_phase extends uvm_task_phase;
       return m_inst; 
    endfunction
    protected function new(string name="post_reset"); 
-      super.new(name); 
+       
    endfunction
 endclass
 
@@ -127,7 +127,7 @@ class uvm_pre_configure_phase extends uvm_task_phase;
       return m_inst; 
    endfunction
    protected function new(string name="pre_configure"); 
-      super.new(name); 
+       
    endfunction
 endclass
 
@@ -149,7 +149,7 @@ class uvm_configure_phase extends uvm_task_phase;
       return m_inst; 
    endfunction
    protected function new(string name="configure"); 
-      super.new(name); 
+       
    endfunction
 endclass
 
@@ -170,7 +170,7 @@ class uvm_post_configure_phase extends uvm_task_phase;
       return m_inst; 
    endfunction
    protected function new(string name="post_configure"); 
-      super.new(name); 
+       
    endfunction
 endclass
 
@@ -191,7 +191,7 @@ class uvm_pre_main_phase extends uvm_task_phase;
       return m_inst; 
    endfunction
    protected function new(string name="pre_main"); 
-      super.new(name); 
+       
    endfunction
 endclass
 
@@ -213,7 +213,7 @@ class uvm_main_phase extends uvm_task_phase;
       return m_inst; 
    endfunction
    protected function new(string name="main"); 
-      super.new(name); 
+       
    endfunction
 endclass
 
@@ -235,7 +235,7 @@ class uvm_post_main_phase extends uvm_task_phase;
       return m_inst; 
    endfunction
    protected function new(string name="post_main"); 
-      super.new(name); 
+       
    endfunction
 endclass
 
@@ -257,7 +257,7 @@ class uvm_pre_shutdown_phase extends uvm_task_phase;
       return m_inst; 
    endfunction
    protected function new(string name="pre_shutdown"); 
-      super.new(name); 
+       
    endfunction
 endclass
 
@@ -279,7 +279,7 @@ class uvm_shutdown_phase extends uvm_task_phase;
       return m_inst; 
    endfunction
    protected function new(string name="shutdown"); 
-      super.new(name); 
+       
    endfunction
 endclass
 
@@ -301,6 +301,6 @@ class uvm_post_shutdown_phase extends uvm_task_phase;
       return m_inst; 
    endfunction
    protected function new(string name="post_shutdown"); 
-      super.new(name); 
+       
    endfunction
 endclass

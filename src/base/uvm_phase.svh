@@ -625,7 +625,7 @@ class uvm_phase_state_change extends uvm_object;
   /* local */ uvm_phase       m_jump_to;
   
   function new(string name = "uvm_phase_state_change");
-    super.new(name);
+    
   endfunction
 
 
@@ -668,7 +668,7 @@ class uvm_phase_cb extends uvm_callback;
 
   // @uvm-ieee 1800.2-2017 auto 9.3.3.2.1
   function new(string name="unnamed-uvm_phase_cb");
-     super.new(name);
+     
   endfunction : new
    
 
@@ -708,7 +708,7 @@ typedef class uvm_cmdline_pro1cessor;
 function uvm_phase::new(string name="uvm_phase",
                         uvm_phase_type phase_type=UVM_PHASE_SCHEDULE,
                         uvm_phase parent=null);
-  super.new(name);
+  
   m_phase_type = phase_type;
 
   // The common domain is the only thing that initializes m_state.  All

@@ -54,7 +54,7 @@ virtual class uvm_reg_adapter extends uvm_object;
 
   // @uvm-ieee 1800.2-2017 auto 19.2.1.2.1
   function new(string name="");
-    super.new(name);
+    
   endfunction
 
 
@@ -135,7 +135,7 @@ endclass
 //|  `uvm_object_utils(reg2apb_adapter)
 //|
 //|  function new(string name="reg2apb_adapter");
-//|    super.new(name);
+//|    
 //|    
 //|  endfunction
 //|
@@ -178,7 +178,7 @@ class uvm_reg_tlm_adapter extends uvm_reg_adapter;
   `uvm_object_utils(uvm_reg_tlm_adapter)
 
   function new(string name = "uvm_reg_tlm_adapter");
-    super.new(name);
+    
   endfunction
 
   // Function -- NODOCS -- reg2bus

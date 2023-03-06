@@ -194,7 +194,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   // @uvm-ieee 1800.2-2017 auto 14.2.2.1
   function new (string name = "uvm_sequence");
 
-    super.new(name);
+    
     m_sequence_state = UVM_CREATED;
     m_wait_for_grant_semaphore = 0;
     m_init_phase_daps(1);

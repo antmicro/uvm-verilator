@@ -62,7 +62,7 @@ class uvm_class_pair #(type T1=int, T2=T1) extends uvm_object;
 
   function new (string name="", T1 f=null, T2 s=null);
 
-    super.new(name);
+    
 
     if (f == null)
       ;
@@ -130,7 +130,7 @@ class uvm_built_in_pair #(type T1=int, T2=T1) extends uvm_object;
   // The optional name argument gives a name to the new pair object.
 
   function new (string name="");
-    super.new(name);
+    
   endfunction  
   
   virtual function string convert2string;

@@ -46,7 +46,7 @@ endclass
 // Class -- NODOCS -- uvm_reg_transaction_order_policy
 virtual class uvm_reg_transaction_order_policy extends uvm_object;
     function new(string name = "policy");
-        super.new(name);
+        
     endfunction
     
     // Function -- NODOCS -- order
@@ -66,7 +66,7 @@ class uvm_reg_seq_base extends uvm_sequence_base;
 
 
 function new(string name = "uvm_reg_seq_base");
-  super.new(name);
+  
 endfunction  
 
 endclass
