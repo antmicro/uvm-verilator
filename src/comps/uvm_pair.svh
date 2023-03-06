@@ -29,46 +29,46 @@
 
 
 //-----------------------------------------------------------------------------
-// Class -- NODOCS -- uvm_class_pair #(T1,T2)
+// Class -- NODOCS -- uvm_class_pair #(T1,int)
 //
 // Container holding handles to two objects whose types are specified by the
-// type parameters, T1 and T2.
+// type parameters, T1 and int.
 //-----------------------------------------------------------------------------
 
-class uvm_class_pair #(type T1=int, T2=T1) extends uvm_object;
+class uvm_class_pair extends uvm_object;
 
-  typedef uvm_class_pair #(T1, T2 ) this_type;
+  typedef uvm_class_pair this_type;
 
   `uvm_object_param_utils(this_type)
-  `uvm_type_name_decl("uvm_class_pair #(T1,T2)")
+  `uvm_type_name_decl("uvm_class_pair")
 
 // Variable -- NODOCS -- T1 first
 //
 // The handle to the first object in the pair
 
-  T1 first;
+  int first;
 
-// Variable -- NODOCS -- T2 second
+// Variable -- NODOCS -- int second
 //
 // The handle to the second object in the pair
 
-  T2 second;
+  int second;
 
   // Function -- NODOCS -- new
   //
   // Creates an instance that holds a handle to two objects.
   // The optional name argument gives a name to the new pair object.
 
-  function new (string name="", T1 f=null, T2 s=null);
+  function new (string name="", int f=null, int s=null);
 
     
 
-    if (f == null)
+    if (f == 0)
       ;
     else
       first = f;
 
-    if (s == null)
+    if (s == 0)
       ;
     else
       second = s;
@@ -98,30 +98,30 @@ class uvm_class_pair #(type T1=int, T2=T1) extends uvm_object;
 endclass
 
 //-----------------------------------------------------------------------------
-// CLASS -- NODOCS -- uvm_built_in_pair #(T1,T2)
+// CLASS -- NODOCS -- uvm_built_in_pair #(int,int)
 //
 // Container holding two variables of built-in types (int, string, etc.). The
-// types are specified by the type parameters, T1 and T2.
+// types are specified by the type parameters, int and int.
 //-----------------------------------------------------------------------------
 
-class uvm_built_in_pair #(type T1=int, T2=T1) extends uvm_object;
+class uvm_built_in_pair extends uvm_object;
 
-  typedef uvm_built_in_pair #(T1,T2) this_type;
+  typedef uvm_built_in_pair this_type;
 
   `uvm_object_param_utils(this_type)
-  `uvm_type_name_decl("uvm_built_in_pair #(T1,T2)")
+  `uvm_type_name_decl("uvm_built_in_pair #(int,int)")
 
-// Variable -- NODOCS -- T1 first
+// Variable -- NODOCS -- int first
 //
 // The first value in the pair
 
-  T1 first;
+  int first;
 
-// Variable -- NODOCS -- T2 second
+// Variable -- NODOCS -- int second
 //
 // The second value in the pair
 
-  T2 second;
+  int second;
   
   // Function -- NODOCS -- new
   //

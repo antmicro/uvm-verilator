@@ -742,9 +742,12 @@ function void uvm_reg_field::do_predict(uvm_reg_item      rw,
 
          m_written = 1;
 
-         for (uvm_reg_cbs cb = cbs.first(); cb != null; cb = cbs.next())
-            cb.post_predict(this, m_mirrored, field_val, 
+         for (uvm_callback cb_ = cbs.first(); cb_ != null; cb_ = cbs.next()) begin
+            uvm_reg_cbs cb;
+            $cast(cb, cb_);
+            cb.post_predict(this, m_mirrored, field_val,
                             UVM_PREDICT_WRITE, rw.path, rw.map);
+         end
 
          field_val &= ('b1 << m_size)-1;
 
@@ -780,9 +783,12 @@ function void uvm_reg_field::do_predict(uvm_reg_item      rw,
               return;
          end
 
-         for (uvm_reg_cbs cb = cbs.first(); cb != null; cb = cbs.next())
+         for (uvm_callback cb_ = cbs.first(); cb_ != null; cb_ = cbs.next()) begin
+            uvm_reg_cbs cb;
+            $cast(cb, cb_);
             cb.post_predict(this, m_mirrored, field_val,
                             UVM_PREDICT_READ, rw.path, rw.map);
+         end
 
          field_val &= ('b1 << m_size)-1;
 
@@ -1154,8 +1160,11 @@ task uvm_reg_field::do_write(uvm_reg_item rw);
      rw.status = UVM_IS_OK;
       
      pre_write(rw);
-     for (uvm_reg_cbs cb=cbs.first(); cb!=null; cb=cbs.next())
+     for (uvm_callback cb_ = cbs.first(); cb_ != null; cb_ = cbs.next()) begin
+        uvm_reg_cbs cb;
+        $cast(cb, cb_);
         cb.pre_write(rw);
+     end
 
      if (rw.status != UVM_IS_OK) begin
         m_write_in_progress = 1'b0;
@@ -1172,8 +1181,11 @@ task uvm_reg_field::do_write(uvm_reg_item rw);
         do_predict(rw, UVM_PREDICT_WRITE);
 
      post_write(rw);
-     for (uvm_reg_cbs cb=cbs.first(); cb!=null; cb=cbs.next())
+     for (uvm_callback cb_ = cbs.first(); cb_ != null; cb_ = cbs.next()) begin
+        uvm_reg_cbs cb;
+        $cast(cb, cb_);
         cb.post_write(rw);
+     end
 
      m_parent.Xset_busyX(0);
       
@@ -1265,8 +1277,11 @@ task uvm_reg_field::do_read(uvm_reg_item rw);
      rw.status = UVM_IS_OK;
       
      pre_read(rw);
-     for (uvm_reg_cbs cb = cbs.first(); cb != null; cb = cbs.next())
+     for (uvm_callback cb_ = cbs.first(); cb_ != null; cb_ = cbs.next()) begin
+        uvm_reg_cbs cb;
+        $cast(cb, cb_);
         cb.pre_read(rw);
+     end
 
      if (rw.status != UVM_IS_OK) begin
         m_read_in_progress = 1'b0;
@@ -1284,8 +1299,11 @@ task uvm_reg_field::do_read(uvm_reg_item rw);
         do_predict(rw, UVM_PREDICT_READ);
 
      post_read(rw);
-     for (uvm_reg_cbs cb=cbs.first(); cb!=null; cb=cbs.next())
+     for (uvm_callback cb_ = cbs.first(); cb_ != null; cb_ = cbs.next()) begin
+        uvm_reg_cbs cb;
+        $cast(cb, cb_);
         cb.post_read(rw);
+     end
 
      m_parent.Xset_busyX(0);
       
