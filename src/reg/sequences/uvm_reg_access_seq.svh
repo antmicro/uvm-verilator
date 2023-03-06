@@ -107,10 +107,10 @@ class uvm_reg_single_access_seq extends uvm_reg_sequence;
          rg.get_fields(fields);
          foreach (maps[k]) begin
 	        int ro;
-	       	ro=0;
+
 	     	foreach (fields[j]) begin    
                if (fields[j].get_access(maps[k]) == "RO") begin
-                  ro++;
+
                end
                if (!fields[j].is_known_access(maps[k])) begin
                   `uvm_warning("uvm_reg_access_seq", {"Register '",rg.get_full_name(),
@@ -140,7 +140,7 @@ class uvm_reg_single_access_seq extends uvm_reg_sequence;
              rg.get_full_name(),"' in map '", maps[j].get_full_name(),
              "' ..."}, UVM_LOW)
          
-         v = rg.get();
+
          
          rg.write(status, ~v, UVM_FRONTDOOR, maps[j], this);
 
@@ -232,7 +232,7 @@ class uvm_reg_access_seq extends uvm_reg_sequence;
       uvm_report_info("STARTING_SEQ",{"\n\nStarting ",""," sequence...\n"},UVM_LOW);
       
 `ifdef VERILATOR
-      reg_seq = uvm_reg_single_access_seq::type_id_create("single_reg_access_seq");
+
 `else
       reg_seq = uvm_reg_single_access_seq::type_id::create("single_reg_access_seq");
 `endif

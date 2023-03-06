@@ -98,12 +98,10 @@ class uvm_reg_shared_access_seq extends uvm_reg_sequence;
       rg.get_fields(fields);
 
       // Identify unpredictable bits and the ones we shouldn't change
-      other_mask = 0;
+
       foreach (fields[k]) begin
          int lsb, w;
          
-         lsb = fields[k].get_lsb_pos();
-         w   = fields[k].get_n_bits();
          
          if (!fields[k].is_known_access(maps[0])) begin
             repeat (w) begin
@@ -117,12 +115,10 @@ class uvm_reg_shared_access_seq extends uvm_reg_sequence;
       // so we cannot use the mirror-check function
       foreach (maps[j]) begin
          uvm_reg_data_t  wo;
-         wo = 0;
+
          foreach (fields[k]) begin
             int lsb, w;
             
-            lsb = fields[k].get_lsb_pos();
-            w   = fields[k].get_n_bits();
             
             if (fields[k].get_access(maps[j]) == "WO") begin
                repeat (w) begin
@@ -139,10 +135,10 @@ class uvm_reg_shared_access_seq extends uvm_reg_sequence;
          uvm_reg_data_t  prev, v;
          
          // The mirror should contain the initial value
-         prev = rg.get();
+
          
          // Write a random value, except in those "don't touch" fields
-         v = ({$random, $random} & ~other_mask) | (prev & other_mask);
+
          
          `uvm_info("uvm_reg_shared_access_seq", $sformatf("Writing register %s via map \"%s\"...",
                                     rg.get_full_name(), maps[j].get_full_name), UVM_LOW)
@@ -162,7 +158,7 @@ class uvm_reg_shared_access_seq extends uvm_reg_sequence;
                                        rg.get_full_name(), maps[k].get_full_name()), UVM_LOW)
             
             // Was it what we expected?
-            exp = rg.get() & ~wo_mask[k];
+
             
             rg.read(status, actual, UVM_FRONTDOOR, maps[k], this);
             if (status != UVM_IS_OK) begin
@@ -248,14 +244,14 @@ class uvm_mem_shared_access_seq extends uvm_reg_sequence;
 
       // We need at least a backdoor or a map that can read
       // the shared memory
-      read_from = -1;
+
       if (mem.get_backdoor() == null) begin
          foreach (maps[j]) begin
             string right;
-            right = mem.get_access(maps[j]);
+
             if (right == "RW" ||
                 right == "RO") begin
-               read_from = j;
+
                break;
             end
          end
@@ -295,7 +291,7 @@ class uvm_mem_shared_access_seq extends uvm_reg_sequence;
             
             
             // Write a random value,
-            v = {$random, $random};
+
             
             mem.write(status, offset, v, UVM_FRONTDOOR, maps[j], this);
             if (status != UVM_IS_OK) begin
@@ -314,15 +310,6 @@ class uvm_mem_shared_access_seq extends uvm_reg_sequence;
                end
                
                // Was it what we expected?
-               exp = v;
-               if (mem.get_access(maps[j]) == "RO") begin
-                  exp = prev;
-               end
-               if (mem.get_access(maps[k]) == "WO") begin
-                  exp = 0;
-               end
-               // Trim to number of bits
-               exp &= (1 << mem.get_n_bits()) - 1;
                if (actual !== exp) begin
                   `uvm_error("uvm_mem_shared_access_seq", $sformatf("%s[%0d] through map \"%s\" is 'h%h instead of 'h%h after writing 'h%h via map \"%s\" over 'h%h.",
                                               mem.get_full_name(), offset, maps[k].get_full_name(),
@@ -401,8 +388,6 @@ class uvm_reg_mem_shared_access_seq extends uvm_reg_sequence;
       uvm_report_info("STARTING_SEQ",{"\n\nStarting ",""," sequence...\n"},UVM_LOW);
 
 `ifdef VERILATOR
-      reg_seq = uvm_reg_shared_access_seq::type_id_create("reg_shared_access_seq");
-      mem_seq = uvm_mem_shared_access_seq::type_id_create("reg_shared_access_seq");
 `else
       reg_seq = uvm_reg_shared_access_seq::type_id::create("reg_shared_access_seq");
       mem_seq = uvm_mem_shared_access_seq::type_id::create("reg_shared_access_seq");
