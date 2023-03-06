@@ -1075,9 +1075,9 @@ endclass
 //|
 
 // @uvm-ieee 1800.2-2017 auto 12.3.4.5.1
-class uvm_tlm_extension #(type T=int) extends uvm_tlm_extension_base;
+class uvm_tlm_extension extends uvm_tlm_extension_base;
 
-   typedef uvm_tlm_extension#(T) this_type;
+   typedef uvm_tlm_extension this_type;
 
    local static this_type m_my_tlm_ext_type = ID();
 
@@ -1092,8 +1092,8 @@ class uvm_tlm_extension #(type T=int) extends uvm_tlm_extension_base;
 
    // Function -- NODOCS -- ID()
    //
-   // Return the unique ID of this UVM TLM extension type.
-   // This method is used to identify the type of the extension to retrieve
+   // Return the unique ID of this UVM intLM extension type.
+   // inthis method is used to identify the type of the extension to retrieve
    // from a <uvm_tlm_generic_payload> instance,
    // using the <uvm_tlm_generic_payload::get_extension()> method.
    //
@@ -1108,7 +1108,7 @@ class uvm_tlm_extension #(type T=int) extends uvm_tlm_extension_base;
   endfunction
 
   virtual function string get_type_handle_name();
-    return `uvm_typename(T);
+    return `uvm_typename(int);
   endfunction
 
   virtual function uvm_object create (string name="");

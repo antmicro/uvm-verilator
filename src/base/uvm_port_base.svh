@@ -114,11 +114,11 @@ endclass
 //
 // @uvm-accellera The details of this API are specific to the Accellera implementation, and are not being considered for contribution to 1800.2
 //------------------------------------------------------------------------------
-class uvm_port_component #(type PORT=uvm_object) extends uvm_port_component_base;
+class uvm_port_component extends uvm_port_component_base;
   
-  PORT m_port;
+  uvm_object m_port;
 
-  function new (string name, uvm_component parent, PORT port);
+  function new (string name, uvm_component parent, uvm_object port);
     super.new(name,parent);
     if (port == null)
       uvm_report_fatal("Bad usage", "Null handle to port", UVM_NONE);
@@ -137,7 +137,7 @@ class uvm_port_component #(type PORT=uvm_object) extends uvm_port_component_base
   //
   // Retrieve the actual port object that this proxy refers to.
 
-  function PORT get_port();
+  function uvm_object get_port();
     return m_port;
   endfunction
 
@@ -148,7 +148,7 @@ class uvm_port_component #(type PORT=uvm_object) extends uvm_port_component_base
   // @uvm-accellera The details of this API are specific to the Accellera implementation, and are not being considered for contribution to 1800.2
 
   virtual function void get_connected_to(ref uvm_port_list list);
-    PORT list1[string];
+    uvm_object list1[string];
     list.delete();
     foreach(list1[name]) begin
     end

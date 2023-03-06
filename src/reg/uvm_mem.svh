@@ -66,7 +66,7 @@ class uvm_mem extends uvm_object;
    local int               m_lineno;
    local bit               m_vregs[uvm_vreg];
    local uvm_object_string_pool
-               #(uvm_queue #(uvm_hdl_path_concat)) m_hdl_paths_pool;
+               m_hdl_paths_pool;
 
    local static int unsigned  m_max_size;
 
@@ -971,9 +971,6 @@ endfunction: get_n_bytes
 
 function uvm_reg_cvr_t uvm_mem::build_coverage(uvm_reg_cvr_t models);
    build_coverage = UVM_NO_COVERAGE;
-   void'(uvm_reg_cvr_rsrc_db::read_by_name({"uvm_reg::", get_full_name()},
-                                           "include_coverage",
-                                           build_coverage, this));
    return build_coverage & models;
 endfunction: build_coverage
 
@@ -1198,8 +1195,11 @@ task uvm_mem::do_write(uvm_reg_item rw);
    
    // PRE-WRITE CBS
    pre_write(rw);
-   for (uvm_reg_cbs cb=cbs.first(); cb!=null; cb=cbs.next())
+   for (uvm_callback cb_ = cbs.first(); cb_ != null; cb_ = cbs.next()) begin
+      uvm_reg_cbs cb;
+      $cast(cb, cb_);
       cb.pre_write(rw);
+   end
 
    if (rw.status != UVM_IS_OK) begin
       m_write_in_progress = 1'b0;
@@ -1252,8 +1252,11 @@ task uvm_mem::do_write(uvm_reg_item rw);
 
    // POST-WRITE CBS
    post_write(rw);
-   for (uvm_reg_cbs cb=cbs.first(); cb!=null; cb=cbs.next())
+   for (uvm_callback cb_ = cbs.first(); cb_ != null; cb_ = cbs.next()) begin
+      uvm_reg_cbs cb;
+      $cast(cb, cb_);
       cb.post_write(rw);
+   end
 
    // REPORT
    if (uvm_report_enabled(UVM_HIGH, UVM_INFO, "RegModel")) begin
@@ -1305,8 +1308,11 @@ task uvm_mem::do_read(uvm_reg_item rw);
    
    // PRE-READ CBS
    pre_read(rw);
-   for (uvm_reg_cbs cb=cbs.first(); cb!=null; cb=cbs.next())
+   for (uvm_callback cb_ = cbs.first(); cb_ != null; cb_ = cbs.next()) begin
+      uvm_reg_cbs cb;
+      $cast(cb, cb_);
       cb.pre_read(rw);
+   end
 
    if (rw.status != UVM_IS_OK) begin
       m_read_in_progress = 1'b0;
@@ -1360,8 +1366,11 @@ task uvm_mem::do_read(uvm_reg_item rw);
 
    // POST-READ CBS
    post_read(rw);
-   for (uvm_reg_cbs cb=cbs.first(); cb!=null; cb=cbs.next())
+   for (uvm_callback cb_ = cbs.first(); cb_ != null; cb_ = cbs.next()) begin
+      uvm_reg_cbs cb;
+      $cast(cb, cb_);
       cb.post_read(rw);
+   end
 
    // REPORT
    if (uvm_report_enabled(UVM_HIGH, UVM_INFO, "RegModel")) begin

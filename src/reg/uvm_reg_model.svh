@@ -133,7 +133,7 @@ typedef struct {
 } uvm_hdl_path_slice;
 
 
-typedef uvm_resource_db#(uvm_reg_cvr_t) uvm_reg_cvr_rsrc_db;
+typedef uvm_resource_db uvm_reg_cvr_rsrc_db;
 
 
 //--------------------
