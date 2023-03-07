@@ -647,7 +647,7 @@ class uvm_objection extends uvm_report_object;
   // background pro1cess; when non
   static task m_execute_scheduled_forks();
     while(1) begin
-      wait(m_scheduled_list.size() != 0);
+
       if(m_scheduled_list.size() != 0) begin
           uvm_objection_context_object c;
           // Save off the context before the fork
