@@ -1452,12 +1452,11 @@ task uvm_phase::execute_phase();
              begin
                bit do_ready_to_end  ; // bit used for ready_to_end iterations
 	       uvm_objection phase_done;
-               phase_done = get_objection();
+
                // OVM semantic: don't end until objection raised or stop request
-               if (phase_done.get_objection_total(top) ||
+               if (
                    m_use_ovm_run_semantic && m_imp.get_name() == "run") begin
-                 if (!phase_done.m_top_all_dropped)
-                   phase_done.wait_for(UVM_ALL_DROPPED, top);
+
                  `UVM_PH_TRACE("PH/TRC/EXE/ALLDROP","PHASE EXIT ALL_DROPPED",this,UVM_DEBUG)
                end
                else begin
@@ -1465,53 +1464,37 @@ task uvm_phase::execute_phase();
                end
 
                wait_for_self_and_siblings_to_drop() ;
-               do_ready_to_end = 1;
+
 
                //--------------
                // READY_TO_END:
                //--------------
 
-               while (do_ready_to_end) begin
-                 uvm_wait_for_nba_region(); // Let all siblings see no objections before traverse might raise another
+               if (1'b1) begin
+
                  `UVM_PH_TRACE("PH_READY_TO_END","PHASE READY TO END",this,UVM_DEBUG)
                  m_ready_to_end_count++;
                  if (m_phase_trace)
                    `UVM_PH_TRACE("PH_READY_TO_END_CB","CALLING READY_TO_END CB",this,UVM_HIGH)
-                 state_chg.m_prev_state = m_state;
+
                  m_state = UVM_PHASE_READY_TO_END;
-                 `uvm_do_callbacks(uvm_phase, uvm_phase_cb, phase_state_change(this, state_chg))
-                 if (m_imp != null)
-                   m_imp.traverse(top,this,UVM_PHASE_READY_TO_END);
+
+
+
 
                  uvm_wait_for_nba_region(); // Give traverse targets a chance to object
 
                  wait_for_self_and_siblings_to_drop();
-                 do_ready_to_end = (m_state == UVM_PHASE_EXECUTING) && (m_ready_to_end_count < get_max_ready_to_end_iterations()) ; //when we don't wait in task above, we drop out of while loop
+
                end
              end
 
              // TIMEOUT
              begin
                if (this.get_name() == "run") begin
-                  if (top.phase_timeout == 0)
-                    wait(top.phase_timeout != 0);
-                 if (m_phase_trace)
-                    `UVM_PH_TRACE("PH/TRC/TO_WAIT", $sformatf("STARTING PHASE TIMEOUT WATCHDOG (timeout == %t)", top.phase_timeout), this, UVM_HIGH)
-                  `uvm_delay(top.phase_timeout)
                   if ($time == `UVM_DEFAULT_TIMEOUT) begin
                      if (m_phase_trace)
                        `UVM_PH_TRACE("PH/TRC/TIMEOUT", "PHASE TIMEOUT WATCHDOG EXPIRED", this, UVM_LOW)
-                     foreach (m_executing_phases[p]) begin
-			uvm_objection p_phase_done;
-			p_phase_done = p.get_objection();
-                        if ((p_phase_done != null) && (p_phase_done.get_objection_total() > 0)) begin
-                           if (m_phase_trace)
-                             `UVM_PH_TRACE("PH/TRC/TIMEOUT/OBJCTN",
-                                           $sformatf("Phase '%s' has outstanding objections:\n%s", p.get_full_name(), p_phase_done.convert2string()),
-                                           this,
-                                           UVM_LOW)
-                        end
-                     end
 
                      `uvm_fatal("PH_TIMEOUT",
                                 $sformatf("Default timeout of %0t hit, indicating a probable testbench issue",
@@ -1520,17 +1503,6 @@ task uvm_phase::execute_phase();
                   else begin
                      if (m_phase_trace)
                        `UVM_PH_TRACE("PH/TRC/TIMEOUT", "PHASE TIMEOUT WATCHDOG EXPIRED", this, UVM_LOW)
-                     foreach (m_executing_phases[p]) begin
-			uvm_objection p_phase_done;
-			p_phase_done = p.get_objection();
-                        if ((p_phase_done != null) && (p_phase_done.get_objection_total() > 0)) begin
-                           if (m_phase_trace)
-                             `UVM_PH_TRACE("PH/TRC/TIMEOUT/OBJCTN",
-                                           $sformatf("Phase '%s' has outstanding objections:\n%s", p.get_full_name(), p_phase_done.convert2string()),
-                                           this,
-                                           UVM_LOW)
-                        end
-                     end
 
                      `uvm_fatal("PH_TIMEOUT",
                                 $sformatf("Explicit timeout of %0t hit, indicating a probable testbench issue",
