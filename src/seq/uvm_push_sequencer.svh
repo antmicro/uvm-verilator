@@ -63,17 +63,6 @@ class uvm_push_sequencer #(type REQ=uvm_sequence_item, RSP=REQ)
     REQ t;
     int selected_sequence;
 
-    fork
-      super.run_phase(phase);
-      forever
-        begin
-          m_select_sequence();
-          m_req_fifo.get(t);
-          req_port.put(t);
-          m_wait_for_item_sequence_id = t.get_sequence_id();
-          m_wait_for_item_transaction_id = t.get_transaction_id();
-        end
-    join
   endtask
 
   protected virtual function int  m_find_number_driver_connections();
