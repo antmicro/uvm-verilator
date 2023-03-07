@@ -184,40 +184,6 @@ function void uvm_reg_backdoor::start_update_thread(uvm_object element);
    if (!$cast(rg,element))
      return; // only regs supported at this time
 
-   fork
-      begin
-         uvm_reg_field fields[$];
-
-`ifdef UVM_USE_PROCESS_CONTAINER         
-         this.m_update_thread[element] = new(process::self());
-`else
-         this.m_update_thread[element] = process::self();
-`endif
-      
-         rg.get_fields(fields);
-         forever begin
-            uvm_status_e status;
-            uvm_reg_data_t  val;
-            uvm_reg_item r_item = new("bd_r_item");
-            r_item.element = rg;
-            r_item.element_kind = UVM_REG;
-            this.read(r_item);
-            val = r_item.value[0];
-            if (r_item.status != UVM_IS_OK) begin
-               `uvm_error("RegModel", $sformatf("Backdoor read of register '%s' failed.",
-                          rg.get_name()))
-            end
-            foreach (fields[i]) begin
-               if (this.is_auto_updated(fields[i])) begin
-                  r_item.value[0] = (val >> fields[i].get_lsb_pos()) &
-                                    ((1 << fields[i].get_n_bits())-1);
-                  fields[i].do_predict(r_item);
-                end
-            end
-            this.wait_for_change(element);
-         end
-      end
-   join_none
 endfunction
 
 
