@@ -430,7 +430,7 @@ task uvm_wait_for_nba_region;
   //but it isn't needed since program blocks are in a separate region.
 `ifndef UVM_NO_WAIT_FOR_NBA
   next_nba++;
-  nba <= next_nba;
+
   @(nba);
 `else
   repeat(`UVM_POUND_ZERO_COUNT) #0;
