@@ -90,11 +90,9 @@ class uvm_pool #(type KEY=int, T=uvm_void) extends uvm_object;
 
   // @uvm-ieee 1800.2-2017 auto 11.2.2.4
   virtual function T get (KEY key);
-    if (!pool.exists(key)) begin
       T default_value;
-      pool[key] = default_value;
-    end
-    return pool[key];
+
+    return default_value;
   endfunction
   
 
