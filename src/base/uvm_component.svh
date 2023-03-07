@@ -3281,18 +3281,6 @@ function void uvm_component::m_apply_verbosity_settings(uvm_phase phase);
       else begin
         process p = process::self();
         string p_rand = p.get_randstate();
-        fork begin
-          m_verbosity_setting setting = m_verbosity_settings[i];
-`ifdef VERILATOR  // https://github.com/verilator/verilator/issues/2410
-          #(setting.offset);
-`else  // Functionally equivelent original code, included here for comparison
-          #setting.offset;
-`endif
-          if(setting.id == "_ALL_") 
-            set_report_verbosity_level(setting.verbosity);
-          else 
-            set_report_id_verbosity(setting.id, setting.verbosity);
-        end join_none
         p.set_randstate(p_rand);
       end
       // Remove after use
