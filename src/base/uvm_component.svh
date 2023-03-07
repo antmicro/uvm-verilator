@@ -3120,27 +3120,6 @@ function void uvm_component::m_set_cl_verb;
   end
   // do time based settings
   if(this == top) begin
-    fork begin
-      time last_time = 0;
-      if (m_time_settings.size() > 0)
-        m_time_settings.sort() with ( item.offset );
-      foreach(m_time_settings[i]) begin
-        uvm_component comps[$];
-        top.find_all(m_time_settings[i].comp,comps);
-        #(m_time_settings[i].offset - last_time);
-        last_time = m_time_settings[i].offset;
-        if(m_time_settings[i].id == "_ALL_") begin
-           foreach(comps[j]) begin
-             comps[j].set_report_verbosity_level(m_time_settings[i].verbosity);
-           end
-        end
-        else begin
-          foreach(comps[j]) begin
-            comps[j].set_report_id_verbosity(m_time_settings[i].id, m_time_settings[i].verbosity);
-          end
-        end
-      end
-    end join_none // fork begin
   end
 endfunction
 
