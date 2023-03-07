@@ -343,63 +343,6 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
     // Change the state to PRE_START, do this before the fork so that
     // the "if (!(m_sequence_state inside {...}" works
     m_sequence_state = UVM_PRE_START;
-    fork
-      begin
-        m_sequence_pro1cess = pro1cess::self();
-
-        // absorb delta to ensure PRE_START was seen
-        #0;
-
-        // Raise the objection if enabled
-        // (This will lock the uvm_get_to_lock_dap)
-        if (get_automatic_phase_objection()) begin
-           m_safe_raise_starting_phase("automatic phase objection");
-        end
-
-        pre_start();
-
-        if (call_pre_post == 1) begin
-          m_sequence_state = UVM_PRE_BODY;
-          #0;
-          pre_body();
-        end
-
-        if (parent_sequence != null) begin
-          parent_sequence.pre_do(0);    // task
-          parent_sequence.mid_do(this); // function
-        end
-
-        m_sequence_state = UVM_BODY;
-        #0;
-        body();
-
-        m_sequence_state = UVM_ENDED;
-        #0;
-
-        if (parent_sequence != null) begin
-          parent_sequence.post_do(this);
-        end
-
-        if (call_pre_post == 1) begin
-          m_sequence_state = UVM_POST_BODY;
-          #0;
-          post_body();
-        end
-
-        m_sequence_state = UVM_POST_START;
-        #0;
-        post_start();
-
-        // Drop the objection if enabled
-        if (get_automatic_phase_objection()) begin
-           m_safe_drop_starting_phase("automatic phase objection");
-        end
-
-        m_sequence_state = UVM_FINISHED;
-        #0;
-
-      end
-    join
 
     if (m_sequencer != null) begin
       m_sequencer.end_tr(this);
