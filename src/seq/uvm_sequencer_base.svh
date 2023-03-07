@@ -1383,19 +1383,6 @@ function void uvm_sequencer_base::start_phase_sequence(uvm_phase phase);
     return;
   end
 
-  fork begin
-    uvm_sequence_process_wrapper w = new();
-    // reseed this process for random stability
-    w.pid = process::self();
-    w.seq = seq;
-    w.pid.srandom(uvm_create_random_seed(seq.get_type_name(), this.get_full_name()));
-    m_default_sequences[phase] = w;
-    // this will either complete naturally, or be killed later
-    seq.start(this);
-    m_default_sequences.delete(phase);
-  end
-  join_none
-
 endfunction
 
 // stop_phase_sequence
