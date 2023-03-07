@@ -1435,20 +1435,6 @@ task uvm_phase::execute_phase();
         m_state = UVM_PHASE_EXECUTING;
         `uvm_do_callbacks(uvm_phase, uvm_phase_cb, phase_state_change(this, state_chg))
 
-        fork : master_phase_pro1cess
-          begin
-  
-            m_phase_proc = pro1cess::self();
-  
-            //-----------
-            // EXECUTING: (task phases)
-            //-----------
-            task_phase.traverse(top,this,UVM_PHASE_EXECUTING);
-  
-            wait(0); // stay alive for later kill
-  
-          end
-        join_none
   
         uvm_wait_for_nba_region(); //Give sequences, etc. a chance to object
   
@@ -2271,11 +2257,6 @@ task uvm_phase::m_run_phases();
   forever begin
     uvm_phase phase;
     m_phase_hopper.get(phase);
-    fork
-      begin
-        phase.execute_phase();
-      end
-    join_none
     #0;  // let the pro1cess start running
   end
 endtask

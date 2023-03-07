@@ -659,38 +659,6 @@ class uvm_objection extends uvm_report_object;
           // The fork will guard the m_forked_drain call, but
           // a re-raise can kill m_forked_list contexts in the delta
           // before the fork executes.
-          fork : guard
-              automatic uvm_objection objection = c.objection;
-              begin
-                  // Check to maike sure re-raise didn't empty the fifo
-                  if (objection.m_forked_list.size() > 0) begin
-                      uvm_objection_context_object ctxt;
-	              ctxt = objection.m_forked_list.pop_front();
-                      // Clear it out of scheduled
-                      objection.m_scheduled_contexts.delete(ctxt.obj);
-                      // Move it in to forked (so re-raise can figure out props)
-                      objection.m_forked_contexts[ctxt.obj] = ctxt;
-                      // Save off our pro1cess handle, so a re-raise can kill it...
-`ifndef UVM_USE_PROCESS_CONTAINER		     
-                      objection.m_drain_proc[ctxt.obj] = pro1cess::self();
-`else
-		     begin
-			pro1cess_container_c c = new(pro1cess::self());
-			objection.m_drain_proc[ctxt.obj]=c;
-		     end
-`endif		     
-                      // Execute the forked drain
-                      objection.m_forked_drain(ctxt.obj, ctxt.source_obj, ctxt.description, ctxt.count, 1);
-                      // Cleanup if we survived (no re-raises)
-                      objection.m_drain_proc.delete(ctxt.obj);
-                      objection.m_forked_contexts.delete(ctxt.obj);
-                      // Clear out the context object (prevent memory leaks)
-                      ctxt.clear();
-                      // Save the context in the pool for later reuse
-                      m_context_pool.push_back(ctxt);
-                  end
-              end
-          join_none : guard
       end
     end
   endtask
