@@ -117,13 +117,6 @@ class uvm_resource_pool;
   uvm_resource_types::rsrc_q_t ttab [uvm_resource_base];
 
   // struct for scope and precedence associated with each resource
-  typedef struct { 
-     string scope ;
-     int unsigned precedence;
-  } rsrc_info_t ;
-  // table to set/get scope and precedence for resources
-  static rsrc_info_t ri_tab [uvm_resource_base];
-
   get_t get_record [$];  // history of gets
 
   // @uvm-ieee 1800.2-2017 auto C.2.4.2.1
@@ -213,10 +206,6 @@ class uvm_resource_pool;
 
       for(i = 0; i < rq.size(); i++) begin
         r = rq.get(i);
-        if(r == rsrc) begin 
-          ri_tab[rsrc].scope = uvm_glob_to_re(scope);
-          return ;
-        end
       end
     end 
 
@@ -240,10 +229,6 @@ class uvm_resource_pool;
     // Insert it with low priority (in the back of queue) .
     rq.push_back(rsrc);
     ttab[type_handle] = rq;
-
-    // Set the scope of resource. 
-    ri_tab[rsrc].scope = uvm_glob_to_re(scope);
-    ri_tab[rsrc].precedence = get_default_precedence();
 
   endfunction
 
@@ -325,7 +310,7 @@ class uvm_resource_pool;
         r = rq.get(i);
         if(r == rsrc) begin 
           // Resource is in pool, set the scope 
-          scope = ri_tab[rsrc].scope;
+
           return 1;
         end
       end
@@ -372,8 +357,6 @@ class uvm_resource_pool;
           end   
       end
 
-      if (ri_tab.exists(rsrc))
-         ri_tab.delete(rsrc);
     end    
   endfunction
 
@@ -488,7 +471,7 @@ class uvm_resource_pool;
     rq = rtab[name];
     for(int i=0; i<rq.size(); ++i) begin 
       r = rq.get(i);
-      rsrcs = ri_tab.exists(r) ? ri_tab[r].scope: "";
+
       // does the type and scope match?
       if(((type_handle == null) || (r.get_type_handle() == type_handle)) &&
           uvm_is_match(rsrcs, scope))
@@ -521,12 +504,12 @@ class uvm_resource_pool;
 
     // get the first resources in the queue
     rsrc = q.get(0);
-    prec = (ri_tab.exists(rsrc)) ? ri_tab[rsrc].precedence: 0;
+
 
     // start searching from the second resource
     for(int i = 1; i < q.size(); ++i) begin
       r = q.get(i);
-      c_prec = (ri_tab.exists(r)) ? ri_tab[r].precedence: 0;
+
       if(c_prec > prec) begin
         rsrc = r;
         prec = c_prec;
@@ -553,7 +536,7 @@ class uvm_resource_pool;
 
     for(int i=0; i<q.size(); ++i) begin
       r = q.get(i);
-      prec = (ri_tab.exists(r)) ? ri_tab[r].precedence: 0;
+
       if(!all.exists(prec))
          all[prec] = new;
       all[prec].push_front(r); //since we will push_front in the final
@@ -622,8 +605,6 @@ class uvm_resource_pool;
     rq = ttab[type_handle];
     for(int i = 0; i < rq.size(); ++i) begin 
       r = rq.get(i);
-      if(ri_tab.exists(r) && uvm_is_match(ri_tab[r].scope, scope))
-        q.push_back(r);
     end
 
     return q;
@@ -691,8 +672,6 @@ class uvm_resource_pool;
       rq = rtab[name];
       for(i = 0; i < rq.size(); i++) begin
         r = rq.get(i);
-        if(ri_tab.exists(r) && uvm_is_match(ri_tab[r].scope, scope))
-          result_q.push_back(r);
       end
     end
 
@@ -723,17 +702,7 @@ class uvm_resource_pool;
     //This has no effect an manual accesses.
     string name;
 
-    if(rtab.last(name)) begin
-    do begin
-      rq = rtab[name];
-      for(int i = 0; i < rq.size(); ++i) begin
-        r = rq.get(i);
-        if(ri_tab.exists(r) && uvm_is_match(ri_tab[r].scope, scope)) begin
-          q.push_back(r);
-        end
-      end
-    end while(rtab.prev(name));
-    end
+
 
     return q;
     
@@ -908,7 +877,7 @@ class uvm_resource_pool;
       return;
     end
 
-    ri_tab[r].precedence = p;
+
 
   endfunction
 
@@ -940,7 +909,7 @@ class uvm_resource_pool;
       return uvm_resource_pool::get_default_precedence();
     end
 
-    return ri_tab[r].precedence;
+
 
   endfunction
 
@@ -1017,21 +986,6 @@ class uvm_resource_pool;
 
       printer.print_field_int("precedence", get_precedence(r), 32, UVM_UNSIGNED);
 
-      if (audit && r.access.size()) begin
-        printer.print_array_header("accesses",
-                                  r.access.size(),
-                                  "queue");
-        foreach(r.access[i]) begin
-          printer.print_string($sformatf("[%s]", i),
-                               $sformatf("reads: %0d @ %0t  writes: %0d @ %0t",
-                                         r.access[i].read_count,
-                                         r.access[i].read_time,
-                                         r.access[i].write_count,
-                                         r.access[i].write_time));
-        end // foreach(r.access[i])
-
-        printer.print_array_footer(r.access.size());
-      end // (audit && r.access.size())
 
       printer.pop_element();
     end // int i=0
