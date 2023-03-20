@@ -1547,16 +1547,6 @@ virtual class uvm_component extends uvm_report_object;
   // The verbosity settings may have a specific phase to start at. 
   // We will do this work in the phase_started callback. 
 
-  typedef struct {
-    string comp;
-    string phase;
-    time   offset;
-    uvm_verbosity verbosity;
-    string id;
-  } m_verbosity_setting;
-
-  m_verbosity_setting m_verbosity_settings[$];
-  static m_verbosity_setting m_time_settings[$];
 
   // does the pre abort callback hierarchically
   extern /*local*/ function void m_do_pre_abort;
@@ -3067,15 +3057,9 @@ function void uvm_component::m_set_cl_verb;
 
   if(first) begin
 	  string t[$];
-	  m_verbosity_setting setting;
       void'(clp.get_arg_values("+uvm_set_verbosity=",values));
       foreach(values[i]) begin
 	    args.delete();
-    	uvm_split_string(values[i], ",", args);  
-	   	if(((args.size() == 4) || (args.size() == 5)) &&  (clp.m_convert_verb(args[2], setting.verbosity) == 1)  )
-		   	t.push_back(values[i]);
-	   	else
-		   	uvm_report_warning("UVM/CMDLINE",$sformatf("argument %s not recognized and therefore dropped",values[i]));
       end
       
 	  values=t;
@@ -3083,40 +3067,8 @@ function void uvm_component::m_set_cl_verb;
   end	
 
   foreach(values[i]) begin
-    m_verbosity_setting setting;
     args.delete();
     uvm_split_string(values[i], ",", args);
-
-	begin
-      setting.comp = args[0];
-      setting.id = args[1];
-      void'(clp.m_convert_verb(args[2],setting.verbosity));
-      setting.phase = args[3];
-      setting.offset = 0;
-      if(args.size() == 5) setting.offset = args[4].atoi();
-      if((setting.phase == "time") && (this == top)) begin
-        m_time_settings.push_back(setting);
-      end
-  
-      if (uvm_is_match(setting.comp, get_full_name()) ) begin
-        if((setting.phase == "" || setting.phase == "build" || setting.phase == "time") && 
-           (setting.offset == 0) ) 
-        begin
-          if(setting.id == "_ALL_") 
-            set_report_verbosity_level(setting.verbosity);
-          else
-            set_report_id_verbosity(setting.id, setting.verbosity);
-        end
-        else begin
-          if(setting.phase != "time") begin
-            m_verbosity_settings.push_back(setting);
-          end
-        end
-      end
-    end
-  end
-  // do time based settings
-  if(this == top) begin
   end
 endfunction
 
@@ -3266,26 +3218,7 @@ endfunction
 // --------------------------
 
 function void uvm_component::m_apply_verbosity_settings(uvm_phase phase);
-  int i;
-  while (i < m_verbosity_settings.size()) begin
-    if(phase.get_name() == m_verbosity_settings[i].phase) begin
-      if( m_verbosity_settings[i].offset == 0 ) begin
-          if(m_verbosity_settings[i].id == "_ALL_") 
-            set_report_verbosity_level(m_verbosity_settings[i].verbosity);
-          else 
-            set_report_id_verbosity(m_verbosity_settings[i].id, m_verbosity_settings[i].verbosity);
-      end
-      else begin
-        process p = process::self();
-        string p_rand = p.get_randstate();
-        p.set_randstate(p_rand);
-      end
-      // Remove after use
-      m_verbosity_settings.delete(i);
-      continue;
-    end // if (phase.get_name() == m_verbosity_settings[i].phase)
-    i++;
-  end // while (i < m_verbosity_settings.size())
+
 endfunction
 
 
