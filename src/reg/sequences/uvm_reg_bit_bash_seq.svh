@@ -116,7 +116,7 @@ class uvm_reg_single_bit_bash_seq extends uvm_reg_sequence;
             
             repeat (w) begin
                mode[next_lsb] = field_access;
-               dc_mask[next_lsb] = dc;
+
 
             end
          end
