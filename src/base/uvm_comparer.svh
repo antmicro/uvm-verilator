@@ -92,12 +92,6 @@ class uvm_comparer extends uvm_policy;
 
   extern virtual function int unsigned get_threshold ();
 
-  typedef struct {
-     recursion_state_e state;
-     bit ret_val;
-  } state_info_t ;
-  state_info_t m_recur_states[uvm_object /*LHS*/][uvm_object /*RHS*/][uvm_recursion_policy_enum /*recursion*/];
-
   // Variable -- NODOCS -- policy
   //
   // Determines whether comparison is UVM_DEEP, UVM_REFERENCE, or UVM_SHALLOW.
@@ -466,7 +460,7 @@ class uvm_comparer extends uvm_policy;
     
 
       push_active_object(lhs);
-      m_recur_states[lhs][rhs][get_recursion_policy()]  = '{uvm_policy::STARTED,0};
+
       old_result = get_result();
 
       // Check typename
@@ -494,7 +488,7 @@ class uvm_comparer extends uvm_policy;
         ret_val = 0;
 
       // Save off the comparison result
-      m_recur_states[lhs][rhs][get_recursion_policy()]  = '{uvm_policy::FINISHED,ret_val};
+
       void'(pop_active_object());
     end // if (ret_val)
 
@@ -611,7 +605,6 @@ function void uvm_comparer::flush();
   miscompares = "" ;
   check_type = 1 ;
   result = 0 ;
-  m_recur_states.delete();
 endfunction
 
 function uvm_policy::recursion_state_e uvm_comparer::object_compared(
@@ -620,14 +613,6 @@ function uvm_policy::recursion_state_e uvm_comparer::object_compared(
   uvm_recursion_policy_enum recursion,
   output bit ret_val
 );
-  if (!m_recur_states.exists(lhs)) return NEVER ;
-  else if (!m_recur_states[lhs].exists(rhs)) return NEVER ;
-  else if (!m_recur_states[lhs][rhs].exists(recursion)) return NEVER ;
-  else begin
-     if (m_recur_states[lhs][rhs][recursion].state == FINISHED) 
-        ret_val = m_recur_states[lhs][rhs][recursion].ret_val;
-     return m_recur_states[lhs][rhs][recursion].state ;
-  end
 endfunction
 
 function string uvm_comparer::get_miscompares();

@@ -595,16 +595,10 @@ class uvm_default_factory extends uvm_factory;
                                            string requested_type_name,
                                            string full_inst_path="");
    
-  typedef struct  {
-    m_uvm_factory_type_pair_t orig;
-    string alias_type_name;
-    string full_inst_path;
-  } m_inst_typename_alias_t;
     
   protected bit                      m_types[uvm_object_wrapper];
   protected bit                      m_lookup_strs[string];
   protected uvm_object_wrapper       m_type_names[string];
-  protected m_inst_typename_alias_t  m_inst_aliases[$];
 
   protected uvm_factory_override m_type_overrides[$];
   protected uvm_factory_override m_inst_overrides[$];
@@ -1385,7 +1379,7 @@ function void uvm_default_factory::set_inst_alias(string alias_type_name,
                           uvm_object_wrapper original_type, string full_inst_path);
     
     string original_type_name; 
-    m_inst_typename_alias_t  orig_type_alias_per_inst;
+
     
     original_type_name = original_type.get_type_name();
     
@@ -1393,11 +1387,6 @@ function void uvm_default_factory::set_inst_alias(string alias_type_name,
        uvm_report_warning("BDTYP",{"Cannot define alias of type '",
        original_type_name,"' because it is not registered with the factory."}, UVM_NONE);      
     else begin
-        orig_type_alias_per_inst.alias_type_name = alias_type_name;
-        orig_type_alias_per_inst.full_inst_path = full_inst_path;
-        orig_type_alias_per_inst.orig.m_type_name = original_type_name;
-        orig_type_alias_per_inst.orig.m_type = original_type;
-        m_inst_aliases.push_back(orig_type_alias_per_inst);
     end
 
 endfunction
@@ -2033,14 +2022,6 @@ endfunction
 function uvm_object_wrapper uvm_default_factory::m_resolve_type_name_by_inst(string requested_type_name,
                                                                              string full_inst_path);
   uvm_object_wrapper wrapper=null;
-  m_inst_typename_alias_t  type_alias_inst[$]; 
-  type_alias_inst = m_inst_aliases.find(i) with ((i.alias_type_name == requested_type_name) && uvm_is_match(i.full_inst_path,full_inst_path));
-  if (type_alias_inst.size() > 0) begin
-     wrapper = type_alias_inst[0].orig.m_type;
-  end
-  else begin
-     wrapper = m_resolve_type_name(requested_type_name);
-  end
   
   return wrapper;
 endfunction

@@ -1547,16 +1547,6 @@ virtual class uvm_component extends uvm_report_object;
   // The verbosity settings may have a specific phase to start at. 
   // We will do this work in the phase_started callback. 
 
-  typedef struct {
-    string comp;
-    string phase;
-    time   offset;
-    uvm_verbosity verbosity;
-    string id;
-  } m_verbosity_setting;
-
-  m_verbosity_setting m_verbosity_settings[$];
-  static m_verbosity_setting m_time_settings[$];
 
   // does the pre abort callback hierarchically
   extern /*local*/ function void m_do_pre_abort;
@@ -1565,14 +1555,6 @@ virtual class uvm_component extends uvm_report_object;
   uvm_resource_base m_unsupported_resource_base = null;
   extern function void m_unsupported_set_local(uvm_resource_base rsrc);
 
-typedef struct  {
-	string arg;
-	string args[$];
-	int unsigned used;
-} uvm_cmdline_parsed_arg_t;
-
-static uvm_cmdline_parsed_arg_t m_uvm_applied_cl_action[$];
-static uvm_cmdline_parsed_arg_t m_uvm_applied_cl_sev[$];
 
 endclass : uvm_component
 
@@ -3070,15 +3052,9 @@ function void uvm_component::m_set_cl_verb;
 
   if(first) begin
 	  string t[$];
-	  m_verbosity_setting setting;
       void'(clp.get_arg_values("+uvm_set_verbosity=",values));
       foreach(values[i]) begin
 	    args.delete();
-    	uvm_split_string(values[i], ",", args);  
-	   	if(((args.size() == 4) || (args.size() == 5)) &&  (clp.m_convert_verb(args[2], setting.verbosity) == 1)  )
-		   	t.push_back(values[i]);
-	   	else
-		   	uvm_report_warning("UVM/CMDLINE",$sformatf("argument %s not recognized and therefore dropped",values[i]));
       end
       
 	  values=t;
@@ -3086,40 +3062,8 @@ function void uvm_component::m_set_cl_verb;
   end	
 
   foreach(values[i]) begin
-    m_verbosity_setting setting;
     args.delete();
     uvm_split_string(values[i], ",", args);
-
-	begin
-      setting.comp = args[0];
-      setting.id = args[1];
-      void'(clp.m_convert_verb(args[2],setting.verbosity));
-      setting.phase = args[3];
-      setting.offset = 0;
-      if(args.size() == 5) setting.offset = args[4].atoi();
-      if((setting.phase == "time") && (this == top)) begin
-        m_time_settings.push_back(setting);
-      end
-  
-      if (uvm_is_match(setting.comp, get_full_name()) ) begin
-        if((setting.phase == "" || setting.phase == "build" || setting.phase == "time") && 
-           (setting.offset == 0) ) 
-        begin
-          if(setting.id == "_ALL_") 
-            set_report_verbosity_level(setting.verbosity);
-          else
-            set_report_id_verbosity(setting.id, setting.verbosity);
-        end
-        else begin
-          if(setting.phase != "time") begin
-            m_verbosity_settings.push_back(setting);
-          end
-        end
-      end
-    end
-  end
-  // do time based settings
-  if(this == top) begin
   end
 endfunction
 
@@ -3140,7 +3084,6 @@ function void uvm_component::m_set_cl_action;
 	string values[$];
     void'(uvm_cmdline_proc.get_arg_values("+uvm_set_action=",values));
 	foreach(values[idx]) begin
-		uvm_cmdline_parsed_arg_t t;
 		string args[$];
 	 	uvm_split_string(values[idx], ",", args);	
 
@@ -3156,42 +3099,10 @@ function void uvm_component::m_set_cl_action;
 	   		`uvm_warning("INVLCMDARGS", $sformatf("Bad action argument \"%s\" given to command +uvm_set_action=%s, Usage: +uvm_set_action=<comp>,<id>,<severity>,<action[|action]>", args[3], values[idx]))
 	   		continue;
    		end
-   		t.args=args;   
-   		t.arg=values[idx];
-   		m_uvm_applied_cl_action.push_back(t);
 	end 
 	initialized=1;
   end
   
-  foreach(m_uvm_applied_cl_action[i]) begin
-	string args[$] = m_uvm_applied_cl_action[i].args;
-
-	if (!uvm_is_match(args[0], get_full_name()) ) continue; 
-	
-	void'(uvm_string_to_severity(args[2], sev));
-	void'(uvm_string_to_action(args[3], action));
-	
-    m_uvm_applied_cl_action[i].used++;
-    if(args[1] == "_ALL_") begin
-      if(args[2] == "_ALL_") begin
-        set_report_severity_action(UVM_INFO, action);
-        set_report_severity_action(UVM_WARNING, action);
-        set_report_severity_action(UVM_ERROR, action);
-        set_report_severity_action(UVM_FATAL, action);
-      end
-      else begin
-        set_report_severity_action(sev, action);
-      end
-    end
-    else begin
-      if(args[2] == "_ALL_") begin
-        set_report_id_action(args[1], action);
-      end
-      else begin
-        set_report_severity_id_action(sev, args[1], action);
-      end
-    end
-  end
 
 endfunction
 
@@ -3212,7 +3123,7 @@ function void uvm_component::m_set_cl_sev;
 	string values[$];
     void'(uvm_cmdline_proc.get_arg_values("+uvm_set_severity=",values));
 	foreach(values[idx]) begin
-		uvm_cmdline_parsed_arg_t t;
+
 		string args[$];
 	 	uvm_split_string(values[idx], ",", args);	
 	 	if(args.size() != 4) begin
@@ -3228,39 +3139,8 @@ function void uvm_component::m_set_cl_sev;
       		continue;
     	end
 	 	
-	 	t.args=args;
-    	t.arg=values[idx];
-	 	m_uvm_applied_cl_sev.push_back(t);
 	end	
 	initialized=1;
-  end
-
-  foreach(m_uvm_applied_cl_sev[i]) begin
-  	string args[$]=m_uvm_applied_cl_sev[i].args;
-
-    if (!uvm_is_match(args[0], get_full_name()) ) continue; 
-	    
-	void'(uvm_string_to_severity(args[2], orig_sev));
-	void'(uvm_string_to_severity(args[3], sev));   	
-    m_uvm_applied_cl_sev[i].used++;
-    if(args[1] == "_ALL_" && args[2] == "_ALL_") begin
-      set_report_severity_override(UVM_INFO,sev);
-      set_report_severity_override(UVM_WARNING,sev);
-      set_report_severity_override(UVM_ERROR,sev);
-      set_report_severity_override(UVM_FATAL,sev);
-    end
-    else if(args[1] == "_ALL_") begin
-      set_report_severity_override(orig_sev,sev);
-    end
-    else if(args[2] == "_ALL_") begin
-      set_report_severity_id_override(UVM_INFO,args[1],sev);
-      set_report_severity_id_override(UVM_WARNING,args[1],sev);
-      set_report_severity_id_override(UVM_ERROR,args[1],sev);
-      set_report_severity_id_override(UVM_FATAL,args[1],sev);
-    end
-    else begin
-      set_report_severity_id_override(orig_sev,args[1],sev);
-    end
   end
 endfunction
 
@@ -3269,26 +3149,7 @@ endfunction
 // --------------------------
 
 function void uvm_component::m_apply_verbosity_settings(uvm_phase phase);
-  int i;
-  while (i < m_verbosity_settings.size()) begin
-    if(phase.get_name() == m_verbosity_settings[i].phase) begin
-      if( m_verbosity_settings[i].offset == 0 ) begin
-          if(m_verbosity_settings[i].id == "_ALL_") 
-            set_report_verbosity_level(m_verbosity_settings[i].verbosity);
-          else 
-            set_report_id_verbosity(m_verbosity_settings[i].id, m_verbosity_settings[i].verbosity);
-      end
-      else begin
-        process p = process::self();
-        string p_rand = p.get_randstate();
-        p.set_randstate(p_rand);
-      end
-      // Remove after use
-      m_verbosity_settings.delete(i);
-      continue;
-    end // if (phase.get_name() == m_verbosity_settings[i].phase)
-    i++;
-  end // while (i < m_verbosity_settings.size())
+
 endfunction
 
 
