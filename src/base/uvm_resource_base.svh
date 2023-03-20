@@ -124,14 +124,6 @@ class uvm_resource_types;
 
   // access record for resources.  A set of these is stored for each
   // resource by accessing object.  It's updated for each read/write.
-  typedef struct
-  {
-    time read_time;
-    time write_time;
-    int unsigned read_count;
-    int unsigned write_count;
-  } access_t;
-
 endclass
 
 //----------------------------------------------------------------------
@@ -212,8 +204,6 @@ virtual class uvm_resource_base extends uvm_object;
 `endif // UVM_ENABLE_DEPRECATED_API
   protected bit modified;
   protected bit read_only;
-
-  uvm_resource_types::access_t access[string];
 
 `ifdef UVM_ENABLE_DEPRECATED_API
   // variable -- NODOCS -- precedence
@@ -439,34 +429,6 @@ virtual class uvm_resource_base extends uvm_object;
   function void record_read_access(uvm_object accessor = null);
 
     string str;
-    uvm_resource_types::access_t access_record;
-
-    // If an accessor object is supplied then get the accessor record.
-    // Otherwise create a new access record.  In either case populate
-    // the access record with information about this access.  Check
-    // first to make sure that auditing is turned on.
-
-    if(!uvm_resource_options::is_auditing())
-      return;
-
-    // If an accessor is supplied, then use its name
-	// as the database entry for the accessor record.
-	// Otherwise, use "<empty>" as the database entry.
-    if(accessor != null)
-      str = accessor.get_full_name();
-    else
-      str = "<empty>";
-
-    // Create a new accessor record if one does not exist
-    if(access.exists(str))
-      access_record = access[str];
-    else
-      init_access_record(access_record);
-
-    // Update the accessor record
-    access_record.read_count++;
-    access_record.read_time = $realtime;
-    access[str] = access_record;
 
   endfunction
 
@@ -479,27 +441,6 @@ virtual class uvm_resource_base extends uvm_object;
 
   function void record_write_access(uvm_object accessor = null);
 
-    string str;
-
-    // If an accessor object is supplied then get the accessor record.
-    // Otherwise create a new access record.  In either case populate
-    // the access record with information about this access.  Check
-    // first that auditing is turned on
-
-    if(uvm_resource_options::is_auditing()) begin
-      if(accessor != null) begin
-        uvm_resource_types::access_t access_record;
-        string str;
-        str = accessor.get_full_name();
-        if(access.exists(str))
-          access_record = access[str];
-        else
-          init_access_record(access_record);
-        access_record.write_count++;
-        access_record.write_time = $realtime;
-        access[str] = access_record;
-      end
-    end
   endfunction
 
   // Function: print_accessors
@@ -512,25 +453,6 @@ virtual class uvm_resource_base extends uvm_object;
 
   virtual function void print_accessors();
 
-    string str;
-    uvm_component comp;
-    uvm_resource_types::access_t access_record;
-    string qs[$];
-    
-    if(access.num() == 0)
-      return;
-
-    foreach (access[i]) begin
-      str = i;
-      access_record = access[str];
-      qs.push_back($sformatf("%s reads: %0d @ %0t  writes: %0d @ %0t\n",str,
-               access_record.read_count,
-               access_record.read_time,
-               access_record.write_count,
-               access_record.write_time));
-    end
-    `uvm_info("UVM/RESOURCE/ACCESSOR",`UVM_STRING_QUEUE_STREAMING_PACK(qs),UVM_NONE)
-
   endfunction
 
 
@@ -538,12 +460,6 @@ virtual class uvm_resource_base extends uvm_object;
   //
   // Initialize a new access record
   //
-  function void init_access_record (inout uvm_resource_types::access_t access_record);
-    access_record.read_time = 0;
-    access_record.write_time = 0;
-    access_record.read_count = 0;
-    access_record.write_count = 0;
-  endfunction
 endclass
 
 

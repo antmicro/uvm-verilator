@@ -1017,21 +1017,6 @@ class uvm_resource_pool;
 
       printer.print_field_int("precedence", get_precedence(r), 32, UVM_UNSIGNED);
 
-      if (audit && r.access.size()) begin
-        printer.print_array_header("accesses",
-                                  r.access.size(),
-                                  "queue");
-        foreach(r.access[i]) begin
-          printer.print_string($sformatf("[%s]", i),
-                               $sformatf("reads: %0d @ %0t  writes: %0d @ %0t",
-                                         r.access[i].read_count,
-                                         r.access[i].read_time,
-                                         r.access[i].write_count,
-                                         r.access[i].write_time));
-        end // foreach(r.access[i])
-
-        printer.print_array_footer(r.access.size());
-      end // (audit && r.access.size())
 
       printer.pop_element();
     end // int i=0
