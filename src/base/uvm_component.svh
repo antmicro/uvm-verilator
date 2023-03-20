@@ -1555,14 +1555,6 @@ virtual class uvm_component extends uvm_report_object;
   uvm_resource_base m_unsupported_resource_base = null;
   extern function void m_unsupported_set_local(uvm_resource_base rsrc);
 
-typedef struct  {
-	string arg;
-	string args[$];
-	int unsigned used;
-} uvm_cmdline_parsed_arg_t;
-
-static uvm_cmdline_parsed_arg_t m_uvm_applied_cl_action[$];
-static uvm_cmdline_parsed_arg_t m_uvm_applied_cl_sev[$];
 
 endclass : uvm_component
 
@@ -3089,7 +3081,6 @@ function void uvm_component::m_set_cl_action;
 	string values[$];
     void'(uvm_cmdline_proc.get_arg_values("+uvm_set_action=",values));
 	foreach(values[idx]) begin
-		uvm_cmdline_parsed_arg_t t;
 		string args[$];
 	 	uvm_split_string(values[idx], ",", args);	
 
@@ -3105,42 +3096,10 @@ function void uvm_component::m_set_cl_action;
 	   		`uvm_warning("INVLCMDARGS", $sformatf("Bad action argument \"%s\" given to command +uvm_set_action=%s, Usage: +uvm_set_action=<comp>,<id>,<severity>,<action[|action]>", args[3], values[idx]))
 	   		continue;
    		end
-   		t.args=args;   
-   		t.arg=values[idx];
-   		m_uvm_applied_cl_action.push_back(t);
 	end 
 	initialized=1;
   end
   
-  foreach(m_uvm_applied_cl_action[i]) begin
-	string args[$] = m_uvm_applied_cl_action[i].args;
-
-	if (!uvm_is_match(args[0], get_full_name()) ) continue; 
-	
-	void'(uvm_string_to_severity(args[2], sev));
-	void'(uvm_string_to_action(args[3], action));
-	
-    m_uvm_applied_cl_action[i].used++;
-    if(args[1] == "_ALL_") begin
-      if(args[2] == "_ALL_") begin
-        set_report_severity_action(UVM_INFO, action);
-        set_report_severity_action(UVM_WARNING, action);
-        set_report_severity_action(UVM_ERROR, action);
-        set_report_severity_action(UVM_FATAL, action);
-      end
-      else begin
-        set_report_severity_action(sev, action);
-      end
-    end
-    else begin
-      if(args[2] == "_ALL_") begin
-        set_report_id_action(args[1], action);
-      end
-      else begin
-        set_report_severity_id_action(sev, args[1], action);
-      end
-    end
-  end
 
 endfunction
 
@@ -3161,7 +3120,7 @@ function void uvm_component::m_set_cl_sev;
 	string values[$];
     void'(uvm_cmdline_proc.get_arg_values("+uvm_set_severity=",values));
 	foreach(values[idx]) begin
-		uvm_cmdline_parsed_arg_t t;
+
 		string args[$];
 	 	uvm_split_string(values[idx], ",", args);	
 	 	if(args.size() != 4) begin
@@ -3177,39 +3136,8 @@ function void uvm_component::m_set_cl_sev;
       		continue;
     	end
 	 	
-	 	t.args=args;
-    	t.arg=values[idx];
-	 	m_uvm_applied_cl_sev.push_back(t);
 	end	
 	initialized=1;
-  end
-
-  foreach(m_uvm_applied_cl_sev[i]) begin
-  	string args[$]=m_uvm_applied_cl_sev[i].args;
-
-    if (!uvm_is_match(args[0], get_full_name()) ) continue; 
-	    
-	void'(uvm_string_to_severity(args[2], orig_sev));
-	void'(uvm_string_to_severity(args[3], sev));   	
-    m_uvm_applied_cl_sev[i].used++;
-    if(args[1] == "_ALL_" && args[2] == "_ALL_") begin
-      set_report_severity_override(UVM_INFO,sev);
-      set_report_severity_override(UVM_WARNING,sev);
-      set_report_severity_override(UVM_ERROR,sev);
-      set_report_severity_override(UVM_FATAL,sev);
-    end
-    else if(args[1] == "_ALL_") begin
-      set_report_severity_override(orig_sev,sev);
-    end
-    else if(args[2] == "_ALL_") begin
-      set_report_severity_id_override(UVM_INFO,args[1],sev);
-      set_report_severity_id_override(UVM_WARNING,args[1],sev);
-      set_report_severity_id_override(UVM_ERROR,args[1],sev);
-      set_report_severity_id_override(UVM_FATAL,args[1],sev);
-    end
-    else begin
-      set_report_severity_id_override(orig_sev,args[1],sev);
-    end
   end
 endfunction
 
