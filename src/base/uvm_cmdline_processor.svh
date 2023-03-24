@@ -282,7 +282,7 @@ class uvm_cmdline_processor extends uvm_report_object;
     string s;
     string sub;
     int doInit=1;
-    super.new(name);
+    
     do begin
       s = uvm_dpi_get_next_arg(doInit);
       doInit=0;

@@ -893,7 +893,6 @@ typedef m_uvm_printer_knobs uvm_printer_knobs;
 // IMPLEMENTATION
 //------------------------------------------------------------------------------
 function uvm_printer::new(string name="");
-   super.new(name);
    knobs = new ;
    flush();
 endfunction
@@ -1140,7 +1139,6 @@ function uvm_printer_element uvm_printer::get_top_element ();
 endfunction
 
 function uvm_printer_element_proxy::new (string name="");
-   super.new(name) ;
 endfunction
 
 function void uvm_printer_element_proxy::get_immediate_children(uvm_printer_element s,
@@ -1470,7 +1468,6 @@ endfunction
 // ---
 
 function uvm_table_printer::new(string name="");
-  super.new(name);
 endfunction
 
 
@@ -1641,7 +1638,6 @@ endfunction
 // ---
 
 function uvm_tree_printer::new(string name="");
-  super.new(name);
   set_size_enabled(0);
   set_type_name_enabled(0);
 `ifdef UVM_ENABLE_DEPRECATED_API
@@ -1855,7 +1851,7 @@ function uvm_tree_printer uvm_tree_printer::get_default() ;
 endfunction
 
 function uvm_line_printer::new(string name="") ;
-  super.new(name);
+  
   m_newline = " ";
   set_indent(0);
 endfunction

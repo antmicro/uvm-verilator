@@ -395,7 +395,7 @@ endclass: uvm_reg_field
 // new
 
 function uvm_reg_field::new(string name = "uvm_reg_field");
-   super.new(name);
+   
 endfunction: new
 
 

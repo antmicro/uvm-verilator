@@ -58,7 +58,7 @@ class uvm_reg_mem_hdl_paths_seq extends uvm_reg_sequence;
     
     // @uvm-ieee 1800.2-2017 auto E.7.3
     function new(string name="uvm_reg_mem_hdl_paths_seq");
-        super.new(name);
+        
     endfunction
 
     virtual task body();

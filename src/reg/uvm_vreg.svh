@@ -347,7 +347,7 @@ virtual class uvm_vreg_cbs extends uvm_callback;
    int    lineno;
 
    function new(string name = "uvm_reg_cbs");
-      super.new(name);
+      
    endfunction
    
 
@@ -419,7 +419,7 @@ typedef uvm_callback_iter#(uvm_vreg, uvm_vreg_cbs) uvm_vreg_cb_iter /* @uvm-ieee
 
 function uvm_vreg::new(string       name,
                            int unsigned n_bits);
-   super.new(name);
+   
 
    if (n_bits == 0) begin
       `uvm_error("RegModel", $sformatf("Virtual register \"%s\" cannot have 0 bits", this.get_full_name()))
