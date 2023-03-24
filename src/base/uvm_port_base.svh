@@ -259,7 +259,6 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
     m_port_type = port_type;
     m_min_size  = min_size;
     m_max_size  = max_size;
-    m_comp = new(name, parent, this);
 
 
   endfunction
@@ -515,8 +514,7 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
     void'(m_check_relationship(provider));
   
     m_provided_by[provider.get_full_name()] = provider;
-    provider.m_provided_to[get_full_name()] = this;
-    
+
   endfunction
 
 
@@ -750,7 +748,6 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
      return;
 
     if (is_imp()) begin
-      m_imp_list[get_full_name()] = this;
     end
     else begin
       foreach (m_provided_by[nm]) begin
