@@ -82,7 +82,7 @@ class uvm_set_before_get_dap#(type T=int) extends uvm_set_get_dap_base#(T);
    // Function -- NODOCS -- new
    // Constructor
    function new(string name="unnamed-uvm_set_before_get_dap#(T)");
-      super.new(name);
+      
       m_set = 0;
    endfunction : new
 

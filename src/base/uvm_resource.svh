@@ -1150,7 +1150,7 @@ class uvm_resource #(type T=int) extends uvm_resource_base;
 `else
   // @uvm-ieee 1800.2-2017 auto C.2.5.2
   function new(string name="");
-    super.new(name);
+    
   endfunction
 `endif // UVM_ENABLE_DEPRECATED_API
 

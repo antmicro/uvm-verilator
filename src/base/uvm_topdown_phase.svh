@@ -39,8 +39,7 @@ virtual class uvm_topdown_phase extends uvm_phase;
 
 
   // @uvm-ieee 1800.2-2017 auto 9.7.2.1
-  function new(string name);
-    super.new(name,UVM_PHASE_IMP);
+  function new(string name="");
   endfunction
 
 

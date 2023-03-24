@@ -372,7 +372,7 @@ class uvm_tlm_generic_payload extends uvm_sequence_item;
 
   // @uvm-ieee 1800.2-2017 auto 12.3.4.2.3
   function new(string name="");
-    super.new(name);
+    
     m_address = 0;
     m_command = UVM_TLM_IGNORE_COMMAND;
     m_length = 0;
@@ -1012,7 +1012,7 @@ virtual class uvm_tlm_extension_base extends uvm_object;
 
   // @uvm-ieee 1800.2-2017 auto 12.3.4.4.3
   function new(string name = "");
-    super.new(name);
+    
   endfunction
 
   // Function -- NODOCS -- get_type_handle
@@ -1069,7 +1069,7 @@ endclass
 //|   `uvm_object_utils_end
 //|
 //|   function new(string name = "my_ID");
-//|      super.new(name);
+//|      
 //|   endfunction
 //| endclass
 //|
@@ -1087,7 +1087,7 @@ class uvm_tlm_extension extends uvm_tlm_extension_base;
 
    // @uvm-ieee 1800.2-2017 auto 12.3.4.5.3
    function new(string name="");
-     super.new(name);
+     
    endfunction
 
    // Function -- NODOCS -- ID()

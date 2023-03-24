@@ -68,7 +68,7 @@ class uvm_reg_shared_access_seq extends uvm_reg_sequence;
 
    // @uvm-ieee 1800.2-2017 auto E.4.1.3
    function new(string name="uvm_reg_shared_access_seq");
-     super.new(name);
+     
    endfunction
 
 
@@ -215,7 +215,7 @@ class uvm_mem_shared_access_seq extends uvm_reg_sequence;
 
    // @uvm-ieee 1800.2-2017 auto E.4.2.3
    function new(string name="uvm_mem_shared_access_seq");
-     super.new(name);
+     
    endfunction
 
    virtual task body();
@@ -372,7 +372,7 @@ class uvm_reg_mem_shared_access_seq extends uvm_reg_sequence;
 
    // @uvm-ieee 1800.2-2017 auto E.4.3.3.1
    function new(string name="uvm_reg_mem_shared_access_seq");
-     super.new(name);
+     
    endfunction
 
 

@@ -60,7 +60,7 @@ virtual class uvm_sequence extends uvm_sequence_base;
 
   // @uvm-ieee 1800.2-2017 auto 14.3.3.1
   function new (string name = "uvm_sequence");
-    super.new(name);
+    
   endfunction
 
   // Function -- NODOCS -- send_request

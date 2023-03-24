@@ -242,7 +242,7 @@ virtual class uvm_vreg_field_cbs extends uvm_callback;
    `uvm_object_abstract_utils(uvm_vreg_field_cbs)
 
    function new(string name = "uvm_vreg_field_cbs");
-      super.new(name);
+      
    endfunction
    
 
@@ -310,7 +310,7 @@ typedef uvm_callback_iter uvm_vreg_field_cb_iter /* @uvm-ieee 1800.2-2017 auto D
 
 
 function uvm_vreg_field::new(string name="uvm_vreg_field");
-   super.new(name);
+   
 endfunction: new
 
 function void uvm_vreg_field::configure(uvm_vreg  parent,

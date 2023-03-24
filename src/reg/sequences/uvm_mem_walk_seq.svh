@@ -79,7 +79,7 @@ class uvm_mem_single_walk_seq extends uvm_reg_sequence;
 
    // @uvm-ieee 1800.2-2017 auto E.6.1.3.1
    function new(string name="uvm_mem_walk_seq");
-     super.new(name);
+     
    endfunction
 
 
@@ -219,7 +219,7 @@ class uvm_mem_walk_seq extends uvm_reg_sequence;
 
    // @uvm-ieee 1800.2-2017 auto E.6.3.1
    function new(string name="uvm_mem_walk_seq");
-     super.new(name);
+     
    endfunction
 
 
