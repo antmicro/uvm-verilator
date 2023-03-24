@@ -337,7 +337,7 @@ class uvm_root extends uvm_component;
 		uvm_top_down_visitor_adapter#(uvm_component) adapter = new("adapter");
 		uvm_coreservice_t cs = uvm_coreservice_t::get();
 		uvm_visitor#(uvm_component) v = cs.get_component_visitor();
-		adapter.accept(this, v, p);
+		adapter.accept(this, v, null);
 	endfunction
 
 endclass
