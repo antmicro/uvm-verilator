@@ -51,7 +51,7 @@ class uvm_pool #(type KEY=int, T=uvm_void) extends uvm_object;
 
   // @uvm-ieee 1800.2-2017 auto 11.2.2.1
   function new (string name="");
-    super.new(name);
+    
   endfunction
 
 
@@ -259,7 +259,6 @@ class uvm_object_string_pool extends uvm_pool #(string, uvm_object);
   // Creates a new pool with the given ~name~.
 
   function new (string name="");
-    super.new(name);
   endfunction
 
   // Function -- NODOCS -- get_global_pool

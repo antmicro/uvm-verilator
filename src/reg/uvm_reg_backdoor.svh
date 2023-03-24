@@ -45,7 +45,7 @@ virtual class uvm_reg_backdoor extends uvm_object;
 
    // @uvm-ieee 1800.2-2017 auto 19.5.2.1
    function new(string name = "");
-      super.new(name);
+      
    endfunction: new
 
    

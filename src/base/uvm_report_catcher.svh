@@ -90,7 +90,7 @@ virtual class uvm_report_catcher extends uvm_callback;
 
   // @uvm-ieee 1800.2-2017 auto 6.6.2
   function new(string name = "uvm_report_catcher");
-    super.new(name);
+    
     do_report = 1;
   endfunction    
 

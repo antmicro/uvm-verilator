@@ -82,7 +82,7 @@ virtual class uvm_component extends uvm_report_object;
   // All classes derived from uvm_component must call super.new(name,parent).
 
   // @uvm-ieee 1800.2-2017 auto 13.1.2.1
-  extern function new (string name, uvm_component parent);
+  extern function new (string name="", uvm_component parent=null);
 
 
   //----------------------------------------------------------------------------
@@ -1592,12 +1592,12 @@ endclass : uvm_component
 // new
 // ---
 
-function uvm_component::new (string name, uvm_component parent);
+function uvm_component::new (string name="", uvm_component parent=null);
   string error_str;
   uvm_root top;
   uvm_coreservice_t cs;
 
-  super.new(name);
+  
 
   // If uvm_top, reset name to "" so it doesn't show in full paths then return
   if (parent==null && name == "__top__") begin

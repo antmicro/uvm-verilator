@@ -52,7 +52,7 @@ class uvm_reg_cbs extends uvm_callback;
 
    // @uvm-ieee 1800.2-2017 auto 18.11.2.1
    function new(string name = "uvm_reg_cbs");
-      super.new(name);
+      
    endfunction
 
 
@@ -206,7 +206,7 @@ class uvm_reg_read_only_cbs extends uvm_reg_cbs;
 // created.  leaving NON virtual for now. 
 
    function new(string name = "uvm_reg_read_only_cbs");
-      super.new(name);
+      
    endfunction
 
    `uvm_object_utils(uvm_reg_read_only_cbs)
@@ -292,7 +292,7 @@ class uvm_reg_write_only_cbs extends uvm_reg_cbs;
 
    // @uvm-ieee 1800.2-2017 auto 18.1.2.1
    function new(string name = "uvm_reg_write_only_cbs");
-      super.new(name);
+      
    endfunction
 
    `uvm_object_utils(uvm_reg_write_only_cbs)

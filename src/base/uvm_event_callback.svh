@@ -48,7 +48,6 @@ virtual class uvm_event_callback#(type T=uvm_object) extends uvm_callback;
 
   // @uvm-ieee 1800.2-2017 auto 10.2.2.1
   function new (string name=""); 
-    super.new(name);
   endfunction
 
 
