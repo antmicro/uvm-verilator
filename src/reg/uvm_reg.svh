@@ -594,7 +594,7 @@ endclass: uvm_reg
 // new
 
 function uvm_reg::new(string name="", int unsigned n_bits, int has_coverage);
-   super.new(name);
+   
    if (n_bits == 0) begin
       `uvm_error("RegModel", $sformatf("Register \"%s\" cannot have 0 bits", get_name()))
       n_bits = 1;

@@ -53,7 +53,7 @@
             return m_inst; \
           endfunction \
           protected function new(string name=`"PHASE`"); \
-            super.new(name); \
+             \
           endfunction \
         endclass \
         //PREFIX``PHASE``_phase PREFIX``PHASE``_ph = PREFIX``PHASE``_phase::get();
@@ -74,7 +74,7 @@
             return m_inst; \
           endfunction \
           protected function new(string name=`"PHASE`"); \
-            super.new(name); \
+             \
           endfunction \
         endclass \
         //PREFIX``PHASE``_phase PREFIX``PHASE``_ph = PREFIX``PHASE``_phase::get();
@@ -95,7 +95,7 @@
             return m_inst; \
           endfunction \
           protected function new(string name=`"PHASE`"); \
-            super.new(name); \
+             \
           endfunction \
         endclass \
         //PREFIX``PHASE``_phase PREFIX``PHASE``_ph = PREFIX``PHASE``_phase::get();

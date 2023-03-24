@@ -55,7 +55,7 @@ typedef class uvm_sequence_library_cfg;
 //|   `uvm_object_utils(my_seq_lib)
 //|   `uvm_sequence_library_utils(my_seq_lib)
 //|    function new(string name="");
-//|      super.new(name);
+//|      
 //|      init_sequence_library();
 //|    endfunction
 //|    ...
@@ -298,7 +298,7 @@ class uvm_sequence_library #(type REQ=uvm_sequence_item,RSP=REQ) extends uvm_seq
    //|   `uvm_object_utils(my_seq_lib)
    //|   `uvm_sequence_library_utils(my_seq_lib)
    //|    function new(string name="");
-   //|      super.new(name);
+   //|      
    //|      init_sequence_library();
    //|    endfunction
    //|    ...
@@ -354,7 +354,7 @@ class uvm_sequence_library_cfg extends uvm_object;
                uvm_sequence_lib_mode mode=UVM_SEQ_LIB_RAND,
                int unsigned min=1,
                int unsigned max=10);
-    super.new(name);
+    
     selection_mode = mode;
     min_random_count = min;
     max_random_count = max;
@@ -371,7 +371,7 @@ endclass
 // ---
 
 function uvm_sequence_library::new(string name="");
-   super.new(name);
+   
    init_sequence_library();
    
    

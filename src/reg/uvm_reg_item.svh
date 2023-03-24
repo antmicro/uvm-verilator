@@ -173,7 +173,7 @@ class uvm_reg_item extends uvm_sequence_item;
 
   // @uvm-ieee 1800.2-2017 auto 19.1.1.3.1
   function new(string name="");
-    super.new(name);
+    
     value = new[1];
   endfunction
 
