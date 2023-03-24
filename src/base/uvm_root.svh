@@ -364,7 +364,6 @@ endfunction
 
 function uvm_root::new();
   uvm_report_handler rh;
-  super.new("__top__", null);
 
   // For error reporting purposes, we need to construct this first.
   rh = new("reporter");

@@ -50,7 +50,7 @@ class uvm_simple_lock_dap#(type T=int) extends uvm_set_get_dap_base#(T);
    // Function -- NODOCS -- new
    // Constructor
    function new(string name="unnamed-uvm_simple_lock_dap#(T)");
-      super.new(name);
+      
       m_locked = 0;
    endfunction : new
 

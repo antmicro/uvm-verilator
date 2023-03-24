@@ -51,7 +51,7 @@ local uvm_object m_policy_stack[$];
 
 // @uvm-ieee 1800.2-2017 auto 16.1.2.1
 function new (string name="");
-	super.new(name);
+	
 endfunction
 
 // Function -- NODOCS -- flush

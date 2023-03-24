@@ -47,7 +47,7 @@ class uvm_text_tr_stream extends uvm_tr_stream;
    // Parameters:
    // name - Instance name
    function new(string name="unnamed-uvm_text_tr_stream");
-      super.new(name);
+      
    endfunction : new
 
    // Group: Implementation Agnostic API
