@@ -531,7 +531,7 @@ function uvm_mem::new (string           name,
                        string           access = "RW",
                        int              has_coverage = UVM_NO_COVERAGE);
 
-   super.new(name);
+   
    m_locked = 0;
    if (n_bits == 0) begin
       `uvm_error("RegModel", {"Memory '",get_full_name(),"' cannot have 0 bits"})

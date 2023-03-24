@@ -105,7 +105,7 @@ class uvm_report_object extends uvm_object;
 
   // @uvm-ieee 1800.2-2017 auto 6.3.2
   function new(string name = "");
-    super.new(name);
+    
   endfunction
 
 

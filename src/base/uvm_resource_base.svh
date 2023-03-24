@@ -243,7 +243,7 @@ virtual class uvm_resource_base extends uvm_object;
 
 `ifdef UVM_ENABLE_DEPRECATED_API
   function new(string name = "", string s = "*");
-    super.new(name);
+    
     set_scope(s);
     modified = 0;
     read_only = 0;
@@ -252,7 +252,7 @@ virtual class uvm_resource_base extends uvm_object;
 `else
   // @uvm-ieee 1800.2-2017 auto C.2.3.2.1
   function new(string name = "");
-    super.new(name);
+    
     modified = 0;
     read_only = 0;
   endfunction
