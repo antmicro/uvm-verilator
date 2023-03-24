@@ -82,7 +82,7 @@ class uvm_heartbeat extends uvm_object;
   // @uvm-ieee 1800.2-2017 auto 10.6.2.1
   function new(string name, uvm_component cntxt, uvm_objection objection=null);
      uvm_coreservice_t cs;
-    super.new(name);
+    
     m_objection = objection;
     cs  = uvm_coreservice_t::get();
      
@@ -304,8 +304,8 @@ class uvm_heartbeat_callback extends uvm_objection_callback;
   uvm_object target;
   uvm_coreservice_t cs = uvm_coreservice_t::get();
 
-  function new(string name, uvm_object target);
-    super.new(name);
+  function new(string name="", uvm_object target=null);
+    
     if (target != null)
        this.target = target;
     else

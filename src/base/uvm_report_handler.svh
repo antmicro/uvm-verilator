@@ -93,7 +93,7 @@ class uvm_report_handler extends uvm_object;
 
   // @uvm-ieee 1800.2-2017 auto 6.4.2.1
   function new(string name = "uvm_report_handler");
-    super.new(name);
+    
     initialize();
   endfunction
 

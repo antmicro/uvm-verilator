@@ -49,7 +49,7 @@ virtual class uvm_event_base extends uvm_object;
 
 	// @uvm-ieee 1800.2-2017 auto 10.1.1.2.1
 	function new (string name="");
-		super.new(name);
+		
 	endfunction  
 
 	//---------//
@@ -286,7 +286,7 @@ class uvm_event#(type T=uvm_object) extends uvm_event_base;
 
 	// @uvm-ieee 1800.2-2017 auto 10.1.2.2.1
 	function new (string name="");
-		super.new(name);
+		
 	endfunction  
 
 	// Task -- NODOCS -- wait_trigger_data

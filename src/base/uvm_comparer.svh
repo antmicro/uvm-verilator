@@ -222,7 +222,6 @@ class uvm_comparer extends uvm_policy;
 
 	// @uvm-ieee 1800.2-2017 auto 16.3.2.1
 	function new(string name="");
-	   super.new(name);
 	   m_threshold = 1;
 	endfunction
 

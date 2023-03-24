@@ -178,7 +178,6 @@ class uvm_domain extends uvm_phase;
 
   // @uvm-ieee 1800.2-2017 auto 9.4.2.1
   function new(string name);
-    super.new(name,UVM_PHASE_DOMAIN);
     if (m_domains.exists(name))
       `uvm_error("UNIQDOMNAM", $sformatf("Domain created with non-unique name '%s'", name))
     m_domains[name] = this;
