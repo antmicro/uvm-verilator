@@ -2048,8 +2048,6 @@ function void uvm_reg_block::add_hdl_path(string path, string kind = "RTL");
 
   uvm_queue #(string) paths;
 
-  paths = hdl_paths_pool.get(kind);
-
   paths.push_back(path);
 
 endfunction
@@ -2079,8 +2077,6 @@ function void uvm_reg_block::get_hdl_path(ref string paths[$], input string kind
     return;
   end
 
-  hdl_paths = hdl_paths_pool.get(kind);
-
   for (int i=0; i<hdl_paths.size();i++)
     paths.push_back(hdl_paths.get(i));
 
@@ -2109,7 +2105,7 @@ function void uvm_reg_block::get_full_hdl_path(ref string paths[$],
    end
    
    begin
-      uvm_queue #(string) hdl_paths = hdl_paths_pool.get(kind);
+      uvm_queue #(string) hdl_paths;
       string parent_paths[$];
 
       if (parent != null)

@@ -1706,7 +1706,6 @@ task uvm_reg_map::do_write(uvm_reg_item rw);
     uvm_event end_event ;
     uvm_event_pool ep;
     ep = rw.get_event_pool();
-    end_event = ep.get("end") ;
     rw.set_sequencer(sequencer);
     rw.parent.start_item(rw,rw.prior);
     rw.parent.finish_item(rw);
@@ -1765,7 +1764,6 @@ task uvm_reg_map::do_read(uvm_reg_item rw);
     uvm_event end_event ;
     uvm_event_pool ep;
     ep = rw.get_event_pool();
-    end_event = ep.get("end") ;
     rw.set_sequencer(sequencer);
     rw.parent.start_item(rw,rw.prior);
     rw.parent.finish_item(rw);
@@ -1833,7 +1831,6 @@ task uvm_reg_map::perform_accesses(ref uvm_reg_bus_op    accesses[$],
         uvm_event end_event ;
 	uvm_event_pool ep;
 	ep = bus_req.get_event_pool();
-        end_event = ep.get("end") ;
         end_event.wait_on();
       end
 
