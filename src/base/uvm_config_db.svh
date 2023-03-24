@@ -100,8 +100,7 @@ class uvm_config_db extends uvm_resource_db;
       inst_name = {cntxt.get_full_name(), ".", inst_name};
  
     rq = rp.lookup_regex_names(inst_name, field_name, uvm_resource#(int)::get_type());
-    r = uvm_resource#(int)::get_highest_precedence(rq);
-    
+
      if(uvm_config_db_options::is_tracing());
      
 
@@ -180,7 +179,6 @@ class uvm_config_db extends uvm_resource_db;
     if(!m_rsc.exists(cntxt)) begin
       m_rsc[cntxt] = new;
     end
-    pool = m_rsc[cntxt];
 
     // Insert the token in the middle to prevent cache
     // oddities like i=foobar,f=xyz and i=foo,f=barxyz.

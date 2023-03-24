@@ -802,7 +802,7 @@ endfunction
 
 function void uvm_reg::add_hdl_path(uvm_hdl_path_slice slices[],
                                     string kind = "RTL");
-    uvm_queue #(uvm_hdl_path_concat) paths = m_hdl_paths_pool.get(kind);
+    uvm_queue #(uvm_hdl_path_concat) paths;
     uvm_hdl_path_concat concat = new();
 
     concat.set(slices);
@@ -817,7 +817,7 @@ function void uvm_reg::add_hdl_path_slice(string name,
                                           int size,
                                           bit first = 0,
                                           string kind = "RTL");
-    uvm_queue #(uvm_hdl_path_concat) paths = m_hdl_paths_pool.get(kind);
+    uvm_queue #(uvm_hdl_path_concat) paths;
     uvm_hdl_path_concat concat;
     
     if (first || paths.size() == 0) begin
@@ -873,8 +873,6 @@ function void uvm_reg::get_hdl_path(ref uvm_hdl_path_concat paths[$],
     return;
   end
 
-  hdl_paths = m_hdl_paths_pool.get(kind);
-
   for (int i=0; i<hdl_paths.size();i++) begin
      paths.push_back(hdl_paths.get(i));
   end
@@ -902,7 +900,7 @@ function void uvm_reg::get_full_hdl_path(ref uvm_hdl_path_concat paths[$],
    end
 
    begin
-      uvm_queue #(uvm_hdl_path_concat) hdl_paths = m_hdl_paths_pool.get(kind);
+      uvm_queue #(uvm_hdl_path_concat) hdl_paths;
       string parent_paths[$];
 
       if (m_regfile_parent != null)
