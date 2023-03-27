@@ -268,7 +268,7 @@ class uvm_mem_shared_access_seq extends uvm_reg_sequence;
                                     mem.get_full_name(), maps[j].get_full_name()), UVM_LOW)
          
          // All addresses
-         for (int offset = 0; offset < mem.get_size(); offset++) begin
+         for (int offset = 0; offset < mem.get_size();) begin
             uvm_status_e status;
             uvm_reg_data_t  prev, v;
             
