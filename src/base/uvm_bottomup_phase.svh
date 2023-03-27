@@ -50,8 +50,8 @@ virtual class uvm_bottomup_phase extends uvm_phase;
                                  uvm_phase phase,
                                  uvm_phase_state state);
     string name;
-    uvm_domain phase_domain =phase.get_domain();
-    uvm_domain comp_domain = comp.get_domain();
+     uvm_domain phase_domain;
+     uvm_domain comp_domain;
 
     if (comp.get_first_child(name))
       do

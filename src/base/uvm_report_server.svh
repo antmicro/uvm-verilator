@@ -558,7 +558,7 @@ class uvm_default_report_server extends uvm_report_server;
 
   virtual function void process_report_message(uvm_report_message report_message);
 
-    uvm_report_handler l_report_handler = report_message.get_report_handler();
+
     	process p = process::self();
     bit report_ok = 1;
 
@@ -612,11 +612,9 @@ class uvm_default_report_server extends uvm_report_server;
     if(report_message.get_action() & UVM_RM_RECORD) begin
        uvm_tr_stream stream;
        uvm_report_object ro = report_message.get_report_object();
-       uvm_report_handler rh = report_message.get_report_handler();
+
 
        // Check for pre-existing stream
-       if (m_streams.exists(ro.get_name()) && (m_streams[ro.get_name()].exists(rh.get_name())))
-         stream = m_streams[ro.get_name()][rh.get_name()];
 
        // If no pre-existing stream (or for some reason pre-existing stream was ~null~)
        if (stream == null) begin
@@ -632,9 +630,6 @@ class uvm_default_report_server extends uvm_report_server;
           end
           if (db != null) begin
              // Open the stream.  Name=report object name, scope=report handler name, type=MESSAGES
-             stream = db.open_stream(ro.get_name(), rh.get_name(), "MESSAGES");
-             // Save off the openned stream
-             m_streams[ro.get_name()][rh.get_name()] = stream;
           end
        end
        if (stream != null) begin
@@ -811,7 +806,7 @@ class uvm_default_report_server extends uvm_report_server;
     end
 
     if (report_object_name == "") begin
-      l_report_handler = report_message.get_report_handler();
+
       report_object_name = l_report_handler.get_full_name();
     end
 

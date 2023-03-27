@@ -70,7 +70,7 @@
 
 typedef class uvm_cmdline_processor;
 typedef class uvm_component_proxy;
-typedef class uvm_top_down_visitor_adapter;
+
 typedef class uvm_report_message;
 typedef class uvm_report_object;
 typedef class uvm_report_handler;
@@ -334,10 +334,10 @@ class uvm_root extends uvm_component;
 
 	function void end_of_elaboration_phase(uvm_phase phase);
 		uvm_component_proxy p = new("proxy");
-		uvm_top_down_visitor_adapter#(uvm_component) adapter = new("adapter");
+
 		uvm_coreservice_t cs = uvm_coreservice_t::get();
 	   uvm_visitor#(uvm_component) v;
-		adapter.accept(this, v, null);
+
 	endfunction
 
 endclass

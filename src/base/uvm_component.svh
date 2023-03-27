@@ -897,39 +897,6 @@ virtual class uvm_component extends uvm_report_object;
   // objections raised by the ~source_obj~.
 
   // @uvm-ieee 1800.2-2017 auto 13.1.5.4
-  virtual function void raised (uvm_objection objection, uvm_object source_obj, 
-      string description, int count);
-  endfunction
-
-
-  // Function -- NODOCS -- dropped
-  //
-  // The ~dropped~ callback is called when this or a descendant of this component
-  // instance drops the specified ~objection~. The ~source_obj~ is the object
-  // that originally dropped the objection. 
-  // The ~description~ is optionally provided by the ~source_obj~ to give a
-  // reason for dropping the objection. The ~count~ indicates the number of
-  // objections dropped by the ~source_obj~.
-
-  // @uvm-ieee 1800.2-2017 auto 13.1.5.5
-  virtual function void dropped (uvm_objection objection, uvm_object source_obj, 
-      string description, int count);
-  endfunction
-
-
-  // Task -- NODOCS -- all_dropped
-  //
-  // The ~all_droppped~ callback is called when all objections have been 
-  // dropped by this component and all its descendants.  The ~source_obj~ is the
-  // object that dropped the last objection.
-  // The ~description~ is optionally provided by the ~source_obj~ to give a
-  // reason for raising the objection. The ~count~ indicates the number of
-  // objections dropped by the ~source_obj~.
-
-  // @uvm-ieee 1800.2-2017 auto 13.1.5.6
-  virtual task all_dropped (uvm_objection objection, uvm_object source_obj, 
-      string description, int count);
-  endtask
 
 
   //----------------------------------------------------------------------------

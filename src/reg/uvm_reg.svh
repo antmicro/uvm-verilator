@@ -842,7 +842,7 @@ endfunction
 function void uvm_reg::get_hdl_path(ref uvm_hdl_path_concat paths[$],
                                         input string kind = "");
 
-  uvm_queue #(uvm_hdl_path_concat) hdl_paths;
+
 
   if (kind == "") begin
      if (m_regfile_parent != null)
@@ -856,11 +856,6 @@ function void uvm_reg::get_hdl_path(ref uvm_hdl_path_concat paths[$],
        {"Register does not have hdl path defined for abstraction '",kind,"'"})
     return;
   end
-
-  for (int i=0; i<hdl_paths.size();i++) begin
-     paths.push_back(hdl_paths.get(i));
-  end
-
 endfunction
 
 
@@ -884,7 +879,7 @@ function void uvm_reg::get_full_hdl_path(ref uvm_hdl_path_concat paths[$],
    end
 
    begin
-      uvm_queue #(uvm_hdl_path_concat) hdl_paths;
+
       string parent_paths[$];
 
       if (m_regfile_parent != null)
@@ -892,23 +887,6 @@ function void uvm_reg::get_full_hdl_path(ref uvm_hdl_path_concat paths[$],
       else
          m_parent.get_full_hdl_path(parent_paths, kind, separator);
 
-      for (int i=0; i<hdl_paths.size();i++) begin
-         uvm_hdl_path_concat hdl_concat = hdl_paths.get(i);
-
-         foreach (parent_paths[j])  begin
-            uvm_hdl_path_concat t = new;
-
-            foreach (hdl_concat.slices[k]) begin
-               if (hdl_concat.slices[k].path == "")
-                  t.add_path(parent_paths[j]);
-               else
-                  t.add_path({ parent_paths[j], separator, hdl_concat.slices[k].path },
-                             hdl_concat.slices[k].offset,
-                             hdl_concat.slices[k].size);
-            end
-            paths.push_back(t);
-         end
-      end
    end
 endfunction
 

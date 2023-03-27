@@ -477,7 +477,7 @@ endclass
 class uvm_report_message extends uvm_object;
 
   protected uvm_report_object _report_object;
-  protected uvm_report_handler _report_handler;
+
   protected uvm_report_server _report_server;
 
   protected uvm_severity _severity; 
@@ -599,7 +599,7 @@ class uvm_report_message extends uvm_object;
       return;
 
     _report_object = report_message.get_report_object();
-    _report_handler = report_message.get_report_handler();
+
     _report_server = report_message.get_report_server();
     _context_name = report_message.get_context();
     _file = report_message.get_file();
@@ -640,20 +640,6 @@ class uvm_report_message extends uvm_object;
   // Function -- NODOCS -- get_report_handler
 
   // @uvm-ieee 1800.2-2017 auto 6.2.3.2
-  virtual function uvm_report_handler get_report_handler();
-    return _report_handler;
-  endfunction
-
-  // Function -- NODOCS -- set_report_handler
-  //
-  // Get or set the uvm_report_handler that is responsible for checking
-  // whether the message is enabled, should be upgraded/downgraded, etc.
-
-  // @uvm-ieee 1800.2-2017 auto 6.2.3.2
-  virtual function void set_report_handler(uvm_report_handler rh);
-    _report_handler = rh;
-  endfunction
-
   
   // Function -- NODOCS -- get_report_server
 

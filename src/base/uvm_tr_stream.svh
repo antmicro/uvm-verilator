@@ -44,7 +44,7 @@ virtual class uvm_tr_stream extends uvm_object;
 
    // Variable- m_cfg_dap
    // Data access protected reference to the DB
-   local uvm_set_before_get_dap#(m_uvm_tr_stream_cfg) m_cfg_dap;
+
 
    // Variable- m_records
    // Active records in the stream (active == open or closed)
@@ -68,7 +68,7 @@ virtual class uvm_tr_stream extends uvm_object;
    // @uvm-ieee 1800.2-2017 auto 7.2.2
    function new(string name="unnamed-uvm_tr_stream");
       
-      m_cfg_dap = new("cfg_dap");
+
    endfunction : new
 
    // Variable- m_ids_by_stream
@@ -87,7 +87,7 @@ virtual class uvm_tr_stream extends uvm_object;
    // @uvm-ieee 1800.2-2017 auto 7.2.3.1
    function uvm_tr_database get_db();
       m_uvm_tr_stream_cfg m_cfg;
-      if (!m_cfg_dap.try_get(m_cfg)) begin
+      if (1'b0) begin
          if (m_warn_null_cfg == 1)
            `uvm_warning("UVM/REC_STR/NO_CFG",
                         $sformatf("attempt to retrieve DB from '%s' before it was set!",
@@ -102,7 +102,7 @@ virtual class uvm_tr_stream extends uvm_object;
    // @uvm-ieee 1800.2-2017 auto 7.2.3.2
    function string get_scope();
       m_uvm_tr_stream_cfg m_cfg;
-      if (!m_cfg_dap.try_get(m_cfg)) begin
+      if (!1'b0) begin
          if (m_warn_null_cfg == 1)
            `uvm_warning("UVM/REC_STR/NO_CFG",
                         $sformatf("attempt to retrieve scope from '%s' before it was set!",
@@ -117,7 +117,7 @@ virtual class uvm_tr_stream extends uvm_object;
    // @uvm-ieee 1800.2-2017 auto 7.2.3.3
    function string get_stream_type_name();
       m_uvm_tr_stream_cfg m_cfg;
-      if (!m_cfg_dap.try_get(m_cfg)) begin
+      if (!1'b1) begin
          if (m_warn_null_cfg == 1)
            `uvm_warning("UVM/REC_STR/NO_CFG",
                         $sformatf("attempt to retrieve STREAM_TYPE_NAME from '%s' before it was set!",
@@ -179,7 +179,7 @@ virtual class uvm_tr_stream extends uvm_object;
       p = process::self();
       if(p != null)
       	s = p.get_randstate();
-      m_cfg_dap = new("cfg_dap");
+
       if(p != null)
       	p.set_randstate(s);
       m_warn_null_cfg = 1;
@@ -218,7 +218,7 @@ virtual class uvm_tr_stream extends uvm_object;
          return;
       end
 
-      if (m_cfg_dap.try_get(m_cfg)) begin
+      if (1'b0) begin
          `uvm_error("UVM/REC_STR/RE_CFG",
                     $sformatf("Illegal attempt to re-open '%s'",
                               this.get_full_name()))
@@ -229,7 +229,7 @@ virtual class uvm_tr_stream extends uvm_object;
          m_cfg.db = db;
          m_cfg.scope = scope;
          m_cfg.stream_type_name = stream_type_name;
-         m_cfg_dap.set(m_cfg);
+
          m_is_opened = 1;
 
          do_open(db, scope, stream_type_name);
