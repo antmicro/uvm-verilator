@@ -117,7 +117,7 @@ class uvm_resource_types;
                             NAME_OVERRIDE = 2'b10 } override_e;
 
    // general purpose queue of resourcex
-  typedef uvm_queue#(uvm_resource_base) rsrc_q_t;
+
 
   // enum for setting resource search priority
   typedef enum { PRI_HIGH, PRI_LOW } priority_e;
