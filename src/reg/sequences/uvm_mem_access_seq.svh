@@ -113,7 +113,7 @@ class uvm_mem_single_access_seq extends uvm_reg_sequence;
          // - Read via backdoor and expect same random value if RW
          // - Write complement of random value via back door
          // - Read via front door and expect inverted random value
-         for (int k = 0; k < mem.get_size(); k++) begin
+         for (int k = 0; k < mem.get_size();) begin
 
             if (n_bits > 32)
               val = uvm_reg_data_t'(val << 32) | $random;

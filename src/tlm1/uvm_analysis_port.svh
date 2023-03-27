@@ -72,12 +72,12 @@ class uvm_analysis_port # (type T = int)
   // @uvm-ieee 1800.2-2017 auto 12.2.10.1.2
   function void write (input T t);
     uvm_tlm_if_base tif;
-    for (int i = 0; i < this.size(); i++) begin
+
 
       if ( tif == null )
         uvm_report_fatal ("NTCONN", {"No uvm_tlm interface is connected to ", get_full_name(), " for executing write()"}, UVM_NONE);
       tif.write (t);
-    end 
+
   endfunction
 
 endclass
@@ -148,12 +148,12 @@ class uvm_analysis_export #(type T=int)
   // at the index specified in a call to set_if (0 by default).
   function void write (input T t);
     uvm_tlm_if_base tif;
-    for (int i = 0; i < this.size(); i++) begin
+
 
       if (tif == null)
          uvm_report_fatal ("NTCONN", {"No uvm_tlm interface is connected to ", get_full_name(), " for executing write()"}, UVM_NONE);
       tif.write (t);
-    end 
+
   endfunction
 
 endclass
