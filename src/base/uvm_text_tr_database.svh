@@ -132,7 +132,7 @@ class uvm_text_tr_database extends uvm_tr_database;
                                                            string scope,
                                                            string type_name);
 `ifdef VERILATOR
-      uvm_text_tr_stream m_stream = uvm_text_tr_stream::type_id_create(name);
+      uvm_text_tr_stream m_stream;
 `else
       uvm_text_tr_stream m_stream = uvm_text_tr_stream::type_id::create(name);
 `endif

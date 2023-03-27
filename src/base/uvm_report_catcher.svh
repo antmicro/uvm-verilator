@@ -131,8 +131,8 @@ virtual class uvm_report_catcher extends uvm_callback;
     
     context_str = this.m_modified_report_message.get_context();
     if (context_str == "") begin
-      uvm_report_handler rh = this.m_modified_report_message.get_report_handler();
-      context_str = rh.get_full_name();
+
+
     end
 
     return context_str;
@@ -505,7 +505,7 @@ virtual class uvm_report_catcher extends uvm_callback;
        uvm_report_server rs = m_modified_report_message.get_report_server();
 
        msg.set_report_object(ro);
-       msg.set_report_handler(m_modified_report_message.get_report_handler());
+
        msg.set_report_server(rs);
        msg.set_file(ro.get_report_file_handle(msg.get_severity(), msg.get_id()));
        msg.set_action(a);

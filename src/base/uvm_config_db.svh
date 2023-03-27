@@ -89,7 +89,7 @@ class uvm_config_db extends uvm_resource_db;
 //TBD: add file/line
     uvm_resource#(int) r;
     uvm_resource_pool rp = uvm_resource_pool::get();
-    uvm_resource_types::rsrc_q_t rq;
+
     uvm_coreservice_t cs = uvm_coreservice_t::get();
 
     if(cntxt == null) 
@@ -99,7 +99,7 @@ class uvm_config_db extends uvm_resource_db;
     else if(cntxt.get_full_name() != "") 
       inst_name = {cntxt.get_full_name(), ".", inst_name};
  
-    rq = rp.lookup_regex_names(inst_name, field_name, uvm_resource#(int)::get_type());
+
 
      if(uvm_config_db_options::is_tracing());
      
@@ -154,7 +154,7 @@ class uvm_config_db extends uvm_resource_db;
     uvm_resource#(int) r;
     bit exists;
     string lookup;
-    uvm_pool#(string,uvm_resource#(int)) pool;
+
     string rstate;
     uvm_coreservice_t cs = uvm_coreservice_t::get();
     uvm_resource_pool rp = cs.get_resource_pool();
@@ -186,15 +186,6 @@ class uvm_config_db extends uvm_resource_db;
     // in field names
     lookup = {inst_name, "__M_UVM__", field_name};
 
-    if(!pool.exists(lookup)) begin
-       r = new(field_name);
-       rp.set_scope(r, inst_name);
-       pool.add(lookup, r);
-    end
-    else begin
-      r = pool.get(lookup);
-      exists = 1;
-    end
       
     if(curr_phase != null && curr_phase.get_name() == "build")
       precedence = cs.get_resource_pool_default_precedence() - (cntxt.get_depth());

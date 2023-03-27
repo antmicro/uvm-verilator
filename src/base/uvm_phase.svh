@@ -261,7 +261,7 @@ class uvm_phase extends uvm_object;
 
 
   // @uvm-ieee 1800.2-2017 auto 9.3.1.6.6
-  extern function uvm_domain get_domain();
+
 
 
 
@@ -347,15 +347,6 @@ class uvm_phase extends uvm_object;
 
 
   // @uvm-ieee 1800.2-2017 auto 9.3.1.8.1
-  extern function void sync(uvm_domain target,
-                            uvm_phase phase=null,
-                            uvm_phase with_phase=null);
-
-
-  // @uvm-ieee 1800.2-2017 auto 9.3.1.8.2
-  extern function void unsync(uvm_domain target,
-                              uvm_phase phase=null,
-                              uvm_phase with_phase=null);
 
 
 
@@ -487,7 +478,7 @@ class uvm_phase extends uvm_object;
   // https://accellera.mantishub.io/view.php?id=6260
   uvm_objection phase_done;
 `else // !`ifdef UVM_ENABLE_DEPRECATED_API
-  local uvm_objection phase_done;
+
 `endif
 
   local int unsigned m_ready_to_end_count;
@@ -512,7 +503,7 @@ class uvm_phase extends uvm_object;
 
   // Implementation - Overall Control
   //---------------------------------
-  local static mailbox #(uvm_phase) m_phase_hopper = new();
+
 
   extern static task m_run_phases();
   extern local task  execute_phase();
@@ -574,28 +565,7 @@ class uvm_phase extends uvm_object;
      if ((get_phase_type() != UVM_PHASE_NODE) || (imp == null) || !$cast(tp, imp)) begin
 	return null;
      end
-     if (phase_done == null) begin
-`ifdef UVM_ENABLE_DEPRECATED_API
-	   if (get_name() == "run") begin
-              phase_done = uvm_test_done_objection::get();
-	   end
-	   else begin
- `ifdef VERILATOR
-              phase_done = uvm_objection::type_id_create({get_name(), "_objection"});
- `else
-              phase_done = uvm_objection::type_id::create({get_name(), "_objection"});
- `endif
-	   end
-`else // !UVM_ENABLE_DEPRECATED_API
- `ifdef VERILATOR
-        phase_done = uvm_objection::type_id_create({get_name(), "_objection"});
- `else
-	phase_done = uvm_objection::type_id::create({get_name(), "_objection"});
- `endif
-`endif // UVM_ENABLE_DEPRECATED_API
-     end
-
-     return phase_done;
+     return null;
   endfunction // get_objection
 
 
@@ -1036,27 +1006,13 @@ endfunction
 // get_domain
 // ----------
 
-function uvm_domain uvm_phase::get_domain();
-  uvm_phase phase;
-  phase = this;
-  while (phase != null && phase.m_phase_type != UVM_PHASE_DOMAIN)
-    phase = phase.m_parent;
-  if (phase == null) // no parent domain
-    return null;
-  if(!$cast(get_domain,phase))
-      `uvm_fatal("PH/INTERNAL", "get_domain: m_phase_type is DOMAIN but $cast to uvm_domain fails")
-endfunction
 
 
 // get_domain_name
 // ---------------
 
 function string uvm_phase::get_domain_name();
-  uvm_domain domain;
-  domain = get_domain();
-  if (domain == null)
-    return "unknown";
-  return domain.get_name();
+   return "acd";
 endfunction
 
 
@@ -1182,13 +1138,6 @@ function uvm_phase uvm_phase::m_find_predecessor(uvm_phase phase, bit stay_in_sc
   foreach (m_predecessors[pred]) begin
     uvm_phase orig;
 
-    if (!stay_in_scope ||
-        (pred.get_schedule() == orig.get_schedule()) ||
-        (pred.get_domain() == orig.get_domain())) begin
-      found = pred.m_find_predecessor(phase,stay_in_scope,orig);
-      if (found != null)
-        return found;
-    end
   end
   return null;
 endfunction
@@ -1205,13 +1154,6 @@ function uvm_phase uvm_phase::m_find_predecessor_by_name(string name, bit stay_i
   foreach (m_predecessors[pred]) begin
     uvm_phase orig;
 
-    if (!stay_in_scope ||
-        (pred.get_schedule() == orig.get_schedule()) ||
-        (pred.get_domain() == orig.get_domain())) begin
-      found = pred.m_find_predecessor_by_name(name,stay_in_scope,orig);
-      if (found != null)
-        return found;
-    end
   end
   return null;
 endfunction
@@ -1232,14 +1174,6 @@ function uvm_phase uvm_phase::m_find_successor(uvm_phase phase, bit stay_in_scop
   foreach (m_successors[succ]) begin
     uvm_phase orig;
 
-    if (!stay_in_scope ||
-        (succ.get_schedule() == orig.get_schedule()) ||
-        (succ.get_domain() == orig.get_domain())) begin
-      found = succ.m_find_successor(phase,stay_in_scope,orig);
-      if (found != null) begin
-        return found;
-        end
-    end
   end
   return null;
 endfunction
@@ -1256,13 +1190,6 @@ function uvm_phase uvm_phase::m_find_successor_by_name(string name, bit stay_in_
   foreach (m_successors[succ]) begin
     uvm_phase orig;
 
-    if (!stay_in_scope ||
-        (succ.get_schedule() == orig.get_schedule()) ||
-        (succ.get_domain() == orig.get_domain())) begin
-      found = succ.m_find_successor_by_name(name,stay_in_scope,orig);
-      if (found != null)
-        return found;
-    end
   end
   return null;
 endfunction
@@ -1640,7 +1567,7 @@ task uvm_phase::execute_phase();
 // SCHEDULED:
 //-----------
   if(m_jump_fwd || m_jump_bkwd) begin
-    void'(m_phase_hopper.try_put(m_jump_phase));
+
     m_jump_phase = null;
     m_jump_fwd = 0;
     m_jump_bkwd = 0;
@@ -1658,7 +1585,7 @@ task uvm_phase::execute_phase();
         succ.m_state = UVM_PHASE_SCHEDULED;
         `uvm_do_callbacks(uvm_phase, uvm_phase_cb, phase_state_change(succ, state_chg))
         #0; // LET ANY WAITERS WAKE UP
-        void'(m_phase_hopper.try_put(succ));
+
         if (m_phase_trace)
           `UVM_PH_TRACE("PH/TRC/SCHEDULED",{"Scheduled from phase ",get_full_name()},succ,UVM_LOW)
       end
@@ -1890,103 +1817,6 @@ endfunction : get_objection_count
 // sync
 // ----
 
-function void uvm_phase::sync(uvm_domain target,
-                              uvm_phase phase=null,
-                              uvm_phase with_phase=null);
-  if (!this.is_domain()) begin
-    `uvm_fatal("PH_BADSYNC","sync() called from a non-domain phase schedule node")
-  end
-  else if (target == null) begin
-    `uvm_fatal("PH_BADSYNC","sync() called with a null target domain")
-  end
-  else if (!target.is_domain()) begin
-    `uvm_fatal("PH_BADSYNC","sync() called with a non-domain phase schedule node as target")
-  end
-  else if (phase == null && with_phase != null) begin
-    `uvm_fatal("PH_BADSYNC","sync() called with null phase and non-null with phase")
-  end
-  else if (phase == null) begin
-    // whole domain sync - traverse this domain schedule from begin to end node and sync each node
-    int visited[uvm_phase];
-    uvm_phase queue[$];
-    queue.push_back(this);
-    visited[this] = 1;
-    while (queue.size()) begin
-      uvm_phase node;
-      node = queue.pop_front();
-      if (node.m_imp != null) begin
-        sync(target, node.m_imp);
-      end
-      foreach (node.m_successors[succ]) begin
-        if (!visited.exists(succ)) begin
-          queue.push_back(succ);
-          visited[succ] = 1;
-        end
-      end
-    end
-  end else begin
-    // single phase sync
-    // this is a 2-way ('with') sync and we check first in case it is already there
-    uvm_phase from_node, to_node;
-    int found_to[$], found_from[$];
-    if(with_phase == null) with_phase = phase;
-    from_node = find(phase);
-    to_node = target.find(with_phase);
-    if(from_node == null || to_node == null) return;
-    found_to = from_node.m_sync.find_index(node) with (node == to_node);
-    found_from = to_node.m_sync.find_index(node) with (node == from_node);
-    if (found_to.size() == 0) from_node.m_sync.push_back(to_node);
-    if (found_from.size() == 0) to_node.m_sync.push_back(from_node);
-  end
-endfunction
-
-
-// unsync
-// ------
-
-function void uvm_phase::unsync(uvm_domain target,
-                                uvm_phase phase=null,
-                                uvm_phase with_phase=null);
-  if (!this.is_domain()) begin
-    `uvm_fatal("PH_BADSYNC","unsync() called from a non-domain phase schedule node")
-  end else if (target == null) begin
-    `uvm_fatal("PH_BADSYNC","unsync() called with a null target domain")
-  end else if (!target.is_domain()) begin
-    `uvm_fatal("PH_BADSYNC","unsync() called with a non-domain phase schedule node as target")
-  end else if (phase == null && with_phase != null) begin
-    `uvm_fatal("PH_BADSYNC","unsync() called with null phase and non-null with phase")
-  end else if (phase == null) begin
-    // whole domain unsync - traverse this domain schedule from begin to end node and unsync each node
-    int visited[uvm_phase];
-    uvm_phase queue[$];
-    queue.push_back(this);
-    visited[this] = 1;
-    while (queue.size()) begin
-      uvm_phase node;
-      node = queue.pop_front();
-      if (node.m_imp != null) unsync(target,node.m_imp);
-      foreach (node.m_successors[succ]) begin
-        if (!visited.exists(succ)) begin
-          queue.push_back(succ);
-          visited[succ] = 1;
-        end
-      end
-    end
-  end else begin
-    // single phase unsync
-    // this is a 2-way ('with') sync and we check first in case it is already there
-    uvm_phase from_node, to_node;
-    int found_to[$], found_from[$];
-    if(with_phase == null) with_phase = phase;
-    from_node = find(phase);
-    to_node = target.find(with_phase);
-    if(from_node == null || to_node == null) return;
-    found_to = from_node.m_sync.find_index(node) with (node == to_node);
-    found_from = to_node.m_sync.find_index(node) with (node == from_node);
-    if (found_to.size()) from_node.m_sync.delete(found_to[0]);
-    if (found_from.size()) to_node.m_sync.delete(found_from[0]);
-  end
-endfunction
 
 
 // wait_for_state
@@ -2221,14 +2051,14 @@ task uvm_phase::m_run_phases();
 
   // initiate by starting first phase in common domain
   begin
-    uvm_phase ph = uvm_domain::get_common_domain();
-    void'(m_phase_hopper.try_put(ph));
+
+
   end
 
   m_uvm_core_state=UVM_CORE_RUNNING;
   forever begin
     uvm_phase phase;
-    m_phase_hopper.get(phase);
+
     #0;  // let the pro1cess start running
   end
 endtask

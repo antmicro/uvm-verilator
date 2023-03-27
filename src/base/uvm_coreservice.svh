@@ -70,25 +70,25 @@ virtual class uvm_coreservice_t;
 
 
 	// @uvm-ieee 1800.2-2017 auto F.4.1.4.4
-	pure virtual function uvm_report_server get_report_server();
+
 
 
 	// @uvm-ieee 1800.2-2017 auto F.4.1.4.5
-	pure virtual function void set_report_server(uvm_report_server server);
+
 
 
 	// @uvm-ieee 1800.2-2017 auto F.4.1.4.6
-	pure virtual function uvm_tr_database get_default_tr_database();
+
 
 
 	// @uvm-ieee 1800.2-2017 auto F.4.1.4.7
-	pure virtual function void set_default_tr_database(uvm_tr_database db);
+
 
 
 	// @uvm-ieee 1800.2-2017 auto F.4.1.4.9
-	pure virtual function void set_component_visitor(uvm_visitor#(uvm_component) v);
 
-	pure virtual function uvm_visitor#(uvm_component) get_component_visitor();
+
+
 
 
 	// @uvm-ieee 1800.2-2017 auto F.4.1.4.1
@@ -101,31 +101,30 @@ virtual class uvm_coreservice_t;
 	pure virtual function int get_phase_max_ready_to_end();
 
 	// @uvm-ieee 1800.2-2017 auto F.4.1.4.12
-	pure virtual function void set_default_printer(uvm_printer printer);
     
 	// @uvm-ieee 1800.2-2017 auto F.4.1.4.13
-	pure virtual function uvm_printer get_default_printer();
+
 
 	// @uvm-ieee 1800.2-2017 auto F.4.1.4.14
-	pure virtual function void set_default_packer(uvm_packer packer);
+
 
 	// @uvm-ieee 1800.2-2017 auto F.4.1.4.15
-	pure virtual function uvm_packer get_default_packer();
+
 
 	// @uvm-ieee 1800.2-2017 auto F.4.1.4.16
-	pure virtual function void set_default_comparer(uvm_comparer comparer);
+
 
 	// @uvm-ieee 1800.2-2017 auto F.4.1.4.17
-	pure virtual function uvm_comparer get_default_comparer();
+
 
 	pure virtual function int unsigned get_global_seed();
 
 
 	// @uvm-ieee 1800.2-2017 auto F.4.1.4.18
-	pure virtual function void set_default_copier(uvm_copier copier);
+
 
 	// @uvm-ieee 1800.2-2017 auto F.4.1.4.19
-	pure virtual function uvm_copier get_default_copier();
+
 
 
 

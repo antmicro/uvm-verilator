@@ -1801,11 +1801,6 @@ endfunction
 // add_hdl_path
 
 function void uvm_mem::add_hdl_path(uvm_hdl_path_slice slices[], string kind = "RTL");
-    uvm_queue #(uvm_hdl_path_concat) paths;
-    uvm_hdl_path_concat concat = new();
-
-    concat.set(slices);
-    paths.push_back(concat);  
 endfunction
 
 
@@ -1816,17 +1811,6 @@ function void uvm_mem::add_hdl_path_slice(string name,
                                           int size,
                                           bit first = 0,
                                           string kind = "RTL");
-    uvm_queue #(uvm_hdl_path_concat) paths;
-    uvm_hdl_path_concat concat;
-
-    if (first || paths.size() == 0) begin
-       concat = new();
-       paths.push_back(concat);
-    end
-    else
-       concat = paths.get(paths.size()-1);
-     
-    concat.add_path(name, offset, size);
 endfunction
 
 
@@ -1844,22 +1828,6 @@ endfunction
 
 function void uvm_mem::get_hdl_path(ref uvm_hdl_path_concat paths[$],
                                     input string kind = "");
-
-  uvm_queue #(uvm_hdl_path_concat) hdl_paths;
-
-  if (kind == "")
-     kind = m_parent.get_default_hdl_path();
-
-  if (!has_hdl_path(kind)) begin
-    `uvm_error("RegModel",
-        {"Memory does not have hdl path defined for abstraction '",kind,"'"})
-    return;
-  end
-
-  for (int i=0; i<hdl_paths.size();i++) begin
-     uvm_hdl_path_concat t = hdl_paths.get(i);
-     paths.push_back(t);
-  end
 
 endfunction
 
@@ -1887,28 +1855,11 @@ function void uvm_mem::get_full_hdl_path(ref uvm_hdl_path_concat paths[$],
    end
 
    begin
-      uvm_queue #(uvm_hdl_path_concat) hdl_paths;
+
       string parent_paths[$];
 
       m_parent.get_full_hdl_path(parent_paths, kind, separator);
 
-      for (int i=0; i<hdl_paths.size();i++) begin
-         uvm_hdl_path_concat hdl_concat = hdl_paths.get(i);
-
-         foreach (parent_paths[j])  begin
-            uvm_hdl_path_concat t = new;
-
-            foreach (hdl_concat.slices[k]) begin
-               if (hdl_concat.slices[k].path == "")
-                  t.add_path(parent_paths[j]);
-               else
-                  t.add_path({ parent_paths[j], separator, hdl_concat.slices[k].path },
-                             hdl_concat.slices[k].offset,
-                             hdl_concat.slices[k].size);
-            end
-            paths.push_back(t);
-         end
-      end
    end
 endfunction
 
