@@ -550,20 +550,12 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
     end
   
     if (level == 0) begin
-      if (save != "")
-        save = {"This port's fanout network:\n\n  ",
-               get_full_name()," (",get_type_name(),")\n",save,"\n"};
+
       if (m_imp_list.num() == 0) begin
 	 uvm_root top;
 	 uvm_coreservice_t cs;
 
 
-        if (end_of_elaboration_ph.get_state() == UVM_PHASE_EXECUTING ||
-            end_of_elaboration_ph.get_state() == UVM_PHASE_DONE )  // TBD tidy
-           save = {save,"  Connected implementations: none\n"};
-        else
-           save = {save,
-                 "  Connected implementations: not resolved until end-of-elab\n"};
       end
       else begin
 
