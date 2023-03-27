@@ -113,8 +113,6 @@ typedef class uvm_tree_printer ;
 // @uvm-ieee 1800.2-2017 auto C.2.4.1
 class uvm_resource_pool;
 
-  uvm_resource_types::rsrc_q_t rtab [string];
-  uvm_resource_types::rsrc_q_t ttab [uvm_resource_base];
 
   // struct for scope and precedence associated with each resource
   get_t get_record [$];  // history of gets
@@ -144,7 +142,7 @@ class uvm_resource_pool;
   // map.
 
   function bit spell_check(string s);
-    return uvm_spell_chkr#(uvm_resource_types::rsrc_q_t)::check(rtab, s);
+     return 1;
   endfunction
 
   //-----------
@@ -186,7 +184,7 @@ class uvm_resource_pool;
   // @uvm-ieee 1800.2-2017 auto C.2.4.3.1
   function void set_scope (uvm_resource_base rsrc, string scope); 
 
-    uvm_resource_types::rsrc_q_t rq;
+
     string name;
     uvm_resource_base type_handle;
     uvm_resource_base r;
@@ -201,35 +199,9 @@ class uvm_resource_pool;
     // Insert into the name map.  Resources with empty names are
     // anonymous resources and are not entered into the name map
     name = rsrc.get_name();
-    if ((name != "") && rtab.exists(name)) begin
-      rq = rtab[name];
-
-      for(i = 0; i < rq.size(); i++) begin
-        r = rq.get(i);
-      end
-    end 
-
-    if (rq == null) 
-       rq = new(name);
-
-    // Insert the resource into the queue associated with its name.
-    // Insert it with low priority (in the back of queue) .
-    rq.push_back(rsrc);
-
-    rtab[name] = rq;
 
     // Insert into the type map
     type_handle = rsrc.get_type_handle();
-    if(ttab.exists(type_handle))
-      rq = ttab[type_handle];
-    else 
-      rq = new();
-
-    // Insert the resource into the queue associated with its type.  
-    // Insert it with low priority (in the back of queue) .
-    rq.push_back(rsrc);
-    ttab[type_handle] = rq;
-
   endfunction
 
 
@@ -291,33 +263,6 @@ class uvm_resource_pool;
   virtual function bit get_scope(uvm_resource_base rsrc,
                                  output string scope);
 
-    uvm_resource_types::rsrc_q_t rq;
-    string name;
-    uvm_resource_base r;
-    int unsigned i;
-
-    // If resource handle is ~null~ then there is nothing to do.
-    if(rsrc == null) 
-      return 0;
-
-    // Search the resouce in the name map.  Resources with empty names are
-    // anonymous resources and are not entered into the name map
-    name = rsrc.get_name();
-    if((name != "") && rtab.exists(name)) begin
-      rq = rtab[name];
-
-      for(i = 0; i < rq.size(); i++) begin
-        r = rq.get(i);
-        if(r == rsrc) begin 
-          // Resource is in pool, set the scope 
-
-          return 1;
-        end
-      end
-    end
-
-    // Resource is not in pool
-    scope = "";
     return 0;
 
   endfunction
@@ -336,26 +281,9 @@ class uvm_resource_pool;
     if (rsrc != null) begin
       name = rsrc.get_name();
       if(name != "") begin
-        if(rtab.exists(name))
-          rtab.delete(name);
       end
       
       type_handle = rsrc.get_type_handle();
-      if(ttab.exists(type_handle)) begin
-          int q_size = ttab[type_handle].size();
-          
-          if (q_size == 1)
-              ttab.delete(type_handle);
-          else begin
-              int i;
-              for (i=0; i<q_size; i++) begin
-                  if (ttab[type_handle].get(i) == rsrc) begin
-                      ttab[type_handle].delete(i);
-                      break;
-                  end
-              end              
-          end   
-      end
 
     end    
   endfunction
@@ -436,51 +364,6 @@ class uvm_resource_pool;
   // ~scope~.
 
   // @uvm-ieee 1800.2-2017 auto C.2.4.4.1
-  function uvm_resource_types::rsrc_q_t lookup_name(string scope = "",
-                                                    string name,
-                                                    uvm_resource_base type_handle = null,
-                                                    bit rpterr = 1);
-    uvm_resource_types::rsrc_q_t rq;
-    uvm_resource_types::rsrc_q_t q;
-    uvm_resource_base rsrc;
-    uvm_resource_base r;
-    string rsrcs;
-
-     // ensure stability during lookup
-     begin
-	process p = process::self();
-	string s;
-	if(p!=null) s=p.get_randstate();
-	q=new();
-	if(p!=null) p.set_randstate(s);
-     end
-
-     
-    // resources with empty names are anonymous and do not exist in the name map
-    if(name == "")
-      return q;
-
-    // Does an entry in the name map exist with the specified name?
-    // If not, then we're done
-    if(!rtab.exists(name)) begin
-	    if(rpterr) void'(spell_check(name));	
-		return q;
-    end	
-
-    rsrc = null;
-    rq = rtab[name];
-    for(int i=0; i<rq.size(); ++i) begin 
-      r = rq.get(i);
-
-      // does the type and scope match?
-      if(((type_handle == null) || (r.get_type_handle() == type_handle)) &&
-          uvm_is_match(rsrcs, scope))
-        q.push_back(r);
-    end
-
-    return q;
-
-  endfunction
 
   // Function -- NODOCS -- get_highest_precedence
   //
@@ -491,272 +374,6 @@ class uvm_resource_pool;
 
   // @uvm-ieee 1800.2-2017 auto C.2.4.4.2
   // @uvm-ieee 1800.2-2017 auto C.2.4.5.8
-  static function uvm_resource_base get_highest_precedence(ref uvm_resource_types::rsrc_q_t q);
-
-    uvm_resource_base rsrc;
-    uvm_resource_base r;
-    int unsigned i;
-    int unsigned prec;
-    int unsigned c_prec;
-
-    if(q.size() == 0)
-      return null;
-
-    // get the first resources in the queue
-    rsrc = q.get(0);
-
-
-    // start searching from the second resource
-    for(int i = 1; i < q.size(); ++i) begin
-      r = q.get(i);
-
-      if(c_prec > prec) begin
-        rsrc = r;
-        prec = c_prec;
-      end
-    end
-
-    return rsrc;
-
-  endfunction
-
-  // Function -- NODOCS -- sort_by_precedence
-  //
-  // Given a list of resources, obtained for example from <lookup_scope>,
-  // sort the resources in  precedence order. The highest precedence
-  // resource will be first in the list and the lowest precedence will
-  // be last. Resources that have the same precedence and the same name
-  // will be ordered by most recently set first.
-
-  // @uvm-ieee 1800.2-2017 auto C.2.4.4.3
-  static function void sort_by_precedence(ref uvm_resource_types::rsrc_q_t q);
-    uvm_resource_types::rsrc_q_t all[int];
-    uvm_resource_base r;
-    int unsigned prec;
-
-    for(int i=0; i<q.size(); ++i) begin
-      r = q.get(i);
-
-      if(!all.exists(prec))
-         all[prec] = new;
-      all[prec].push_front(r); //since we will push_front in the final
-    end
-    q.delete();
-    foreach(all[i]) begin
-      for(int j=0; j<all[i].size(); ++j) begin
-        r = all[i].get(j);
-        q.push_front(r);
-      end
-    end
-  endfunction
-
-
-  // Function -- NODOCS -- get_by_name
-  //
-  // Lookup a resource by ~name~, ~scope~, and ~type_handle~.  Whether
-  // the get succeeds or fails, save a record of the get attempt.  The
-  // ~rpterr~ flag indicates whether to report errors or not.
-  // Essentially, it serves as a verbose flag.  If set then the spell
-  // checker will be invoked and warnings about multiple resources will
-  // be produced.
-
-  // @uvm-ieee 1800.2-2017 auto C.2.4.4.4
-  function uvm_resource_base get_by_name(string scope = "",
-                                         string name,
-                                         uvm_resource_base type_handle,
-                                         bit rpterr = 1);
-
-    uvm_resource_types::rsrc_q_t q;
-    uvm_resource_base rsrc;
-
-    q = lookup_name(scope, name, type_handle, rpterr);
-
-    if(q.size() == 0) begin
-      push_get_record(name, scope, null);
-      return null;
-    end
-
-    rsrc = get_highest_precedence(q);
-    push_get_record(name, scope, rsrc);
-    return rsrc;
-    
-  endfunction
-
-
-  // Function -- NODOCS -- lookup_type
-  //
-  // Lookup resources by type. Return a queue of resources that match
-  // the ~type_handle~ and ~scope~.  If no resources match then the returned
-  // queue is empty.
-
-  // @uvm-ieee 1800.2-2017 auto C.2.4.4.5
-  function uvm_resource_types::rsrc_q_t lookup_type(string scope = "",
-                                                    uvm_resource_base type_handle);
-
-    uvm_resource_types::rsrc_q_t q = new();
-    uvm_resource_types::rsrc_q_t rq;
-    uvm_resource_base r;
-    int unsigned i;
-
-    if(type_handle == null || !ttab.exists(type_handle)) begin
-      return q;
-    end
-
-    rq = ttab[type_handle];
-    for(int i = 0; i < rq.size(); ++i) begin 
-      r = rq.get(i);
-    end
-
-    return q;
-
-  endfunction
-
-  // Function -- NODOCS -- get_by_type
-  //
-  // Lookup a resource by ~type_handle~ and ~scope~.  Insert a record into
-  // the get history list whether or not the get succeeded.
-
-  // @uvm-ieee 1800.2-2017 auto C.2.4.4.6
-  function uvm_resource_base get_by_type(string scope = "",
-                                         uvm_resource_base type_handle);
-
-    uvm_resource_types::rsrc_q_t q;
-    uvm_resource_base rsrc;
-
-    q = lookup_type(scope, type_handle);
-
-    if(q.size() == 0) begin
-      push_get_record("<type>", scope, null);
-      return null;
-    end
-
-    rsrc = q.get(0);
-    push_get_record("<type>", scope, rsrc);
-    return rsrc;
-    
-  endfunction
-
-  // Function -- NODOCS -- lookup_regex_names
-  //
-  // This utility function answers the question, for a given ~name~,
-  // ~scope~, and ~type_handle~, what are all of the resources with requested name,
-  // a matching scope (where the resource scope may be a
-  // regular expression), and a matching type? 
-  // ~name~ and ~scope~ are explicit values.
-
-  function uvm_resource_types::rsrc_q_t lookup_regex_names(string scope,
-                                                           string name,
-                                                           uvm_resource_base type_handle = null);
-      return lookup_name(scope, name, type_handle, 0);
-  endfunction
-
-  // Function -- NODOCS -- lookup_regex
-  //
-  // Looks for all the resources whose name matches the regular
-  // expression argument and whose scope matches the current scope.
-
-  // @uvm-ieee 1800.2-2017 auto C.2.4.4.7
-  function uvm_resource_types::rsrc_q_t lookup_regex(string re, scope);
-
-    uvm_resource_types::rsrc_q_t rq;
-    uvm_resource_types::rsrc_q_t result_q;
-    int unsigned i;
-    uvm_resource_base r;
-    string s;
-
-    result_q = new();
-
-    foreach (rtab[name]) begin
-      if ( ! uvm_is_match(re, name) )
-        continue;
-      rq = rtab[name];
-      for(i = 0; i < rq.size(); i++) begin
-        r = rq.get(i);
-      end
-    end
-
-    return result_q;
-
-  endfunction
-
-  // Function -- NODOCS -- lookup_scope
-  //
-  // This is a utility function that answers the question: For a given
-  // ~scope~, what resources are visible to it?  Locate all the resources
-  // that are visible to a particular scope.  This operation could be
-  // quite expensive, as it has to traverse all of the resources in the
-  // database.
-
-  // @uvm-ieee 1800.2-2017 auto C.2.4.4.8
-  function uvm_resource_types::rsrc_q_t lookup_scope(string scope);
-
-    uvm_resource_types::rsrc_q_t rq;
-    uvm_resource_base r;
-    int unsigned i;
-
-    int unsigned err;
-    uvm_resource_types::rsrc_q_t q = new();
-
-    //iterate in reverse order for the special case of autoconfig
-    //of arrays. The array name with no [] needs to be higher priority.
-    //This has no effect an manual accesses.
-    string name;
-
-
-
-    return q;
-    
-  endfunction
-
-  //--------------------
-  // Group -- NODOCS -- Set Priority
-  //--------------------
-  //
-  // Functions for altering the search priority of resources.  Resources
-  // are stored in queues in the type and name maps.  When retrieving
-  // resources, either by type or by name, the resource queue is search
-  // from front to back.  The first one that matches the search criteria
-  // is the one that is returned.  The ~set_priority~ functions let you
-  // change the order in which resources are searched.  For any
-  // particular resource, you can set its priority to UVM_HIGH, in which
-  // case the resource is moved to the front of the queue, or to UVM_LOW in
-  // which case the resource is moved to the back of the queue.
-
-  // function- set_priority_queue
-  //
-  // This function handles the mechanics of moving a resource to either
-  // the front or back of the queue.
-
-  local function void set_priority_queue(uvm_resource_base rsrc,
-                                         ref uvm_resource_types::rsrc_q_t q,
-                                         uvm_resource_types::priority_e pri);
-
-    uvm_resource_base r;
-    int unsigned i;
-
-    string msg;
-    string name = rsrc.get_name();
-
-    for(i = 0; i < q.size(); i++) begin
-      r = q.get(i);
-      if(r == rsrc) break;
-    end
-
-    if(r != rsrc) begin
-      $sformat(msg, "Handle for resource named %s is not in the name name; cannot change its priority", name);
-      uvm_report_error("NORSRC", msg);
-      return;
-    end
-
-    q.delete(i);
-
-    case(pri)
-      uvm_resource_types::PRI_HIGH: q.push_front(rsrc);
-      uvm_resource_types::PRI_LOW:  q.push_back(rsrc);
-    endcase
-
-  endfunction
-
 
   // Function -- NODOCS -- set_priority_type
   //
@@ -770,7 +387,7 @@ class uvm_resource_pool;
 
     uvm_resource_base type_handle;
     string msg;
-    uvm_resource_types::rsrc_q_t q;
+
 
     if(rsrc == null) begin
       uvm_report_warning("NULLRASRC", "attempting to change the serach priority of a null resource");
@@ -778,13 +395,8 @@ class uvm_resource_pool;
     end
 
     type_handle = rsrc.get_type_handle();
-    if(!ttab.exists(type_handle)) begin
-      $sformat(msg, "Type handle for resrouce named %s not found in type map; cannot change its search priority", rsrc.get_name());
-      uvm_report_error("RNFTYPE", msg);
-      return;
-    end
 
-    q = ttab[type_handle];
+
 
   endfunction
 
@@ -801,7 +413,7 @@ class uvm_resource_pool;
 
     string name;
     string msg;
-    uvm_resource_types::rsrc_q_t q;
+
 
     if(rsrc == null) begin
       uvm_report_warning("NULLRASRC", "attempting to change the serach priority of a null resource");
@@ -809,13 +421,8 @@ class uvm_resource_pool;
     end
 
     name = rsrc.get_name();
-    if(!rtab.exists(name)) begin
-      $sformat(msg, "Resrouce named %s not found in name map; cannot change its search priority", name);
-      uvm_report_error("RNFNAME", msg);
-      return;
-    end
 
-    q = rtab[name];
+
 
 
   endfunction
@@ -852,63 +459,12 @@ class uvm_resource_pool;
   virtual function void set_precedence(uvm_resource_base r,
                                        int unsigned p=1);
 
-    uvm_resource_types::rsrc_q_t q;
-    string name;
-    int unsigned i;
-    uvm_resource_base rsrc;
-
-    if(r == null) begin
-      uvm_report_warning("NULLRASRC", "attempting to set precedence of a null resource");
-      return;
-    end
-
-    name = r.get_name();
-    if(rtab.exists(name)) begin
-      q = rtab[name];
-
-      for(i = 0; i < q.size(); i++) begin
-        rsrc = q.get(i);
-        if(rsrc == r) break;
-      end
-    end 
-  
-    if(r != rsrc) begin
-      uvm_report_warning("NORSRC", $sformatf("resource named %s is not placed within the pool", name));
-      return;
-    end
-
-
-
   endfunction
 
 
   virtual function int unsigned get_precedence(uvm_resource_base r);
 
-    uvm_resource_types::rsrc_q_t q;
-    string name;
-    int unsigned i;
-    uvm_resource_base rsrc;
-
-    if(r == null) begin
-      uvm_report_warning("NULLRASRC", "attempting to get precedence of a null resource");
-      return uvm_resource_pool::get_default_precedence();
-    end
-
-    name = r.get_name();
-    if(rtab.exists(name)) begin
-      q = rtab[name];
-
-      for(i = 0; i < q.size(); i++) begin
-        rsrc = q.get(i);
-        if(rsrc == r) break;
-      end
-    end 
-  
-    if(r != rsrc) begin
-      uvm_report_warning("NORSRC", $sformatf("resource named %s is not placed within the pool", name));
-      return uvm_resource_pool::get_default_precedence();
-    end
-
+     return 1;
 
 
   endfunction
@@ -955,44 +511,6 @@ class uvm_resource_pool;
 `endif // UVM_ENABLE_DEPRECATED_API
 
   // Prints resouce queue into ~printer~, non-LRM
-  function void m_print_resources(uvm_printer printer,
-                                  uvm_resource_types::rsrc_q_t rq,
-                                  bit audit = 0);
-    
-    printer.push_element(rq.get_name(),
-                         "uvm_queue#(uvm_resource_base)",
-                         $sformatf("%0d",rq.size()),
-                         uvm_object_value_str(rq));
-
-    for(int i=0; i<rq.size(); ++i) begin
-      uvm_resource_base r;
-      string scope;
-      printer.push_element($sformatf("[%0d]", i),
-                           "uvm_resource",
-                           "-",
-                           "-");
-
-      r = rq.get(i);
-      void'(get_scope(r, scope));
-        
-      printer.print_string("name", r.get_name());
-
-      printer.print_generic_element("value",
-                                    r.m_value_type_name(),
-                                    "",
-                                    r.m_value_as_string());
-                                    
-      printer.print_string("scope", scope);
-
-      printer.print_field_int("precedence", get_precedence(r), 32, UVM_UNSIGNED);
-
-
-      printer.pop_element();
-    end // int i=0
-
-    printer.pop_element();
-
-  endfunction : m_print_resources
                                   
   
   // Function -- NODOCS -- print_resources
@@ -1003,26 +521,15 @@ class uvm_resource_pool;
   // audit trail is printed for each resource along with the name,
   // value, and scope regular expression.
 
-  function void print_resources(uvm_resource_types::rsrc_q_t rq, bit audit = 0);
+  function void print_resources(uvm_void rq, bit audit = 0);
 
     int unsigned i;
     string id;
-    static uvm_tree_printer printer = new();
+
 
     // Basically this is full implementation of something
     // like uvm_object::print, but we're interleaving
     // scope data, so it's all manual.
-    printer.flush();
-    if (rq == null)
-      printer.print_generic_element("",
-                                    "uvm_queue#(uvm_resource_base)",
-                                    "",
-                                    "<null>");
-    else
-      m_print_resources(printer, rq, audit);
-    `uvm_info("UVM/RESOURCE_POOL/PRINT_QUEUE",
-              printer.emit(),
-              UVM_NONE)
   endfunction
 
 
@@ -1036,31 +543,6 @@ class uvm_resource_pool;
   function void dump(bit audit = 0, uvm_printer printer = null);
 
     string name;
-    static uvm_tree_printer m_printer;
-
-    if (m_printer == null) begin
-      m_printer = new();
-      m_printer.set_type_name_enabled(1);
-    end
-      
-
-    if (printer == null)
-      printer = m_printer;
-    
-    printer.flush();
-    printer.push_element("uvm_resource_pool",
-                         "",
-                         $sformatf("%0d",rtab.size()),
-                         "");
-    
-    foreach (rtab[name]) begin
-      m_print_resources(printer, rtab[name], audit);
-    end
-
-    printer.pop_element();
-    
-    `uvm_info("UVM/RESOURCE/DUMP", printer.emit(), UVM_NONE)
-
   endfunction
   
 endclass
@@ -1345,34 +827,6 @@ class uvm_resource #(type T=int) extends uvm_resource_base;
   // In a queue of resources, locate the first one with the highest
   // precedence whose type is T.  This function is static so that it can
   // be called from anywhere.
-
-  static function this_type get_highest_precedence(ref uvm_resource_types::rsrc_q_t q);
-
-    this_type rsrc;
-    this_type r;
-    uvm_resource_types::rsrc_q_t tq;
-    uvm_resource_base rb;
-    uvm_resource_pool rp = uvm_resource_pool::get();
-
-    if(q.size() == 0)
-      return null;
-
-    tq = new();
-    rsrc = null;
-
-    for(int i = 0; i < q.size(); ++i) begin
-      if($cast(r, q.get(i))) begin
-        tq.push_back(r) ;
-      end
-    end
-
-    rb = rp.get_highest_precedence(tq);
-    if (!$cast(rsrc, rb))
-       return null;
- 
-    return rsrc;
-
-  endfunction
 
 endclass
 

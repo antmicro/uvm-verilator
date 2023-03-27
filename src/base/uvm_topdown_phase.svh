@@ -49,8 +49,8 @@ virtual class uvm_topdown_phase extends uvm_phase;
                                  uvm_phase phase,
                                  uvm_phase_state state);
     string name;
-    uvm_domain phase_domain = phase.get_domain();
-    uvm_domain comp_domain = comp.get_domain();
+     uvm_domain phase_domain;
+     uvm_domain comp_domain;
 
     if (m_phase_trace)
     `uvm_info("PH_TRACE",$sformatf("topdown-phase phase=%s state=%s comp=%s comp.domain=%s phase.domain=%s",

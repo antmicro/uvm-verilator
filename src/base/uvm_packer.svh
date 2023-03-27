@@ -120,14 +120,14 @@ class uvm_packer extends uvm_policy;
   static function void set_default (uvm_packer packer) ;
      uvm_coreservice_t coreservice ;
      coreservice = uvm_coreservice_t::get() ;
-     coreservice.set_default_packer(packer) ;
+
   endfunction
 
   // @uvm-ieee 1800.2-2017 auto 16.5.2.5
   static function uvm_packer get_default () ;
      uvm_coreservice_t coreservice ;
      coreservice = uvm_coreservice_t::get() ;
-     return coreservice.get_default_packer() ;
+     return null;
   endfunction
 
   
