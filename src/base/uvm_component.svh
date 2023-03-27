@@ -897,39 +897,6 @@ virtual class uvm_component extends uvm_report_object;
   // objections raised by the ~source_obj~.
 
   // @uvm-ieee 1800.2-2017 auto 13.1.5.4
-  virtual function void raised (uvm_objection objection, uvm_object source_obj, 
-      string description, int count);
-  endfunction
-
-
-  // Function -- NODOCS -- dropped
-  //
-  // The ~dropped~ callback is called when this or a descendant of this component
-  // instance drops the specified ~objection~. The ~source_obj~ is the object
-  // that originally dropped the objection. 
-  // The ~description~ is optionally provided by the ~source_obj~ to give a
-  // reason for dropping the objection. The ~count~ indicates the number of
-  // objections dropped by the ~source_obj~.
-
-  // @uvm-ieee 1800.2-2017 auto 13.1.5.5
-  virtual function void dropped (uvm_objection objection, uvm_object source_obj, 
-      string description, int count);
-  endfunction
-
-
-  // Task -- NODOCS -- all_dropped
-  //
-  // The ~all_droppped~ callback is called when all objections have been 
-  // dropped by this component and all its descendants.  The ~source_obj~ is the
-  // object that dropped the last objection.
-  // The ~description~ is optionally provided by the ~source_obj~ to give a
-  // reason for raising the objection. The ~count~ indicates the number of
-  // objections dropped by the ~source_obj~.
-
-  // @uvm-ieee 1800.2-2017 auto 13.1.5.6
-  virtual task all_dropped (uvm_objection objection, uvm_object source_obj, 
-      string description, int count);
-  endtask
 
 
   //----------------------------------------------------------------------------
@@ -1945,8 +1912,8 @@ function uvm_component uvm_component::create_component (string requested_type_na
                                                         string name);
   uvm_coreservice_t cs = uvm_coreservice_t::get();                                                     
   uvm_factory factory=cs.get_factory();
-  return factory.create_component_by_name(requested_type_name, get_full_name(),
-                                          name, this);
+   return null;
+               
 endfunction
 
 
@@ -2477,7 +2444,7 @@ endfunction
    function uvm_tr_database uvm_component::get_tr_database();
      if (tr_database == null) begin
        uvm_coreservice_t cs = uvm_coreservice_t::get();
-       tr_database = cs.get_default_tr_database();
+
      end
      return tr_database;
    endfunction : get_tr_database
@@ -2866,8 +2833,8 @@ function void uvm_component::apply_config_settings (bit verbose=0);
   // entry to indicate string, uvm_bitstream_t, or object. That way,
   // we call 'get' for specific fields of specific types rather than
   // the search-and-cast approach here.
-  rq = rp.lookup_scope(get_full_name());
-  rp.sort_by_precedence(rq);
+
+
 
   // rq is in precedence order now, so we have to go through in reverse
   // order to do the settings.
@@ -2892,7 +2859,7 @@ function void uvm_component::print_config(bit recurse = 0, audit = 0);
   uvm_resource_pool rp = uvm_resource_pool::get();
 
   uvm_report_info("CFGPRT","visible resources:",UVM_INFO);
-  rp.print_resources(rp.lookup_scope(get_full_name()), audit);
+
 
   if(recurse) begin
     uvm_component c;

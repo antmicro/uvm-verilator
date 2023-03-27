@@ -208,12 +208,6 @@ virtual class uvm_factory;
 
   // Function -- NODOCS -- create_component_by_type
 
-  pure virtual function
-      // @uvm-ieee 1800.2-2017 auto 8.3.1.5
-      uvm_component create_component_by_type (uvm_object_wrapper requested_type,  
-                                              string parent_inst_path="",
-                                              string name, 
-                                              uvm_component parent);
 
   // Function -- NODOCS -- create_object_by_name
 
@@ -272,12 +266,6 @@ virtual class uvm_factory;
   // that which formed the loop. Using the previous example, if ~bar~
   // overrides ~xyz~, then ~bar~ is returned after the error is issued.
 
-  pure virtual function
-      // @uvm-ieee 1800.2-2017 auto 8.3.1.5
-      uvm_component create_component_by_name (string requested_type_name,  
-                                              string parent_inst_path="",
-                                              string name, 
-                                              uvm_component parent);
 
   // Group -- NODOCS -- Name Aliases
   
