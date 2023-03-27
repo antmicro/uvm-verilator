@@ -47,7 +47,7 @@ typedef class uvm_post_shutdown_phase;
 
 uvm_phase build_ph;
 uvm_phase connect_ph;
-uvm_phase end_of_elaboration_ph;
+
 uvm_phase start_of_simulation_ph;
 uvm_phase run_ph;
 uvm_phase extract_ph;
@@ -122,7 +122,7 @@ class uvm_domain extends uvm_phase;
     // same as uvm_<name>_phase::get().
     build_ph               = domain.find(uvm_build_phase::get());
     connect_ph             = domain.find(uvm_connect_phase::get());
-    end_of_elaboration_ph  = domain.find(uvm_end_of_elaboration_phase::get());
+
     start_of_simulation_ph = domain.find(uvm_start_of_simulation_phase::get());
     run_ph                 = domain.find(uvm_run_phase::get());   
     extract_ph             = domain.find(uvm_extract_phase::get());

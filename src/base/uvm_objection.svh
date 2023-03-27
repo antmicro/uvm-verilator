@@ -752,8 +752,6 @@ class uvm_objection extends uvm_report_object;
                                 string description,
                                 int count);
     uvm_component comp;
-    if ($cast(comp,obj))    
-      comp.raised(this, source_obj, description, count);
     `uvm_do_callbacks(uvm_objection,uvm_objection_callback,raised(this,obj,source_obj,description,count))
     if (m_events.exists(obj))
        ->m_events[obj].raised;
@@ -771,8 +769,6 @@ class uvm_objection extends uvm_report_object;
                                  string description,
                                  int count);
     uvm_component comp;
-    if($cast(comp,obj))    
-      comp.dropped(this, source_obj, description, count);
     `uvm_do_callbacks(uvm_objection,uvm_objection_callback,dropped(this,obj,source_obj,description,count))
     if (m_events.exists(obj))
        ->m_events[obj].dropped;
@@ -792,8 +788,6 @@ class uvm_objection extends uvm_report_object;
                             string description,
                             int count);
     uvm_component comp;
-    if($cast(comp,obj))    
-      comp.all_dropped(this, source_obj, description, count);
     `uvm_do_callbacks(uvm_objection,uvm_objection_callback,all_dropped(this,obj,source_obj,description,count))
     if (m_events.exists(obj))
        ->m_events[obj].all_dropped;

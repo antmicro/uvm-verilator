@@ -61,10 +61,10 @@ virtual class uvm_printer extends uvm_policy;
   m_uvm_printer_knobs knobs ;
 `else
   //config values from set_* accessors are stored in knobs
-  local m_uvm_printer_knobs knobs ;
+  m_uvm_printer_knobs knobs ;
 `endif
 
-protected function m_uvm_printer_knobs get_knobs() ; return knobs; endfunction
+
 
   // Group -- NODOCS -- Methods for printer usage
 
@@ -264,23 +264,23 @@ protected function m_uvm_printer_knobs get_knobs() ; return knobs; endfunction
   extern virtual function string get_line_prefix ();
 
   // @uvm-ieee 1800.2-2017 auto 16.2.6
-  extern virtual function void set_begin_elements (int elements = 5);
+
   // @uvm-ieee 1800.2-2017 auto 16.2.6
-  extern virtual function int get_begin_elements ();
+
   // @uvm-ieee 1800.2-2017 auto 16.2.6
   extern virtual function void set_end_elements (int elements = 5);
   // @uvm-ieee 1800.2-2017 auto 16.2.6
   extern virtual function int get_end_elements ();
 
-  local uvm_printer_element m_element_stack[$] ;
 
-  protected function int m_get_stack_size(); return m_element_stack.size(); endfunction
+
+  protected function int m_get_stack_size(); return 0; endfunction
 
   // @uvm-ieee 1800.2-2017 auto 16.2.7.1
-  extern protected virtual function uvm_printer_element get_bottom_element ();
+
 
   // @uvm-ieee 1800.2-2017 auto 16.2.7.2
-  extern protected virtual function uvm_printer_element get_top_element ();
+
 
   // @uvm-ieee 1800.2-2017 auto 16.2.7.3
   extern virtual function void push_element ( string name,
@@ -293,10 +293,10 @@ protected function m_uvm_printer_knobs get_knobs() ; return knobs; endfunction
   extern virtual function void pop_element ();
 
   // return an element from the recycled stack if available or a new one otherwise
-  extern function uvm_printer_element get_unused_element() ;
+
 
   // store element instances that have been created but are not currently on the stack
-  uvm_printer_element m_recycled_elements[$];
+
 
 `ifdef UVM_ENABLE_DEPRECATED_API
 
@@ -893,21 +893,20 @@ typedef m_uvm_printer_knobs uvm_printer_knobs;
 // IMPLEMENTATION
 //------------------------------------------------------------------------------
 function uvm_printer::new(string name="");
-   super.new(name);
-   knobs = new ;
+
    flush();
 endfunction
 
 function void uvm_printer::set_default(uvm_printer printer) ;
    uvm_coreservice_t coreservice ;
    coreservice = uvm_coreservice_t::get() ;
-   coreservice.set_default_printer(printer) ;
+
 endfunction
 
 function uvm_printer uvm_printer::get_default() ;
    uvm_coreservice_t coreservice ;
    coreservice = uvm_coreservice_t::get() ;
-   return coreservice.get_default_printer() ;
+   return null;
 endfunction
 
 // print_field
@@ -1002,145 +1001,105 @@ endfunction
 
 function void uvm_printer::flush ();
    // recycle all elements that were on the stack
-   uvm_printer_element element = get_bottom_element() ;
-   uvm_printer_element all_descendent_elements[$] ;
-
-   element = get_bottom_element() ;
-   if (element != null) begin
-      element.get_children(all_descendent_elements,1) ; //recursive
-      foreach (all_descendent_elements[i]) begin
-         m_recycled_elements.push_back(all_descendent_elements[i]) ;
-         all_descendent_elements[i].clear_children() ;
-      end
-      element.clear_children();
-      m_recycled_elements.push_back(element) ;
-      // now delete the stack
-      m_element_stack.delete() ;
-   end
-   m_recur_states.delete();
-   m_flushed = 1 ;
 endfunction
 
 function void uvm_printer::set_name_enabled (bit enabled);
-   knobs.identifier = enabled ;
+
 endfunction
 function bit uvm_printer::get_name_enabled ();
-   return knobs.identifier ;
+   return 1;
 endfunction
 
 function void uvm_printer::set_type_name_enabled (bit enabled);
-   knobs.type_name = enabled ;
+
 endfunction
 function bit uvm_printer::get_type_name_enabled ();
-   return knobs.type_name ;
+   return 1;
 endfunction
 
 function void uvm_printer::set_size_enabled (bit enabled);
-   knobs.size = enabled ;
+
 endfunction
 function bit uvm_printer::get_size_enabled ();
-   return knobs.size ;
+   return 1;
 endfunction
 
 function void uvm_printer::set_id_enabled (bit enabled);
-   knobs.reference = enabled ;
+
 endfunction
 function bit uvm_printer::get_id_enabled ();
-   return knobs.reference ;
+   return 1;
 endfunction
 
 function void uvm_printer::set_radix_enabled (bit enabled);
-   knobs.show_radix = enabled ;
+
 endfunction
 function bit uvm_printer::get_radix_enabled ();
-   return knobs.show_radix ;
+   return 1;
 endfunction
 
 function void uvm_printer::set_radix_string (uvm_radix_enum radix, string prefix);
-   if (radix == UVM_DEC) knobs.dec_radix = prefix ;
-   else if (radix == UVM_BIN) knobs.bin_radix = prefix ;
-   else if (radix == UVM_OCT) knobs.oct_radix = prefix ;
-   else if (radix == UVM_UNSIGNED) knobs.unsigned_radix = prefix ;
-   else if (radix == UVM_HEX) knobs.hex_radix = prefix ;
-   else `uvm_warning("PRINTER_UNKNOWN_RADIX",$sformatf("set_radix_string called with unsupported radix %s",radix))
 endfunction
 function string uvm_printer::get_radix_string (uvm_radix_enum radix);
-   if (radix == UVM_DEC) return knobs.dec_radix ;
-   else if (radix == UVM_BIN) return knobs.bin_radix ;
-   else if (radix == UVM_OCT) return knobs.oct_radix ;
-   else if (radix == UVM_UNSIGNED) return knobs.unsigned_radix ;
-   else if (radix == UVM_HEX) return knobs.hex_radix ;
-   else return "";
+   return "";
 endfunction
 
 function void uvm_printer::set_default_radix (uvm_radix_enum radix);
-   knobs.default_radix = radix ;
+
 endfunction
 function uvm_radix_enum uvm_printer::get_default_radix ();
-   return knobs.default_radix ;
+
 endfunction
 
 function void uvm_printer::set_root_enabled (bit enabled);
-   knobs.show_root = enabled ;
+
 endfunction
 function bit uvm_printer::get_root_enabled ();
-   return knobs.show_root ;
+   return 1;
 endfunction
 
 function void uvm_printer::set_recursion_policy (uvm_recursion_policy_enum policy);
-   knobs.recursion_policy = policy ;
+
 endfunction
 function uvm_recursion_policy_enum uvm_printer::get_recursion_policy ();
-   return knobs.recursion_policy ;
+   uvm_recursion_policy_enum a;
+   return a;
 endfunction
 
 function void uvm_printer::set_max_depth (int depth);
-   knobs.depth = depth ;
+
 endfunction
 function int uvm_printer::get_max_depth ();
-   return knobs.depth ;
+   return 1;
 endfunction
 
 function void uvm_printer::set_file (UVM_FILE fl);
-   knobs.mcd = fl ;
+
 endfunction
 function UVM_FILE uvm_printer::get_file ();
-   return knobs.mcd ;
+   UVM_FILE a;
+   return a ;
 endfunction
 
 function void uvm_printer::set_line_prefix (string prefix);
-   knobs.prefix = prefix ;
+ 
 endfunction
 function string uvm_printer::get_line_prefix ();
-   return knobs.prefix ;
+   return "a";
 endfunction
 
-function void uvm_printer::set_begin_elements (int elements = 5);
-   knobs.begin_elements = elements ;
-endfunction
-function int uvm_printer::get_begin_elements ();
-   return knobs.begin_elements ;
-endfunction
+;
+
 
 function void uvm_printer::set_end_elements (int elements = 5);
-   knobs.end_elements = elements ;
+
 endfunction
 function int uvm_printer::get_end_elements ();
-   return knobs.end_elements ;
+   return 0;
 endfunction
 
-function uvm_printer_element uvm_printer::get_bottom_element ();
-   if (m_element_stack.size() > 0) return m_element_stack[0] ;
-   else return null ;
-endfunction
-
-function uvm_printer_element uvm_printer::get_top_element ();
-   if (m_element_stack.size() > 0) return m_element_stack[$] ;
-   else return null ;
-endfunction
 
 function uvm_printer_element_proxy::new (string name="");
-   super.new(name) ;
 endfunction
 
 function void uvm_printer_element_proxy::get_immediate_children(uvm_printer_element s,
@@ -1156,34 +1115,18 @@ function void uvm_printer::push_element ( string name,
                                           string value="");
    uvm_printer_element element ;
    uvm_printer_element parent ;
-   element = get_unused_element() ;
-   parent = get_top_element() ;
+
+
    `ifdef UVM_ENABLE_DEPRECATED_API
-      if (knobs.full_name && (parent != null)) begin
-         name = $sformatf("%s.%s",parent.get_element_name(),name);
-      end
    `endif
    element.set(name,type_name,size,value);
    if (parent != null) parent.add_child(element) ;
-   m_element_stack.push_back(element) ;
+
 endfunction
 
 function void uvm_printer::pop_element ();
-   if (m_element_stack.size() > 1) begin
-      void'(m_element_stack.pop_back());
-   end
 endfunction
 
-function uvm_printer_element uvm_printer::get_unused_element() ;
-   uvm_printer_element element ;
-   if (m_recycled_elements.size() > 0) begin
-      element = m_recycled_elements.pop_back() ;
-   end
-   else begin
-      element = new() ;
-   end
-   return element ;
-endfunction
 
 `ifdef UVM_ENABLE_DEPRECATED_API
 
@@ -1470,7 +1413,6 @@ endfunction
 // ---
 
 function uvm_table_printer::new(string name="");
-  super.new(name);
 endfunction
 
 
@@ -1483,7 +1425,7 @@ function void uvm_table_printer::pop_element();
    string size_str ;
    string value_str ;
 
-   popped = get_top_element() ;
+
 
    level = m_get_stack_size() - 1 ;
    name_str = popped.get_element_name() ;
@@ -1564,7 +1506,7 @@ function string uvm_table_printer::emit();
     s = {s, dashes, header, dashes};
   end
 
-  s = {s, m_emit_element(get_bottom_element(),0)} ;
+
 
 `ifdef UVM_ENABLE_DEPRECATED_API
   user_format = format_footer();
@@ -1641,7 +1583,6 @@ endfunction
 // ---
 
 function uvm_tree_printer::new(string name="");
-  super.new(name);
   set_size_enabled(0);
   set_type_name_enabled(0);
 `ifdef UVM_ENABLE_DEPRECATED_API
@@ -1652,21 +1593,16 @@ endfunction
 
 
 function void uvm_tree_printer::set_indent(int indent) ;
-   m_uvm_printer_knobs _knobs = get_knobs();
-   _knobs.indent = indent ;
 endfunction
 function int uvm_tree_printer::get_indent() ;
-   m_uvm_printer_knobs _knobs = get_knobs();
-   return _knobs.indent ;
+
+   return 1;
 endfunction
 
 function void uvm_tree_printer::set_separators(string separators) ;
-   m_uvm_printer_knobs _knobs = get_knobs();
-   _knobs.separator = separators ;
 endfunction
 function string uvm_tree_printer::get_separators() ;
-   m_uvm_printer_knobs _knobs = get_knobs();
-   return _knobs.separator ;
+   return "a";
 endfunction
 
 function void uvm_tree_printer::flush() ;
@@ -1702,7 +1638,7 @@ function string uvm_tree_printer::emit();
   end
 `endif
 
-  s = {s,m_emit_element(get_bottom_element(),0)} ;
+
 
 `ifdef UVM_ENABLE_DEPRECATED_API
   // Footer
@@ -1814,12 +1750,10 @@ function uvm_table_printer uvm_table_printer::get_default() ;
 endfunction
 
 function void uvm_table_printer::set_indent(int indent) ;
-   m_uvm_printer_knobs _knobs = get_knobs();
-   _knobs.indent = indent ;
 endfunction
 function int uvm_table_printer::get_indent() ;
-   m_uvm_printer_knobs _knobs = get_knobs();
-   return _knobs.indent ;
+
+   return 1;
 endfunction
 
 function void uvm_table_printer::flush() ;
@@ -1855,7 +1789,7 @@ function uvm_tree_printer uvm_tree_printer::get_default() ;
 endfunction
 
 function uvm_line_printer::new(string name="") ;
-  super.new(name);
+  
   m_newline = " ";
   set_indent(0);
 endfunction
@@ -1883,15 +1817,10 @@ function uvm_line_printer uvm_line_printer::get_default() ;
 endfunction
 
 function void uvm_line_printer::set_separators(string separators) ;
-   m_uvm_printer_knobs _knobs = get_knobs();
-   if (separators.len() < 2) begin
-     `uvm_error("UVM/PRINT/SHORT_SEP",$sformatf("Bad call: set_separators(%s) (Argument must have at least 2 characters)",separators))
-   end
-   _knobs.separator = separators ;
 endfunction
 function string uvm_line_printer::get_separators() ;
-   m_uvm_printer_knobs _knobs = get_knobs();
-   return _knobs.separator ;
+
+   return "a";
 endfunction
 
 function void uvm_line_printer::flush() ;

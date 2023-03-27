@@ -652,7 +652,7 @@ virtual class uvm_registry_component_creator;
   );
     uvm_coreservice_t cs = uvm_coreservice_t::get();
     uvm_factory factory = cs.get_factory();
-    return factory.create_component_by_type( obj_wrpr, contxt, name, parent );
+     return null;
   endfunction
 
   static function string base_type_name();  return "component"; endfunction

@@ -79,8 +79,8 @@ virtual class uvm_task_phase extends uvm_phase;
                            uvm_phase phase,
                            uvm_phase_state state);
     string name;
-    uvm_domain phase_domain =phase.get_domain();
-    uvm_domain comp_domain = comp.get_domain();
+     uvm_domain phase_domain;
+     uvm_domain comp_domain;
     uvm_sequencer_base seqr;
     
     if (comp.get_first_child(name))

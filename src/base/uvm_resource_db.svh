@@ -78,12 +78,6 @@ class uvm_resource_db #(type T=uvm_object);
     if(type_handle == null)
        return null;
 
-    rsrc_base = rp.get_by_type(scope, type_handle);
-    if(!$cast(rsrc, rsrc_base)) begin
-      $sformat(msg, "Resource with specified type handle in scope %s was not located", scope);
-      `uvm_warning("RSRCNF", msg)
-      return null;
-    end
 
     return rsrc;
   endfunction
@@ -105,7 +99,7 @@ class uvm_resource_db #(type T=uvm_object);
     rsrc_t rsrc;
     string msg;
 
-    rsrc_base = rp.get_by_name(scope, name, rsrc_t::get_type(), rpterr);
+
     if(rsrc_base == null)
       return null;
 

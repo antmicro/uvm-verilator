@@ -337,7 +337,7 @@ class uvm_report_handler extends uvm_object;
       end
     end
     report_message.set_file(get_file_handle(severity, id));
-    report_message.set_report_handler(this);
+
     report_message.set_action(get_action(severity, id));
     srvr.process_report_message(report_message);
     

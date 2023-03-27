@@ -511,8 +511,6 @@ virtual class uvm_recorder extends uvm_policy;
        uvm_field_op field_op = uvm_field_op::m_get_available_op();
        field_op.set(UVM_RECORD, this, null);
        value.do_execute_op(field_op);
-       if (field_op.user_hook_enabled())
-         value.do_record(this);
        field_op.m_recycle();
      end 
    endfunction : do_record_object
