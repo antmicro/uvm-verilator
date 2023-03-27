@@ -194,14 +194,13 @@ endfunction : get_num_copies
 static function void set_default (uvm_copier copier) ;
      uvm_coreservice_t coreservice ;
      coreservice = uvm_coreservice_t::get() ;
-     coreservice.set_default_copier(copier) ;
 endfunction
 
 // @uvm-ieee 1800.2-2017 auto 16.6.2.4
 static function uvm_copier get_default () ;
      uvm_coreservice_t coreservice ;
      coreservice = uvm_coreservice_t::get() ;
-     return coreservice.get_default_copier() ;
+   return null;
 endfunction
  
 endclass

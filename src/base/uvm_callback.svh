@@ -95,12 +95,12 @@ class uvm_callbacks_base extends uvm_object;
   /*protected*/ static bit m_tracing = 1;
   static this_type m_b_inst;
 
-  static uvm_pool#(uvm_object,uvm_queue#(uvm_callback)) m_pool;
+
 
   static function this_type m_initialize();
     if(m_b_inst == null) begin
       m_b_inst = new;
-      m_pool = new;
+
     end
     return m_b_inst;
   endfunction
@@ -122,9 +122,6 @@ class uvm_callbacks_base extends uvm_object;
     return 0;
   endfunction
 
-  virtual function uvm_queue#(uvm_callback) m_get_tw_cb_q(uvm_object obj);
-    return null;
-  endfunction
 
   virtual function void m_add_tw_cbs(uvm_callback cb, uvm_apprepend ordering);
   endfunction
@@ -178,7 +175,7 @@ endclass
 
 class uvm_typed_callbacks extends uvm_callbacks_base;
 
-  static uvm_queue#(uvm_callback) m_tw_cb_q;
+
   static string m_typename;
 
   typedef uvm_typed_callbacks this_type;
@@ -192,7 +189,7 @@ class uvm_typed_callbacks extends uvm_callbacks_base;
     if(m_t_inst == null) begin
       void'(super_type::m_initialize());
       m_t_inst = new;
-      m_t_inst.m_tw_cb_q = new("typewide_queue");
+
     end
     return m_t_inst;
   endfunction
@@ -213,42 +210,7 @@ class uvm_typed_callbacks extends uvm_callbacks_base;
   endfunction
 
   //Getting the typewide queue
-  virtual function uvm_queue#(uvm_callback) m_get_tw_cb_q(uvm_object obj);
-    if(m_am_i_a(obj)) begin
-      foreach(m_derived_types[i]) begin
-        super_type dt;
-        dt = uvm_typeid_base::typeid_map[m_derived_types[i] ];
-        if(dt != null && dt != this) begin
-          m_get_tw_cb_q = dt.m_get_tw_cb_q(obj);
-          if(m_get_tw_cb_q != null)
-            return m_get_tw_cb_q;
-        end
-      end
-      return m_t_inst.m_tw_cb_q;
-    end
-    else
-      return null;
-  endfunction
 
-  static function int m_cb_find(uvm_queue#(uvm_callback) q, uvm_callback cb);
-    for(int i=0; i<q.size(); ++i)
-      if(q.get(i) == cb)
-        return i;
-    return -1;
-  endfunction
-
-  static function int m_cb_find_name(uvm_queue#(uvm_callback) q, string name, string where);
-    uvm_callback cb;
-    for(int i=0; i<q.size(); ++i) begin
-      cb = q.get(i);
-      if(cb.get_name() == name) begin
-         `uvm_warning("UVM/uvm_callback/NAM/SAM", {"A callback named \"", name,
-                                         "\" is already registered with ", where})
-         return 1;
-      end
-    end
-    return 0;
-  endfunction
 
   //For a typewide callback, need to add to derivative types as well.
   virtual function void m_add_tw_cbs(uvm_callback cb, uvm_apprepend ordering);
@@ -257,33 +219,6 @@ class uvm_typed_callbacks extends uvm_callbacks_base;
     uvm_object me;
     bit warned;
     uvm_queue#(uvm_callback) q;
-    if(m_cb_find(m_t_inst.m_tw_cb_q,cb) == -1) begin
-       warned = m_cb_find_name(m_t_inst.m_tw_cb_q, cb.get_name(), "type");
-       if(ordering == UVM_APPEND)
-          m_t_inst.m_tw_cb_q.push_back(cb);
-       else
-          m_t_inst.m_tw_cb_q.push_front(cb);
-    end
-    if(m_t_inst.m_pool.first(obj)) begin
-      do begin
-        if($cast(me,obj)) begin
-          q = m_t_inst.m_pool.get(obj);
-          if(q==null) begin
-            q=new;
-            m_t_inst.m_pool.add(obj,q);
-          end
-          if(m_cb_find(q,cb) == -1) begin
-            if (!warned) begin
-               void'(m_cb_find_name(q, cb.get_name(), {"object instance ", me.get_full_name()}));
-            end
-            if(ordering == UVM_APPEND)
-              q.push_back(cb);
-            else
-              q.push_front(cb);
-          end
-        end
-      end while(m_t_inst.m_pool.next(obj));
-    end
     foreach(m_derived_types[i]) begin
       cb_pair = uvm_typeid_base::typeid_map[m_derived_types[i] ];
       if(cb_pair != this)
@@ -296,28 +231,15 @@ class uvm_typed_callbacks extends uvm_callbacks_base;
   virtual function bit m_delete_tw_cbs(uvm_callback cb);
     super_type cb_pair;
     uvm_object obj;
-    uvm_queue#(uvm_callback) q;
-    int pos = m_cb_find(m_t_inst.m_tw_cb_q,cb);
 
+     int  pos = 0;
+
+     
     if(pos != -1) begin
-      m_t_inst.m_tw_cb_q.delete(pos);
+
       m_delete_tw_cbs = 1;
     end
 
-    if(m_t_inst.m_pool.first(obj)) begin
-      do begin
-        q = m_t_inst.m_pool.get(obj);
-        if(q==null) begin
-          q=new;
-          m_t_inst.m_pool.add(obj,q);
-        end
-        pos = m_cb_find(q,cb);
-        if(pos != -1) begin
-          q.delete(pos);
-          m_delete_tw_cbs = 1;
-        end
-      end while(m_t_inst.m_pool.next(obj));
-    end
     foreach(m_derived_types[i]) begin
       cb_pair = uvm_typeid_base::typeid_map[m_derived_types[i] ];
       if(cb_pair != this)
@@ -496,7 +418,7 @@ class uvm_callbacks
 
   // @uvm-ieee 1800.2-2017 auto 10.7.2.3.1
   static function void add(uvm_object obj, uvm_callback cb, uvm_apprepend ordering=UVM_APPEND);
-    uvm_queue#(uvm_callback) q;
+
     string nm,tnm; 
 
     void'(get());
@@ -542,7 +464,7 @@ class uvm_callbacks
 
     if(obj == null) begin
 
-      if (m_cb_find(m_t_inst.m_tw_cb_q,cb) != -1) begin
+      if (1'b1) begin
 
         if (m_base_inst.m_typename!="")
           tnm = m_base_inst.m_typename;
@@ -555,7 +477,7 @@ class uvm_callbacks
       else begin
         `uvm_cb_trace_noobj(cb,$sformatf("Add (%s) typewide callback %0s for type %s",
                             ordering.name(), cb.get_name(), m_base_inst.m_typename))
-        m_t_inst.m_add_tw_cbs(cb,ordering);
+
       end
     end
 
@@ -564,39 +486,8 @@ class uvm_callbacks
       `uvm_cb_trace_noobj(cb,$sformatf("Add (%s) callback %0s to object %0s ",
                           ordering.name(), cb.get_name(), obj.get_full_name()))
 
-
-
-
-      if(1'b1) begin
-        // Need to make sure that registered report catchers are added. This
-        // way users don't need to set up uvm_report_object as a super type.
-        uvm_report_object o; 
-
-        if($cast(o,obj)) begin
-          uvm_queue#(uvm_callback) qr;
-	  void'(uvm_callbacks::get());
-          qr = uvm_callbacks::m_t_inst.m_tw_cb_q;
-          for(int i=0; i<qr.size(); ++i)
-              q.push_back(qr.get(i)); 
-        end
-
-         for(int i=0; i<m_t_inst.m_tw_cb_q.size(); ++i);
-
-      end
-
-      //check if already exists in the queue
-      if(m_cb_find(q,cb) != -1) begin
-        uvm_report_warning("uvm_callbackPREG", { "Callback object ", cb.get_name(), " is already registered",
-                           " with object ", obj.get_full_name() }, UVM_NONE);
-      end
-      else begin
-        void'(m_cb_find_name(q, cb.get_name(), {"object instance ", obj.get_full_name()}));
-        if(ordering == UVM_APPEND)
-          q.push_back(cb);
-        else
-          q.push_front(cb);
-      end
     end
+
   endfunction
 
   // Function -- NODOCS -- add_by_name
@@ -699,17 +590,7 @@ class uvm_callbacks
   // class, <uvm_callback_iter> is also available, and is the generally preferred way to
   // iterate over callback queues.
 
-  static function void m_get_q (ref uvm_queue #(uvm_callback) q, input uvm_object obj);
-    if(!m_base_inst.m_pool.exists(obj)) begin //no instance specific
-
-    end 
-    else begin
-      q = m_base_inst.m_pool.get(obj);
-      if(q==null) begin
-        q=new;
-        m_base_inst.m_pool.add(obj,q);
-      end
-    end
+  static function void m_get_q (input uvm_void q, input uvm_object obj);
   endfunction
 
 
@@ -726,16 +607,6 @@ class uvm_callbacks
   // iterator interface.
 
   // @uvm-ieee 1800.2-2017 auto 10.7.2.4.1
-  static function uvm_callback get_first (ref int itr, input uvm_object obj);
-    uvm_queue#(uvm_callback) q;
-    uvm_callback cb;
-    void'(get());
-    m_get_q(q,obj);
-    for(itr = 0; itr<q.size(); ++itr)
-      if($cast(cb, q.get(itr)))
-         return cb;
-    return null;
-  endfunction
 
   // Function -- NODOCS -- get_last
   //
@@ -751,13 +622,6 @@ class uvm_callbacks
 
   // @uvm-ieee 1800.2-2017 auto 10.7.2.4.2
   static function uvm_callback get_last (ref int itr, input uvm_object obj);
-    uvm_queue#(uvm_callback) q;
-    uvm_callback cb;
-    void'(get());
-    m_get_q(q,obj);
-    for(itr = q.size()-1; itr>=0; --itr)
-      if ($cast(cb, q.get(itr)))
-         return cb;
     return null;
   endfunction
 
@@ -778,13 +642,6 @@ class uvm_callbacks
 
   // @uvm-ieee 1800.2-2017 auto 10.7.2.4.3
   static function uvm_callback get_next (ref int itr, input uvm_object obj);
-    uvm_queue#(uvm_callback) q;
-    uvm_callback cb;
-    void'(get());
-    m_get_q(q,obj);
-    for(itr = itr+1; itr<q.size(); ++itr)
-      if ($cast(cb, q.get(itr)))
-         return cb;
     return null;
   endfunction
 
@@ -805,13 +662,6 @@ class uvm_callbacks
 
   // @uvm-ieee 1800.2-2017 auto 10.7.2.4.4
   static function uvm_callback get_prev (ref int itr, input uvm_object obj);
-    uvm_queue#(uvm_callback) q;
-    uvm_callback cb;
-    void'(get());
-    m_get_q(q,obj);
-    for(itr = itr-1; itr>= 0; --itr)
-      if($cast(cb, q.get(itr)))
-         return cb;
     return null;
   endfunction
 
@@ -833,22 +683,20 @@ class uvm_callbacks
 
   // @uvm-ieee 1800.2-2017 auto 10.7.2.5
   static function void get_all ( ref uvm_callback all_callbacks[$], input uvm_object obj=null );
-    uvm_queue#(uvm_callback) q;
     uvm_callback cb;
     uvm_callback callbacks_to_append[$];
     uvm_callback unique_callbacks_to_append[$];
 
     void'( get() );
 
-    if ((obj == null) || (!m_pool.exists(obj))) begin
+    if ((obj == null)) begin
       // Only typewide callbacks exist
-      for (int qi=0; qi<m_t_inst.m_tw_cb_q.size(); ++qi) 
-	if ($cast(cb, m_t_inst.m_tw_cb_q.get(qi)))
-	  callbacks_to_append.push_back( cb );
+
     end
     else begin
       // No need to do anything special with typewide,
       // as they're present in the instance queue.
+
     end
 
     // Now remove duplicates and append the final list to all_callbacks.
@@ -981,8 +829,7 @@ class uvm_callback_iter;
 
    // @uvm-ieee 1800.2-2017 auto D.1.2.2
    function uvm_callback first();
-      m_cb = uvm_callbacks::get_first(m_i, m_obj);
-      return m_cb;
+      return null;
    endfunction
 
    // Function -- NODOCS -- last

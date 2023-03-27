@@ -224,14 +224,14 @@ class uvm_comparer extends uvm_policy;
   static function void set_default (uvm_comparer comparer) ;
      uvm_coreservice_t coreservice ;
      coreservice = uvm_coreservice_t::get() ;
-     coreservice.set_default_comparer(comparer) ;
+
   endfunction
 
   // @uvm-ieee 1800.2-2017 auto 16.3.2.5
   static function uvm_comparer get_default () ;
      uvm_coreservice_t coreservice ;
      coreservice = uvm_coreservice_t::get() ;
-     return coreservice.get_default_comparer() ;
+     return null;
   endfunction
 
    
