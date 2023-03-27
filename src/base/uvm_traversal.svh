@@ -87,22 +87,6 @@ endclass
 //------------------------------------------------------------------------------
 
 // @uvm-ieee 1800.2-2017 auto F.5.3.1
-virtual class uvm_visitor_adapter#(type STRUCTURE=uvm_component,VISITOR=uvm_visitor#(STRUCTURE)) extends uvm_object;
-  // Function -- NODOCS -- accept()
-  //
-  // Calling this function will traverse through ~s~ (and every subnode of ~s~). For each node found 
-  // ~v~.visit(node) will be invoked. The children of ~s~ are recursively determined 
-  // by invoking ~p~.get_immediate_children().~invoke_begin_end~ determines whether the visitors begin/end functions 
-  // should be invoked prior to traversal.
-  
-  // @uvm-ieee 1800.2-2017 auto F.5.3.2.2
-  pure virtual function void accept(STRUCTURE s, VISITOR v,uvm_structure_proxy#(STRUCTURE) p, bit invoke_begin_end=1);
-
-  // @uvm-ieee 1800.2-2017 auto F.5.3.2.1
-  function new (string name = "");
-    
-  endfunction 
-endclass
 
 //------------------------------------------------------------------------------
 //
@@ -114,108 +98,6 @@ endclass
 //------------------------------------------------------------------------------
 
 // @uvm-ieee 1800.2-2017 auto F.5.4.1
-class uvm_top_down_visitor_adapter#(type STRUCTURE=uvm_component,VISITOR=uvm_visitor#(STRUCTURE)) extends 
-  uvm_visitor_adapter#(STRUCTURE,VISITOR);
-
-  // @uvm-ieee 1800.2-2017 auto F.5.4.2
-  function new (string name = "");
-    
-  endfunction         
-
-  virtual function void accept(STRUCTURE s, VISITOR v,uvm_structure_proxy#(STRUCTURE) p, bit invoke_begin_end=1);
-    STRUCTURE c[$];
-
-    if(invoke_begin_end)
-      v.begin_v();
-
-    v.visit(s);
-    p.get_immediate_children(s, c);
-
-    foreach(c[idx])
-      accept(c[idx],v,p,0);
-
-    if(invoke_begin_end)
-      v.end_v();
-
-  endfunction
-endclass
-
-//------------------------------------------------------------------------------
-//
-// CLASS -- NODOCS -- uvm_bottom_up_visitor_adapter
-//
-// This uvm_bottom_up_visitor_adapter traverses the STRUCTURE ~s~ (and will invoke the visitor) in a hierarchical fashion.
-// During traversal all children of node ~s~ will be visited ~s~ will be visited.
-// 
-//------------------------------------------------------------------------------
-
-// @uvm-ieee 1800.2-2017 auto F.5.5.1
-class uvm_bottom_up_visitor_adapter#(type STRUCTURE=uvm_component,VISITOR=uvm_visitor#(STRUCTURE)) extends 
-  uvm_visitor_adapter#(STRUCTURE,VISITOR);
-
-  // @uvm-ieee 1800.2-2017 auto F.5.5.2
-  function new (string name = "");
-    
-  endfunction         
-
-  virtual function void accept(STRUCTURE s, VISITOR v,uvm_structure_proxy#(STRUCTURE) p, bit invoke_begin_end=1);
-    STRUCTURE c[$];
-
-    if(invoke_begin_end)
-      v.begin_v();
-
-    p.get_immediate_children(s, c);
-    foreach(c[idx])
-      accept(c[idx],v,p,0);
-
-    v.visit(s);
-
-    if(invoke_begin_end)
-      v.end_v();
-
-  endfunction
-endclass
-
-//------------------------------------------------------------------------------
-//
-// CLASS -- NODOCS -- uvm_by_level_visitor_adapter
-//
-// This uvm_by_level_visitor_adapter traverses the STRUCTURE ~s~ (and will invoke the visitor) in a hierarchical fashion.
-// During traversal will visit all direct children of ~s~ before all grand-children are visited. 
-//------------------------------------------------------------------------------
-
-// @uvm-ieee 1800.2-2017 auto F.5.6.1
-class uvm_by_level_visitor_adapter#(type STRUCTURE=uvm_component,VISITOR=uvm_visitor#(STRUCTURE)) extends 
-  uvm_visitor_adapter#(STRUCTURE,VISITOR);
-
-  // @uvm-ieee 1800.2-2017 auto F.5.6.2
-  function new (string name = "");
-    
-  endfunction         
-
-  virtual function void accept(STRUCTURE s, VISITOR v,uvm_structure_proxy#(STRUCTURE) p, bit invoke_begin_end=1);
-    STRUCTURE c[$];
-    c.push_back(s);
-
-    if(invoke_begin_end)
-      v.begin_v();
-
-    while(c.size() > 0) begin
-      STRUCTURE q[$];
-      foreach(c[idx]) begin
-        STRUCTURE t[$]; 
-
-        v.visit(c[idx]);
-        p.get_immediate_children(c[idx], t);
-        q = {q,t};
-      end 
-      c=q;
-    end 
-
-    if(invoke_begin_end)
-      v.end_v();
-  endfunction
-endclass
 
 //------------------------------------------------------------------------------
 //

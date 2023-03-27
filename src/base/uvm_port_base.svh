@@ -462,13 +462,6 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
      uvm_coreservice_t cs;
 
 
-    if (end_of_elaboration_ph.get_state() == UVM_PHASE_EXECUTING || // TBD tidy
-        end_of_elaboration_ph.get_state() == UVM_PHASE_DONE ) begin
-       m_comp.uvm_report_warning("Late Connection",
-         {"Attempt to connect ",this.get_full_name()," (of type ",this.get_type_name(),
-          ") at or after end_of_elaboration phase.  Ignoring."});
-       return;
-     end
 
     if (provider == null) begin
       m_comp.uvm_report_error(s_connection_error_id,
