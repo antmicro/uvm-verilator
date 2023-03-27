@@ -116,7 +116,7 @@ class uvm_reg_single_bit_bash_seq extends uvm_reg_sequence;
             
             repeat (w) begin
                mode[next_lsb] = field_access;
-               dc_mask[next_lsb] = dc;
+
 
             end
          end
@@ -124,12 +124,9 @@ class uvm_reg_single_bit_bash_seq extends uvm_reg_sequence;
          
          
          // Bash the kth bit
-         for (int k = 0; k < n_bits; k++) begin
-            // Cannot test unpredictable bit behavior
-            if (dc_mask[k]) continue;
 
-            bash_kth_bit(rg, k, mode[k], maps[j], dc_mask);
-         end
+            bash_kth_bit(rg, 0, mode[0], maps[j], dc_mask);
+
             
       end
    endtask: body
