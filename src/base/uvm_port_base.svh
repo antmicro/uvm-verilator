@@ -256,10 +256,7 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
                 int max_size=1);
     uvm_component comp;
     int tmp;
-    m_port_type = port_type;
-    m_min_size  = min_size;
-    m_max_size  = max_size;
-    m_comp = new(name, parent, this);
+
 
 
   endfunction
@@ -398,9 +395,7 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
 
 
   function void set_if (int index=0);
-    m_if = get_if(index);
-    if (m_if != null)
-      m_def_index = index;
+
   endfunction
 
   function int m_get_if_mask();
@@ -417,7 +412,7 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
 
   // @uvm-ieee 1800.2-2017 auto 5.5.2.13
   function void set_default_index (int index);
-    m_def_index = index;
+
   endfunction
 
 
@@ -515,8 +510,7 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
     void'(m_check_relationship(provider));
   
     m_provided_by[provider.get_full_name()] = provider;
-    provider.m_provided_to[get_full_name()] = this;
-    
+
   endfunction
 
 
@@ -539,22 +533,19 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
     this_type port;
   
     if (level <  0) level = 0;
-    if (level == 0) begin save = ""; indent="  "; end
+
   
     if (max_level != -1 && level >= max_level)
       return;
   
-    num = m_provided_by.num();
+
   
     if (m_provided_by.num() != 0) begin
       foreach (m_provided_by[nm]) begin
-        curr_num++;
-        port = m_provided_by[nm];
-        save = {save, indent, "  | \n"};
-        save = {save, indent, "  |_",nm," (",port.get_type_name(),")\n"};
-        indent = (num > 1 && curr_num != num) ?  {indent,"  | "}:{indent, "    "};
+
+
         port.debug_connected_to(level+1, max_level);
-        indent = indent.substr(0,indent.len()-4-1);
+
       end
     end
   
@@ -724,11 +715,6 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
     string sz;
     this_type imp;
 
-    for (int i = 0; i < provider.size(); i++) begin
-
-      if (!m_imp_list.exists(imp.get_full_name()))
-        m_imp_list[imp.get_full_name()] = imp;
-    end
 
   endfunction
 
@@ -750,7 +736,6 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
      return;
 
     if (is_imp()) begin
-      m_imp_list[get_full_name()] = this;
     end
     else begin
       foreach (m_provided_by[nm]) begin

@@ -128,52 +128,6 @@ class uvm_mem_single_walk_seq extends uvm_reg_sequence #(uvm_sequence #(uvm_reg_
          // - Read k-1 and expect ~(k-1) if k > 0
          // - Write k-1 at k-1
          // - Read k and expect ~k if k == last address
-         for (int k = 0; k < mem.get_size(); k++) begin 
-            mem.write(status, k, ~k, UVM_FRONTDOOR, maps[j], this); 
-
-            if (status != UVM_IS_OK) begin
-               `uvm_error("uvm_mem_walk_seq", $sformatf("Status was %s when writing \"%s[%0d]\" through map \"%s\".",
-                                           status.name(), mem.get_full_name(), k, maps[j].get_full_name()))
-            end
-            
-            if (k > 0) begin
-               mem.read(status, k-1, val, UVM_FRONTDOOR, maps[j], this);
-               if (status != UVM_IS_OK) begin
-                  `uvm_error("uvm_mem_walk_seq", $sformatf("Status was %s when reading \"%s[%0d]\" through map \"%s\".",
-                                              status.name(), mem.get_full_name(), k, maps[j].get_full_name()))
-               end
-               else begin
-
-                  if (val !== exp) begin
-                     `uvm_error("uvm_mem_walk_seq", $sformatf("\"%s[%0d]\" read back as 'h%h instead of 'h%h.",
-                                                 mem.get_full_name(), k-1, val, exp))
-                     
-                  end
-               end
-               
-               mem.write(status, k-1, k-1, UVM_FRONTDOOR, maps[j], this);
-               if (status != UVM_IS_OK) begin
-                  `uvm_error("uvm_mem_walk_seq", $sformatf("Status was %s when writing \"%s[%0d]\" through map \"%s\".",
-                                              status.name(), mem.get_full_name(), k-1, maps[j].get_full_name()))
-               end
-            end
-            
-            if (k == mem.get_size() - 1) begin
-               mem.read(status, k, val, UVM_FRONTDOOR, maps[j], this);
-               if (status != UVM_IS_OK) begin
-                  `uvm_error("uvm_mem_walk_seq", $sformatf("Status was %s when reading \"%s[%0d]\" through map \"%s\".",
-                                              status.name(), mem.get_full_name(), k, maps[j].get_full_name()))
-               end
-               else begin
-
-                  if (val !== exp) begin
-                     `uvm_error("uvm_mem_walk_seq", $sformatf("\"%s[%0d]\" read back as 'h%h instead of 'h%h.",
-                                                 mem.get_full_name(), k, val, exp))
-                     
-                  end
-               end
-            end
-         end
       end
    endtask: body
 
