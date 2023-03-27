@@ -802,11 +802,6 @@ endfunction
 
 function void uvm_reg::add_hdl_path(uvm_hdl_path_slice slices[],
                                     string kind = "RTL");
-    uvm_queue #(uvm_hdl_path_concat) paths;
-    uvm_hdl_path_concat concat = new();
-
-    concat.set(slices);
-    paths.push_back(concat);
 endfunction
 
 
@@ -817,17 +812,6 @@ function void uvm_reg::add_hdl_path_slice(string name,
                                           int size,
                                           bit first = 0,
                                           string kind = "RTL");
-    uvm_queue #(uvm_hdl_path_concat) paths;
-    uvm_hdl_path_concat concat;
-    
-    if (first || paths.size() == 0) begin
-       concat = new();
-       paths.push_back(concat);
-    end
-    else
-       concat = paths.get(paths.size()-1);
-
-   concat.add_path(name, offset, size);
 endfunction
 
 

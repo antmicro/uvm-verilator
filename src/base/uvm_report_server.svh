@@ -201,8 +201,6 @@ virtual class uvm_report_server extends uvm_object;
         // @uvm-ieee 1800.2-2017 auto 6.5.1.18
         static function void set_server(uvm_report_server server);
 	        uvm_coreservice_t cs = uvm_coreservice_t::get();
-                server.copy(cs.get_report_server());
-                cs.set_report_server(server);
         endfunction
 
 
@@ -228,7 +226,7 @@ virtual class uvm_report_server extends uvm_object;
         // @uvm-ieee 1800.2-2017 auto 6.5.1.17
         static function uvm_report_server get_server();
 	        uvm_coreservice_t cs = uvm_coreservice_t::get();
-                return cs.get_report_server();
+           return null;
         endfunction
 endclass
 
@@ -577,13 +575,11 @@ class uvm_default_report_server extends uvm_report_server;
       string m;
       uvm_coreservice_t cs = uvm_coreservice_t::get();
       // give the global server a chance to intercept the calls
-      uvm_report_server svr = cs.get_report_server();
+
 
       // no need to compose when neither UVM_DISPLAY nor UVM_LOG is set
-      if (report_message.get_action() & (UVM_LOG|UVM_DISPLAY))
-        m = svr.compose_report_message(report_message);
 
-      svr.execute_report_message(report_message, m);
+
     end
 
   endfunction
@@ -632,7 +628,7 @@ class uvm_default_report_server extends uvm_report_server;
           // If database is ~null~, use the default database
           if (db == null) begin
              uvm_coreservice_t cs = uvm_coreservice_t::get();
-             db = cs.get_default_tr_database();
+
           end
           if (db != null) begin
              // Open the stream.  Name=report object name, scope=report handler name, type=MESSAGES

@@ -646,7 +646,7 @@ endfunction
 
 function void uvm_transaction::do_record (uvm_recorder recorder);
   string s;
-  super.do_record(recorder);
+
   if(accept_time != -1) 
      recorder.record_field("accept_time", accept_time, $bits(accept_time), UVM_TIME);
   if(initiator != null) begin

@@ -433,7 +433,7 @@ class uvm_report_message_element_container extends uvm_object;
   endfunction
 
   virtual function void do_record(uvm_recorder recorder);
-    super.do_record(recorder);
+
     for(int i = 0; i < elements.size(); i++) begin
        elements[i].record(recorder);
     end
@@ -913,7 +913,7 @@ class uvm_report_message extends uvm_object;
   // Not documented.
   virtual function void do_record(uvm_recorder recorder);
 
-    super.do_record(recorder);
+
 
     m_record_core_properties(recorder);
     _report_message_element_container.record(recorder);

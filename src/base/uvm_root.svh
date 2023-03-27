@@ -312,7 +312,7 @@ class uvm_root extends uvm_component;
 	// -------------
 	// At end of elab phase we need to do tlm binding resolution.
 	function void phase_started(uvm_phase phase);
-		if (phase == end_of_elaboration_ph) begin
+
 			do_resolve_bindings();
 			if (enable_print_topology) print_topology();
 			begin
@@ -322,7 +322,7 @@ class uvm_root extends uvm_component;
 					uvm_report_fatal("BUILDERR", "stopping due to build errors", UVM_NONE);
 				end
 			end
-		end
+
 	endfunction
 
 	bit m_phase_all_done;
@@ -336,7 +336,7 @@ class uvm_root extends uvm_component;
 		uvm_component_proxy p = new("proxy");
 		uvm_top_down_visitor_adapter#(uvm_component) adapter = new("adapter");
 		uvm_coreservice_t cs = uvm_coreservice_t::get();
-		uvm_visitor#(uvm_component) v = cs.get_component_visitor();
+	   uvm_visitor#(uvm_component) v;
 		adapter.accept(this, v, null);
 	endfunction
 
@@ -527,8 +527,6 @@ task uvm_root::run_test(string test_name="");
 				"An uvm_test_top already exists via a previous call to run_test", UVM_NONE);
 			#0; // forces shutdown because $finish is forked
 		end
-		$cast(uvm_test_top, factory.create_component_by_name(test_name,
-				"", "uvm_test_top", null));
 
 		if (uvm_test_top == null) begin
 			msg = testname_plusarg ? {"command line +UVM_TESTNAME=",test_name} :

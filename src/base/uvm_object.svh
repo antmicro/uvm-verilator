@@ -417,7 +417,7 @@ virtual class uvm_object extends uvm_void;
   // access to a simulator's recording capabilities.
 
   // @uvm-ieee 1800.2-2017 auto 5.3.7.1
-  extern function void record (uvm_recorder recorder=null);
+  extern function void record (uvm_void recorder=null);
 
 
   // Function -- NODOCS -- do_record
@@ -443,7 +443,6 @@ virtual class uvm_object extends uvm_void;
   //|   endfunction
 
   // @uvm-ieee 1800.2-2017 auto 5.3.7.2
-  extern virtual function void do_record (uvm_recorder recorder);
 
 
   // Group -- NODOCS -- Copying
@@ -721,7 +720,7 @@ virtual class uvm_object extends uvm_void;
   extern virtual function void do_unpack (uvm_packer packer);
 
   // @uvm-ieee 1800.2-2017 auto 5.3.13.1
-  extern virtual function void do_execute_op ( uvm_field_op op);
+  extern virtual function void do_execute_op ( uvm_void op);
 
 
   // Group -- NODOCS -- Configuration
@@ -839,7 +838,7 @@ virtual class uvm_object extends uvm_void;
                                                    uvm_field_flag_t what__, 
                                                    string           str__);
 
-  extern protected virtual function uvm_report_object m_get_report_object();
+
 
 endclass
 
@@ -1139,7 +1138,7 @@ uvm_copier m_copier;
 
   if(copier == null) begin
 	coreservice = uvm_coreservice_t::get() ;
-       m_copier = coreservice.get_default_copier() ;
+
  end
    else 
 	m_copier = copier;
@@ -1330,7 +1329,7 @@ function int uvm_object::unpack_longints (ref    longint unsigned longintstream 
 endfunction
 
 
-function void uvm_object::do_execute_op ( uvm_field_op op);
+function void uvm_object::do_execute_op ( uvm_void op);
 
 endfunction
 
@@ -1348,26 +1347,19 @@ endfunction
 // record
 // ------
 
-function void uvm_object::record (uvm_recorder recorder=null);
+function void uvm_object::record (uvm_void recorder=null);
 
   if(recorder == null)
     return;
 
-  recorder.record_object(get_name(), this);
+
 endfunction
 
 
 // do_record (virtual)
 // ---------
 
-function void uvm_object::do_record (uvm_recorder recorder);
-  return;
-endfunction
-
 
 // m_get_report_object
 // -------------------
 
-function uvm_report_object uvm_object::m_get_report_object();
-  return null;
-endfunction

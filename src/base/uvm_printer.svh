@@ -61,7 +61,7 @@ virtual class uvm_printer extends uvm_policy;
   m_uvm_printer_knobs knobs ;
 `else
   //config values from set_* accessors are stored in knobs
-  local m_uvm_printer_knobs knobs ;
+  m_uvm_printer_knobs knobs ;
 `endif
 
 protected function m_uvm_printer_knobs get_knobs() ; return knobs; endfunction
@@ -900,13 +900,13 @@ endfunction
 function void uvm_printer::set_default(uvm_printer printer) ;
    uvm_coreservice_t coreservice ;
    coreservice = uvm_coreservice_t::get() ;
-   coreservice.set_default_printer(printer) ;
+
 endfunction
 
 function uvm_printer uvm_printer::get_default() ;
    uvm_coreservice_t coreservice ;
    coreservice = uvm_coreservice_t::get() ;
-   return coreservice.get_default_printer() ;
+   return null;
 endfunction
 
 // print_field
