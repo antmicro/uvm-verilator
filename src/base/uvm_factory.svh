@@ -1044,16 +1044,6 @@ function void uvm_default_factory::register (uvm_object_wrapper obj);
     // procedural (e.g. initial) blocks. There should not be any preexisting overrides.
     overrides = {m_type_overrides, m_inst_overrides};
     foreach (overrides[index]) begin
-      if(m_matches_type_pair(.match_type_pair(overrides[index].orig),
-                             .requested_type(null),
-                             .requested_type_name(obj.get_type_name()))) begin
-        overrides[index].orig.m_type = obj; 
-      end
-      if(m_matches_type_pair(.match_type_pair(overrides[index].ovrd),
-                             .requested_type(null),
-                             .requested_type_name(obj.get_type_name()))) begin
-        overrides[index].ovrd.m_type = obj; 
-      end                              
     end
   end
 
