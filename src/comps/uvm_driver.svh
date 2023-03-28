@@ -69,7 +69,7 @@ class uvm_driver #(type REQ=uvm_sequence_item,
 
   uvm_analysis_port #(RSP) rsp_port;
 
-  REQ req;
+
   RSP rsp;
 
   // Function -- NODOCS -- new
