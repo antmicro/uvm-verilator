@@ -210,7 +210,7 @@ class uvm_pool #(type KEY=int, T=uvm_void) extends uvm_object;
     super.do_copy(rhs);
     if (rhs==null || !$cast(p, rhs))
       return;
-    pool = p.pool;
+
   endfunction
 
   virtual function void do_print (uvm_printer printer);
