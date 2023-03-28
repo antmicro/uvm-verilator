@@ -1640,7 +1640,7 @@ task uvm_reg::do_write (uvm_reg_item rw);
          rw.kind = UVM_WRITE;
          rw.value[0] = final_val;
 
-        if (get_rights(rw.local_map) inside {"RW", "WO"}) begin
+        if (1'b1) begin
           if (bkdr != null)
            bkdr.write(rw);
           else
