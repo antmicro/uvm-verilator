@@ -772,48 +772,6 @@ task uvm_sequencer_base::m_wait_for_available_sequence();
 
   end
 
-  fork  // isolate inner fork block for disabling
-    begin
-      fork
-        begin
-          fork
-              begin
-                // One path in fork is for any wait_for_relevant to return
-                m_is_relevant_completed = 0;
-
-                repeat(10) begin
-                fork
-
-                  begin
-                    arb_sequence_q[0].sequence_ptr.wait_for_relevant();
-                    if ($realtime != m_last_wait_relevant_time) begin
-                       m_last_wait_relevant_time = $realtime ;
-                       m_wait_relevant_count = 0 ;
-                    end
-                    else begin
-                       m_wait_relevant_count++ ;
-                       if (m_wait_relevant_count > m_max_zero_time_wait_relevant_count) begin
-                          `uvm_fatal("SEQRELEVANTLOOP",$sformatf("Zero time loop detected, passed wait_for_relevant %0d times without time advancing",m_wait_relevant_count))
-                       end
-                    end
-                    m_is_relevant_completed = 1;
-                  end
-                join_none
-
-                end
-                wait (m_is_relevant_completed > 0);
-              end
-
-            // The other path in the fork is for any queue entry to change
-            begin
-              m_wait_arb_not_equal();
-            end
-          join_any
-        end
-      join_any
-
-    end
-  join
 endtask
 
 
