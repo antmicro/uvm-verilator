@@ -268,7 +268,7 @@ class uvm_default_coreservice_t extends uvm_coreservice_t;
 	endfunction
 
 	virtual function uvm_root get_root();
-		return uvm_root::m_uvm_get_root();
+	   return null;
 	endfunction
 
 	local uvm_visitor#(uvm_component) _visitor;
