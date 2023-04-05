@@ -428,7 +428,7 @@ class uvm_resource_pool;
   
   // @uvm-ieee 1800.2-2017 auto C.2.4.5.6
   virtual function void set_precedence(uvm_resource_base r,
-                                       int unsigned p=uvm_resource_pool::get_default_precedence()); endfunction
+                                       int unsigned p=null); endfunction
 
 
   virtual function int unsigned get_precedence(uvm_resource_base r); endfunction
