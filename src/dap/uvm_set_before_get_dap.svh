@@ -71,7 +71,7 @@ class uvm_set_before_get_dap#(type T=int) extends uvm_set_get_dap_base#(T);
    typedef uvm_set_before_get_dap this_type;
    
    // Parameterized Utils
-   `uvm_object_param_utils(uvm_set_before_get_dap#(T))
+   `uvm_object_param_utils(uvm_set_before_get_dap)
    
    // Stored data
    local T m_value;

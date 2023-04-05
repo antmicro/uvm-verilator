@@ -41,7 +41,7 @@ class uvm_queue #(type T=int) extends uvm_object;
 
   typedef uvm_queue this_type;
 
-  `uvm_object_param_utils(uvm_queue#(T))
+  `uvm_object_param_utils(uvm_queue)
   `uvm_type_name_decl("uvm_queue")
 
   static local this_type m_global_queue;

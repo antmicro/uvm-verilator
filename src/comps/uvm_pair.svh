@@ -39,7 +39,6 @@ class uvm_class_pair #(type T1=int, T2=T1) extends uvm_object;
 
   typedef uvm_class_pair #(T1, T2 ) this_type;
 
-  `uvm_object_param_utils(this_type)
   `uvm_type_name_decl("uvm_class_pair #(T1,T2)")
 
 // Variable -- NODOCS -- T1 first
@@ -80,7 +79,6 @@ class uvm_built_in_pair #(type T1=int, T2=T1) extends uvm_object;
 
   typedef uvm_built_in_pair #(T1,T2) this_type;
 
-  `uvm_object_param_utils(this_type)
   `uvm_type_name_decl("uvm_built_in_pair #(T1,T2)")
 
 // Variable -- NODOCS -- T1 first

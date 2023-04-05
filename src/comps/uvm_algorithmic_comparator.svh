@@ -86,7 +86,7 @@ class uvm_algorithmic_comparator #( type BEFORE=int,
   // transactions against which the transformed BEFORE transactions will
   // (be compared.
 
-  uvm_analysis_imp #(BEFORE, this_type) before_export;
+  uvm_analysis_imp before_export;
 
 
   // Port --NODOCS-- after_export
@@ -95,10 +95,10 @@ class uvm_algorithmic_comparator #( type BEFORE=int,
   // analysis port. Publishers (monitors) can send in an ordered stream of
   // transactions to be transformed and compared to the AFTER transactions.
 
-  uvm_analysis_export #(AFTER) after_export;
+  uvm_analysis_export after_export;
 
  
-  local uvm_in_order_class_comparator #(AFTER) comp;
+  local uvm_in_order_class_comparator comp;
   local TRANSFORMER m_transformer;
      
   // Function --NODOCS-- new

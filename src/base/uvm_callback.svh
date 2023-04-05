@@ -237,7 +237,7 @@ class uvm_callbacks #(type T=uvm_object, type CB=uvm_callback)
 
   static string m_typename;
   static string m_cb_typename;
-  static uvm_callbacks#(T,uvm_callback) m_base_inst;
+  static uvm_callbacks m_base_inst;
 
   bit m_registered;
 
