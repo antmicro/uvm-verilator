@@ -58,7 +58,7 @@
 //------------------------------------------------------------------------------
 
 // @uvm-ieee 1800.2-2017 auto E.4.1.1
-class uvm_reg_shared_access_seq extends uvm_reg_sequence #(uvm_sequence #(uvm_reg_item));
+class uvm_reg_shared_access_seq extends uvm_reg_sequence;
 
    // Variable -- NODOCS -- rg
    // The register to be tested
@@ -99,7 +99,7 @@ endclass: uvm_reg_shared_access_seq
 //------------------------------------------------------------------------------
 
 // @uvm-ieee 1800.2-2017 auto E.4.2.1
-class uvm_mem_shared_access_seq extends uvm_reg_sequence #(uvm_sequence #(uvm_reg_item));
+class uvm_mem_shared_access_seq extends uvm_reg_sequence;
 
    // variable -- NODOCS -- mem
    // The memory to be tested
@@ -138,7 +138,7 @@ endclass: uvm_mem_shared_access_seq
 //------------------------------------------------------------------------------
 
 // @uvm-ieee 1800.2-2017 auto E.4.3.1
-class uvm_reg_mem_shared_access_seq extends uvm_reg_sequence #(uvm_sequence #(uvm_reg_item));
+class uvm_reg_mem_shared_access_seq extends uvm_reg_sequence;
 
    // Variable -- NODOCS -- model
    //

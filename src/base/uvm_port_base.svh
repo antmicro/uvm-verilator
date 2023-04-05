@@ -182,7 +182,7 @@ endclass
 // in 1800.2.
 
 // @uvm-ieee 1800.2-2017 auto 5.5.1
-virtual class uvm_port_base #(type IF=uvm_void) extends IF;
+virtual class uvm_port_base extends uvm_void;
    
 
   typedef uvm_port_base this_type;
@@ -219,9 +219,9 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
   // <connect> for more information.
 
   // @uvm-ieee 1800.2-2017 auto 5.5.2.1
-  function new (string name,
-                uvm_component parent,
-                uvm_port_type_e port_type,
+  function new (string name="",
+                uvm_component parent=null,
+                uvm_port_type_e port_type=uvm_port_type_e'(0),
                 int min_size=0,
                 int max_size=1); endfunction
 

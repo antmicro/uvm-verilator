@@ -32,7 +32,7 @@
 //------------------------------------------------------------------------------
 
 // @uvm-ieee 1800.2-2017 auto E.8.1
-class uvm_reg_mem_built_in_seq extends uvm_reg_sequence #(uvm_sequence #(uvm_reg_item));
+class uvm_reg_mem_built_in_seq extends uvm_reg_sequence;
 
    `uvm_object_utils(uvm_reg_mem_built_in_seq)
 

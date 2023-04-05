@@ -87,7 +87,7 @@
 // @uvm-ieee 1800.2-2017 auto B.5.1
 `define uvm_blocking_put_imp_decl(SFX) \
 class uvm_blocking_put_imp``SFX #(type T=int, type IMP=int) \
-  extends uvm_port_base #(uvm_tlm_if_base #(T,T)); \
+  extends uvm_port_base; \
   `UVM_IMP_COMMON(`UVM_TLM_BLOCKING_PUT_MASK,`"uvm_blocking_put_imp``SFX`",IMP) \
   `UVM_BLOCKING_PUT_IMP_SFX(SFX, m_imp, T, t) \
 endclass
@@ -102,7 +102,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto B.5.2
 `define uvm_nonblocking_put_imp_decl(SFX) \
 class uvm_nonblocking_put_imp``SFX #(type T=int, type IMP=int) \
-  extends uvm_port_base #(uvm_tlm_if_base #(T,T)); \
+  extends uvm_port_base; \
   `UVM_IMP_COMMON(`UVM_TLM_NONBLOCKING_PUT_MASK,`"uvm_nonblocking_put_imp``SFX`",IMP) \
   `UVM_NONBLOCKING_PUT_IMP_SFX( SFX, m_imp, T, t) \
 endclass
@@ -118,7 +118,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto B.5.3
 `define uvm_put_imp_decl(SFX) \
 class uvm_put_imp``SFX #(type T=int, type IMP=int) \
-  extends uvm_port_base #(uvm_tlm_if_base #(T,T)); \
+  extends uvm_port_base; \
   `UVM_IMP_COMMON(`UVM_TLM_PUT_MASK,`"uvm_put_imp``SFX`",IMP) \
   `UVM_BLOCKING_PUT_IMP_SFX(SFX, m_imp, T, t) \
   `UVM_NONBLOCKING_PUT_IMP_SFX(SFX, m_imp, T, t) \
@@ -134,7 +134,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto B.5.4
 `define uvm_blocking_get_imp_decl(SFX) \
 class uvm_blocking_get_imp``SFX #(type T=int, type IMP=int) \
-  extends uvm_port_base #(uvm_tlm_if_base #(T,T)); \
+  extends uvm_port_base; \
   `UVM_IMP_COMMON(`UVM_TLM_BLOCKING_GET_MASK,`"uvm_blocking_get_imp``SFX`",IMP) \
   `UVM_BLOCKING_GET_IMP_SFX(SFX, m_imp, T, t) \
 endclass
@@ -149,7 +149,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto B.5.5
 `define uvm_nonblocking_get_imp_decl(SFX) \
 class uvm_nonblocking_get_imp``SFX #(type T=int, type IMP=int) \
-  extends uvm_port_base #(uvm_tlm_if_base #(T,T)); \
+  extends uvm_port_base; \
   `UVM_IMP_COMMON(`UVM_TLM_NONBLOCKING_GET_MASK,`"uvm_nonblocking_get_imp``SFX`",IMP) \
   `UVM_NONBLOCKING_GET_IMP_SFX(SFX, m_imp, T, t) \
 endclass
@@ -165,7 +165,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto B.5.6
 `define uvm_get_imp_decl(SFX) \
 class uvm_get_imp``SFX #(type T=int, type IMP=int) \
-  extends uvm_port_base #(uvm_tlm_if_base #(T,T)); \
+  extends uvm_port_base; \
   `UVM_IMP_COMMON(`UVM_TLM_GET_MASK,`"uvm_get_imp``SFX`",IMP) \
   `UVM_BLOCKING_GET_IMP_SFX(SFX, m_imp, T, t) \
   `UVM_NONBLOCKING_GET_IMP_SFX(SFX, m_imp, T, t) \
@@ -181,7 +181,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto B.5.7
 `define uvm_blocking_peek_imp_decl(SFX) \
 class uvm_blocking_peek_imp``SFX #(type T=int, type IMP=int) \
-  extends uvm_port_base #(uvm_tlm_if_base #(T,T)); \
+  extends uvm_port_base; \
   `UVM_IMP_COMMON(`UVM_TLM_BLOCKING_PEEK_MASK,`"uvm_blocking_peek_imp``SFX`",IMP) \
   `UVM_BLOCKING_PEEK_IMP_SFX(SFX, m_imp, T, t) \
 endclass 
@@ -197,7 +197,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto B.5.8
 `define uvm_nonblocking_peek_imp_decl(SFX) \
 class uvm_nonblocking_peek_imp``SFX #(type T=int, type IMP=int) \
-  extends uvm_port_base #(uvm_tlm_if_base #(T,T)); \
+  extends uvm_port_base; \
   `UVM_IMP_COMMON(`UVM_TLM_NONBLOCKING_PEEK_MASK,`"uvm_nonblocking_peek_imp``SFX`",IMP) \
   `UVM_NONBLOCKING_PEEK_IMP_SFX(SFX, m_imp, T, t) \
 endclass
@@ -213,7 +213,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto B.5.9
 `define uvm_peek_imp_decl(SFX) \
 class uvm_peek_imp``SFX #(type T=int, type IMP=int) \
-  extends uvm_port_base #(uvm_tlm_if_base #(T,T)); \
+  extends uvm_port_base; \
   `UVM_IMP_COMMON(`UVM_TLM_PEEK_MASK,`"uvm_peek_imp``SFX`",IMP) \
   `UVM_BLOCKING_PEEK_IMP_SFX(SFX, m_imp, T, t) \
   `UVM_NONBLOCKING_PEEK_IMP_SFX(SFX, m_imp, T, t) \
@@ -230,7 +230,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto B.5.10
 `define uvm_blocking_get_peek_imp_decl(SFX) \
 class uvm_blocking_get_peek_imp``SFX #(type T=int, type IMP=int) \
-  extends uvm_port_base #(uvm_tlm_if_base #(T,T)); \
+  extends uvm_port_base; \
   `UVM_IMP_COMMON(`UVM_TLM_BLOCKING_GET_PEEK_MASK,`"uvm_blocking_get_peek_imp``SFX`",IMP) \
   `UVM_BLOCKING_GET_IMP_SFX(SFX, m_imp, T, t) \
   `UVM_BLOCKING_PEEK_IMP_SFX(SFX, m_imp, T, t) \
@@ -246,7 +246,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto B.5.11
 `define uvm_nonblocking_get_peek_imp_decl(SFX) \
 class uvm_nonblocking_get_peek_imp``SFX #(type T=int, type IMP=int) \
-  extends uvm_port_base #(uvm_tlm_if_base #(T,T)); \
+  extends uvm_port_base; \
   `UVM_IMP_COMMON(`UVM_TLM_NONBLOCKING_GET_PEEK_MASK,`"uvm_nonblocking_get_peek_imp``SFX`",IMP) \
   `UVM_NONBLOCKING_GET_IMP_SFX(SFX, m_imp, T, t) \
   `UVM_NONBLOCKING_PEEK_IMP_SFX(SFX, m_imp, T, t) \
@@ -264,7 +264,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto B.5.12
 `define uvm_get_peek_imp_decl(SFX) \
 class uvm_get_peek_imp``SFX #(type T=int, type IMP=int) \
-  extends uvm_port_base #(uvm_tlm_if_base #(T,T)); \
+  extends uvm_port_base; \
   `UVM_IMP_COMMON(`UVM_TLM_GET_PEEK_MASK,`"uvm_get_peek_imp``SFX`",IMP) \
   `UVM_BLOCKING_GET_IMP_SFX(SFX, m_imp, T, t) \
   `UVM_NONBLOCKING_GET_IMP_SFX(SFX, m_imp, T, t) \
@@ -283,7 +283,7 @@ endclass
 `define uvm_blocking_master_imp_decl(SFX) \
 class uvm_blocking_master_imp``SFX #(type REQ=int, type RSP=int, type IMP=int, \
                                      type REQ_IMP=IMP, type RSP_IMP=IMP) \
-  extends uvm_port_base #(uvm_tlm_if_base #(REQ, RSP)); \
+  extends uvm_port_base; \
   typedef IMP     this_imp_type; \
   typedef REQ_IMP this_req_type; \
   typedef RSP_IMP this_rsp_type; \
@@ -307,7 +307,7 @@ endclass
 `define uvm_nonblocking_master_imp_decl(SFX) \
 class uvm_nonblocking_master_imp``SFX #(type REQ=int, type RSP=int, type IMP=int, \
                                    type REQ_IMP=IMP, type RSP_IMP=IMP) \
-  extends uvm_port_base #(uvm_tlm_if_base #(REQ, RSP)); \
+  extends uvm_port_base; \
   typedef IMP     this_imp_type; \
   typedef REQ_IMP this_req_type; \
   typedef RSP_IMP this_rsp_type; \
@@ -332,7 +332,7 @@ endclass
 `define uvm_master_imp_decl(SFX) \
 class uvm_master_imp``SFX #(type REQ=int, type RSP=int, type IMP=int, \
                             type REQ_IMP=IMP, type RSP_IMP=IMP) \
-  extends uvm_port_base #(uvm_tlm_if_base #(REQ, RSP)); \
+  extends uvm_port_base; \
   typedef IMP     this_imp_type; \
   typedef REQ_IMP this_req_type; \
   typedef RSP_IMP this_rsp_type; \
@@ -359,7 +359,7 @@ endclass
 `define uvm_blocking_slave_imp_decl(SFX) \
 class uvm_blocking_slave_imp``SFX #(type REQ=int, type RSP=int, type IMP=int, \
                                     type REQ_IMP=IMP, type RSP_IMP=IMP) \
-  extends uvm_port_base #(uvm_tlm_if_base #(RSP, REQ)); \
+  extends uvm_port_base; \
   typedef IMP     this_imp_type; \
   typedef REQ_IMP this_req_type; \
   typedef RSP_IMP this_rsp_type; \
@@ -383,7 +383,7 @@ endclass
 `define uvm_nonblocking_slave_imp_decl(SFX) \
 class uvm_nonblocking_slave_imp``SFX #(type REQ=int, type RSP=int, type IMP=int, \
                                        type REQ_IMP=IMP, type RSP_IMP=IMP) \
-  extends uvm_port_base #(uvm_tlm_if_base #(RSP, REQ)); \
+  extends uvm_port_base; \
   typedef IMP     this_imp_type; \
   typedef REQ_IMP this_req_type; \
   typedef RSP_IMP this_rsp_type; \
@@ -408,7 +408,7 @@ endclass
 `define uvm_slave_imp_decl(SFX) \
 class uvm_slave_imp``SFX #(type REQ=int, type RSP=int, type IMP=int, \
                            type REQ_IMP=IMP, type RSP_IMP=IMP) \
-  extends uvm_port_base #(uvm_tlm_if_base #(RSP, REQ)); \
+  extends uvm_port_base; \
   typedef IMP     this_imp_type; \
   typedef REQ_IMP this_req_type; \
   typedef RSP_IMP this_rsp_type; \
@@ -434,7 +434,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto B.5.19
 `define uvm_blocking_transport_imp_decl(SFX) \
 class uvm_blocking_transport_imp``SFX #(type REQ=int, type RSP=int, type IMP=int) \
-  extends uvm_port_base #(uvm_tlm_if_base #(REQ, RSP)); \
+  extends uvm_port_base; \
   `UVM_IMP_COMMON(`UVM_TLM_BLOCKING_TRANSPORT_MASK,`"uvm_blocking_transport_imp``SFX`",IMP) \
   `UVM_BLOCKING_TRANSPORT_IMP_SFX(SFX, m_imp, REQ, RSP, req, rsp) \
 endclass
@@ -449,7 +449,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto B.5.20
 `define uvm_nonblocking_transport_imp_decl(SFX) \
 class uvm_nonblocking_transport_imp``SFX #(type REQ=int, type RSP=int, type IMP=int) \
-  extends uvm_port_base #(uvm_tlm_if_base #(REQ, RSP)); \
+  extends uvm_port_base; \
   `UVM_IMP_COMMON(`UVM_TLM_NONBLOCKING_TRANSPORT_MASK,`"uvm_nonblocking_transport_imp``SFX`",IMP) \
   `UVM_NONBLOCKING_TRANSPORT_IMP_SFX(SFX, m_imp, REQ, RSP, req, rsp) \
 endclass
@@ -468,7 +468,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto B.5.21
 `define uvm_transport_imp_decl(SFX) \
 class uvm_transport_imp``SFX #(type REQ=int, type RSP=int, type IMP=int) \
-  extends uvm_port_base #(uvm_tlm_if_base #(REQ, RSP)); \
+  extends uvm_port_base; \
   `UVM_IMP_COMMON(`UVM_TLM_TRANSPORT_MASK,`"uvm_transport_imp``SFX`",IMP) \
   `UVM_BLOCKING_TRANSPORT_IMP_SFX(SFX, m_imp, REQ, RSP, req, rsp) \
   `UVM_NONBLOCKING_TRANSPORT_IMP_SFX(SFX, m_imp, REQ, RSP, req, rsp) \
@@ -516,7 +516,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto B.5.22
 `define uvm_analysis_imp_decl(SFX) \
 class uvm_analysis_imp``SFX #(type T=int, type IMP=int) \
-  extends uvm_port_base #(uvm_tlm_if_base #(T,T)); \
+  extends uvm_port_base; \
   `UVM_IMP_COMMON(`UVM_TLM_ANALYSIS_MASK,`"uvm_analysis_imp``SFX`",IMP) \
   function void write( input T t); \
     m_imp.write``SFX( t); \

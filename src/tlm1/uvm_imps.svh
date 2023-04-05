@@ -81,73 +81,73 @@
 
 
 class uvm_blocking_put_imp #(type T=int, type IMP=int)
-  extends uvm_port_base #(uvm_tlm_if_base #(T,T));
+  extends uvm_port_base;
   `UVM_IMP_COMMON(`UVM_TLM_BLOCKING_PUT_MASK,"uvm_blocking_put_imp",IMP)
   `UVM_BLOCKING_PUT_IMP (m_imp, T, t)
 endclass
 
 class uvm_nonblocking_put_imp #(type T=int, type IMP=int)
-  extends uvm_port_base #(uvm_tlm_if_base #(T,T));
+  extends uvm_port_base;
   `UVM_IMP_COMMON(`UVM_TLM_NONBLOCKING_PUT_MASK,"uvm_nonblocking_put_imp",IMP)
   `UVM_NONBLOCKING_PUT_IMP (m_imp, T, t)
 endclass
 
 class uvm_put_imp #(type T=int, type IMP=int)
-  extends uvm_port_base #(uvm_tlm_if_base #(T,T));
+  extends uvm_port_base;
   `UVM_IMP_COMMON(`UVM_TLM_PUT_MASK,"uvm_put_imp",IMP)
   `UVM_PUT_IMP (m_imp, T, t)
 endclass
 
 class uvm_blocking_get_imp #(type T=int, type IMP=int)
-  extends uvm_port_base #(uvm_tlm_if_base #(T,T));
+  extends uvm_port_base;
   `UVM_IMP_COMMON(`UVM_TLM_BLOCKING_GET_MASK,"uvm_blocking_get_imp",IMP)
   `UVM_BLOCKING_GET_IMP (m_imp, T, t)
 endclass
 
 class uvm_nonblocking_get_imp #(type T=int, type IMP=int)
-  extends uvm_port_base #(uvm_tlm_if_base #(T,T));
+  extends uvm_port_base;
   `UVM_IMP_COMMON(`UVM_TLM_NONBLOCKING_GET_MASK,"uvm_nonblocking_get_imp",IMP)
   `UVM_NONBLOCKING_GET_IMP (m_imp, T, t)
 endclass
 
 class uvm_get_imp #(type T=int, type IMP=int)
-  extends uvm_port_base #(uvm_tlm_if_base #(T,T));
+  extends uvm_port_base;
   `UVM_IMP_COMMON(`UVM_TLM_GET_MASK,"uvm_get_imp",IMP)
   `UVM_GET_IMP (m_imp, T, t)
 endclass
 
 class uvm_blocking_peek_imp #(type T=int, type IMP=int)
-  extends uvm_port_base #(uvm_tlm_if_base #(T,T));
+  extends uvm_port_base;
   `UVM_IMP_COMMON(`UVM_TLM_BLOCKING_PEEK_MASK,"uvm_blocking_peek_imp",IMP)
   `UVM_BLOCKING_PEEK_IMP (m_imp, T, t)
 endclass
 
 class uvm_nonblocking_peek_imp #(type T=int, type IMP=int)
-  extends uvm_port_base #(uvm_tlm_if_base #(T,T));
+  extends uvm_port_base;
   `UVM_IMP_COMMON(`UVM_TLM_NONBLOCKING_PEEK_MASK,"uvm_nonblocking_peek_imp",IMP)
   `UVM_NONBLOCKING_PEEK_IMP (m_imp, T, t)
 endclass
 
 class uvm_peek_imp #(type T=int, type IMP=int)
-  extends uvm_port_base #(uvm_tlm_if_base #(T,T));
+  extends uvm_port_base;
   `UVM_IMP_COMMON(`UVM_TLM_PEEK_MASK,"uvm_peek_imp",IMP)
   `UVM_PEEK_IMP (m_imp, T, t)
 endclass
 
 class uvm_blocking_get_peek_imp #(type T=int, type IMP=int)
-  extends uvm_port_base #(uvm_tlm_if_base #(T,T));
+  extends uvm_port_base;
   `UVM_IMP_COMMON(`UVM_TLM_BLOCKING_GET_PEEK_MASK,"uvm_blocking_get_peek_imp",IMP)
   `UVM_BLOCKING_GET_PEEK_IMP (m_imp, T, t)
 endclass
 
 class uvm_nonblocking_get_peek_imp #(type T=int, type IMP=int)
-  extends uvm_port_base #(uvm_tlm_if_base #(T,T));
+  extends uvm_port_base;
   `UVM_IMP_COMMON(`UVM_TLM_NONBLOCKING_GET_PEEK_MASK,"uvm_nonblocking_get_peek_imp",IMP)
   `UVM_NONBLOCKING_GET_PEEK_IMP (m_imp, T, t)
 endclass
 
 class uvm_get_peek_imp #(type T=int, type IMP=int)
-  extends uvm_port_base #(uvm_tlm_if_base #(T,T));
+  extends uvm_port_base;
   `UVM_IMP_COMMON(`UVM_TLM_GET_PEEK_MASK,"uvm_get_peek_imp",IMP)
   `UVM_GET_PEEK_IMP (m_imp, T, t)
 endclass
@@ -232,7 +232,7 @@ endclass
 
 class uvm_blocking_master_imp #(type REQ=int, type RSP=REQ, type IMP=int,
                                 type REQ_IMP=IMP, type RSP_IMP=IMP)
-  extends uvm_port_base #(uvm_tlm_if_base #(REQ, RSP));
+  extends uvm_port_base;
   typedef IMP     this_imp_type;
   typedef REQ_IMP this_req_type;
   typedef RSP_IMP this_rsp_type;
@@ -243,7 +243,7 @@ endclass
 
 class uvm_nonblocking_master_imp #(type REQ=int, type RSP=REQ, type IMP=int,
                                    type REQ_IMP=IMP, type RSP_IMP=IMP)
-  extends uvm_port_base #(uvm_tlm_if_base #(REQ, RSP));
+  extends uvm_port_base;
   typedef IMP     this_imp_type;
   typedef REQ_IMP this_req_type;
   typedef RSP_IMP this_rsp_type;
@@ -254,7 +254,7 @@ endclass
 
 class uvm_master_imp #(type REQ=int, type RSP=REQ, type IMP=int,
                        type REQ_IMP=IMP, type RSP_IMP=IMP)
-  extends uvm_port_base #(uvm_tlm_if_base #(REQ, RSP));
+  extends uvm_port_base;
   typedef IMP     this_imp_type;
   typedef REQ_IMP this_req_type;
   typedef RSP_IMP this_rsp_type;
@@ -265,7 +265,7 @@ endclass
 
 class uvm_blocking_slave_imp #(type REQ=int, type RSP=REQ, type IMP=int,
                                type REQ_IMP=IMP, type RSP_IMP=IMP)
-  extends uvm_port_base #(uvm_tlm_if_base #(RSP, REQ));
+  extends uvm_port_base;
   typedef IMP     this_imp_type;
   typedef REQ_IMP this_req_type;
   typedef RSP_IMP this_rsp_type;
@@ -276,7 +276,7 @@ endclass
 
 class uvm_nonblocking_slave_imp #(type REQ=int, type RSP=REQ, type IMP=int,
                                   type REQ_IMP=IMP, type RSP_IMP=IMP)
-  extends uvm_port_base #(uvm_tlm_if_base #(RSP, REQ));
+  extends uvm_port_base;
   typedef IMP     this_imp_type;
   typedef REQ_IMP this_req_type;
   typedef RSP_IMP this_rsp_type;
@@ -287,7 +287,7 @@ endclass
 
 class uvm_slave_imp #(type REQ=int, type RSP=REQ, type IMP=int,
                       type REQ_IMP=IMP, type RSP_IMP=IMP)
-  extends uvm_port_base #(uvm_tlm_if_base #(RSP, REQ));
+  extends uvm_port_base;
   typedef IMP     this_imp_type;
   typedef REQ_IMP this_req_type;
   typedef RSP_IMP this_rsp_type;
@@ -297,19 +297,19 @@ class uvm_slave_imp #(type REQ=int, type RSP=REQ, type IMP=int,
 endclass
 
 class uvm_blocking_transport_imp #(type REQ=int, type RSP=REQ, type IMP=int)
-  extends uvm_port_base #(uvm_tlm_if_base #(REQ, RSP));
+  extends uvm_port_base;
   `UVM_IMP_COMMON(`UVM_TLM_BLOCKING_TRANSPORT_MASK,"uvm_blocking_transport_imp",IMP)
   `UVM_BLOCKING_TRANSPORT_IMP (m_imp, REQ, RSP, req, rsp)
 endclass
 
 class uvm_nonblocking_transport_imp #(type REQ=int, type RSP=REQ, type IMP=int)
-  extends uvm_port_base #(uvm_tlm_if_base #(REQ, RSP));
+  extends uvm_port_base;
   `UVM_IMP_COMMON(`UVM_TLM_NONBLOCKING_TRANSPORT_MASK,"uvm_nonblocking_transport_imp",IMP)
   `UVM_NONBLOCKING_TRANSPORT_IMP (m_imp, REQ, RSP, req, rsp)
 endclass
 
 class uvm_transport_imp #(type REQ=int, type RSP=REQ, type IMP=int)
-  extends uvm_port_base #(uvm_tlm_if_base #(REQ, RSP));
+  extends uvm_port_base;
   `UVM_IMP_COMMON(`UVM_TLM_TRANSPORT_MASK,"uvm_transport_imp",IMP)
   `UVM_BLOCKING_TRANSPORT_IMP (m_imp, REQ, RSP, req, rsp)
   `UVM_NONBLOCKING_TRANSPORT_IMP (m_imp, REQ, RSP, req, rsp)
