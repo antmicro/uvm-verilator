@@ -59,7 +59,6 @@
 // @uvm-ieee 1800.2-2017 auto 19.4.1.1
 class uvm_reg_sequence #(type BASE=uvm_sequence #(uvm_reg_item)) extends BASE;
 
-  `uvm_object_param_utils(uvm_reg_sequence #(BASE))
 
   // Parameter -- NODOCS -- BASE
   //
@@ -109,7 +108,7 @@ class uvm_reg_sequence #(type BASE=uvm_sequence #(uvm_reg_item)) extends BASE;
   // and physical bus transactions. Defined only when this sequence is a
   // translation sequence, and we want to "pull" from an upstream sequencer.
   //
-  uvm_sequencer #(uvm_reg_item) reg_seqr;
+  uvm_sequencer reg_seqr;
 
 
 

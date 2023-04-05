@@ -42,7 +42,7 @@ class uvm_pool #(type KEY=int, T=uvm_void) extends uvm_object;
   static protected this_type m_global_pool;
   protected T pool[KEY];
 
-  `uvm_object_param_utils(uvm_pool #(KEY,T))
+  `uvm_object_param_utils(uvm_pool)
   `uvm_type_name_decl("uvm_pool")
   
   // Function -- NODOCS -- new
@@ -193,7 +193,7 @@ class uvm_object_string_pool #(type T=uvm_object) extends uvm_pool #(string,T);
   typedef uvm_object_string_pool #(T) this_type;
   static protected this_type m_global_pool;
 
-  `uvm_object_param_utils(uvm_object_string_pool#(T))
+  `uvm_object_param_utils(uvm_object_string_pool)
   `uvm_type_name_decl("uvm_obj_str_pool")
 
   // Function -- NODOCS -- new

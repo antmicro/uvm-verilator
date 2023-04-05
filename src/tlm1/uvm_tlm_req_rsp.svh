@@ -65,7 +65,7 @@ class uvm_tlm_req_rsp_channel #(type REQ=int, type RSP=REQ) extends uvm_componen
   // Any put port variant can connect and send transactions to the request FIFO
   // via this export, provided the transaction types match.
 
-  uvm_put_export #(REQ) put_request_export;
+  uvm_put_export put_request_export;
 
 
   // Port -- NODOCS -- get_peek_response_export
@@ -83,7 +83,7 @@ class uvm_tlm_req_rsp_channel #(type REQ=int, type RSP=REQ) extends uvm_componen
   // Any get or peek port variant can connect to and retrieve transactions from
   // the response FIFO via this export, provided the transaction types match.
 
-  uvm_get_peek_export #(RSP) get_peek_response_export;
+  uvm_get_peek_export get_peek_response_export;
 
 
   // Port -- NODOCS -- get_peek_request_export
@@ -102,7 +102,7 @@ class uvm_tlm_req_rsp_channel #(type REQ=int, type RSP=REQ) extends uvm_componen
   // the response FIFO via this export, provided the transaction types match.
 
 
-  uvm_get_peek_export #(REQ) get_peek_request_export;
+  uvm_get_peek_export get_peek_request_export;
 
 
   // Port -- NODOCS -- put_response_export
@@ -117,7 +117,7 @@ class uvm_tlm_req_rsp_channel #(type REQ=int, type RSP=REQ) extends uvm_componen
   // Any put port variant can connect and send transactions to the response FIFO
   // via this export, provided the transaction types match.
 
-  uvm_put_export #(RSP) put_response_export;
+  uvm_put_export put_response_export;
 
 
   // Port -- NODOCS -- request_ap
@@ -129,7 +129,7 @@ class uvm_tlm_req_rsp_channel #(type REQ=int, type RSP=REQ) extends uvm_componen
   //
   // All connected analysis exports and imps will receive these transactions.
 
-  uvm_analysis_port #(REQ) request_ap;
+  uvm_analysis_port request_ap;
 
 
   // Port -- NODOCS -- response_ap
@@ -141,7 +141,7 @@ class uvm_tlm_req_rsp_channel #(type REQ=int, type RSP=REQ) extends uvm_componen
   //
   // All connected analysis exports and imps will receive these transactions.
 
-  uvm_analysis_port   #(RSP) response_ap;
+  uvm_analysis_port   response_ap;
 
 
   // Port -- NODOCS -- master_export
@@ -150,7 +150,7 @@ class uvm_tlm_req_rsp_channel #(type REQ=int, type RSP=REQ) extends uvm_componen
   // peek responses. It is a combination of the put_request_export and
   // get_peek_response_export.
 
-  uvm_master_imp #(REQ, RSP, this_type, uvm_tlm_fifo #(REQ), uvm_tlm_fifo #(RSP)) master_export;
+  uvm_master_imp master_export;
 
 
   // Port -- NODOCS -- slave_export
@@ -159,12 +159,12 @@ class uvm_tlm_req_rsp_channel #(type REQ=int, type RSP=REQ) extends uvm_componen
   // to put responses. It is a combination of the get_peek_request_export
   // and put_response_export.
 
-  uvm_slave_imp  #(REQ, RSP, this_type, uvm_tlm_fifo #(REQ), uvm_tlm_fifo #(RSP)) slave_export;
+  uvm_slave_imp  slave_export;
 
   // port aliases for backward compatibility
-  uvm_put_export      #(REQ) blocking_put_request_export,
+  uvm_put_export             blocking_put_request_export,
                              nonblocking_put_request_export;
-  uvm_get_peek_export #(REQ) get_request_export,
+  uvm_get_peek_export        get_request_export,
                              blocking_get_request_export,
                              nonblocking_get_request_export,
                              peek_request_export,
@@ -173,9 +173,9 @@ class uvm_tlm_req_rsp_channel #(type REQ=int, type RSP=REQ) extends uvm_componen
                              blocking_get_peek_request_export,
                              nonblocking_get_peek_request_export;
 
-  uvm_put_export      #(RSP) blocking_put_response_export,
+  uvm_put_export             blocking_put_response_export,
                              nonblocking_put_response_export;
-  uvm_get_peek_export #(RSP) get_response_export,
+  uvm_get_peek_export        get_response_export,
                              blocking_get_response_export,
                              nonblocking_get_response_export,
                              peek_response_export,
@@ -184,16 +184,14 @@ class uvm_tlm_req_rsp_channel #(type REQ=int, type RSP=REQ) extends uvm_componen
                              blocking_get_peek_response_export,
                              nonblocking_get_peek_response_export;
 
-  uvm_master_imp #(REQ, RSP, this_type, uvm_tlm_fifo #(REQ), uvm_tlm_fifo #(RSP))
-                             blocking_master_export, 
+  uvm_master_imp             blocking_master_export,
                              nonblocking_master_export;
 
-  uvm_slave_imp  #(REQ, RSP, this_type, uvm_tlm_fifo #(REQ), uvm_tlm_fifo #(RSP))
-                             blocking_slave_export, 
+  uvm_slave_imp              blocking_slave_export,
                              nonblocking_slave_export;
   // internal fifos
-  protected uvm_tlm_fifo #(REQ) m_request_fifo;
-  protected uvm_tlm_fifo #(RSP) m_response_fifo;
+  protected uvm_tlm_fifo m_request_fifo;
+  protected uvm_tlm_fifo m_response_fifo;
 
 
   // Function -- NODOCS -- new
@@ -249,7 +247,7 @@ class uvm_tlm_transport_channel #(type REQ=int, type RSP=REQ)
   // responses via this export, provided the transaction types match. Upon
   // return, the response argument carries the response to the request.
 
-  uvm_transport_imp #(REQ, RSP, this_type) transport_export;
+  uvm_transport_imp transport_export;
 
 
   // Function -- NODOCS -- new

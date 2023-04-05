@@ -43,7 +43,7 @@ virtual class uvm_subscriber #(type T=int) extends uvm_component;
   // This export provides access to the write method, which derived subscribers
   // must implement.
 
-  uvm_analysis_imp #(T, this_type) analysis_export;
+  uvm_analysis_imp analysis_export;
   
   // Function -- NODOCS -- new
   //

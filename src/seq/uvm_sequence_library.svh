@@ -67,7 +67,7 @@ typedef class uvm_sequence_library_cfg;
 class uvm_sequence_library #(type REQ=uvm_sequence_item,RSP=REQ) extends uvm_sequence #(REQ,RSP);
 
 
-  `uvm_object_param_utils(uvm_sequence_library#(REQ,RSP))
+  `uvm_object_param_utils(uvm_sequence_library)
   `uvm_type_name_decl("uvm_sequence_library #(REQ,RSP)")
   
    // @uvm-ieee 1800.2-2017 auto 14.4.2
