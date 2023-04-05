@@ -51,7 +51,7 @@
 //
 
 // @uvm-ieee 1800.2-2017 auto E.5.1.1
-class uvm_mem_single_access_seq extends uvm_reg_sequence #(uvm_sequence #(uvm_reg_item));
+class uvm_mem_single_access_seq extends uvm_reg_sequence;
 
    // Variable -- NODOCS -- mem
    //
@@ -88,7 +88,7 @@ endclass: uvm_mem_single_access_seq
 //
 
 // @uvm-ieee 1800.2-2017 auto E.5.2.1
-class uvm_mem_access_seq extends uvm_reg_sequence #(uvm_sequence #(uvm_reg_item));
+class uvm_mem_access_seq extends uvm_reg_sequence;
 
    // Variable -- NODOCS -- model
    //
