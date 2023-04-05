@@ -51,10 +51,7 @@ virtual class uvm_subscriber #(type T=int) extends uvm_component;
   // constructor arguments for <uvm_component>: ~name~ is the name of the
   // instance, and ~parent~ is the handle to the hierarchical parent, if any.
 
-  function new (string name, uvm_component parent);
-    super.new(name, parent);
-    analysis_export = new("analysis_imp", this);
-  endfunction
+  function new (string name, uvm_component parent); endfunction
   
   // Function -- NODOCS -- write
   //

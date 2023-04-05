@@ -28,58 +28,8 @@ import "DPI-C" context function string uvm_glob_to_re(string glob);
 
 // The Verilog only version does not match regular expressions,
 // it only does glob style matching.
-function int uvm_re_match(string re, string str);
-  int e, es, s, ss;
-  string tmp;
-  e  = 0; s  = 0;
-  es = 0; ss = 0;
+function int uvm_re_match(string re, string str); endfunction
 
-  if(re.len() == 0)
-    return 0;
-
-  // The ^ used to be used to remove the implicit wildcard, but now we don't
-  // use implicit wildcard so this character is just stripped.
-  if(re[0] == "^")
-    re = re.substr(1, re.len()-1);
-
-  //This loop is only needed when the first character of the re may not
-  //be a *. 
-  while (s != str.len() && re.getc(e) != "*") begin
-    if ((re.getc(e) != str.getc(s)) && (re.getc(e) != "?"))
-      return 1;
-    e++; s++;
-  end
-
-  while (s != str.len()) begin
-    if (re.getc(e) == "*") begin
-      e++;
-      if (e == re.len()) begin
-        return 0;
-      end
-      es = e;
-      ss = s+1;
-    end
-    else if (re.getc(e) == str.getc(s) || re.getc(e) == "?") begin
-      e++;
-      s++;
-    end
-    else begin
-      e = es;
-      s = ss++;
-    end
-  end
-  while (e < re.len() && re.getc(e) == "*")
-    e++;
-  if(e == re.len()) begin
-    return 0;
-  end
-  else begin
-    return 1;
-  end
-endfunction
-
-function string uvm_glob_to_re(string glob);
-  return glob;
-endfunction
+function string uvm_glob_to_re(string glob); endfunction
 
 `endif

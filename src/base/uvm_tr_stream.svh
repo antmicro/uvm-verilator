@@ -66,10 +66,7 @@ virtual class uvm_tr_stream extends uvm_object;
    
 
    // @uvm-ieee 1800.2-2017 auto 7.2.2
-   function new(string name="unnamed-uvm_tr_stream");
-      super.new(name);
-      m_cfg_dap = new("cfg_dap");
-   endfunction : new
+   function new(string name="unnamed-uvm_tr_stream"); endfunction : new
 
    // Variable- m_ids_by_stream
    // An associative array of int, indexed by uvm_tr_streams.  This
@@ -85,48 +82,15 @@ virtual class uvm_tr_stream extends uvm_object;
    
 
    // @uvm-ieee 1800.2-2017 auto 7.2.3.1
-   function uvm_tr_database get_db();
-      m_uvm_tr_stream_cfg m_cfg;
-      if (!m_cfg_dap.try_get(m_cfg)) begin
-         if (m_warn_null_cfg == 1)
-           `uvm_warning("UVM/REC_STR/NO_CFG",
-                        $sformatf("attempt to retrieve DB from '%s' before it was set!",
-                                  get_name()))
-         m_warn_null_cfg = 0;
-         return null;
-      end
-      return m_cfg.db;
-   endfunction : get_db
+   function uvm_tr_database get_db(); endfunction : get_db
       
 
    // @uvm-ieee 1800.2-2017 auto 7.2.3.2
-   function string get_scope();
-      m_uvm_tr_stream_cfg m_cfg;
-      if (!m_cfg_dap.try_get(m_cfg)) begin
-         if (m_warn_null_cfg == 1)
-           `uvm_warning("UVM/REC_STR/NO_CFG",
-                        $sformatf("attempt to retrieve scope from '%s' before it was set!",
-                                  get_name()))
-         m_warn_null_cfg = 0;
-         return "";
-      end
-      return m_cfg.scope;
-   endfunction : get_scope
+   function string get_scope(); endfunction : get_scope
       
 
    // @uvm-ieee 1800.2-2017 auto 7.2.3.3
-   function string get_stream_type_name();
-      m_uvm_tr_stream_cfg m_cfg;
-      if (!m_cfg_dap.try_get(m_cfg)) begin
-         if (m_warn_null_cfg == 1)
-           `uvm_warning("UVM/REC_STR/NO_CFG",
-                        $sformatf("attempt to retrieve STREAM_TYPE_NAME from '%s' before it was set!",
-                                  get_name()))
-         m_warn_null_cfg = 0;
-         return "";
-      end
-      return m_cfg.stream_type_name;
-   endfunction : get_stream_type_name
+   function string get_stream_type_name(); endfunction : get_stream_type_name
 
    // Group -- NODOCS -- Stream API
    //
@@ -142,54 +106,11 @@ virtual class uvm_tr_stream extends uvm_object;
 
 
    // @uvm-ieee 1800.2-2017 auto 7.2.4.1
-   function void close();
-      if (!is_open())
-        return;
-
-      do_close();
-
-      foreach (m_records[idx])
-        if (idx.is_open())
-          idx.close();
-
-      m_is_opened = 0;
-      m_is_closed = 1;
-   endfunction : close
+   function void close(); endfunction : close
 
 
    // @uvm-ieee 1800.2-2017 auto 7.2.4.2
-   function void free();
-	   process p;
-	   string s;
-      uvm_tr_database db;
-      if (!is_open() && !is_closed())
-        return;
-
-      if (is_open())
-        close();
-
-      do_free();
-      
-      foreach (m_records[idx])
-        idx.free();
-
-      // Clear out internal state
-      db = get_db();
-      m_is_closed = 0;
-      p = process::self();
-      if(p != null)
-      	s = p.get_randstate();
-      m_cfg_dap = new("cfg_dap");
-      if(p != null)
-      	p.set_randstate(s);
-      m_warn_null_cfg = 1;
-      if (m_ids_by_stream.exists(this))
-        m_free_id(m_ids_by_stream[this]);
-
-      // Clear out DB state
-      if (db != null)
-        db.m_free_stream(this);
-   endfunction : free
+   function void free(); endfunction : free
    
    // Function- m_do_open
    // Initializes the state of the stream
@@ -207,47 +128,15 @@ virtual class uvm_tr_stream extends uvm_object;
    // - m_do_open is passed a ~null~ db
    function void m_do_open(uvm_tr_database db,
                            string scope="",
-                           string stream_type_name="");
-      
-      m_uvm_tr_stream_cfg m_cfg;
-      uvm_tr_database m_db;
-      if (db == null) begin
-         `uvm_error("UVM/REC_STR/NULL_DB",
-                    $sformatf("Illegal attempt to set DB for '%s' to '<null>'",
-                              this.get_full_name()))
-         return;
-      end
-
-      if (m_cfg_dap.try_get(m_cfg)) begin
-         `uvm_error("UVM/REC_STR/RE_CFG",
-                    $sformatf("Illegal attempt to re-open '%s'",
-                              this.get_full_name()))
-      end
-      else begin
-         // Never set before
-         m_cfg = new();
-         m_cfg.db = db;
-         m_cfg.scope = scope;
-         m_cfg.stream_type_name = stream_type_name;
-         m_cfg_dap.set(m_cfg);
-         m_is_opened = 1;
-
-         do_open(db, scope, stream_type_name);
-      end
-      
-   endfunction : m_do_open
+                           string stream_type_name=""); endfunction : m_do_open
 
 
    // @uvm-ieee 1800.2-2017 auto 7.2.4.3
-   function bit is_open();
-      return m_is_opened;
-   endfunction : is_open
+   function bit is_open(); endfunction : is_open
 
 
    // @uvm-ieee 1800.2-2017 auto 7.2.4.4
-   function bit is_closed();
-      return m_is_closed;
-   endfunction : is_closed
+   function bit is_closed(); endfunction : is_closed
 
    // Group -- NODOCS -- Transaction Recorder API
    //
@@ -261,52 +150,15 @@ virtual class uvm_tr_stream extends uvm_object;
    // @uvm-ieee 1800.2-2017 auto 7.2.5.1
    function uvm_recorder open_recorder(string name,
                                       time   open_time = 0,
-                                      string type_name="");
-      time m_time = (open_time == 0) ? $time : open_time;
-
-      // Check to make sure we're open
-      if (!is_open())
-        return null;
-      else begin
-         process p = process::self();
-         string s;
-
-         if (p != null)
-           s = p.get_randstate();
-         
-         open_recorder = do_open_recorder(name,
-                                          m_time,
-                                          type_name);
-
-
-         
-         if (open_recorder != null) begin
-            m_records[open_recorder] = 1;
-            open_recorder.m_do_open(this, m_time, type_name);
-         end
-         if (p != null)
-           p.set_randstate(s); 
-      end
-   endfunction : open_recorder
+                                      string type_name=""); endfunction : open_recorder
 
    // Function- m_free_recorder
    // Removes recorder from the internal array
-   function void m_free_recorder(uvm_recorder recorder);
-      if (m_records.exists(recorder))
-        m_records.delete(recorder);
-   endfunction : m_free_recorder
+   function void m_free_recorder(uvm_recorder recorder); endfunction : m_free_recorder
 
 
    // @uvm-ieee 1800.2-2017 auto 7.2.5.2
-   function unsigned get_recorders(ref uvm_recorder q[$]);
-      // Clear out the queue first...
-      q.delete();
-      // Fill in the values
-      foreach (m_records[idx])
-        q.push_back(idx);
-      // Finally return the size of the queue
-      return q.size();
-   endfunction : get_recorders
+   function unsigned get_recorders(ref uvm_recorder q[$]); endfunction : get_recorders
    
    // Group -- NODOCS -- Handles
 
@@ -317,48 +169,15 @@ virtual class uvm_tr_stream extends uvm_object;
 
 
    // @uvm-ieee 1800.2-2017 auto 7.2.6.1
-   function int get_handle();
-      if (!is_open() && !is_closed()) begin
-        return 0;
-      end
-      else begin
-         int handle = get_inst_id();
-         
-         // Check for the weird case where our handle changed.
-         if (m_ids_by_stream.exists(this) && m_ids_by_stream[this] != handle)
-           m_streams_by_id.delete(m_ids_by_stream[this]);
-
-         m_streams_by_id[handle] = this;
-         m_ids_by_stream[this] = handle;
-
-         return handle;
-      end
-   endfunction : get_handle   
+   function int get_handle(); endfunction : get_handle   
    
    // @uvm-ieee 1800.2-2017 auto 7.2.6.2
-   static function uvm_tr_stream get_stream_from_handle(int id);
-      if (id == 0)
-        return null;
-
-      if ($isunknown(id) || !m_streams_by_id.exists(id))
-        return null;
-
-      return m_streams_by_id[id];
-   endfunction : get_stream_from_handle
+   static function uvm_tr_stream get_stream_from_handle(int id); endfunction : get_stream_from_handle
         
    // Function- m_free_id
    // Frees the id/stream link (memory cleanup)
    //
-   static function void m_free_id(int id);
-      uvm_tr_stream stream;
-      if (!$isunknown(id) && m_streams_by_id.exists(id))
-        stream = m_streams_by_id[id];
-
-      if (stream != null) begin
-         m_streams_by_id.delete(id);
-         m_ids_by_stream.delete(stream);
-      end
-   endfunction : m_free_id
+   static function void m_free_id(int id); endfunction : m_free_id
 
    // Group -- NODOCS -- Implementation Agnostic API
    //
@@ -384,9 +203,7 @@ virtual class uvm_tr_stream extends uvm_object;
    // @uvm-ieee 1800.2-2017 auto 7.2.7.4
    protected virtual function uvm_recorder do_open_recorder(string name,
                                                             time   open_time,
-                                                            string type_name);
-      return null;
-   endfunction : do_open_recorder
+                                                            string type_name); endfunction : do_open_recorder
 
 endclass : uvm_tr_stream
 

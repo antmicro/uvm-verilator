@@ -48,258 +48,150 @@
 
 // @uvm-ieee 1800.2-2017 auto 9.8.2.1
 class uvm_pre_reset_phase extends uvm_task_phase; 
-   virtual task exec_task(uvm_component comp, uvm_phase phase); 
-      comp.pre_reset_phase(phase); 
-   endtask
+   virtual task exec_task(uvm_component comp, uvm_phase phase); endtask
    local static uvm_pre_reset_phase m_inst;
    `uvm_type_name_decl("uvm_pre_reset_phase")
 
    // Function -- NODOCS -- get
    // Returns the singleton phase handle 
-   static function uvm_pre_reset_phase get(); 
-      if(m_inst == null)
-         m_inst = new; 
-      return m_inst; 
-   endfunction
-   protected function new(string name="pre_reset"); 
-      super.new(name); 
-   endfunction
+   static function uvm_pre_reset_phase get(); endfunction protected function new(string name="pre_reset"); endfunction
 endclass
 
 
 // @uvm-ieee 1800.2-2017 auto 9.8.2.2
 class uvm_reset_phase extends uvm_task_phase; 
-   virtual task exec_task(uvm_component comp, uvm_phase phase); 
-      comp.reset_phase(phase); 
-   endtask
+   virtual task exec_task(uvm_component comp, uvm_phase phase); endtask
    local static uvm_reset_phase m_inst;
    `uvm_type_name_decl("uvm_reset_phase")
 
    // Function -- NODOCS -- get
    // Returns the singleton phase handle 
-   static function uvm_reset_phase get(); 
-      if(m_inst == null)
-         m_inst = new; 
-      return m_inst; 
-   endfunction
-   protected function new(string name="reset"); 
-      super.new(name); 
-   endfunction
+   static function uvm_reset_phase get(); endfunction protected function new(string name="reset"); endfunction
 endclass
 
 
 // @uvm-ieee 1800.2-2017 auto 9.8.2.3
 class uvm_post_reset_phase extends uvm_task_phase; 
-   virtual task exec_task(uvm_component comp, uvm_phase phase); 
-      comp.post_reset_phase(phase); 
-   endtask
+   virtual task exec_task(uvm_component comp, uvm_phase phase); endtask
    local static uvm_post_reset_phase m_inst;
    `uvm_type_name_decl("uvm_post_reset_phase")
 
    // Function -- NODOCS -- get
    // Returns the singleton phase handle 
-   static function uvm_post_reset_phase get(); 
-      if(m_inst == null)
-         m_inst = new; 
-      return m_inst; 
-   endfunction
-   protected function new(string name="post_reset"); 
-      super.new(name); 
-   endfunction
+   static function uvm_post_reset_phase get(); endfunction protected function new(string name="post_reset"); endfunction
 endclass
 
 
 
 // @uvm-ieee 1800.2-2017 auto 9.8.2.4
 class uvm_pre_configure_phase extends uvm_task_phase; 
-   virtual task exec_task(uvm_component comp, uvm_phase phase); 
-      comp.pre_configure_phase(phase); 
-   endtask
+   virtual task exec_task(uvm_component comp, uvm_phase phase); endtask
    local static uvm_pre_configure_phase m_inst;
    `uvm_type_name_decl("uvm_pre_configure_phase")
 
    // Function -- NODOCS -- get
    // Returns the singleton phase handle 
-   static function uvm_pre_configure_phase get(); 
-      if(m_inst == null)
-         m_inst = new; 
-      return m_inst; 
-   endfunction
-   protected function new(string name="pre_configure"); 
-      super.new(name); 
-   endfunction
+   static function uvm_pre_configure_phase get(); endfunction protected function new(string name="pre_configure"); endfunction
 endclass
 
 
 
 // @uvm-ieee 1800.2-2017 auto 9.8.2.5
 class uvm_configure_phase extends uvm_task_phase; 
-   virtual task exec_task(uvm_component comp, uvm_phase phase); 
-      comp.configure_phase(phase); 
-   endtask
+   virtual task exec_task(uvm_component comp, uvm_phase phase); endtask
    local static uvm_configure_phase m_inst;
    `uvm_type_name_decl("uvm_configure_phase")
 
    // Function -- NODOCS -- get
    // Returns the singleton phase handle 
-   static function uvm_configure_phase get(); 
-      if(m_inst == null)
-         m_inst = new; 
-      return m_inst; 
-   endfunction
-   protected function new(string name="configure"); 
-      super.new(name); 
-   endfunction
+   static function uvm_configure_phase get(); endfunction protected function new(string name="configure"); endfunction
 endclass
 
 
 // @uvm-ieee 1800.2-2017 auto 9.8.2.6
 class uvm_post_configure_phase extends uvm_task_phase; 
-   virtual task exec_task(uvm_component comp, uvm_phase phase); 
-      comp.post_configure_phase(phase); 
-   endtask
+   virtual task exec_task(uvm_component comp, uvm_phase phase); endtask
    local static uvm_post_configure_phase m_inst;
    `uvm_type_name_decl("uvm_post_configure_phase")
 
    // Function -- NODOCS -- get
    // Returns the singleton phase handle 
-   static function uvm_post_configure_phase get(); 
-      if(m_inst == null)
-         m_inst = new; 
-      return m_inst; 
-   endfunction
-   protected function new(string name="post_configure"); 
-      super.new(name); 
-   endfunction
+   static function uvm_post_configure_phase get(); endfunction protected function new(string name="post_configure"); endfunction
 endclass
 
 
 // @uvm-ieee 1800.2-2017 auto 9.8.2.7
 class uvm_pre_main_phase extends uvm_task_phase; 
-   virtual task exec_task(uvm_component comp, uvm_phase phase); 
-      comp.pre_main_phase(phase); 
-   endtask
+   virtual task exec_task(uvm_component comp, uvm_phase phase); endtask
    local static uvm_pre_main_phase m_inst;
    `uvm_type_name_decl("uvm_pre_main_phase")
 
    // Function -- NODOCS -- get
    // Returns the singleton phase handle 
-   static function uvm_pre_main_phase get(); 
-      if(m_inst == null)
-         m_inst = new; 
-      return m_inst; 
-   endfunction
-   protected function new(string name="pre_main"); 
-      super.new(name); 
-   endfunction
+   static function uvm_pre_main_phase get(); endfunction protected function new(string name="pre_main"); endfunction
 endclass
 
 
 
 // @uvm-ieee 1800.2-2017 auto 9.8.2.8
 class uvm_main_phase extends uvm_task_phase; 
-   virtual task exec_task(uvm_component comp, uvm_phase phase); 
-      comp.main_phase(phase); 
-   endtask
+   virtual task exec_task(uvm_component comp, uvm_phase phase); endtask
    local static uvm_main_phase m_inst;
    `uvm_type_name_decl("uvm_main_phase")
 
    // Function -- NODOCS -- get
    // Returns the singleton phase handle 
-   static function uvm_main_phase get(); 
-      if(m_inst == null)
-         m_inst = new; 
-      return m_inst; 
-   endfunction
-   protected function new(string name="main"); 
-      super.new(name); 
-   endfunction
+   static function uvm_main_phase get(); endfunction protected function new(string name="main"); endfunction
 endclass
 
 
 
 // @uvm-ieee 1800.2-2017 auto 9.8.2.9
 class uvm_post_main_phase extends uvm_task_phase; 
-   virtual task exec_task(uvm_component comp, uvm_phase phase); 
-      comp.post_main_phase(phase); 
-   endtask
+   virtual task exec_task(uvm_component comp, uvm_phase phase); endtask
    local static uvm_post_main_phase m_inst;
    `uvm_type_name_decl("uvm_post_main_phase")
 
    // Function -- NODOCS -- get
    // Returns the singleton phase handle 
-   static function uvm_post_main_phase get(); 
-      if(m_inst == null)
-         m_inst = new; 
-      return m_inst; 
-   endfunction
-   protected function new(string name="post_main"); 
-      super.new(name); 
-   endfunction
+   static function uvm_post_main_phase get(); endfunction protected function new(string name="post_main"); endfunction
 endclass
 
 
 
 // @uvm-ieee 1800.2-2017 auto 9.8.2.10
 class uvm_pre_shutdown_phase extends uvm_task_phase; 
-   virtual task exec_task(uvm_component comp, uvm_phase phase); 
-      comp.pre_shutdown_phase(phase); 
-   endtask
+   virtual task exec_task(uvm_component comp, uvm_phase phase); endtask
    local static uvm_pre_shutdown_phase m_inst;
    `uvm_type_name_decl("uvm_pre_shutdown_phase")
 
    // Function -- NODOCS -- get
    // Returns the singleton phase handle 
-   static function uvm_pre_shutdown_phase get(); 
-      if(m_inst == null)
-         m_inst = new; 
-      return m_inst; 
-   endfunction
-   protected function new(string name="pre_shutdown"); 
-      super.new(name); 
-   endfunction
+   static function uvm_pre_shutdown_phase get(); endfunction protected function new(string name="pre_shutdown"); endfunction
 endclass
 
 
 
 // @uvm-ieee 1800.2-2017 auto 9.8.2.11
 class uvm_shutdown_phase extends uvm_task_phase; 
-   virtual task exec_task(uvm_component comp, uvm_phase phase); 
-      comp.shutdown_phase(phase); 
-   endtask
+   virtual task exec_task(uvm_component comp, uvm_phase phase); endtask
    local static uvm_shutdown_phase m_inst;
    `uvm_type_name_decl("uvm_shutdown_phase")
 
    // Function -- NODOCS -- get
    // Returns the singleton phase handle 
-   static function uvm_shutdown_phase get(); 
-      if(m_inst == null)
-         m_inst = new; 
-      return m_inst; 
-   endfunction
-   protected function new(string name="shutdown"); 
-      super.new(name); 
-   endfunction
+   static function uvm_shutdown_phase get(); endfunction protected function new(string name="shutdown"); endfunction
 endclass
 
 
 
 // @uvm-ieee 1800.2-2017 auto 9.8.2.12
 class uvm_post_shutdown_phase extends uvm_task_phase; 
-   virtual task exec_task(uvm_component comp, uvm_phase phase); 
-      comp.post_shutdown_phase(phase); 
-   endtask
+   virtual task exec_task(uvm_component comp, uvm_phase phase); endtask
    local static uvm_post_shutdown_phase m_inst;
    `uvm_type_name_decl("uvm_post_shutdown_phase")
 
    // Function -- NODOCS -- get
    // Returns the singleton phase handle 
-   static function uvm_post_shutdown_phase get(); 
-      if(m_inst == null)
-         m_inst = new; 
-      return m_inst; 
-   endfunction
-   protected function new(string name="post_shutdown"); 
-      super.new(name); 
-   endfunction
+   static function uvm_post_shutdown_phase get(); endfunction protected function new(string name="post_shutdown"); endfunction
 endclass

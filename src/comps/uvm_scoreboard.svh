@@ -44,8 +44,6 @@ virtual class uvm_scoreboard extends uvm_component;
   // constructor arguments for <uvm_component>: ~name~ is the name of the
   // instance, and ~parent~ is the handle to the hierarchical parent, if any.
 
-  function new (string name, uvm_component parent);
-    super.new(name, parent);
-  endfunction
+  function new (string name, uvm_component parent); endfunction
 
 endclass

@@ -59,9 +59,7 @@ virtual class uvm_tlm_if_base #(type T1=int, type T2=int);
   // it cannot immediately accept delivery of the transaction.
 
   // @uvm-ieee 1800.2-2017 auto 12.2.4.2.1
-  virtual task put( input T1 t );
-    uvm_report_error("put", `UVM_TASK_ERROR, UVM_NONE);
-  endtask
+  virtual task put( input T1 t ); endtask
 
   // Group -- NODOCS -- Blocking get
 
@@ -77,9 +75,7 @@ virtual class uvm_tlm_if_base #(type T1=int, type T2=int);
   // Subsequent calls to get must return a different transaction instance.
 
   // @uvm-ieee 1800.2-2017 auto 12.2.4.2.2
-  virtual task get( output T2 t );
-    uvm_report_error("get", `UVM_TASK_ERROR, UVM_NONE);
-  endtask
+  virtual task get( output T2 t ); endtask
 
 
   // Group -- NODOCS -- Blocking peek
@@ -96,9 +92,7 @@ virtual class uvm_tlm_if_base #(type T1=int, type T2=int);
   // return the same transaction.
 
   // @uvm-ieee 1800.2-2017 auto 12.2.4.2.3
-  virtual task peek( output T2 t );
-    uvm_report_error("peek", `UVM_TASK_ERROR, UVM_NONE);
-  endtask
+  virtual task peek( output T2 t ); endtask
 
 
   // Group -- NODOCS -- Non-blocking put
@@ -111,10 +105,7 @@ virtual class uvm_tlm_if_base #(type T1=int, type T2=int);
   // so and returns 1, otherwise it returns 0.
 
   // @uvm-ieee 1800.2-2017 auto 12.2.4.2.4
-  virtual function bit try_put( input T1 t );
-    uvm_report_error("try_put", `UVM_FUNCTION_ERROR, UVM_NONE);
-    return 0;
-  endfunction
+  virtual function bit try_put( input T1 t ); endfunction
 
 
   // Function -- NODOCS -- can_put
@@ -122,10 +113,7 @@ virtual class uvm_tlm_if_base #(type T1=int, type T2=int);
   // Returns 1 if the component is ready to accept the transaction; 0 otherwise.
 
   // @uvm-ieee 1800.2-2017 auto 12.2.4.2.5
-  virtual function bit can_put();
-    uvm_report_error("can_put", `UVM_FUNCTION_ERROR, UVM_NONE);
-    return 0;
-  endfunction
+  virtual function bit can_put(); endfunction
 
 
   // Group -- NODOCS -- Non-blocking get
@@ -139,10 +127,7 @@ virtual class uvm_tlm_if_base #(type T1=int, type T2=int);
   // and 0 is returned.
 
   // @uvm-ieee 1800.2-2017 auto 12.2.4.2.6
-  virtual function bit try_get( output T2 t );
-    uvm_report_error("try_get", `UVM_FUNCTION_ERROR, UVM_NONE);
-    return 0;
-  endfunction
+  virtual function bit try_get( output T2 t ); endfunction
 
 
   // Function -- NODOCS -- can_get
@@ -151,10 +136,7 @@ virtual class uvm_tlm_if_base #(type T1=int, type T2=int);
   // 0 otherwise.
 
   // @uvm-ieee 1800.2-2017 auto 12.2.4.2.7
-  virtual function bit can_get();
-    uvm_report_error("can_get", `UVM_FUNCTION_ERROR, UVM_NONE);
-    return 0;
-  endfunction
+  virtual function bit can_get(); endfunction
 
 
   // Group -- NODOCS -- Non-blocking peek
@@ -169,10 +151,7 @@ virtual class uvm_tlm_if_base #(type T1=int, type T2=int);
   // returned.
 
   // @uvm-ieee 1800.2-2017 auto 12.2.4.2.8
-  virtual function bit try_peek( output T2 t );
-    uvm_report_error("try_peek", `UVM_FUNCTION_ERROR, UVM_NONE);
-    return 0;
-  endfunction
+  virtual function bit try_peek( output T2 t ); endfunction
 
 
   // Function -- NODOCS -- can_peek
@@ -180,10 +159,7 @@ virtual class uvm_tlm_if_base #(type T1=int, type T2=int);
   // Returns 1 if a new transaction is available; 0 otherwise.
 
   // @uvm-ieee 1800.2-2017 auto 12.2.4.2.9
-  virtual function bit can_peek();
-    uvm_report_error("can_ppeek", `UVM_FUNCTION_ERROR, UVM_NONE);
-    return 0;
-  endfunction
+  virtual function bit can_peek(); endfunction
 
 
   // Group -- NODOCS -- Blocking transport
@@ -194,9 +170,7 @@ virtual class uvm_tlm_if_base #(type T1=int, type T2=int);
   // argument. The calling thread may block until the operation is complete.
 
   // @uvm-ieee 1800.2-2017 auto 12.2.4.2.10
-  virtual task transport( input T1 req , output T2 rsp );
-    uvm_report_error("transport", `UVM_TASK_ERROR, UVM_NONE);
-  endtask
+  virtual task transport( input T1 req , output T2 rsp ); endtask
 
 
   // Group -- NODOCS -- Non-blocking transport
@@ -210,10 +184,7 @@ virtual class uvm_tlm_if_base #(type T1=int, type T2=int);
   // a 0 must be returned; otherwise 1.
 
   // @uvm-ieee 1800.2-2017 auto 12.2.4.2.11
-  virtual function bit nb_transport(input T1 req, output T2 rsp);
-    uvm_report_error("nb_transport", `UVM_FUNCTION_ERROR, UVM_NONE);
-    return 0;
-  endfunction
+  virtual function bit nb_transport(input T1 req, output T2 rsp); endfunction
 
 
   // Group -- NODOCS -- Analysis
@@ -224,8 +195,6 @@ virtual class uvm_tlm_if_base #(type T1=int, type T2=int);
   // The operation must complete without blocking. 
 
   // @uvm-ieee 1800.2-2017 auto 12.2.4.2.12
-  virtual function void write( input T1 t );
-    uvm_report_error("write", `UVM_FUNCTION_ERROR, UVM_NONE);
-  endfunction
+  virtual function void write( input T1 t ); endfunction
 
 endclass

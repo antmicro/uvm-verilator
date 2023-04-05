@@ -114,36 +114,12 @@ class uvm_reg_sequence #(type BASE=uvm_sequence #(uvm_reg_item)) extends BASE;
 
 
   // @uvm-ieee 1800.2-2017 auto 19.4.1.4.1
-  function new (string name="uvm_reg_sequence_inst");
-    super.new(name);
-  endfunction
+  function new (string name="uvm_reg_sequence_inst"); endfunction
 
 
 
   // @uvm-ieee 1800.2-2017 auto 19.4.1.4.2
-  virtual task body();
-    if (m_sequencer == null) begin
-      `uvm_fatal("NO_SEQR", {"Sequence executing as translation sequence, ",
-         "but is not associated with a sequencer (m_sequencer == null)"})
-    end
-    if (reg_seqr == null) begin
-      `uvm_warning("REG_XLATE_NO_SEQR",
-         {"Executing RegModel translation sequence on sequencer ",
-       m_sequencer.get_full_name(),"' does not have an upstream sequencer defined. ",
-       "Execution of register items available only via direct calls to 'do_reg_item'"})
-      wait(0);
-    end
-    `uvm_info("REG_XLATE_SEQ_START",
-       {"Starting RegModel translation sequence on sequencer ",
-       m_sequencer.get_full_name(),"'"},UVM_LOW)
-    forever begin
-      uvm_reg_item reg_item;
-      reg_seqr.peek(reg_item);
-      do_reg_item(reg_item);
-      reg_seqr.get(reg_item);
-      #0;
-    end
-  endtask
+  virtual task body(); endtask
 
 
   typedef enum { LOCAL, UPSTREAM } seq_parent_e;
@@ -155,28 +131,7 @@ class uvm_reg_sequence #(type BASE=uvm_sequence #(uvm_reg_item)) extends BASE;
 
 
   // @uvm-ieee 1800.2-2017 auto 19.4.1.4.3
-  virtual task do_reg_item(uvm_reg_item rw);
-     string rws=rw.convert2string();
-    if (m_sequencer == null)
-     `uvm_fatal("REG/DO_ITEM/NULL","do_reg_item: m_sequencer is null") 
-    if (adapter == null)
-     `uvm_fatal("REG/DO_ITEM/NULL","do_reg_item: adapter handle is null") 
-
-    `uvm_info("DO_RW_ACCESS",{"Doing transaction: ",rws},UVM_HIGH)
-
-    if (parent_select == LOCAL) begin
-      upstream_parent = rw.parent;
-      rw.parent = this;
-    end
-
-    if (rw.kind == UVM_WRITE)
-      rw.local_map.do_bus_write(rw, m_sequencer, adapter);
-    else
-      rw.local_map.do_bus_read(rw, m_sequencer, adapter);
-    
-    if (parent_select == LOCAL)
-       rw.parent = upstream_parent;
-  endtask
+  virtual task do_reg_item(uvm_reg_item rw); endtask
 
 
    //----------------------------------
@@ -206,12 +161,7 @@ class uvm_reg_sequence #(type BASE=uvm_sequence #(uvm_reg_item)) extends BASE;
                           input  int               prior = -1,
                           input  uvm_object        extension = null,
                           input  string            fname = "",
-                          input  int               lineno = 0);
-      if (rg == null)
-        `uvm_error("NO_REG","Register argument is null")
-      else
-        rg.write(status,value,path,map,this,prior,extension,fname,lineno);
-   endtask
+                          input  int               lineno = 0); endtask
 
 
 
@@ -224,12 +174,7 @@ class uvm_reg_sequence #(type BASE=uvm_sequence #(uvm_reg_item)) extends BASE;
                          input  int               prior = -1,
                          input  uvm_object        extension = null,
                          input  string            fname = "",
-                         input  int               lineno = 0);
-      if (rg == null)
-        `uvm_error("NO_REG","Register argument is null")
-      else
-        rg.read(status,value,path,map,this,prior,extension,fname,lineno);
-   endtask
+                         input  int               lineno = 0); endtask
 
 
 
@@ -241,12 +186,7 @@ class uvm_reg_sequence #(type BASE=uvm_sequence #(uvm_reg_item)) extends BASE;
                          input  string            kind = "",
                          input  uvm_object        extension = null,
                          input  string            fname = "",
-                         input  int               lineno = 0);
-      if (rg == null)
-        `uvm_error("NO_REG","Register argument is null")
-      else
-        rg.poke(status,value,kind,this,extension,fname,lineno);
-   endtask
+                         input  int               lineno = 0); endtask
 
 
 
@@ -258,12 +198,7 @@ class uvm_reg_sequence #(type BASE=uvm_sequence #(uvm_reg_item)) extends BASE;
                          input  string            kind = "",
                          input  uvm_object        extension = null,
                          input  string            fname = "",
-                         input  int               lineno = 0);
-      if (rg == null)
-        `uvm_error("NO_REG","Register argument is null")
-      else
-        rg.peek(status,value,kind,this,extension,fname,lineno);
-   endtask
+                         input  int               lineno = 0); endtask
 
    
    
@@ -276,12 +211,7 @@ class uvm_reg_sequence #(type BASE=uvm_sequence #(uvm_reg_item)) extends BASE;
                            input  int               prior = -1,
                            input  uvm_object        extension = null,
                            input  string            fname = "",
-                           input  int               lineno = 0);
-      if (rg == null)
-        `uvm_error("NO_REG","Register argument is null")
-      else
-        rg.update(status,path,map,this,prior,extension,fname,lineno);
-   endtask
+                           input  int               lineno = 0); endtask
 
 
 
@@ -295,12 +225,7 @@ class uvm_reg_sequence #(type BASE=uvm_sequence #(uvm_reg_item)) extends BASE;
                            input  int           prior = -1,
                            input  uvm_object    extension = null,
                            input  string        fname = "",
-                           input  int           lineno = 0);
-      if (rg == null)
-        `uvm_error("NO_REG","Register argument is null")
-      else
-        rg.mirror(status,check,path,map,this,prior,extension,fname,lineno);
-   endtask
+                           input  int           lineno = 0); endtask
 
   
 
@@ -315,12 +240,7 @@ class uvm_reg_sequence #(type BASE=uvm_sequence #(uvm_reg_item)) extends BASE;
                           input  int               prior = -1,
                           input  uvm_object        extension = null,
                           input  string            fname = "",
-                          input  int               lineno = 0);
-      if (mem == null)
-        `uvm_error("NO_MEM","Memory argument is null")
-      else
-        mem.write(status,offset,value,path,map,this,prior,extension,fname,lineno);
-   endtask
+                          input  int               lineno = 0); endtask
 
 
 
@@ -334,12 +254,7 @@ class uvm_reg_sequence #(type BASE=uvm_sequence #(uvm_reg_item)) extends BASE;
                          input  int               prior = -1,
                          input  uvm_object        extension = null,
                          input  string            fname = "",
-                         input  int               lineno = 0);
-      if (mem == null)
-        `uvm_error("NO_MEM","Memory argument is null")
-      else
-        mem.read(status,offset,value,path,map,this,prior,extension,fname,lineno);
-   endtask
+                         input  int               lineno = 0); endtask
 
 
 
@@ -352,12 +267,7 @@ class uvm_reg_sequence #(type BASE=uvm_sequence #(uvm_reg_item)) extends BASE;
                          input  string            kind = "",
                          input  uvm_object        extension = null,
                          input  string            fname = "",
-                         input  int               lineno = 0);
-      if (mem == null)
-        `uvm_error("NO_MEM","Memory argument is null")
-      else
-        mem.poke(status,offset,value,kind,this,extension,fname,lineno);
-   endtask
+                         input  int               lineno = 0); endtask
 
 
 
@@ -370,12 +280,7 @@ class uvm_reg_sequence #(type BASE=uvm_sequence #(uvm_reg_item)) extends BASE;
                          input  string            kind = "",
                          input  uvm_object        extension = null,
                          input  string            fname = "",
-                         input  int               lineno = 0);
-      if (mem == null)
-        `uvm_error("NO_MEM","Memory argument is null")
-      else
-        mem.peek(status,offset,value,kind,this,extension,fname,lineno);
-   endtask
+                         input  int               lineno = 0); endtask
 
    
   // Function- put_response
@@ -383,9 +288,7 @@ class uvm_reg_sequence #(type BASE=uvm_sequence #(uvm_reg_item)) extends BASE;
   // not user visible. Needed to populate this sequence's response
   // queue with any bus item type. 
   //
-  virtual function void put_response(uvm_sequence_item response_item);
-    put_base_response(response_item);
-  endfunction
+  virtual function void put_response(uvm_sequence_item response_item); endfunction
 
 endclass
 
@@ -411,9 +314,7 @@ virtual class uvm_reg_frontdoor extends uvm_reg_sequence #(uvm_sequence #(uvm_se
 
 
    // @uvm-ieee 1800.2-2017 auto 19.4.2.3
-   function new(string name="");
-      super.new(name);
-   endfunction
+   function new(string name=""); endfunction
 
    string fname;
    int lineno;

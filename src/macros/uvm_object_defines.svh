@@ -165,7 +165,7 @@
 // for an abstract class (i.e. virtual class).
 
 // Implementation Note:  The `uvm_field_utils_begin macro creates a new local
-// function "__m_uvm_execute_field_op", which has a similar signature to 
+// function "__m_uvm_execute_field_op", which has a similar signature to
 // <do_execute_op>, but the arguments are named differently so as to prevent
 // potential collisions with field names.  For example, if the user had a
 // field named "op", then that could collide with the "op" argument of the
@@ -174,8 +174,6 @@
 // @uvm-ieee 1800.2-2017 auto B.2.1.1
 `define uvm_field_utils_begin(T)                                                \
 function void do_execute_op( uvm_field_op op );                                 \
-  super.do_execute_op(op);                                                      \
-  __m_uvm_execute_field_op(op);                                                 \
 endfunction : do_execute_op                                                     \
 local function void __m_uvm_execute_field_op( uvm_field_op __local_op__ );      \
    uvm_field_flag_t local_op_type__; /* Used to avoid re-querying */            \
@@ -455,13 +453,10 @@ endfunction : __m_uvm_execute_field_op
    static function T type_id_create (string name="", \
                                      uvm_component parent=null, \
                                      string contxt=""); \
-     return type_id::create(name, parent, contxt); \
    endfunction \
    static function type_id get_type(); \
-     return type_id::get(); \
    endfunction \
    virtual function uvm_object_wrapper get_object_type(); \
-     return type_id::get(); \
    endfunction
 `else
 `define uvm_object_registry(T,S) \
@@ -492,13 +487,10 @@ endfunction : __m_uvm_execute_field_op
    static function T type_id_create (string name="", \
                                      uvm_component parent=null, \
                                      string contxt=""); \
-     return type_id::create(name, parent, contxt); \
    endfunction \
    static function type_id get_type(); \
-     return type_id::get(); \
    endfunction \
    virtual function uvm_object_wrapper get_object_type(); \
-     return type_id::get(); \
    endfunction
 `else
 `define uvm_component_registry(T,S) \
@@ -533,10 +525,6 @@ endfunction : __m_uvm_execute_field_op
 
 `define m_uvm_object_create_func(T) \
    function uvm_object create (string name=""); \
-     T tmp; \
-     if (name=="") tmp = new(); \
-     else tmp = new(name); \
-     return tmp; \
    endfunction
 
 // Macro --NODOCS-- uvm_type_name_decl(TNAME_STRING)
@@ -584,13 +572,10 @@ endfunction : __m_uvm_execute_field_op
    static function T type_id_create (string name="", \
                                      uvm_component parent=null, \
                                      string contxt=""); \
-     return type_id::create(name, parent, contxt); \
    endfunction \
    static function type_id get_type(); \
-     return type_id::get(); \
    endfunction \
    virtual function uvm_object_wrapper get_object_type(); \
-     return type_id::get(); \
    endfunction
 `else
 `define m_uvm_object_registry_internal(T,S) \
@@ -612,16 +597,19 @@ endfunction : __m_uvm_execute_field_op
    static function T type_id_create (string name="", \
                                      uvm_component parent=null, \
                                      string contxt=""); \
-     return type_id::create(name, parent, contxt); \
    endfunction \
    static function type_id get_type(); \
-     return type_id::get(); \
    endfunction \
    virtual function uvm_object_wrapper get_object_type(); \
-     return type_id::get(); \
    endfunction
 `else \
+`define m_uvm_object_registry_param(T) \
    typedef uvm_object_registry #(T) type_id; \
+   static function T type_id_create (string name="", \
+                                     uvm_component parent=null, \
+                                     string contxt=""); \
+     return type_id::create(name, parent, contxt); \
+   endfunction \
    static function type_id get_type(); \
      return type_id::get(); \
    endfunction \
@@ -635,6 +623,13 @@ endfunction : __m_uvm_execute_field_op
 
 //This is needed due to an issue in of passing down strings
 //created by args to lower level macros.
+`ifdef VERILATOR
+`define m_uvm_object_abstract_registry_internal(T,S) \
+   static function uvm_abstract_object_registry#(T,`"S`") get_type(); \
+   endfunction \
+   virtual function uvm_object_wrapper get_object_type(); \
+   endfunction
+`else
 `define m_uvm_object_abstract_registry_internal(T,S) \
    typedef uvm_abstract_object_registry#(T,`"S`") type_id; \
    static function type_id get_type(); \
@@ -643,7 +638,7 @@ endfunction : __m_uvm_execute_field_op
    virtual function uvm_object_wrapper get_object_type(); \
      return type_id::get(); \
    endfunction
-
+`endif
 
 // m_uvm_object_abstract_registry_param
 // ------------------------------------
@@ -678,6 +673,14 @@ endfunction : __m_uvm_execute_field_op
 // m_uvm_component_registry_param
 // ------------------------------
 
+`ifdef VERILATOR
+`define m_uvm_component_registry_param(T) \
+   typedef uvm_component_registry #(T) type_id; \
+   static function type_id get_type(); \
+   endfunction \
+   virtual function uvm_object_wrapper get_object_type(); \
+   endfunction
+`else
 `define m_uvm_component_registry_param(T) \
    typedef uvm_component_registry #(T) type_id; \
    static function type_id get_type(); \
@@ -686,13 +689,21 @@ endfunction : __m_uvm_execute_field_op
    virtual function uvm_object_wrapper get_object_type(); \
      return type_id::get(); \
    endfunction
+`endif
 
 // m_uvm_component_abstract_registry_internal
 // ------------------------------------------
 
 //This is needed due to an issue in of passing down strings
 //created by args to lower level macros.
+`ifdef VERILATOR
 `define m_uvm_component_abstract_registry_internal(T,S) \
+   typedef uvm_abstract_component_registry #(T,`"S`") type_id; \
+   static function type_id get_type(); \
+   endfunction \
+   virtual function uvm_object_wrapper get_object_type(); \
+   endfunction
+`else
    typedef uvm_abstract_component_registry #(T,`"S`") type_id; \
    static function type_id get_type(); \
      return type_id::get(); \
@@ -700,6 +711,7 @@ endfunction : __m_uvm_execute_field_op
    virtual function uvm_object_wrapper get_object_type(); \
      return type_id::get(); \
    endfunction
+`endif
 
 // versions of the uvm_component_abstract_registry macros to be used with
 // parameterized classes
@@ -707,6 +719,14 @@ endfunction : __m_uvm_execute_field_op
 // m_uvm_component_abstract_registry_param
 // ---------------------------------------
 
+`ifdef VERILATOR
+`define m_uvm_component_abstract_registry_param(T) \
+   typedef uvm_abstract_component_registry #(T) type_id; \
+   static function type_id get_type(); \
+   endfunction \
+   virtual function uvm_object_wrapper get_object_type(); \
+   endfunction
+`else
 `define m_uvm_component_abstract_registry_param(T) \
    typedef uvm_abstract_component_registry #(T) type_id; \
    static function type_id get_type(); \
@@ -715,7 +735,7 @@ endfunction : __m_uvm_execute_field_op
    virtual function uvm_object_wrapper get_object_type(); \
      return type_id::get(); \
    endfunction
-
+`endif
 
 
 //------------------------------------------------------------------------------
@@ -1665,75 +1685,7 @@ UVM_``OP: \
   `m_uvm_field_qda_string(da,ARG,FLAG)
 
 `define m_uvm_field_qda_string(TYPE,ARG,FLAG=UVM_DEFAULT) \
-  `m_uvm_field_begin(ARG,FLAG) \
-    `m_uvm_field_op_begin(COPY,FLAG) \
-      ARG = local_rhs__.ARG; \
-    `m_uvm_field_op_end(COPY) \
-    `m_uvm_field_op_begin(COMPARE,FLAG) \
-      `uvm_compare_qda_string(ARG, local_rhs__.ARG, __local_comparer__) \
-    `m_uvm_field_op_end(COMPARE) \
-    `m_uvm_field_op_begin(PACK,FLAG) \
-       __local_packer__.pack_field_int(ARG.size(), 32); \
-       foreach (ARG[i]) \
-         `uvm_pack_string(ARG[i], __local_packer__) \
-    `m_uvm_field_op_end(PACK) \
-    `m_uvm_field_op_begin(UNPACK,FLAG) \
-      local_size__ = __local_packer__.unpack_field_int(32); \
-      `m_uvm_``TYPE``_resize(ARG, local_size__) \
-      foreach (ARG[i]) \
-        `uvm_unpack_string(ARG[i], __local_packer__) \
-    `m_uvm_field_op_end(UNPACK) \
-    `m_uvm_field_op_begin(RECORD,FLAG) \
-      `uvm_record_qda_string(ARG, __local_recorder__) \
-    `m_uvm_field_op_end(RECORD) \
-    `m_uvm_field_op_begin(PRINT,FLAG) \
-      `uvm_print_qda_string(TYPE, ARG,__local_printer__) \
-    `m_uvm_field_op_end(PRINT) \
-    `m_uvm_field_op_begin(SET,FLAG) \
-      if(local_rsrc_name__ == `"ARG`") begin \
-        `uvm_resource_builtin_int_read(local_success__, \
-                                       local_rsrc__, \
-                                       local_size__, \
-                                       this) \
-        if (local_success__) \
-          `m_uvm_``TYPE``_resize(ARG, local_size__) \
-      end \
-      else begin \
-        string local_name__ = {`"ARG`", "["}; \
-        if (local_rsrc_name__.len() && \
-            local_rsrc_name__[local_rsrc_name__.len()-1] == "]" && \
-            local_rsrc_name__.substr(0, local_name__.len()-1) == local_name__) begin \
-          string local_index_str__ = local_rsrc_name__.substr(local_name__.len(), \
-                                                              local_rsrc_name__.len()-2); \
-          int local_index__; \
-          /* TODO: Non-decimal indexes */ \
-          int local_code__ = $sscanf(local_index_str__, "%d", local_index__); \
-          if (local_code__ > 0) begin \
-            if (local_index__ < 0) begin \
-              `uvm_warning("UVM/FIELDS/QDA_IDX", $sformatf("Index '%0d' is not valid for field '%s.%s' of size '%0d'", \
-                                                           local_index__, \
-                                                           get_full_name(), \
-                                                           `"ARG`", \
-                                                           ARG.size() ) ) \
-            end \
-            else begin \
-              string tmp_string__; \
-              `uvm_resource_read(local_success__, \
-                                 local_rsrc__, \
-                                 string, \
-                                 tmp_string__, \
-                                 this) \
-              if (local_success__) begin \
-                if (local_index__ >= ARG.size()) \
-                  `m_uvm_``TYPE``_resize(ARG, local_index__ + 1) \
-                ARG[local_index__]  = tmp_string__; \
-              end \
-            end \
-          end \
-        end \
-      end \
-    `m_uvm_field_op_end(SET) \
-  `m_uvm_field_end(ARG)
+
 
 // MACRO -- NODOCS -- `uvm_field_array_enum
 //
@@ -2082,7 +2034,7 @@ UVM_``OP: \
 // @uvm-ieee 1800.2-2017 auto B.2.2.6.1
 `define uvm_field_aa_object_int(ARG,FLAG=UVM_DEFAULT) \
   `uvm_field_aa_object_key(int, ARG, FLAG)
-     
+
 // Not LRM, but supports packing + configuration
 `define uvm_field_aa_object_key(KEY, ARG,FLAG=UVM_DEFAULT) \
   `m_uvm_field_begin(ARG, FLAG) \

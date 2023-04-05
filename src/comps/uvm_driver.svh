@@ -78,15 +78,8 @@ class uvm_driver #(type REQ=uvm_sequence_item,
   // constructor arguments for <uvm_component>: ~name~ is the name of the
   // instance, and ~parent~ is the handle to the hierarchical parent, if any.
 
-  function new (string name, uvm_component parent);
-    super.new(name, parent);
-    seq_item_port    = new("seq_item_port", this);
-    rsp_port         = new("rsp_port", this);
-    seq_item_prod_if = seq_item_port;
-  endfunction // new
+  function new (string name, uvm_component parent); endfunction // new
 
   virtual function void end_of_elaboration_phase(uvm_phase phase);
-	  if(seq_item_port.size<1)
-		  `uvm_warning("DRVCONNECT","the driver is not connected to a sequencer via the standard mechanisms enabled by connect()")
   endfunction
 endclass

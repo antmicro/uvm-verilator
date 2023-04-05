@@ -112,25 +112,9 @@ class uvm_in_order_comparator
 
   int m_matches, m_mismatches;
 
-  function new(string name, uvm_component parent);
-
-    super.new(name, parent);
-
-    before_export = new("before_export", this);
-    after_export  = new("after_export", this);
-    pair_ap       = new("pair_ap", this);
-
-    m_before_fifo = new("before", this);
-    m_after_fifo  = new("after", this);
-    m_matches = 0;
-    m_mismatches = 0;
-
-  endfunction
+  function new(string name, uvm_component parent); endfunction
   
-  virtual function void connect_phase(uvm_phase phase);
-    before_export.connect(m_before_fifo.analysis_export);
-    after_export.connect(m_after_fifo.analysis_export);
-  endfunction
+  virtual function void connect_phase(uvm_phase phase); endfunction
 
 
   // Task- run_phase
@@ -141,46 +125,7 @@ class uvm_in_order_comparator
   // Status information is updated according to the results of the comparison.
   // Each pair is published to the pair_ap analysis port.
 
-  virtual task run_phase(uvm_phase phase);
- 
-    pair_type pair;
-    T b;
-    T a;
-  
-    string s;
-    super.run_phase(phase); 
-    forever begin
-      
-      m_before_fifo.get(b);
-      m_after_fifo.get(a);
-      
-      if(!comp_type::comp(b, a)) begin
-
-        $sformat(s, "%s differs from %s", convert::convert2string(a),
-                                          convert::convert2string(b));
-
-        uvm_report_warning("Comparator Mismatch", s);
-
-        m_mismatches++;
-
-      end
-      else begin
-        s = convert::convert2string(b);
-        uvm_report_info("Comparator Match", s);
-        m_matches++;
-      end
-
-      // we make the assumption here that a transaction "sent for
-      // analysis" is safe from being edited by another process.
-      // Hence, it is safe not to clone a and b.
-      
-      pair = new("after/before");
-      pair.first = a;
-      pair.second = b;
-      pair_ap.write(pair);
-    end
-  
-  endtask
+  virtual task run_phase(uvm_phase phase); endtask
 
 
   // Function --NODOCS-- flush
@@ -188,10 +133,7 @@ class uvm_in_order_comparator
   // This method sets m_matches and m_mismatches back to zero. The
   // <uvm_tlm_fifo#(T)::flush> takes care of flushing the FIFOs.
 
-  virtual function void flush();
-    m_matches = 0;
-    m_mismatches = 0;
-  endfunction
+  virtual function void flush(); endfunction
   
 endclass
 
@@ -212,9 +154,7 @@ class uvm_in_order_built_in_comparator #(type T=int)
   `uvm_component_param_utils(this_type)
   `uvm_type_name_decl("uvm_in_order_built_in_comparator #(T)")
 
-  function new(string name, uvm_component parent);
-    super.new(name, parent);
-  endfunction
+  function new(string name, uvm_component parent); endfunction
   
 endclass
 
@@ -239,8 +179,6 @@ class uvm_in_order_class_comparator #( type T = int )
   `uvm_component_param_utils(this_type)
   `uvm_type_name_decl("uvm_in_order_class_comparator #(T)")
 
-  function new( string name  , uvm_component parent);
-    super.new( name, parent );
-  endfunction
+  function new( string name  , uvm_component parent); endfunction
   
 endclass

@@ -42,13 +42,7 @@ typedef class uvm_report_message;
 // information.
 
 // @uvm-ieee 1800.2-2017 auto F.3.1.2
-task run_test (string test_name="");
-  uvm_root top;
-  uvm_coreservice_t cs;
-  cs = uvm_coreservice_t::get();
-  top = cs.get_root();
-  top.run_test(test_name);
-endtask
+task run_test (string test_name=""); endtask
 
 //----------------------------------------------------------------------------
 //
@@ -59,13 +53,7 @@ endtask
 
 
 // @uvm-ieee 1800.2-2017 auto F.3.2.1
-function uvm_report_object uvm_get_report_object();
-  uvm_root top;
-  uvm_coreservice_t cs;
-  cs = uvm_coreservice_t::get();
-  top = cs.get_root();
-  return top;
-endfunction
+function uvm_report_object uvm_get_report_object(); endfunction
 
 
 // Function -- NODOCS -- uvm_report_enabled
@@ -82,13 +70,7 @@ endfunction
 
 // @uvm-ieee 1800.2-2017 auto F.3.2.2
 function int uvm_report_enabled (int verbosity,
-                                 uvm_severity severity=UVM_INFO, string id="");
-  uvm_root top;
-  uvm_coreservice_t cs;
-  cs = uvm_coreservice_t::get();
-  top = cs.get_root();
-  return top.uvm_report_enabled(verbosity,severity,id);
-endfunction
+                                 uvm_severity severity=UVM_INFO, string id=""); endfunction
 
 // Function -- NODOCS -- uvm_report
 
@@ -101,13 +83,7 @@ function void uvm_report( uvm_severity severity,
                           string filename = "",
                           int line = 0,
                           string context_name = "",
-                          bit report_enabled_checked = 0);
-  uvm_root top;
-  uvm_coreservice_t cs;
-  cs = uvm_coreservice_t::get();
-  top = cs.get_root();
-  top.uvm_report(severity, id, message, verbosity, filename, line, context_name, report_enabled_checked);
-endfunction 
+                          bit report_enabled_checked = 0); endfunction 
 
 // Undocumented DPI available version of uvm_report
 export "DPI-C" function m__uvm_report_dpi;
@@ -116,9 +92,7 @@ function void m__uvm_report_dpi(int severity,
                                 string message,
                                 int    verbosity,
                                 string filename,
-                                int    line);
-   uvm_report(uvm_severity'(severity), id, message, verbosity, filename, line);
-endfunction : m__uvm_report_dpi
+                                int    line); endfunction : m__uvm_report_dpi
 
 // Function -- NODOCS -- uvm_report_info
 
@@ -129,14 +103,7 @@ function void uvm_report_info(string id,
 			      string filename = "",
 			      int line = 0,
                               string context_name = "",
-                              bit report_enabled_checked = 0);
-  uvm_root top;
-  uvm_coreservice_t cs;
-  cs = uvm_coreservice_t::get();
-  top = cs.get_root();
-  top.uvm_report_info(id, message, verbosity, filename, line, context_name,
-    report_enabled_checked);
-endfunction
+                              bit report_enabled_checked = 0); endfunction
 
 
 // Function -- NODOCS -- uvm_report_warning
@@ -148,14 +115,7 @@ function void uvm_report_warning(string id,
 				 string filename = "",
 				 int line = 0,
                                  string context_name = "",
-                                 bit report_enabled_checked = 0);
-  uvm_root top;
-  uvm_coreservice_t cs;
-  cs = uvm_coreservice_t::get();
-  top = cs.get_root();
-  top.uvm_report_warning(id, message, verbosity, filename, line, context_name,
-    report_enabled_checked);
-endfunction
+                                 bit report_enabled_checked = 0); endfunction
 
 
 // Function -- NODOCS -- uvm_report_error
@@ -167,14 +127,7 @@ function void uvm_report_error(string id,
 			       string filename = "",
 			       int line = 0,
                                string context_name = "",
-                               bit report_enabled_checked = 0);
-  uvm_root top;
-  uvm_coreservice_t cs;
-  cs = uvm_coreservice_t::get();
-  top = cs.get_root();
-  top.uvm_report_error(id, message, verbosity, filename, line, context_name,
-    report_enabled_checked);
-endfunction
+                               bit report_enabled_checked = 0); endfunction
 
 
 // Function -- NODOCS -- uvm_report_fatal
@@ -195,14 +148,7 @@ function void uvm_report_fatal(string id,
 			       string filename = "",
 			       int line = 0,
                                string context_name = "",
-                               bit report_enabled_checked = 0);
-  uvm_root top;
-  uvm_coreservice_t cs;
-  cs = uvm_coreservice_t::get();
-  top = cs.get_root();
-  top.uvm_report_fatal(id, message, verbosity, filename, line, context_name,
-    report_enabled_checked);
-endfunction
+                               bit report_enabled_checked = 0); endfunction
 
 
 // Function -- NODOCS -- uvm_process_report_message
@@ -213,49 +159,14 @@ endfunction
 // components. See <uvm_report_object> for details on the reporting mechanism.
 
 // @uvm-ieee 1800.2-2017 auto F.3.2.3
-function void uvm_process_report_message(uvm_report_message report_message);
-  uvm_root top;
-  uvm_coreservice_t cs;
-  process p;
-  p = process::self();
-  cs = uvm_coreservice_t::get();
-  top = cs.get_root();
-  top.uvm_process_report_message(report_message);
-endfunction
+function void uvm_process_report_message(uvm_report_message report_message); endfunction
 
 
 // TODO merge with uvm_enum_wrapper#(uvm_severity)
-function bit uvm_string_to_severity (string sev_str, output uvm_severity sev);
-  case (sev_str)
-    "UVM_INFO": sev = UVM_INFO;
-    "UVM_WARNING": sev = UVM_WARNING;
-    "UVM_ERROR": sev = UVM_ERROR;
-    "UVM_FATAL": sev = UVM_FATAL;
-    default: return 0;
-  endcase
-  return 1;
-endfunction
+function bit uvm_string_to_severity (string sev_str, output uvm_severity sev); endfunction
 
 
-function automatic bit uvm_string_to_action (string action_str, output uvm_action action);
-  string actions[$];
-  uvm_split_string(action_str,"|",actions);
-  uvm_string_to_action = 1;
-  action = 0;
-  foreach(actions[i]) begin
-    case (actions[i])
-      "UVM_NO_ACTION": action |= UVM_NO_ACTION;
-      "UVM_DISPLAY":   action |= UVM_DISPLAY;
-      "UVM_LOG":       action |= UVM_LOG;
-      "UVM_COUNT":     action |= UVM_COUNT;
-      "UVM_EXIT":      action |= UVM_EXIT;
-      "UVM_CALL_HOOK": action |= UVM_CALL_HOOK;
-      "UVM_STOP":      action |= UVM_STOP;
-      "UVM_RM_RECORD": action |= UVM_RM_RECORD;
-      default: uvm_string_to_action = 0;
-    endcase
-  end
-endfunction
+function automatic bit uvm_string_to_action (string action_str, output uvm_action action); endfunction
 
   
 //----------------------------------------------------------------------------
@@ -267,11 +178,7 @@ endfunction
 //----------------------------------------------------------------------------
 
 // @uvm-ieee 1800.2-2017 auto F.3.3.1
-function bit uvm_is_match (string expr, string str);
-  string s;
-  s = uvm_glob_to_re(expr);
-  return (uvm_re_match(s, str) == 0);
-endfunction
+function bit uvm_is_match (string expr, string str); endfunction
 
 
 parameter UVM_LINE_WIDTH = `UVM_LINE_WIDTH;
@@ -288,14 +195,10 @@ parameter UVM_LARGE_STRING = UVM_LINE_WIDTH*UVM_NUM_LINES*8-1;
 // length is approximately 14000 characters.
 //----------------------------------------------------------------------------
 
-function logic[UVM_LARGE_STRING:0] uvm_string_to_bits(string str);
-  $swrite(uvm_string_to_bits, "%0s", str);
-endfunction
+function logic[UVM_LARGE_STRING:0] uvm_string_to_bits(string str); endfunction
 
 // @uvm-ieee 1800.2-2017 auto F.3.1.1
-function uvm_core_state get_core_state();
-		return m_uvm_core_state;
-endfunction
+function uvm_core_state get_core_state(); endfunction
 
 // Function: uvm_init
 // Implementation of uvm_init, as defined in section
@@ -318,84 +221,7 @@ endfunction
 // @uvm-contrib This API represents a potential contribution to IEEE 1800.2
   
 // @uvm-ieee 1800.2-2017 auto F.3.1.3
-function void uvm_init(uvm_coreservice_t cs=null);
-  uvm_default_coreservice_t dcs;
-  
-  if(get_core_state()!=UVM_CORE_UNINITIALIZED) begin
-    if (get_core_state() == UVM_CORE_PRE_INIT) begin
-      // If we're in this state, something very strange has happened.
-      // We've called uvm_init, and it is actively assigning the
-      // core service, but the core service isn't actually set yet.
-      // This means that either the library messed something up, or
-      // we have a race occurring between two threads.  Either way, 
-      // this is non-recoverable.  We're going to setup using the default
-      // core service, and immediately fatal out.
-      dcs = new();
-      uvm_coreservice_t::set(dcs);
-      `uvm_fatal("UVM/INIT/MULTI", "Non-recoverable race during uvm_init")
-    end
-    else begin
-      // After PRE_INIT, we can check to see if this is worth reporting
-      // as a warning.  We only report it if the value for ~cs~ is _not_
-      // the current core service, and ~cs~ is not null.
-      uvm_coreservice_t actual;
-`ifdef VERILATOR
-      // If it is a subsequent call, uvm_coreservice_t::get returns uvm_coreservice_t::inst, but there is no recursion.
-      actual = uvm_coreservice_t::inst;
-`else
-      actual = uvm_coreservice_t::get();
-`endif
-      if ((cs != actual) && (cs != null))
-        `uvm_warning("UVM/INIT/MULTI", "uvm_init() called after library has already completed initialization, subsequent calls are ignored!")
-    end
-    return;
-  end
-  m_uvm_core_state=UVM_CORE_PRE_INIT;
-
-  // We control the implementation of uvm_default_coreservice_t::new
-  // and uvm_coreservice_t::set (which is undocumented).  As such,
-  // we guarantee that they will not trigger any calls to uvm_init.
-  if(cs == null) begin
-    dcs = new();
-    cs = dcs;
-  end
-  uvm_coreservice_t::set(cs);
-
-  // After this point, it should be safe to query the
-  // corservice for anything.  We're not done with
-  // initialization, but the coreservice (and the
-  // various elements it controls) are 'stable'.
-  //
-  // Note that a user could have something silly
-  // in their own space, like a specialization of
-  // uvm_root with a constructor that relies on a
-  // specialization of uvm_factory with a
-  // constructor that relies on the specialized
-  // root being constructed...  but there's not
-  // really anything that can be done about that.
-  m_uvm_core_state=UVM_CORE_INITIALIZING;
-  
-  foreach(uvm_deferred_init[idx]) begin
-    uvm_deferred_init[idx].initialize();
-  end
-  
-  uvm_deferred_init.delete();
-  
-  begin
-    uvm_root top;
-    top = uvm_root::get();
-    // These next calls were moved to uvm_init from uvm_root,
-    // because they could emit messages, resulting in the
-    // report server being queried, which causes uvm_init.
-    top.report_header();
-    top.m_check_uvm_field_flag_size();
-    // This sets up the global verbosity. Other command line args may
-    // change individual component verbosity.
-    top.m_check_verbosity();
-  end
-    
-  m_uvm_core_state=UVM_CORE_INITIALIZED;
-endfunction
+function void uvm_init(uvm_coreservice_t cs=null); endfunction
 
 //----------------------------------------------------------------------------
 //
@@ -405,9 +231,7 @@ endfunction
 // length is approximately 14000 characters.
 //----------------------------------------------------------------------------
 
-function string uvm_bits_to_string(logic [UVM_LARGE_STRING:0] str);
-  $swrite(uvm_bits_to_string, "%0s", str);
-endfunction
+function string uvm_bits_to_string(logic [UVM_LARGE_STRING:0] str); endfunction
 
 
 //----------------------------------------------------------------------------
@@ -422,23 +246,7 @@ endfunction
 // @uvm-accellera The details of this API are specific to the Accellera implementation, and are not being considered for contribution to 1800.2
 //----------------------------------------------------------------------------
 
-task uvm_wait_for_nba_region;
-
-  int nba;
-  int next_nba;
-
-  //If `included directly in a program block, can't use a non-blocking assign,
-  //but it isn't needed since program blocks are in a separate region.
-`ifndef UVM_NO_WAIT_FOR_NBA
-  next_nba++;
-  nba <= next_nba;
-  @(nba);
-`else
-  repeat(`UVM_POUND_ZERO_COUNT) #0;
-`endif
-
-
-endtask
+task uvm_wait_for_nba_region; endtask
 
 
 //----------------------------------------------------------------------------
@@ -454,17 +262,7 @@ endtask
 // false.
 //----------------------------------------------------------------------------
 
-function automatic void uvm_split_string (string str, byte sep, ref string values[$]);
-  int s = 0, e = 0;
-  values.delete();
-  while(e < str.len()) begin
-    for(s=e; e<str.len(); ++e)
-      if(str[e] == sep) break;
-    if(s != e)
-      values.push_back(str.substr(s,e-1));
-    e++;
-  end
-endfunction
+function automatic void uvm_split_string (string str, byte sep, ref string values[$]); endfunction
 
 // Class -- NODOCS -- uvm_enum_wrapper#(T)
 //
@@ -480,30 +278,11 @@ class uvm_enum_wrapper#(type T=uvm_active_passive_enum);
 
 
     // @uvm-ieee 1800.2-2017 auto F.3.4.2
-    static function bit from_name(string name, ref T value);
-        if (map.size() == 0)
-          m_init_map();
-
-        if (map.exists(name)) begin
-            value = map[name];
-            return 1;
-        end
-        else begin
-            return 0;
-        end
-    endfunction : from_name
+    static function bit from_name(string name, ref T value); endfunction : from_name
 
     // Function- m_init_map
     // Initializes the name map, only needs to be performed once
-    protected static function void m_init_map();
-        T e = e.first();
-        do 
-          begin
-            map[e.name()] = e;
-            e = e.next();
-          end
-        while (e != e.first());
-    endfunction : m_init_map
+    protected static function void m_init_map(); endfunction : m_init_map
 
     // Function- new
     // Prevents accidental instantiations

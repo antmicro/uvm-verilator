@@ -48,51 +48,33 @@ virtual class uvm_report_message_element_base;
    // Function -- NODOCS -- get_name
    // 
 
-   virtual function string get_name();
-     return _name;
-   endfunction
+   virtual function string get_name(); endfunction
 
    // Function -- NODOCS -- set_name
    // 
    // Get or set the name of the element
    //
 
-   virtual function void set_name(string name);
-     _name = name;
-   endfunction
+   virtual function void set_name(string name); endfunction
      
 
    // Function -- NODOCS -- get_action
    // 
 
-   virtual function uvm_action get_action();
-     return _action;
-   endfunction
+   virtual function uvm_action get_action(); endfunction
 
    // Function -- NODOCS -- set_action
    // 
    // Get or set the authorized action for the element
    //
 
-   virtual function void set_action(uvm_action action);
-     _action = action;
-   endfunction
+   virtual function void set_action(uvm_action action); endfunction
      
      
-   function void print(uvm_printer printer);
-      if (_action & (UVM_LOG | UVM_DISPLAY))
-        do_print(printer);
-   endfunction : print
-   function void record(uvm_recorder recorder);
-      if (_action & UVM_RM_RECORD)
-        do_record(recorder);
-   endfunction : record
-   function void copy(uvm_report_message_element_base rhs);
-      do_copy(rhs);
-   endfunction : copy
-   function uvm_report_message_element_base clone();
-      return do_clone();
-   endfunction : clone
+   function void print(uvm_printer printer); endfunction : print
+   function void record(uvm_recorder recorder); endfunction : record
+   function void copy(uvm_report_message_element_base rhs); endfunction : copy
+   function uvm_report_message_element_base clone(); endfunction : clone
 
    pure virtual function void do_print(uvm_printer printer);
    pure virtual function void do_record(uvm_recorder recorder);
@@ -121,11 +103,7 @@ class uvm_report_message_int_element extends uvm_report_message_element_base;
    //
 
    virtual function uvm_bitstream_t get_value(output int size, 
-                                              output uvm_radix_enum radix);
-     size = _size;
-     radix = _radix;
-     return _val;
-   endfunction
+                                              output uvm_radix_enum radix); endfunction
 
 
    // Function -- NODOCS -- set_value
@@ -135,36 +113,13 @@ class uvm_report_message_int_element extends uvm_report_message_element_base;
 
    virtual function void set_value(uvm_bitstream_t value,
                               int size, 
-                              uvm_radix_enum radix);
-     _size = size;
-     _radix = radix;
-     _val = value;
-   endfunction
+                              uvm_radix_enum radix); endfunction virtual function void do_print(uvm_printer printer); endfunction : do_print
 
+   virtual function void do_record(uvm_recorder recorder); endfunction : do_record
 
-   virtual function void do_print(uvm_printer printer);
-      printer.print_field(_name, _val, _size, _radix);
-   endfunction : do_print
+   virtual function void do_copy(uvm_report_message_element_base rhs); endfunction : do_copy
 
-   virtual function void do_record(uvm_recorder recorder);
-      recorder.record_field(_name, _val, _size, _radix);
-   endfunction : do_record
-
-   virtual function void do_copy(uvm_report_message_element_base rhs);
-      this_type _rhs;
-      $cast(_rhs, rhs);
-      _name = _rhs._name;
-      _val = _rhs._val;
-      _size = _rhs._size;
-      _radix = _rhs._radix;
-      _action = rhs._action;
-   endfunction : do_copy
-
-   virtual function uvm_report_message_element_base do_clone(); 
-     this_type tmp = new; 
-     tmp.copy(this); 
-     return tmp; 
-   endfunction : do_clone
+   virtual function uvm_report_message_element_base do_clone(); endfunction : do_clone
 endclass : uvm_report_message_int_element
 
 
@@ -184,41 +139,23 @@ class uvm_report_message_string_element extends uvm_report_message_element_base;
    // Function -- NODOCS -- get_value
    //
 
-   virtual function string get_value();
-     return _val;
-   endfunction
+   virtual function string get_value(); endfunction
 
    // Function -- NODOCS -- set_value
    //
    // Get or set the value (string type) of the element
    //
 
-   virtual function void set_value(string value);
-     _val = value;
-   endfunction
+   virtual function void set_value(string value); endfunction
 
 
-   virtual function void do_print(uvm_printer printer);
-      printer.print_string(_name, _val);
-   endfunction : do_print
+   virtual function void do_print(uvm_printer printer); endfunction : do_print
 
-   virtual function void do_record(uvm_recorder recorder);
-      recorder.record_string(_name, _val);
-   endfunction : do_record
+   virtual function void do_record(uvm_recorder recorder); endfunction : do_record
 
-   virtual function void do_copy(uvm_report_message_element_base rhs);
-      this_type _rhs;
-      $cast(_rhs, rhs);
-      _name = _rhs._name;
-      _val = _rhs._val;
-      _action = rhs._action;
-   endfunction : do_copy
+   virtual function void do_copy(uvm_report_message_element_base rhs); endfunction : do_copy
    
-   virtual function uvm_report_message_element_base do_clone(); 
-     this_type tmp = new; 
-     tmp.copy(this); 
-     return tmp; 
-   endfunction : do_clone
+   virtual function uvm_report_message_element_base do_clone(); endfunction : do_clone
 endclass : uvm_report_message_string_element
 
 
@@ -240,41 +177,23 @@ class uvm_report_message_object_element extends uvm_report_message_element_base;
    // Get the value (object reference) of the element
    //
 
-   virtual function uvm_object get_value();
-     return _val;
-   endfunction
+   virtual function uvm_object get_value(); endfunction
 
    // Function -- NODOCS -- set_value
    //
    // Get or set the value (object reference) of the element
    //
 
-   virtual function void set_value(uvm_object value);
-     _val = value;
-   endfunction
+   virtual function void set_value(uvm_object value); endfunction
 
 
-   virtual function void do_print(uvm_printer printer);
-      printer.print_object(_name, _val);
-   endfunction : do_print
+   virtual function void do_print(uvm_printer printer); endfunction : do_print
 
-   virtual function void do_record(uvm_recorder recorder);
-      recorder.record_object(_name, _val);
-   endfunction : do_record
+   virtual function void do_record(uvm_recorder recorder); endfunction : do_record
 
-   virtual function void do_copy(uvm_report_message_element_base rhs);
-      this_type _rhs;
-      $cast(_rhs, rhs);
-      _name = _rhs._name;
-      _val = _rhs._val;
-      _action = rhs._action;
-   endfunction : do_copy
+   virtual function void do_copy(uvm_report_message_element_base rhs); endfunction : do_copy
    
-   virtual function uvm_report_message_element_base do_clone(); 
-     this_type tmp = new; 
-     tmp.copy(this); 
-     return tmp; 
-   endfunction : do_clone
+   virtual function uvm_report_message_element_base do_clone(); endfunction : do_clone
 endclass : uvm_report_message_object_element
 
 //------------------------------------------------------------------------------
@@ -297,9 +216,7 @@ class uvm_report_message_element_container extends uvm_object;
   // Create a new uvm_report_message_element_container object
   //
 
-  function new(string name = "element_container");
-    super.new(name);
-  endfunction
+  function new(string name = "element_container"); endfunction
 
 
   // Function -- NODOCS -- size
@@ -307,9 +224,7 @@ class uvm_report_message_element_container extends uvm_object;
   // Returns the size of the container, i.e. the number of elements
   //
 
-  virtual function int size();
-    return elements.size();
-  endfunction
+  virtual function int size(); endfunction
 
 
   // Function -- NODOCS -- delete
@@ -317,9 +232,7 @@ class uvm_report_message_element_container extends uvm_object;
   // Delete the ~index~-th element in the container
   //
 
-  virtual function void delete(int index);
-    elements.delete(index);
-  endfunction
+  virtual function void delete(int index); endfunction
 
 
   // Function -- NODOCS -- delete_elements
@@ -327,9 +240,7 @@ class uvm_report_message_element_container extends uvm_object;
   // Delete all the elements in the container
   //
 
-  virtual function void delete_elements();
-    elements.delete();
-  endfunction
+  virtual function void delete_elements(); endfunction
 
 
   // Function -- NODOCS -- get_elements
@@ -338,9 +249,7 @@ class uvm_report_message_element_container extends uvm_object;
   //
 
   typedef uvm_report_message_element_base queue_of_element[$];
-  virtual function queue_of_element get_elements();
-    return elements;
-  endfunction
+  virtual function queue_of_element get_elements(); endfunction
 
 
   // Function -- NODOCS -- add_int
@@ -354,23 +263,7 @@ class uvm_report_message_element_container extends uvm_object;
 
   virtual function void add_int(string name, uvm_bitstream_t value, 
                                 int size, uvm_radix_enum radix,
-			        uvm_action action = (UVM_LOG|UVM_RM_RECORD));
-     process p;
-     string rand_state;
-     uvm_report_message_int_element urme;
-
-     p = process::self();
-     if (p != null)
-       rand_state = p.get_randstate();
-     urme = new();
-     if (p != null)
-       p.set_randstate(rand_state);
-
-     urme.set_name(name);
-     urme.set_value(value, size, radix);
-     urme.set_action(action);
-     elements.push_back(urme);
-  endfunction
+			        uvm_action action = (UVM_LOG|UVM_RM_RECORD)); endfunction
 
 
   // Function -- NODOCS -- add_string
@@ -381,23 +274,7 @@ class uvm_report_message_element_container extends uvm_object;
   //
 
   virtual function void add_string(string name, string value, 
-                                   uvm_action action = (UVM_LOG|UVM_RM_RECORD));
-     process p;
-     string rand_state;
-     uvm_report_message_string_element urme;
-
-     p = process::self();
-     if (p != null)
-       rand_state = p.get_randstate();
-     urme = new();
-     if (p != null)
-       p.set_randstate(rand_state);
-
-     urme.set_name(name);
-     urme.set_value(value);
-     urme.set_action(action);
-     elements.push_back(urme);
-  endfunction
+                                   uvm_action action = (UVM_LOG|UVM_RM_RECORD)); endfunction
 
 
   // Function -- NODOCS -- add_object
@@ -408,51 +285,13 @@ class uvm_report_message_element_container extends uvm_object;
   //
 
   virtual function void add_object(string name, uvm_object obj, 
-                                   uvm_action action = (UVM_LOG|UVM_RM_RECORD));
-     process p;
-     string rand_state;
-     uvm_report_message_object_element urme;
+                                   uvm_action action = (UVM_LOG|UVM_RM_RECORD)); endfunction
 
-     p = process::self();
-     if (p != null)
-       rand_state = p.get_randstate();
-     urme = new();
-     if (p != null)
-       p.set_randstate(rand_state);
+  virtual function void do_print(uvm_printer printer); endfunction
 
-     urme.set_name(name);
-     urme.set_value(obj);
-     urme.set_action(action);
-     elements.push_back(urme);
-  endfunction
+  virtual function void do_record(uvm_recorder recorder); endfunction
 
-  virtual function void do_print(uvm_printer printer);
-    super.do_print(printer);
-    for(int i = 0; i < elements.size(); i++) begin
-       elements[i].print(printer);
-    end 
-  endfunction
-
-  virtual function void do_record(uvm_recorder recorder);
-    super.do_record(recorder);
-    for(int i = 0; i < elements.size(); i++) begin
-       elements[i].record(recorder);
-    end
-  endfunction
-
-  virtual function void do_copy(uvm_object rhs);
-    uvm_report_message_element_container urme_container;
-
-    super.do_copy(rhs);
-
-    if(!$cast(urme_container, rhs) || (rhs==null))
-      return;
-
-    delete_elements();
-    foreach (urme_container.elements[i])
-      elements.push_back(urme_container.elements[i].clone());
-
-  endfunction
+  virtual function void do_copy(uvm_object rhs); endfunction
 
 endclass
 
@@ -501,10 +340,7 @@ class uvm_report_message extends uvm_object;
   //
 
   // @uvm-ieee 1800.2-2017 auto 6.2.2.1
-  function new(string name = "uvm_report_message");
-    super.new(name);
-    _report_message_element_container = new();
-  endfunction
+  function new(string name = "uvm_report_message"); endfunction
 
 
   // Function -- NODOCS -- new_report_message
@@ -514,19 +350,7 @@ class uvm_report_message extends uvm_object;
   //
 
   // @uvm-ieee 1800.2-2017 auto 6.2.2.2
-  static function uvm_report_message new_report_message(string name = "uvm_report_message");
-    process p;
-    string rand_state;
-
-    p = process::self();
-
-    if (p != null)
-      rand_state = p.get_randstate();
-    new_report_message = new(name);
-    if (p != null)
-      p.set_randstate(rand_state);
-
-  endfunction
+  static function uvm_report_message new_report_message(string name = "uvm_report_message"); endfunction
 
 
   // Function -- NODOCS -- print
@@ -555,31 +379,7 @@ class uvm_report_message extends uvm_object;
 
 
   // @uvm-ieee 1800.2-2017 auto 6.2.2.3
-  virtual function void do_print(uvm_printer printer);
-    uvm_verbosity l_verbosity;
-
-    super.do_print(printer);
-
-    printer.print_generic("severity", "uvm_severity", 
-                          $bits(_severity), _severity.name());
-    printer.print_string("id", _id);
-    printer.print_string("message",_message);
-    if ($cast(l_verbosity, _verbosity))
-      printer.print_generic("verbosity", "uvm_verbosity", 
-                            $bits(l_verbosity), l_verbosity.name());
-    else
-      printer.print_field("verbosity", _verbosity, $bits(_verbosity), UVM_HEX);
-    printer.print_string("filename", _filename);
-    printer.print_field("line", _line, $bits(_line), UVM_UNSIGNED);
-    printer.print_string("context_name", _context_name);
-
-    if (_report_message_element_container.size() != 0) begin
-      uvm_report_message_element_base elements[$];
-      elements  = _report_message_element_container.get_elements();
-      foreach (elements[i])
-        elements[i].print(printer);
-    end
-  endfunction
+  virtual function void do_print(uvm_printer printer); endfunction
 
 
   `uvm_object_utils(uvm_report_message)
@@ -592,29 +392,7 @@ class uvm_report_message extends uvm_object;
 
 
   // Not documented.
-  virtual function void do_copy (uvm_object rhs);
-    uvm_report_message report_message;
-
-    super.do_copy(rhs);
-
-    if(!$cast(report_message, rhs) || (rhs==null))
-      return;
-
-    _report_object = report_message.get_report_object();
-    _report_handler = report_message.get_report_handler();
-    _report_server = report_message.get_report_server();
-    _context_name = report_message.get_context();
-    _file = report_message.get_file();
-    _filename = report_message.get_filename();
-    _line = report_message.get_line();
-    _action = report_message.get_action();
-    _severity = report_message.get_severity();
-    _id = report_message.get_id();
-    _message = report_message.get_message();
-    _verbosity = report_message.get_verbosity();
-
-    _report_message_element_container.copy(report_message._report_message_element_container);
-  endfunction
+  virtual function void do_copy (uvm_object rhs); endfunction
 
 
   //----------------------------------------------------------------------------
@@ -625,26 +403,20 @@ class uvm_report_message extends uvm_object;
   // Function -- NODOCS -- get_report_object
 
   // @uvm-ieee 1800.2-2017 auto 6.2.3.1
-  virtual function uvm_report_object get_report_object();
-    return _report_object;
-  endfunction
+  virtual function uvm_report_object get_report_object(); endfunction
 
   // Function -- NODOCS -- set_report_object
   //
   // Get or set the uvm_report_object that originated the message.
 
   // @uvm-ieee 1800.2-2017 auto 6.2.3.1
-  virtual function void set_report_object(uvm_report_object ro);
-    _report_object = ro;
-  endfunction
+  virtual function void set_report_object(uvm_report_object ro); endfunction
 
 
   // Function -- NODOCS -- get_report_handler
 
   // @uvm-ieee 1800.2-2017 auto 6.2.3.2
-  virtual function uvm_report_handler get_report_handler();
-    return _report_handler;
-  endfunction
+  virtual function uvm_report_handler get_report_handler(); endfunction
 
   // Function -- NODOCS -- set_report_handler
   //
@@ -652,17 +424,13 @@ class uvm_report_message extends uvm_object;
   // whether the message is enabled, should be upgraded/downgraded, etc.
 
   // @uvm-ieee 1800.2-2017 auto 6.2.3.2
-  virtual function void set_report_handler(uvm_report_handler rh);
-    _report_handler = rh;
-  endfunction
+  virtual function void set_report_handler(uvm_report_handler rh); endfunction
 
   
   // Function -- NODOCS -- get_report_server
 
   // @uvm-ieee 1800.2-2017 auto 6.2.3.3
-  virtual function uvm_report_server get_report_server();
-    return _report_server;
-  endfunction
+  virtual function uvm_report_server get_report_server(); endfunction
 
   // Function -- NODOCS -- set_report_server
   //
@@ -670,9 +438,7 @@ class uvm_report_message extends uvm_object;
   // the message's actions.  
 
   // @uvm-ieee 1800.2-2017 auto 6.2.3.3
-  virtual function void set_report_server(uvm_report_server rs);
-    _report_server = rs;
-  endfunction
+  virtual function void set_report_server(uvm_report_server rs); endfunction
 
 
   //----------------------------------------------------------------------------
@@ -683,9 +449,7 @@ class uvm_report_message extends uvm_object;
   // Function -- NODOCS -- get_severity
 
   // @uvm-ieee 1800.2-2017 auto 6.2.4.1
-  virtual function uvm_severity get_severity();
-    return _severity;
-  endfunction
+  virtual function uvm_severity get_severity(); endfunction
 
   // Function -- NODOCS -- set_severity
   //
@@ -694,17 +458,13 @@ class uvm_report_message extends uvm_object;
   // the API used (`uvm_info(), `uvm_waring(), etc.) and populated for the user.
 
   // @uvm-ieee 1800.2-2017 auto 6.2.4.1
-  virtual function void set_severity(uvm_severity sev);
-    _severity = sev;
-  endfunction
+  virtual function void set_severity(uvm_severity sev); endfunction
 
 
   // Function -- NODOCS -- get_id
 
   // @uvm-ieee 1800.2-2017 auto 6.2.4.2
-  virtual function string get_id();
-    return _id;
-  endfunction
+  virtual function string get_id(); endfunction
 
   // Function -- NODOCS -- set_id
   //
@@ -714,34 +474,26 @@ class uvm_report_message extends uvm_object;
   // messaging controls based on this field.  See <uvm_report_handler>.
 
   // @uvm-ieee 1800.2-2017 auto 6.2.4.2
-  virtual function void set_id(string id);
-    _id = id;
-  endfunction
+  virtual function void set_id(string id); endfunction
 
 
   // Function -- NODOCS -- get_message
 
   // @uvm-ieee 1800.2-2017 auto 6.2.4.3
-  virtual function string get_message();
-    return _message;
-  endfunction
+  virtual function string get_message(); endfunction
 
   // Function -- NODOCS -- set_message
   //
   // Get or set the user message content string.
 
   // @uvm-ieee 1800.2-2017 auto 6.2.4.3
-  virtual function void set_message(string msg);
-    _message = msg;
-  endfunction
+  virtual function void set_message(string msg); endfunction
 
 
   // Function -- NODOCS -- get_verbosity
 
   // @uvm-ieee 1800.2-2017 auto 6.2.4.4
-  virtual function int get_verbosity();
-    return _verbosity;
-  endfunction
+  virtual function int get_verbosity(); endfunction
 
   // Function -- NODOCS -- set_verbosity
   //
@@ -750,17 +502,13 @@ class uvm_report_message extends uvm_object;
   // message should be executed.
 
   // @uvm-ieee 1800.2-2017 auto 6.2.4.4
-  virtual function void set_verbosity(int ver);
-    _verbosity = ver;
-  endfunction
+  virtual function void set_verbosity(int ver); endfunction
 
 
   // Function -- NODOCS -- get_filename
 
   // @uvm-ieee 1800.2-2017 auto 6.2.4.5
-  virtual function string get_filename();
-    return _filename;
-  endfunction
+  virtual function string get_filename(); endfunction
 
   // Function -- NODOCS -- set_filename
   //
@@ -768,17 +516,13 @@ class uvm_report_message extends uvm_object;
   // is automatically populated by the messaging macros.
 
   // @uvm-ieee 1800.2-2017 auto 6.2.4.5
-  virtual function void set_filename(string fname);
-    _filename = fname;
-  endfunction
+  virtual function void set_filename(string fname); endfunction
 
 
   // Function -- NODOCS -- get_line
 
   // @uvm-ieee 1800.2-2017 auto 6.2.4.6
-  virtual function int get_line();
-    return _line;
-  endfunction
+  virtual function int get_line(); endfunction
 
   // Function -- NODOCS -- set_line
   //
@@ -786,17 +530,13 @@ class uvm_report_message extends uvm_object;
   // This value is automatically populate by the messaging macros.
 
   // @uvm-ieee 1800.2-2017 auto 6.2.4.6
-  virtual function void set_line(int ln);
-    _line = ln;
-  endfunction
+  virtual function void set_line(int ln); endfunction
 
 
   // Function -- NODOCS -- get_context
 
   // @uvm-ieee 1800.2-2017 auto 6.2.4.7
-  virtual function string get_context();
-    return _context_name;
-  endfunction
+  virtual function string get_context(); endfunction
 
   // Function -- NODOCS -- set_context
   //
@@ -805,17 +545,13 @@ class uvm_report_message extends uvm_object;
   // inherently UVM like modules, interfaces, etc.
 
   // @uvm-ieee 1800.2-2017 auto 6.2.4.7
-  virtual function void set_context(string cn);
-    _context_name = cn;
-  endfunction
+  virtual function void set_context(string cn); endfunction
  
 
   // Function -- NODOCS -- get_action
 
   // @uvm-ieee 1800.2-2017 auto 6.2.4.8
-  virtual function uvm_action get_action();
-    return _action;
-  endfunction
+  virtual function uvm_action get_action(); endfunction
 
   // Function -- NODOCS -- set_action
   //
@@ -824,17 +560,13 @@ class uvm_report_message extends uvm_object;
   // message execution flow.
 
   // @uvm-ieee 1800.2-2017 auto 6.2.4.8
-  virtual function void set_action(uvm_action act);
-    _action = act;
-  endfunction
+  virtual function void set_action(uvm_action act); endfunction
 
 
   // Function -- NODOCS -- get_file
 
   // @uvm-ieee 1800.2-2017 auto 6.2.4.9
-  virtual function UVM_FILE get_file();
-    return _file;
-  endfunction
+  virtual function UVM_FILE get_file(); endfunction
 
   // Function -- NODOCS -- set_file
   //
@@ -843,18 +575,14 @@ class uvm_report_message extends uvm_object;
   // uvm_report_handler during message execution flow.
 
   // @uvm-ieee 1800.2-2017 auto 6.2.4.9
-  virtual function void set_file(UVM_FILE fl);
-    _file = fl;
-  endfunction
+  virtual function void set_file(UVM_FILE fl); endfunction
 
 
   // Function -- NODOCS -- get_element_container
   //
   // Get the element_container of the message
 
-  virtual function uvm_report_message_element_container get_element_container();
-    return _report_message_element_container;
-  endfunction
+  virtual function uvm_report_message_element_container get_element_container(); endfunction
 
 
   // Function -- NODOCS -- set_report_message
@@ -869,15 +597,7 @@ class uvm_report_message extends uvm_object;
 					   int verbosity, 
     					   string filename,
 					   int line,
-					   string context_name);
-    this._context_name = context_name;
-    this._filename = filename;
-    this._line = line;
-    this._severity = severity;
-    this._id = id;
-    this._message = message;
-    this._verbosity = verbosity;
-  endfunction
+					   string context_name); endfunction
 
 
   //----------------------------------------------------------------------------
@@ -885,42 +605,14 @@ class uvm_report_message extends uvm_object;
   //----------------------------------------------------------------------------
 
   // Not documented.
-  virtual function void m_record_message(uvm_recorder recorder);
-    recorder.record_string("message", _message);
-  endfunction
+  virtual function void m_record_message(uvm_recorder recorder); endfunction
 
 
   // Not documented.
-  virtual function void m_record_core_properties(uvm_recorder recorder);
-
-    string l_string;
-    uvm_verbosity l_verbosity;
-
-    if (_context_name != "")
-      recorder.record_string("context_name", _context_name);
-    recorder.record_string("filename", _filename);
-    recorder.record_field("line", _line, $bits(_line), UVM_UNSIGNED);
-    recorder.record_string("severity", _severity.name());
-    if ($cast(l_verbosity, _verbosity))
-      recorder.record_string("verbosity", l_verbosity.name());
-    else begin
-      l_string.itoa(_verbosity);
-      recorder.record_string("verbosity", l_string);
-    end
-
-    recorder.record_string("id", _id);
-    m_record_message(recorder);
-  endfunction
+  virtual function void m_record_core_properties(uvm_recorder recorder); endfunction
 
   // Not documented.
-  virtual function void do_record(uvm_recorder recorder);
-
-    super.do_record(recorder);
-
-    m_record_core_properties(recorder);
-    _report_message_element_container.record(recorder);
-
-  endfunction
+  virtual function void do_record(uvm_recorder recorder); endfunction
 
 
   //----------------------------------------------------------------------------
@@ -939,9 +631,7 @@ class uvm_report_message extends uvm_object;
 
   virtual function void add_int(string name, uvm_bitstream_t value, 
                                 int size, uvm_radix_enum radix, 
-                                uvm_action action = (UVM_LOG|UVM_RM_RECORD));
-    _report_message_element_container.add_int(name, value, size, radix, action);
-  endfunction
+                                uvm_action action = (UVM_LOG|UVM_RM_RECORD)); endfunction
 
 
   // Function -- NODOCS -- add_string
@@ -952,9 +642,7 @@ class uvm_report_message extends uvm_object;
   //
 
   virtual function void add_string(string name, string value,
-                                   uvm_action action = (UVM_LOG|UVM_RM_RECORD));
-    _report_message_element_container.add_string(name, value, action);
-  endfunction
+                                   uvm_action action = (UVM_LOG|UVM_RM_RECORD)); endfunction
 
 
   // Function -- NODOCS -- add_object
@@ -965,9 +653,7 @@ class uvm_report_message extends uvm_object;
   //
 
   virtual function void add_object(string name, uvm_object obj,
-                                   uvm_action action = (UVM_LOG|UVM_RM_RECORD));
-    _report_message_element_container.add_object(name, obj, action);
-  endfunction
+                                   uvm_action action = (UVM_LOG|UVM_RM_RECORD)); endfunction
 
 endclass
 

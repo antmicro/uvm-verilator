@@ -46,9 +46,7 @@ class uvm_text_tr_stream extends uvm_tr_stream;
    //
    // Parameters:
    // name - Instance name
-   function new(string name="unnamed-uvm_text_tr_stream");
-      super.new(name);
-   endfunction : new
+   function new(string name="unnamed-uvm_text_tr_stream"); endfunction : new
 
    // Group: Implementation Agnostic API
 
@@ -58,49 +56,19 @@ class uvm_text_tr_stream extends uvm_tr_stream;
    // @uvm-accellera The details of this API are specific to the Accellera implementation, and are not being considered for contribution to 1800.2
    protected virtual function void do_open(uvm_tr_database db,
                                            string scope,
-                                           string stream_type_name);
-      $cast(m_text_db, db);
-      if (m_text_db.open_db())
-        $fdisplay(m_text_db.m_file, 
-                  "  CREATE_STREAM @%0t {NAME:%s T:%s SCOPE:%s STREAM:%0d}",
-                  $time,
-                  this.get_name(),
-                  stream_type_name,
-                  scope,
-                  this.get_handle());
-   endfunction : do_open
+                                           string stream_type_name); endfunction : do_open
 
    // Function: do_close
    // Callback triggered via <uvm_tr_stream::close>.
    //
    // @uvm-accellera The details of this API are specific to the Accellera implementation, and are not being considered for contribution to 1800.2
-   protected virtual function void do_close();
-      if (m_text_db.open_db())
-        $fdisplay(m_text_db.m_file,
-                  "  CLOSE_STREAM @%0t {NAME:%s T:%s SCOPE:%s STREAM:%0d}",
-                  $time,
-                  this.get_name(),
-                  this.get_stream_type_name(),
-                  this.get_scope(),
-                  this.get_handle());
-   endfunction : do_close
+   protected virtual function void do_close(); endfunction : do_close
       
    // Function: do_free
    // Callback triggered via <uvm_tr_stream::free>.
    //
    // @uvm-accellera The details of this API are specific to the Accellera implementation, and are not being considered for contribution to 1800.2
-   protected virtual function void do_free();
-      if (m_text_db.open_db())
-        $fdisplay(m_text_db.m_file, 
-                  "  FREE_STREAM @%0t {NAME:%s T:%s SCOPE:%s STREAM:%0d}",
-                  $time,
-                  this.get_name(),
-                  this.get_stream_type_name(),
-                  this.get_scope(),
-                  this.get_handle());
-      m_text_db = null;
-      return;
-   endfunction : do_free
+   protected virtual function void do_free(); endfunction : do_free
    
    // Function: do_open_recorder
    // Marks the beginning of a new record in the stream
@@ -110,16 +78,6 @@ class uvm_text_tr_stream extends uvm_tr_stream;
    // @uvm-accellera The details of this API are specific to the Accellera implementation, and are not being considered for contribution to 1800.2
    protected virtual function uvm_recorder do_open_recorder(string name,
                                                            time   open_time,
-                                                           string type_name);
-      if (m_text_db.open_db()) begin
-`ifdef VERILATOR
-         return uvm_text_recorder::type_id_create(name);
-`else
-         return uvm_text_recorder::type_id::create(name);
-`endif
-      end
-
-      return null;
-   endfunction : do_open_recorder
+                                                           string type_name); endfunction : do_open_recorder
 
 endclass : uvm_text_tr_stream

@@ -103,12 +103,7 @@ class uvm_cmdline_processor extends uvm_report_object;
   // Returns the singleton instance of the UVM command line processor.
 
   // @uvm-ieee 1800.2-2017 auto G.1.2
-  static function uvm_cmdline_processor get_inst();
-    if(m_inst == null) 
-      m_inst = new("uvm_cmdline_proc");
-      uvm_cmdline_proc = m_inst;
-    return m_inst;
-  endfunction
+  static function uvm_cmdline_processor get_inst(); endfunction
 
   protected string m_argv[$]; 
   protected string m_plus_argv[$];
@@ -124,9 +119,7 @@ class uvm_cmdline_processor extends uvm_report_object;
   // executable which started the simulation.
 
   // @uvm-ieee 1800.2-2017 auto G.1.3.1
-  function void get_args (output string args[$]);
-    args = m_argv;
-  endfunction
+  function void get_args (output string args[$]); endfunction
 
   // Function -- NODOCS -- get_plusargs
   //
@@ -139,9 +132,7 @@ class uvm_cmdline_processor extends uvm_report_object;
   // necessarily the case with vendor specific dash arguments.
 
   // @uvm-ieee 1800.2-2017 auto G.1.3.2
-  function void get_plusargs (output string args[$]);
-    args = m_plus_argv;
-  endfunction
+  function void get_plusargs (output string args[$]); endfunction
 
   // Function -- NODOCS -- get_uvmargs
   //
@@ -152,9 +143,7 @@ class uvm_cmdline_processor extends uvm_report_object;
   // letters of the argument.
 
   // @uvm-ieee 1800.2-2017 auto G.1.3.3
-  function void get_uvm_args (output string args[$]);
-    args = m_uvm_argv;
-  endfunction
+  function void get_uvm_args (output string args[$]); endfunction
 
   // Function -- NODOCS -- get_arg_matches
   //
@@ -176,22 +165,7 @@ class uvm_cmdline_processor extends uvm_report_object;
   //|                                                                   //not barfoo.sv.
 
   // @uvm-ieee 1800.2-2017 auto G.1.3.4
-  function int get_arg_matches (string match, ref string args[$]);
-    bit match_is_regex = (match.len() > 2) && (match[0] == "/") && (match[match.len()-1] == "/");
-    int len = match.len();
-
-    args.delete();
-    foreach (m_argv[i]) begin
-      if ( match_is_regex && uvm_is_match( match, m_argv[i] ) ) begin
-        args.push_back( m_argv[i] );
-      end
-      else if((m_argv[i].len() >= len) && (m_argv[i].substr(0,len - 1) == match)) begin
-        args.push_back(m_argv[i]);
-      end
-    end
-
-    return args.size();
-  endfunction
+  function int get_arg_matches (string match, ref string args[$]); endfunction
 
 
   // Group -- NODOCS -- Argument Values
@@ -205,19 +179,7 @@ class uvm_cmdline_processor extends uvm_report_object;
   // ~value~ is the value of the first match.
   
   // @uvm-ieee 1800.2-2017 auto G.1.4.1
-  function int get_arg_value (string match, ref string value);
-    int chars = match.len();
-    get_arg_value = 0;
-    foreach (m_argv[i]) begin
-      if(m_argv[i].len() >= chars) begin
-        if(m_argv[i].substr(0,chars-1) == match) begin
-          get_arg_value++;
-          if(get_arg_value == 1)
-            value = m_argv[i].substr(chars,m_argv[i].len()-1);
-        end
-      end
-    end
-  endfunction
+  function int get_arg_value (string match, ref string value); endfunction
 
   // Function -- NODOCS -- get_arg_values
   //
@@ -243,18 +205,7 @@ class uvm_cmdline_processor extends uvm_report_object;
   // uvm_split_string() function is recommended.
 
   // @uvm-ieee 1800.2-2017 auto G.1.4.2
-  function int get_arg_values (string match, ref string values[$]);
-    int chars = match.len();
-
-    values.delete();
-    foreach (m_argv[i]) begin
-      if(m_argv[i].len() >= chars) begin
-        if(m_argv[i].substr(0,chars-1) == match)
-          values.push_back(m_argv[i].substr(chars,m_argv[i].len()-1));
-      end
-    end
-    return values.size();
-  endfunction
+  function int get_arg_values (string match, ref string values[$]); endfunction
 
   // Group -- NODOCS -- Tool information
 
@@ -263,62 +214,20 @@ class uvm_cmdline_processor extends uvm_report_object;
   // Returns the simulation tool that is executing the simulation.
   // This is a vendor specific string.
 
-  function string get_tool_name ();
-    return uvm_dpi_get_tool_name();
-  endfunction
+  function string get_tool_name (); endfunction
 
   // Function -- NODOCS -- get_tool_version
   //
   // Returns the version of the simulation tool that is executing the simulation.
   // This is a vendor specific string.
 
-  function string  get_tool_version ();
-    return uvm_dpi_get_tool_version();
-  endfunction
+  function string  get_tool_version (); endfunction
 
   // constructor
 
-  function new(string name = "");
-    string s;
-    string sub;
-    int doInit=1;
-    super.new(name);
-    do begin
-      s = uvm_dpi_get_next_arg(doInit);
-      doInit=0;
-      if(s!="") begin
-        m_argv.push_back(s);
-        if(s[0] == "+") begin
-          m_plus_argv.push_back(s);
-        end 
-        if(s.len() >= 4 && (s[0]=="-" || s[0]=="+")) begin
-          sub = s.substr(1,3);
-          sub = sub.toupper();
-          if(sub == "UVM")
-            m_uvm_argv.push_back(s);
-        end 
-      end
-    end while(s!=""); 
+  function new(string name = ""); endfunction
 
-  endfunction
-
-  function bit m_convert_verb(string verb_str, output uvm_verbosity verb_enum);
-    case (verb_str)
-      "NONE"       : begin verb_enum = UVM_NONE;   return 1; end
-      "UVM_NONE"   : begin verb_enum = UVM_NONE;   return 1; end
-      "LOW"        : begin verb_enum = UVM_LOW;    return 1; end
-      "UVM_LOW"    : begin verb_enum = UVM_LOW;    return 1; end
-      "MEDIUM"     : begin verb_enum = UVM_MEDIUM; return 1; end
-      "UVM_MEDIUM" : begin verb_enum = UVM_MEDIUM; return 1; end
-      "HIGH"       : begin verb_enum = UVM_HIGH;   return 1; end
-      "UVM_HIGH"   : begin verb_enum = UVM_HIGH;   return 1; end
-      "FULL"       : begin verb_enum = UVM_FULL;   return 1; end
-      "UVM_FULL"   : begin verb_enum = UVM_FULL;   return 1; end
-      "DEBUG"      : begin verb_enum = UVM_DEBUG;  return 1; end
-      "UVM_DEBUG"  : begin verb_enum = UVM_DEBUG;  return 1; end
-      default      : begin                         return 0; end
-    endcase
-  endfunction
+  function bit m_convert_verb(string verb_str, output uvm_verbosity verb_enum); endfunction
   
 
 

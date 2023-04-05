@@ -85,12 +85,7 @@ virtual
   // Note that a driver that only calls get() will never show a current item,
   // since the item is completed at the same time as it is requested.
   //
-  function REQ get_current_item();
-    REQ t;
-    if (m_req_fifo.try_peek(t) == 0)
-      return null;
-    return t;
-  endfunction
+  function REQ get_current_item(); endfunction
 
 
   //----------------
@@ -126,18 +121,7 @@ virtual
   // the n�th before last request item.  If n is greater than the last request
   // buffer size, the function will return ~null~.
   //
-  function REQ last_req(int unsigned n = 0);
-    if(n > m_num_last_reqs) begin
-      uvm_report_warning("HSTOB",
-        $sformatf("Invalid last access (%0d), the max history is %0d", n,
-        m_num_last_reqs));
-      return null;
-    end
-    if(n == m_last_req_buffer.size())
-      return null;
-  
-    return m_last_req_buffer[n];
-  endfunction
+  function REQ last_req(int unsigned n = 0); endfunction
 
 
 
@@ -192,18 +176,7 @@ virtual
   // get the nth-before-last response item.  If n is greater than the last
   // response buffer size, the function will return ~null~.
   //
-  function RSP last_rsp(int unsigned n = 0);
-    if(n > m_num_last_rsps) begin
-      uvm_report_warning("HSTOB",
-        $sformatf("Invalid last access (%0d), the max history is %0d", n,
-        m_num_last_rsps));
-      return null;
-    end
-    if(n == m_last_rsp_buffer.size())
-      return null;
-  
-    return m_last_rsp_buffer[n];
-  endfunction
+  function RSP last_rsp(int unsigned n = 0); endfunction
 
 
 
@@ -229,43 +202,25 @@ endclass
 // new
 // ---
 
-function uvm_sequencer_param_base::new (string name, uvm_component parent);
-  super.new(name, parent);
-
-  rsp_export              = new("rsp_export", this);
-  sqr_rsp_analysis_fifo   = new("sqr_rsp_analysis_fifo", this);
-  sqr_rsp_analysis_fifo.print_enabled = 0;
-  m_req_fifo              = new("req_fifo", this);
-  m_req_fifo.print_enabled = 0;
-endfunction
+function uvm_sequencer_param_base::new (string name, uvm_component parent); endfunction
 
 
 // do_print
 // --------
 
-function void uvm_sequencer_param_base::do_print (uvm_printer printer);
-  super.do_print(printer);
-  printer.print_field_int("num_last_reqs", m_num_last_reqs, $bits(m_num_last_reqs), UVM_DEC);
-  printer.print_field_int("num_last_rsps", m_num_last_rsps, $bits(m_num_last_rsps), UVM_DEC);
-endfunction
+function void uvm_sequencer_param_base::do_print (uvm_printer printer); endfunction
 
 
 // connect_phase
 // -------------
 
-function void uvm_sequencer_param_base::connect_phase(uvm_phase phase);
-  super.connect_phase(phase);
-  rsp_export.connect(sqr_rsp_analysis_fifo.analysis_export);
-endfunction
+function void uvm_sequencer_param_base::connect_phase(uvm_phase phase); endfunction
 
 
 // build_phase
 // -----------
 
-function void uvm_sequencer_param_base::build_phase(uvm_phase phase);
-  super.build_phase(phase);
-  sqr_rsp_analysis_fifo.sequencer_ptr = this;
-endfunction
+function void uvm_sequencer_param_base::build_phase(uvm_phase phase); endfunction
 
 
 // send_request
@@ -273,192 +228,64 @@ endfunction
 
 function void uvm_sequencer_param_base::send_request(uvm_sequence_base sequence_ptr,
                                                      uvm_sequence_item t,
-                                                     bit rerandomize = 0);
-  REQ param_t;
-
-  if (sequence_ptr == null) begin
-    uvm_report_fatal("SNDREQ", "Send request sequence_ptr is null", UVM_NONE);
-  end
-
-  if (sequence_ptr.m_wait_for_grant_semaphore < 1) begin
-    uvm_report_fatal("SNDREQ", "Send request called without wait_for_grant", UVM_NONE);
-  end
-  sequence_ptr.m_wait_for_grant_semaphore--;
-  
-  if ($cast(param_t, t)) begin
-    if (rerandomize == 1) begin
-      if (!param_t.randomize()) begin
-        uvm_report_warning("SQRSNDREQ", "Failed to rerandomize sequence item in send_request");
-      end
-    end
-    if (param_t.get_transaction_id() == -1) begin
-      param_t.set_transaction_id(sequence_ptr.m_next_transaction_id++);
-    end
-    m_last_req_push_front(param_t);
-  end else begin
-    uvm_report_fatal("SQRSNDREQCAST",$sformatf("send_request failed to cast sequence item"), UVM_NONE);
-  end
-
-  param_t.set_sequence_id(sequence_ptr.m_get_sqr_sequence_id(m_sequencer_id, 1));
-  t.set_sequencer(this);
-  if (m_req_fifo.try_put(param_t) != 1) begin
-    uvm_report_fatal("SQRSNDREQGNI", "Concurrent calls to get_next_item() not supported. Consider using a semaphore to ensure that concurrent processes take turns in the driver", UVM_NONE);
-  end
-
-  m_num_reqs_sent++;
-  // Grant any locks as soon as possible
-  grant_queued_locks();
-endfunction
+                                                     bit rerandomize = 0); endfunction
 
 
 // put_response
 // ------------
 
-function void uvm_sequencer_param_base::put_response (RSP t);
-  uvm_sequence_base sequence_ptr;
-  
-  if (t == null) begin
-    uvm_report_fatal("SQRPUT", "Driver put a null response", UVM_NONE);
-  end
-
-  m_last_rsp_push_front(t);
-  m_num_rsps_received++;
-
-  // Check that set_id_info was called
-  if (t.get_sequence_id() == -1) begin
-`ifndef CDNS_NO_SQR_CHK_SEQ_ID
-    uvm_report_fatal("SQRPUT", "Driver put a response with null sequence_id", UVM_NONE);
-`endif
-    return;
-  end
-    
-  sequence_ptr = m_find_sequence(t.get_sequence_id());
-
-  if (sequence_ptr != null) begin
-    // If the response_handler is enabled for this sequence, then call the response handler
-    if (sequence_ptr.get_use_response_handler() == 1) begin
-      sequence_ptr.response_handler(t);
-      return;
-    end
-    
-    sequence_ptr.put_response(t);
-  end
-  else begin
-    uvm_report_warning("Sequencer", 
-                    $sformatf("Dropping response for sequence %0d, sequence not found.  Probable cause: sequence exited or has been killed", 
-                              t.get_sequence_id()));
-  end
-endfunction
+function void uvm_sequencer_param_base::put_response (RSP t); endfunction
 
 
 // analysis_write
 // --------------
 
-function void uvm_sequencer_param_base::analysis_write(uvm_sequence_item t);
-  RSP response;
-
-  if (!$cast(response, t)) begin
-    uvm_report_fatal("ANALWRT", "Failure to cast analysis port write item", UVM_NONE);
-  end
-  put_response(response);
-endfunction
+function void uvm_sequencer_param_base::analysis_write(uvm_sequence_item t); endfunction
 
 
 // get_num_reqs_sent
 // -----------------
 
-function int uvm_sequencer_param_base::get_num_reqs_sent();
-  return m_num_reqs_sent;
-endfunction
+function int uvm_sequencer_param_base::get_num_reqs_sent(); endfunction
 
 
 // get_num_rsps_received
 // ---------------------
 
-function int uvm_sequencer_param_base::get_num_rsps_received();
-  return m_num_rsps_received;
-endfunction
+function int uvm_sequencer_param_base::get_num_rsps_received(); endfunction
 
 
 // set_num_last_reqs
 // -----------------
 
-function void uvm_sequencer_param_base::set_num_last_reqs(int unsigned max);
-  if(max > 1024) begin
-    uvm_report_warning("HSTOB", 
-      $sformatf("Invalid last size; 1024 is the maximum and will be used"));
-    max = 1024;
-  end
-
-  //shrink the buffer if necessary
-  while((m_last_req_buffer.size() != 0) && (m_last_req_buffer.size() > max))
-    void'(m_last_req_buffer.pop_back());
-
-  m_num_last_reqs = max;
-  num_last_items = max;
-
-endfunction
+function void uvm_sequencer_param_base::set_num_last_reqs(int unsigned max); endfunction
 
 
 // get_num_last_reqs
 // -----------------
 
-function int unsigned uvm_sequencer_param_base::get_num_last_reqs();
-  return m_num_last_reqs;
-endfunction
+function int unsigned uvm_sequencer_param_base::get_num_last_reqs(); endfunction
 
 
 // m_last_req_push_front
 // ---------------------
 
-function void uvm_sequencer_param_base::m_last_req_push_front(REQ item);
-  if(!m_num_last_reqs)
-    return;
- 
-  if(m_last_req_buffer.size() == m_num_last_reqs)
-    void'(m_last_req_buffer.pop_back());
-
-  this.m_last_req_buffer.push_front(item);
-endfunction
+function void uvm_sequencer_param_base::m_last_req_push_front(REQ item); endfunction
 
 
 // set_num_last_rsps
 // -----------------
 
-function void uvm_sequencer_param_base::set_num_last_rsps(int unsigned max);
-  if(max > 1024) begin
-    uvm_report_warning("HSTOB", 
-      $sformatf("Invalid last size; 1024 is the maximum and will be used"));
-    max = 1024;
-  end
-
-  //shrink the buffer
-  while((m_last_rsp_buffer.size() != 0) && (m_last_rsp_buffer.size() > max)) begin
-    void'(m_last_rsp_buffer.pop_back());
-  end
-
-  m_num_last_rsps = max;
-
-endfunction
+function void uvm_sequencer_param_base::set_num_last_rsps(int unsigned max); endfunction
 
 
 // get_num_last_rsps
 // -----------------
 
-function int unsigned uvm_sequencer_param_base::get_num_last_rsps();
-  return m_num_last_rsps;
-endfunction
+function int unsigned uvm_sequencer_param_base::get_num_last_rsps(); endfunction
 
 
 // m_last_rsp_push_front
 // ---------------------
 
-function void uvm_sequencer_param_base::m_last_rsp_push_front(RSP item);
-  if(!m_num_last_rsps)
-    return;
- 
-  if(m_last_rsp_buffer.size() == m_num_last_rsps)
-    void'(m_last_rsp_buffer.pop_back());
-
-  this.m_last_rsp_buffer.push_front(item);
-endfunction
+function void uvm_sequencer_param_base::m_last_rsp_push_front(RSP item); endfunction

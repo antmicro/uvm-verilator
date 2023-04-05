@@ -62,10 +62,7 @@ class uvm_resource_db_options;
   // @uvm-accellera The details of this API are specific to the Accellera implementation, and are not being considered for contribution to 1800.2
 
 
-  static function void turn_on_tracing();
-     if (!ready) init();
-    tracing = 1;
-  endfunction
+  static function void turn_on_tracing(); endfunction
 
   // Function: turn_off_tracing
   //
@@ -74,10 +71,7 @@ class uvm_resource_db_options;
   // @uvm-accellera The details of this API are specific to the Accellera implementation, and are not being considered for contribution to 1800.2
 
 
-  static function void turn_off_tracing();
-     if (!ready) init();
-    tracing = 0;
-  endfunction
+  static function void turn_off_tracing(); endfunction
 
   // Function: is_tracing
   //
@@ -86,23 +80,9 @@ class uvm_resource_db_options;
   // @uvm-accellera The details of this API are specific to the Accellera implementation, and are not being considered for contribution to 1800.2
 
 
-  static function bit is_tracing();
-    if (!ready) init();
-    return tracing;
-  endfunction
+  static function bit is_tracing(); endfunction
 
 
-  static local function void init();
-     uvm_cmdline_processor clp;
-     string trace_args[$];
-     
-     clp = uvm_cmdline_processor::get_inst();
-
-     if (clp.get_arg_matches("+UVM_RESOURCE_DB_TRACE", trace_args)) begin
-        tracing = 1;
-     end
-
-     ready = 1;
-  endfunction
+  static local function void init(); endfunction
 
 endclass

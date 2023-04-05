@@ -148,126 +148,57 @@ virtual class uvm_tlm_fifo_base #(type T=int) extends uvm_component;
   // @uvm-ieee 1800.2-2017 auto 12.2.8.1.7
   // @uvm-ieee 1800.2-2017 auto 12.2.8.2.1
   // @uvm-ieee 1800.2-2017 auto 12.2.8.3.2
-  function new(string name, uvm_component parent = null);
-    super.new(name, parent);
-
-    put_export = new("put_export", this);
-    blocking_put_export     = put_export;
-    nonblocking_put_export  = put_export;
-
-    get_peek_export = new("get_peek_export", this);
-    blocking_get_peek_export    = get_peek_export;
-    nonblocking_get_peek_export = get_peek_export;
-    blocking_get_export         = get_peek_export;
-    nonblocking_get_export      = get_peek_export;
-    get_export                  = get_peek_export;
-    blocking_peek_export        = get_peek_export;
-    nonblocking_peek_export     = get_peek_export;
-    peek_export                 = get_peek_export;
-
-    put_ap = new("put_ap", this);
-    get_ap = new("get_ap", this);
-    
-  endfunction
+  function new(string name, uvm_component parent = null); endfunction
 
   //turn off auto config
-  virtual function bit use_automatic_config();
-    return 0;
-  endfunction : use_automatic_config
+  virtual function bit use_automatic_config(); endfunction : use_automatic_config
    
   // @uvm-ieee 1800.2-2017 auto 12.2.8.2.6
-  virtual function void flush();
-    uvm_report_error("flush", `UVM_TLM_FIFO_FUNCTION_ERROR, UVM_NONE);
-  endfunction
+  virtual function void flush(); endfunction
   
   // @uvm-ieee 1800.2-2017 auto 12.2.8.2.2
-  virtual function int size();
-    uvm_report_error("size", `UVM_TLM_FIFO_FUNCTION_ERROR, UVM_NONE);
-    return 0;
-  endfunction
+  virtual function int size(); endfunction
 
   // @uvm-ieee 1800.2-2017 auto 12.2.8.1.3
-  virtual task put(T t);
-    uvm_report_error("put", `UVM_TLM_FIFO_TASK_ERROR, UVM_NONE);
-  endtask
+  virtual task put(T t); endtask
 
   // @uvm-ieee 1800.2-2017 auto 12.2.8.1.4
-  virtual task get(output T t);
-    uvm_report_error("get", `UVM_TLM_FIFO_TASK_ERROR, UVM_NONE);
-  endtask
+  virtual task get(output T t); endtask
 
   // @uvm-ieee 1800.2-2017 auto 12.2.8.1.4
-  virtual task peek(output T t);
-    uvm_report_error("peek", `UVM_TLM_FIFO_TASK_ERROR, UVM_NONE);
-  endtask
+  virtual task peek(output T t); endtask
   
   // @uvm-ieee 1800.2-2017 auto 12.2.8.1.3
-  virtual function bit try_put(T t);
-    uvm_report_error("try_put", `UVM_TLM_FIFO_FUNCTION_ERROR, UVM_NONE);
-    return 0;
-  endfunction
+  virtual function bit try_put(T t); endfunction
 
   // @uvm-ieee 1800.2-2017 auto 12.2.8.1.4
-  virtual function bit try_get(output T t);
-    uvm_report_error("try_get", `UVM_TLM_FIFO_FUNCTION_ERROR, UVM_NONE);
-    return 0;
-  endfunction
+  virtual function bit try_get(output T t); endfunction
 
   // @uvm-ieee 1800.2-2017 auto 12.2.8.1.4
-  virtual function bit try_peek(output T t);
-    uvm_report_error("try_peek", `UVM_TLM_FIFO_FUNCTION_ERROR, UVM_NONE);
-    return 0;
-  endfunction
+  virtual function bit try_peek(output T t); endfunction
   
   // @uvm-ieee 1800.2-2017 auto 12.2.8.1.3
-  virtual function bit can_put();
-    uvm_report_error("can_put", `UVM_TLM_FIFO_FUNCTION_ERROR, UVM_NONE);
-    return 0;
-  endfunction
+  virtual function bit can_put(); endfunction
 
   // @uvm-ieee 1800.2-2017 auto 12.2.8.1.4
-  virtual function bit can_get();
-    uvm_report_error("can_get", `UVM_TLM_FIFO_FUNCTION_ERROR, UVM_NONE);
-    return 0;
-  endfunction
+  virtual function bit can_get(); endfunction
 
   // @uvm-ieee 1800.2-2017 auto 12.2.8.1.4
-  virtual function bit can_peek();
-    uvm_report_error("can_peek", `UVM_TLM_FIFO_FUNCTION_ERROR, UVM_NONE);
-    return 0;
-  endfunction
+  virtual function bit can_peek(); endfunction
 
-  virtual function uvm_tlm_event ok_to_put();
-    uvm_report_error("ok_to_put", `UVM_TLM_FIFO_FUNCTION_ERROR, UVM_NONE);
-    return null;
-  endfunction
+  virtual function uvm_tlm_event ok_to_put(); endfunction
 
-  virtual function uvm_tlm_event ok_to_get();
-    uvm_report_error("ok_to_get", `UVM_TLM_FIFO_FUNCTION_ERROR, UVM_NONE);
-    return null;
-  endfunction
+  virtual function uvm_tlm_event ok_to_get(); endfunction
 
-  virtual function uvm_tlm_event ok_to_peek();
-    uvm_report_error("ok_to_peek", `UVM_TLM_FIFO_FUNCTION_ERROR, UVM_NONE);
-    return null;
-  endfunction
+  virtual function uvm_tlm_event ok_to_peek(); endfunction
 
   // @uvm-ieee 1800.2-2017 auto 12.2.8.2.4
-  virtual function bit is_empty();
-    uvm_report_error("is_empty", `UVM_TLM_FIFO_FUNCTION_ERROR, UVM_NONE);
-    return 0;
-  endfunction
+  virtual function bit is_empty(); endfunction
 
   // @uvm-ieee 1800.2-2017 auto 12.2.8.2.5
-  virtual function bit is_full();
-    uvm_report_error("is_full", `UVM_TLM_FIFO_FUNCTION_ERROR);
-    return 0;
-  endfunction
+  virtual function bit is_full(); endfunction
 
   // @uvm-ieee 1800.2-2017 auto 12.2.8.2.3
-  virtual function int used();
-    uvm_report_error("used", `UVM_TLM_FIFO_FUNCTION_ERROR, UVM_NONE);
-    return 0;
-  endfunction
+  virtual function int used(); endfunction
 
 endclass

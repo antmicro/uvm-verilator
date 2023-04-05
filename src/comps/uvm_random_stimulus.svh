@@ -68,15 +68,7 @@ class uvm_random_stimulus #(type T=uvm_transaction) extends uvm_component;
   // In subsequent simulations, set_randstate can be called with the same
   // value to reproduce the same sequence of transactions.
 
-  function new(string name, uvm_component parent);
-
-    super.new(name, parent);
-
-    blocking_put_port=new("blocking_put_port", this);
-    
-    uvm_report_info("uvm_stimulus", {"rand state is ", get_randstate()});
-
-  endfunction
+  function new(string name, uvm_component parent); endfunction
 
 
   local bit m_stop;
@@ -97,23 +89,7 @@ class uvm_random_stimulus #(type T=uvm_transaction) extends uvm_component;
   // The transactions are cloned before they are sent out 
   // over the blocking_put_port
 
-  virtual task generate_stimulus(T t=null, int max_count=0);
-
-    T temp;
-    
-    if (t == null)
-      t = new;
-    
-    for (int i=0; (max_count == 0 || i < max_count) && !m_stop; i++) begin
-
-       if (! t.randomize() )
-          uvm_report_warning ("RANDFL", "Randomization failed in generate_stimulus");
-      
-       $cast(temp, t.clone());
-       uvm_report_info("stimulus generation", temp.convert2string()); 
-       blocking_put_port.put(temp);
-    end
-  endtask
+  virtual task generate_stimulus(T t=null, int max_count=0); endtask
   
 
   // Function -- NODOCS -- stop_stimulus_generation
@@ -123,9 +99,7 @@ class uvm_random_stimulus #(type T=uvm_transaction) extends uvm_component;
   // processes, those processes will also need to be
   // stopped in an overridden version of this method
   
-  virtual function void stop_stimulus_generation;
-    m_stop = 1;
-  endfunction
+  virtual function void stop_stimulus_generation; endfunction
   
 
 endclass : uvm_random_stimulus

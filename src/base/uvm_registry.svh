@@ -58,16 +58,7 @@ class uvm_component_registry #(type T=uvm_component, string Tname="<unknown>")
 
   // @uvm-ieee 1800.2-2017 auto 8.2.3.2.1
   virtual function uvm_component create_component (string name,
-                                                   uvm_component parent);
-    T obj;
-    obj = new(name, parent);
-    return obj;
-  endfunction
-
-
-   static function string type_name();
-     return common_type::type_name();
-   endfunction : type_name
+                                                   uvm_component parent); endfunction static function string type_name(); endfunction : type_name
 
   // Function -- NODOCS -- get_type_name
   //
@@ -75,24 +66,13 @@ class uvm_component_registry #(type T=uvm_component, string Tname="<unknown>")
   // overrides the method in <uvm_object_wrapper>.
 
   // @uvm-ieee 1800.2-2017 auto 8.2.3.2.2
-  virtual function string get_type_name();
-     common_type common = common_type::get();
-     return common.get_type_name();
-  endfunction
+  virtual function string get_type_name(); endfunction
 
 
-  static function this_type get();
-     static this_type m_inst;
-     if (m_inst == null)
-       m_inst = new();
-    return m_inst;
-  endfunction
+  static function this_type get(); endfunction
 
   // @uvm-ieee 1800.2-2017 auto 8.2.3.2.7
-  virtual function void initialize();
-     common_type common = common_type::get();
-     common.initialize();
-  endfunction
+  virtual function void initialize(); endfunction
 
 
   // Function -- NODOCS -- create
@@ -104,9 +84,7 @@ class uvm_component_registry #(type T=uvm_component, string Tname="<unknown>")
   // and ~parent~.
 
   // @uvm-ieee 1800.2-2017 auto 8.2.3.2.4
-  static function T create(string name, uvm_component parent, string contxt="");
-    return common_type::create( name, parent, contxt );
-  endfunction
+  static function T create(string name, uvm_component parent, string contxt=""); endfunction
 
 
   // Function -- NODOCS -- set_type_override
@@ -118,9 +96,7 @@ class uvm_component_registry #(type T=uvm_component, string Tname="<unknown>")
 
   // @uvm-ieee 1800.2-2017 auto 8.2.3.2.5
   static function void set_type_override (uvm_object_wrapper override_type,
-                                          bit replace=1);
-    common_type::set_type_override( override_type, replace );
-  endfunction
+                                          bit replace=1); endfunction
 
 
   // Function -- NODOCS -- set_inst_override
@@ -141,9 +117,7 @@ class uvm_component_registry #(type T=uvm_component, string Tname="<unknown>")
   // @uvm-ieee 1800.2-2017 auto 8.2.3.2.6
   static function void set_inst_override(uvm_object_wrapper override_type,
                                          string inst_path,
-                                         uvm_component parent=null);
-    common_type::set_inst_override( override_type, inst_path, parent );
-  endfunction
+                                         uvm_component parent=null); endfunction
 
   // Function: set_type_alias
   // Sets a type alias for this wrapper in the default factory.
@@ -152,10 +126,7 @@ class uvm_component_registry #(type T=uvm_component, string Tname="<unknown>")
   // then the alias is deferred until registration occurs.
   //
   // @uvm-contrib This API is being considered for potential contribution to 1800.2
-  static function bit set_type_alias(string alias_name);
-     common_type::set_type_alias( alias_name );
-     return 1;
-  endfunction
+  static function bit set_type_alias(string alias_name); endfunction
 
 endclass
 
@@ -178,16 +149,9 @@ class uvm_object_registry #(type T=uvm_object, string Tname="<unknown>")
   // You should not call this method directly. Call <create> instead.
 
   // @uvm-ieee 1800.2-2017 auto 8.2.4.2.1
-  virtual function uvm_object create_object(string name="");
-    T obj;
-    if (name=="") obj = new();
-    else obj = new(name);
-    return obj;
-  endfunction
+  virtual function uvm_object create_object(string name=""); endfunction
 
-  static function string type_name();
-     return common_type::type_name();
-  endfunction : type_name
+  static function string type_name(); endfunction : type_name
 
   // Function -- NODOCS -- get_type_name
   //
@@ -195,21 +159,13 @@ class uvm_object_registry #(type T=uvm_object, string Tname="<unknown>")
   // overrides the method in <uvm_object_wrapper>.
 
   // @uvm-ieee 1800.2-2017 auto 8.2.4.2.2
-  virtual function string get_type_name();
-     common_type common = common_type::get();
-     return common.get_type_name();
-  endfunction
+  virtual function string get_type_name(); endfunction
 
   //
   // Returns the singleton instance of this type. Type-based factory operation
   // depends on there being a single proxy instance for each registered type.
 
-  static function this_type get();
-     static this_type m_inst;
-     if (m_inst == null)
-       m_inst = new();
-    return m_inst;
-  endfunction
+  static function this_type get(); endfunction
 
 
   // Function -- NODOCS -- create
@@ -222,9 +178,7 @@ class uvm_object_registry #(type T=uvm_object, string Tname="<unknown>")
 
   // @uvm-ieee 1800.2-2017 auto 8.2.4.2.4
   static function T create (string name="", uvm_component parent=null,
-                            string contxt="");
-    return common_type::create( name, parent, contxt );
-  endfunction
+                            string contxt=""); endfunction
 
 
   // Function -- NODOCS -- set_type_override
@@ -236,9 +190,7 @@ class uvm_object_registry #(type T=uvm_object, string Tname="<unknown>")
 
   // @uvm-ieee 1800.2-2017 auto 8.2.4.2.5
   static function void set_type_override (uvm_object_wrapper override_type,
-                                          bit replace=1);
-    common_type::set_type_override( override_type, replace );
-  endfunction
+                                          bit replace=1); endfunction
 
 
   // Function -- NODOCS -- set_inst_override
@@ -259,9 +211,7 @@ class uvm_object_registry #(type T=uvm_object, string Tname="<unknown>")
   // @uvm-ieee 1800.2-2017 auto 8.2.4.2.6
   static function void set_inst_override(uvm_object_wrapper override_type,
                                          string inst_path,
-                                         uvm_component parent=null);
-    common_type::set_inst_override( override_type, inst_path, parent );
-  endfunction
+                                         uvm_component parent=null); endfunction
 
   // Function: set_type_alias
   // Sets a type alias for this wrapper in the default factory.
@@ -270,16 +220,10 @@ class uvm_object_registry #(type T=uvm_object, string Tname="<unknown>")
   // then the alias is deferred until registration occurs.
   //
   // @uvm-contrib This API is being considered for potential contribution to 1800.2
-  static function bit set_type_alias(string alias_name);
-     common_type::set_type_alias( alias_name );
-     return 1;
-  endfunction
+  static function bit set_type_alias(string alias_name); endfunction
 
   // @uvm-ieee 1800.2-2017 auto 8.2.4.2.7
-  virtual function void initialize();
-     common_type common = common_type::get();
-     common.initialize();
-  endfunction
+  virtual function void initialize(); endfunction
 endclass
 
 // Class: uvm_abstract_component_registry#(T,Tname)
@@ -301,27 +245,14 @@ class uvm_abstract_component_registry #(type T=uvm_component, string Tname="<unk
 
   // @uvm-ieee 1800.2-2017 auto 8.2.5.1.2
   virtual function uvm_component create_component (string name,
-                                                   uvm_component parent);
-    `uvm_error(
-      "UVM/ABST_RGTRY/CREATE_ABSTRACT_CMPNT",
-      $sformatf( "Cannot create an instance of abstract class %s (with name %s and parent %s). Check for missing factory overrides for %s.", this.get_type_name(), name, parent.get_full_name(), this.get_type_name() )
-    )
-    return null;
-  endfunction
-
-  static function string type_name();
-     return common_type::type_name();
-  endfunction : type_name
+                                                   uvm_component parent); endfunction static function string type_name(); endfunction : type_name
 
   // Function -- NODOCS -- get_type_name
   //
   // Returns the value given by the string parameter, ~Tname~. This method
   // overrides the method in <uvm_object_wrapper>.
 
-  virtual function string get_type_name();
-     common_type common = common_type::get();
-     return common.get_type_name();
-  endfunction
+  virtual function string get_type_name(); endfunction
 
 
   // Function -- NODOCS -- get
@@ -329,12 +260,7 @@ class uvm_abstract_component_registry #(type T=uvm_component, string Tname="<unk
   // Returns the singleton instance of this type. Type-based factory operation
   // depends on there being a single proxy instance for each registered type.
 
-  static function this_type get();
-    static this_type m_inst;
-     if (m_inst == null)
-       m_inst = new();
-    return m_inst;
-  endfunction
+  static function this_type get(); endfunction
 
 
   // Function -- NODOCS -- create
@@ -345,9 +271,7 @@ class uvm_abstract_component_registry #(type T=uvm_component, string Tname="<unk
   // ~parent~'s context. The new instance will have the given leaf ~name~
   // and ~parent~.
 
-  static function T create(string name, uvm_component parent, string contxt="");
-    return common_type::create( name, parent, contxt );
-  endfunction
+  static function T create(string name, uvm_component parent, string contxt=""); endfunction
 
 
   // Function -- NODOCS -- set_type_override
@@ -358,9 +282,7 @@ class uvm_abstract_component_registry #(type T=uvm_component, string Tname="<unk
   // original type, ~T~, is typically a super class of the override type.
 
   static function void set_type_override (uvm_object_wrapper override_type,
-                                          bit replace=1);
-    common_type::set_type_override( override_type, replace );
-  endfunction
+                                          bit replace=1); endfunction
 
 
   // Function -- NODOCS -- set_inst_override
@@ -380,9 +302,7 @@ class uvm_abstract_component_registry #(type T=uvm_component, string Tname="<unk
 
   static function void set_inst_override(uvm_object_wrapper override_type,
                                          string inst_path,
-                                         uvm_component parent=null);
-    common_type::set_inst_override( override_type, inst_path, parent );
-  endfunction
+                                         uvm_component parent=null); endfunction
 
   // Function: set_type_alias
   // Sets a type alias for this wrapper in the default factory.
@@ -391,15 +311,9 @@ class uvm_abstract_component_registry #(type T=uvm_component, string Tname="<unk
   // then the alias is deferred until registration occurs.
   //
   // @uvm-contrib This API is being considered for potential contribution to 1800.2
-  static function bit set_type_alias(string alias_name);
-     common_type::set_type_alias( alias_name );
-     return 1;
-  endfunction
+  static function bit set_type_alias(string alias_name); endfunction
 
-  virtual function void initialize();
-     common_type common = common_type::get();
-     common.initialize();
-  endfunction
+  virtual function void initialize(); endfunction
 endclass
 
 
@@ -421,39 +335,23 @@ class uvm_abstract_object_registry #(type T=uvm_object, string Tname="<unknown>"
   // You should not call this method directly. Call <create> instead.
 
   // @uvm-ieee 1800.2-2017 auto 8.2.5.2.2
-  virtual function uvm_object create_object(string name="");
-    `uvm_error(
-      "UVM/ABST_RGTRY/CREATE_ABSTRACT_OBJ",
-      $sformatf( "Cannot create an instance of abstract class %s (with name %s). Check for missing factory overrides for %s.", this.get_type_name(), name, this.get_type_name() )
-    )
-    return null;
-  endfunction
+  virtual function uvm_object create_object(string name=""); endfunction
 
-  static function string type_name();
-     return common_type::type_name();
-  endfunction : type_name
+  static function string type_name(); endfunction : type_name
 
   // Function -- NODOCS -- get_type_name
   //
   // Returns the value given by the string parameter, ~Tname~. This method
   // overrides the method in <uvm_object_wrapper>.
 
-  virtual function string get_type_name();
-     common_type common = common_type::get();
-     return common.get_type_name();
-  endfunction
+  virtual function string get_type_name(); endfunction
 
   // Function -- NODOCS -- get
   //
   // Returns the singleton instance of this type. Type-based factory operation
   // depends on there being a single proxy instance for each registered type.
 
-  static function this_type get();
-    static this_type m_inst;
-     if (m_inst == null)
-       m_inst = new();
-    return m_inst;
-  endfunction
+  static function this_type get(); endfunction
 
 
   // Function -- NODOCS -- create
@@ -465,9 +363,7 @@ class uvm_abstract_object_registry #(type T=uvm_object, string Tname="<unknown>"
   // if provided.
 
   static function T create (string name="", uvm_component parent=null,
-                            string contxt="");
-    return common_type::create( name, parent, contxt );
-  endfunction
+                            string contxt=""); endfunction
 
 
   // Function -- NODOCS -- set_type_override
@@ -478,9 +374,7 @@ class uvm_abstract_object_registry #(type T=uvm_object, string Tname="<unknown>"
   // original type, ~T~, is typically a super class of the override type.
 
   static function void set_type_override (uvm_object_wrapper override_type,
-                                          bit replace=1);
-    common_type::set_type_override( override_type, replace );
-  endfunction
+                                          bit replace=1); endfunction
 
 
   // Function -- NODOCS -- set_inst_override
@@ -500,9 +394,7 @@ class uvm_abstract_object_registry #(type T=uvm_object, string Tname="<unknown>"
 
   static function void set_inst_override(uvm_object_wrapper override_type,
                                          string inst_path,
-                                         uvm_component parent=null);
-    common_type::set_inst_override( override_type, inst_path, parent );
-  endfunction
+                                         uvm_component parent=null); endfunction
 
   // Function: set_type_alias
   // Sets a type alias for this wrapper in the default factory.
@@ -511,15 +403,9 @@ class uvm_abstract_object_registry #(type T=uvm_object, string Tname="<unknown>"
   // then the alias is deferred until registration occurs.
   //
   // @uvm-contrib This API is being considered for potential contribution to 1800.2
-  static function bit set_type_alias(string alias_name);
-     common_type::set_type_alias( alias_name );
-     return 1;
-  endfunction
+  static function bit set_type_alias(string alias_name); endfunction
 
-  virtual function void initialize();
-     common_type common = common_type::get();
-     common.initialize();
-  endfunction
+  virtual function void initialize(); endfunction
 endclass
 
 
@@ -537,98 +423,27 @@ class uvm_registry_common #( type Tregistry=int, type Tcreator=int, type Tcreate
   typedef uvm_registry_common#(Tregistry,Tcreator,Tcreated,Tname) this_type;
   local static string m__type_aliases[$];
 
-  static function string type_name();
-     if((Tname == "<unknown>") && (m__type_aliases.size() != 0)) begin
-        return m__type_aliases[0];
-     end
-     return Tname;
-  endfunction : type_name
+  static function string type_name(); endfunction : type_name
 
-  virtual function string get_type_name();
-    return type_name();
-  endfunction
+  virtual function string get_type_name(); endfunction
 
-  static function this_type get();
-     static this_type m_inst;
-     if (m_inst == null)
-       m_inst = new();
-     return m_inst;
-  endfunction : get
+  static function this_type get(); endfunction : get
 
-  static function Tcreated create(string name, uvm_component parent, string contxt);
-    uvm_object obj;
-    if (contxt == "" && parent != null)
-      contxt = parent.get_full_name();
-    obj = Tcreator::create_by_type( Tregistry::get(), contxt, name, parent );
-    if (!$cast(create, obj)) begin
-      string msg;
-      msg = {"Factory did not return a ", Tcreator::base_type_name(), " of type '",Tregistry::type_name,
-        "'. A component of type '",obj == null ? "null" : obj.get_type_name(),
-        "' was returned instead. Name=",name," Parent=",
-        parent==null?"null":parent.get_type_name()," contxt=",contxt};
-      uvm_report_fatal("FCTTYP", msg, UVM_NONE);
-    end
-  endfunction
+  static function Tcreated create(string name, uvm_component parent, string contxt); endfunction
 
   static function void set_type_override (uvm_object_wrapper override_type,
-                                          bit replace);
-    uvm_factory factory=uvm_factory::get();
-
-    factory.set_type_override_by_type(Tregistry::get(),override_type,replace);
-  endfunction
+                                          bit replace); endfunction
 
   static function void set_inst_override(uvm_object_wrapper override_type,
                                          string inst_path,
-                                         uvm_component parent);
-    string full_inst_path;
-    uvm_factory factory=uvm_factory::get();
+                                         uvm_component parent); endfunction
 
-    if (parent != null) begin
-      if (inst_path == "")
-        inst_path = parent.get_full_name();
-      else
-        inst_path = {parent.get_full_name(),".",inst_path};
-    end
-    factory.set_inst_override_by_type(Tregistry::get(),override_type,inst_path);
-  endfunction
+  static function void set_type_alias(string alias_name); endfunction
 
-  static function void set_type_alias(string alias_name);
-     m__type_aliases.push_back(alias_name);
-     m__type_aliases.sort();
-     if (uvm_pkg::get_core_state() != UVM_CORE_UNINITIALIZED) begin
-        uvm_factory factory = uvm_factory::get();
-        Tregistry rgtry = Tregistry::get();
-        if (factory.is_type_registered(rgtry)) begin
-           factory.set_type_alias(alias_name,rgtry);
-        end
-     end
-  endfunction
-
-  static function bit __deferred_init();
-     Tregistry rgtry = Tregistry::get();
-     // If the core is uninitialized, we defer initialization
-     if (uvm_pkg::get_core_state() == UVM_CORE_UNINITIALIZED) begin
-	     uvm_pkg::uvm_deferred_init.push_back(rgtry);
-     end
-     // If the core is initialized, then we're static racing,
-     // initialize immediately
-     else begin
-	     rgtry.initialize();
-     end
-     return 1;
-  endfunction
+  static function bit __deferred_init(); endfunction
   local static bit m__initialized=__deferred_init();
 
-  virtual function void initialize();
-     uvm_factory factory =uvm_factory::get();
-     Tregistry rgtry = Tregistry::get();
-     factory.register(rgtry);
-     // add aliases that were set before
-     // the wrapper was registered with the factory
-     foreach(m__type_aliases[i]) begin
-        factory.set_type_alias(m__type_aliases[i],rgtry);
-     end
-  endfunction
+  virtual function void initialize(); endfunction
 endclass
 
 
@@ -649,13 +464,9 @@ virtual class uvm_registry_component_creator;
     string contxt,
     string name,
     uvm_component parent
-  );
-    uvm_coreservice_t cs = uvm_coreservice_t::get();
-    uvm_factory factory = cs.get_factory();
-    return factory.create_component_by_type( obj_wrpr, contxt, name, parent );
-  endfunction
+  ); endfunction
 
-  static function string base_type_name();  return "component"; endfunction
+  static function string base_type_name(); endfunction
 endclass
 
 virtual class uvm_registry_object_creator;
@@ -665,14 +476,9 @@ virtual class uvm_registry_object_creator;
     string contxt,
     string name,
     uvm_object unused
-  );
-    uvm_coreservice_t cs = uvm_coreservice_t::get();
-    uvm_factory factory = cs.get_factory();
-    unused = unused;  // ... to keep linters happy.
-    return factory.create_object_by_type( obj_wrpr, contxt, name );
-  endfunction
+  ); endfunction
 
-  static function string base_type_name();  return "object"; endfunction
+  static function string base_type_name(); endfunction
 endclass
 
 

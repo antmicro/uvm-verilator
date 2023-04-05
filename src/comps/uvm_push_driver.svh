@@ -68,26 +68,15 @@ class uvm_push_driver #(type REQ=uvm_sequence_item,
   // constructor arguments for <uvm_component>: ~name~ is the name of the
   // instance, and ~parent~ is the handle to the hierarchical parent, if any.
 
-  function new (string name, uvm_component parent);
-    super.new(name, parent);
-    req_export = new("req_export", this);
-    rsp_port   = new("rsp_port", this);
-  endfunction
+  function new (string name, uvm_component parent); endfunction
 
-  function void check_port_connections();
-    if (req_export.size() != 1)
-    uvm_report_fatal("Connection Error",
-                     $sformatf("Must connect to seq_item_port(%0d)",
-                               req_export.size()), UVM_NONE);
-  endfunction
+  function void check_port_connections(); endfunction
   
   virtual function void end_of_elaboration_phase(uvm_phase phase);
     super.end_of_elaboration_phase(phase);
     check_port_connections();
   endfunction
   
-  virtual task put(REQ item);
-    uvm_report_fatal("UVM_PUSH_DRIVER", "Put task for push driver is not implemented", UVM_NONE);
-  endtask
+  virtual task put(REQ item); endtask
 
 endclass

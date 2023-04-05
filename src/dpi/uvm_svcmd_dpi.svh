@@ -25,41 +25,25 @@
 
 `ifndef UVM_CMDLINE_NO_DPI
 import "DPI-C" function string uvm_dpi_get_next_arg_c (int init);
-import "DPI-C" function string uvm_dpi_get_tool_name_c ();
-import "DPI-C" function string uvm_dpi_get_tool_version_c ();
 
-function string uvm_dpi_get_next_arg(int init=0);
-  return uvm_dpi_get_next_arg_c(init);
-endfunction
+function string uvm_dpi_get_tool_name(); endfunction
 
-function string uvm_dpi_get_tool_name();
-  return uvm_dpi_get_tool_name_c();
-endfunction
-
-function string uvm_dpi_get_tool_version();
-  return uvm_dpi_get_tool_version_c();
-endfunction
+function string uvm_dpi_get_tool_version(); endfunction
 
 import "DPI-C" function chandle uvm_dpi_regcomp(string regex);
 import "DPI-C" function int uvm_dpi_regexec(chandle preg, string str);
 import "DPI-C" function void uvm_dpi_regfree(chandle preg);
 
 `else
-function string uvm_dpi_get_next_arg(int init=0);
-  return "";
-endfunction
+function string uvm_dpi_get_next_arg(int init=0); endfunction
 
-function string uvm_dpi_get_tool_name();
-  return "?";
-endfunction
+function string uvm_dpi_get_tool_name(); endfunction
 
-function string uvm_dpi_get_tool_version();
-  return "?";
-endfunction
+function string uvm_dpi_get_tool_version(); endfunction
 
 
-function chandle uvm_dpi_regcomp(string regex); return null; endfunction
-function int uvm_dpi_regexec(chandle preg, string str); return 0; endfunction
+function chandle uvm_dpi_regcomp(string regex); endfunction
+function int uvm_dpi_regexec(chandle preg, string str); endfunction
 function void uvm_dpi_regfree(chandle preg); endfunction
 
 `endif

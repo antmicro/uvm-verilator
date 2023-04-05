@@ -46,22 +46,10 @@
 // specialized resource (i.e. resource subtype).
 
 `define UVM_RESOURCE_GET_FCNS(base_type)                                               \
-  static function this_subtype get_by_name(string scope, string name, bit rpterr = 1); \
-    this_subtype t;                                                                    \
-    uvm_resource_base b = uvm_resource#(base_type)::get_by_name(scope, name, rpterr);  \
-    if(!$cast(t, b))                                                                   \
-      `uvm_fatal("BADCAST", "cannot cast resource to resource subtype")               \
-    return t;                                                                          \
-  endfunction                                                                          \
+  static function this_subtype get_by_name(string scope, string name, bit rpterr = 1); endfunction                                                                          \
                                                                                        \
   static function this_subtype get_by_type(string scope = "",                          \
-                                           uvm_resource_base type_handle);             \
-    this_subtype t;                                                                    \
-    uvm_resource_base b = uvm_resource#(base_type)::get_by_type(scope, type_handle);   \
-    if(!$cast(t, b))                                                                   \
-      `uvm_fatal("BADCAST", "cannot cast resource to resource subtype")               \
-    return t;                                                                          \
-  endfunction
+                                           uvm_resource_base type_handle); endfunction
 
 
 //----------------------------------------------------------------------
@@ -73,18 +61,9 @@ class uvm_int_rsrc extends uvm_resource #(int);
 
   typedef uvm_int_rsrc this_subtype;
 
-  function new(string name, string s = "*");
-    uvm_resource_pool rp;
-    super.new(name);
-    rp = uvm_resource_pool::get();
-    rp.set_scope(this, s);
-  endfunction
+  function new(string name, string s = "*"); endfunction
 
-  function string convert2string();
-    string s;
-    $sformat(s, "%0d", read());
-    return s;
-  endfunction
+  function string convert2string(); endfunction
 
 `ifdef UVM_ENABLE_DEPRECATED_API
   `UVM_RESOURCE_GET_FCNS(int)
@@ -101,16 +80,7 @@ class uvm_string_rsrc extends uvm_resource #(string);
 
   typedef uvm_string_rsrc this_subtype;
 
-  function new(string name, string s = "*");
-    uvm_resource_pool rp;
-    super.new(name);
-    rp = uvm_resource_pool::get();
-    rp.set_scope(this, s);
-  endfunction
-
-  function string convert2string();
-    return read();
-  endfunction
+  function new(string name, string s = "*"); endfunction function string convert2string(); endfunction
 
 `ifdef UVM_ENABLE_DEPRECATED_API
   `UVM_RESOURCE_GET_FCNS(string)
@@ -127,12 +97,7 @@ class uvm_obj_rsrc extends uvm_resource #(uvm_object);
 
   typedef uvm_obj_rsrc this_subtype;
 
-  function new(string name, string s = "*");
-    uvm_resource_pool rp;
-    super.new(name);
-    rp = uvm_resource_pool::get();
-    rp.set_scope(this, s);
-  endfunction
+  function new(string name, string s = "*"); endfunction
 
 `ifdef UVM_ENABLE_DEPRECATED_API
   `UVM_RESOURCE_GET_FCNS(uvm_object)
@@ -149,18 +114,9 @@ class uvm_bit_rsrc #(int unsigned N=1) extends uvm_resource #(bit[N-1:0]);
 
   typedef uvm_bit_rsrc#(N) this_subtype;
 
-  function new(string name, string s = "*");
-    uvm_resource_pool rp;
-    super.new(name);
-    rp = uvm_resource_pool::get();
-    rp.set_scope(this, s);
-  endfunction
+  function new(string name, string s = "*"); endfunction
 
-  function string convert2string();
-    string s;
-    $sformat(s, "%0b", read());
-    return s;
-  endfunction
+  function string convert2string(); endfunction
 
 `ifdef UVM_ENABLE_DEPRECATED_API
   `UVM_RESOURCE_GET_FCNS(bit[N-1:0])
@@ -177,18 +133,9 @@ class uvm_byte_rsrc #(int unsigned N=1) extends uvm_resource #(bit[7:0][N-1:0]);
 
   typedef uvm_byte_rsrc#(N) this_subtype;
 
-  function new(string name, string s = "*");
-    uvm_resource_pool rp;
-    super.new(name);
-    rp = uvm_resource_pool::get();
-    rp.set_scope(this, s);
-  endfunction
+  function new(string name, string s = "*"); endfunction
 
-  function string convert2string();
-    string s;
-    $sformat(s, "%0x", read());
-    return s;
-  endfunction
+  function string convert2string(); endfunction
 
 `ifdef UVM_ENABLE_DEPRECATED_API
   `UVM_RESOURCE_GET_FCNS(bit[7:0][N-1:0])

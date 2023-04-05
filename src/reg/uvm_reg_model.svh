@@ -361,30 +361,18 @@ class uvm_hdl_path_concat;
 
    // Function -- NODOCS -- set
    // Initialize the concatenation using an array literal
-   function void set(uvm_hdl_path_slice t[]);
-      slices = t;
-   endfunction
+   function void set(uvm_hdl_path_slice t[]); endfunction
 
    // Function -- NODOCS -- add_slice
    // Append the specified ~slice~ literal to the path concatenation
-   function void add_slice(uvm_hdl_path_slice slice);
-      slices = new [slices.size()+1] (slices);
-      slices[slices.size()-1] = slice;
-   endfunction
+   function void add_slice(uvm_hdl_path_slice slice); endfunction
 
    // Function -- NODOCS -- add_path
    // Append the specified ~path~ to the path concatenation,
    // for the specified number of bits at the specified ~offset~.
    function void add_path(string path,
                           int unsigned offset = -1,
-                          int unsigned size = -1);
-      uvm_hdl_path_slice t;
-      t.offset = offset;
-      t.path   = path;
-      t.size   = size;
-      
-      add_slice(t);
-   endfunction
+                          int unsigned size = -1); endfunction
    
 endclass
 
@@ -393,26 +381,7 @@ endclass
 
 // concat2string
 
-function automatic string uvm_hdl_concat2string(uvm_hdl_path_concat concat);
-   string image = "{";
-   
-   if (concat.slices.size() == 1 &&
-       concat.slices[0].offset == -1 &&
-       concat.slices[0].size == -1)
-      return concat.slices[0].path;
-
-   foreach (concat.slices[i]) begin
-      uvm_hdl_path_slice slice=concat.slices[i];
-
-      image = { image, (i == 0) ? "" : ", ", slice.path };
-      if (slice.offset >= 0)
-         image = { image, "@", $sformatf("[%0d +: %0d]", slice.offset, slice.size) };
-   end
-
-   image = { image, "}" };
-
-   return image;
-endfunction
+function automatic string uvm_hdl_concat2string(uvm_hdl_path_concat concat); endfunction
 
 typedef struct packed {
   uvm_reg_addr_t min;

@@ -353,12 +353,7 @@ class uvm_sequence_library_cfg extends uvm_object;
   function new(string name="",
                uvm_sequence_lib_mode mode=UVM_SEQ_LIB_RAND,
                int unsigned min=1,
-               int unsigned max=10);
-    super.new(name);
-    selection_mode = mode;
-    min_random_count = min;
-    max_random_count = max;
-  endfunction
+               int unsigned max=10); endfunction
 endclass
 
 
@@ -370,102 +365,59 @@ endclass
 // new
 // ---
 
-function uvm_sequence_library::new(string name="");
-   super.new(name);
-   init_sequence_library();
-   valid_rand_selection.constraint_mode(0);
-   valid_randc_selection.constraint_mode(0);
-endfunction
+function uvm_sequence_library::new(string name=""); endfunction
 
 
 // m_add_typewide_sequence
 // -----------------------
 
-function bit uvm_sequence_library::m_add_typewide_sequence(uvm_object_wrapper seq_type);
-  this_type::add_typewide_sequence(seq_type);
-  return 1;
-endfunction
+function bit uvm_sequence_library::m_add_typewide_sequence(uvm_object_wrapper seq_type); endfunction
 
 
 // add_typewide_sequence
 // ---------------------
 
-function void uvm_sequence_library::add_typewide_sequence(uvm_object_wrapper seq_type);
-  if (m_static_check(seq_type))
-    m_typewide_sequences.push_back(seq_type);
-endfunction
+function void uvm_sequence_library::add_typewide_sequence(uvm_object_wrapper seq_type); endfunction
 
 
 // add_typewide_sequences
 // ----------------------
 
-function void uvm_sequence_library::add_typewide_sequences(uvm_object_wrapper seq_types[$]);
-  foreach (seq_types[i])
-    add_typewide_sequence(seq_types[i]);
-endfunction
+function void uvm_sequence_library::add_typewide_sequences(uvm_object_wrapper seq_types[$]); endfunction
 
 
 // add_sequence
 // ------------
 
-function void uvm_sequence_library::add_sequence(uvm_object_wrapper seq_type);
-  if (m_dyn_check(seq_type))
-    sequences.push_back(seq_type);
-endfunction
+function void uvm_sequence_library::add_sequence(uvm_object_wrapper seq_type); endfunction
 
 
 // add_sequences
 // -------------
 
-function void uvm_sequence_library::add_sequences(uvm_object_wrapper seq_types[$]);
-  foreach (seq_types[i])
-    add_sequence(seq_types[i]);
-endfunction
+function void uvm_sequence_library::add_sequences(uvm_object_wrapper seq_types[$]); endfunction
 
 
 // remove_sequence
 // ---------------
 
-function void uvm_sequence_library::remove_sequence(uvm_object_wrapper seq_type);
-  foreach (sequences[i])
-    if (sequences[i] == seq_type) begin
-      sequences.delete(i);
-      return;
-    end
-endfunction
+function void uvm_sequence_library::remove_sequence(uvm_object_wrapper seq_type); endfunction
 
 
 // get_sequences
 // -------------
 
-function void uvm_sequence_library::get_sequences(ref uvm_object_wrapper seq_types[$]);
-  foreach (sequences[i])
-    seq_types.push_back(sequences[i]);
-endfunction
+function void uvm_sequence_library::get_sequences(ref uvm_object_wrapper seq_types[$]); endfunction
 
 // get_sequence
 // ------------
 
-function uvm_object_wrapper uvm_sequence_library::get_sequence(int unsigned idx);
-  if(idx < sequences.size())
-    return sequences[idx];
-  else begin
-    `uvm_error("SEQ_LIB/GET_SEQ", $sformatf("idx %0d > number of sequences in library", idx))
-    return null;
-  end
-
-endfunction
+function uvm_object_wrapper uvm_sequence_library::get_sequence(int unsigned idx); endfunction
 
 // select_sequence
 // ---------------
 
-function int unsigned uvm_sequence_library::select_sequence(int unsigned max);
-  static int unsigned counter;
-  select_sequence = counter;
-  counter++;
-  if (counter >= max)
-    counter = 0;
-endfunction
+function int unsigned uvm_sequence_library::select_sequence(int unsigned max); endfunction
 
 
 //----------//
@@ -476,10 +428,7 @@ endfunction
 // init_sequence_library
 // ---------------------
 
-function void uvm_sequence_library::init_sequence_library();
-  foreach (this_type::m_typewide_sequences[i])
-    sequences.push_back(this_type::m_typewide_sequences[i]);
-endfunction
+function void uvm_sequence_library::init_sequence_library(); endfunction
 
 
 
@@ -487,313 +436,47 @@ endfunction
 // --------------
 
 
-function bit uvm_sequence_library::m_static_check(uvm_object_wrapper seq_type);
-  if (!m_check(seq_type,null))
-    return 0;
-  foreach (m_typewide_sequences[i])
-    if (m_typewide_sequences[i] == seq_type)
-      return 0;
-  return 1;
-endfunction
+function bit uvm_sequence_library::m_static_check(uvm_object_wrapper seq_type); endfunction
 
 
 // m_dyn_check
 // -----------
 
-function bit uvm_sequence_library::m_dyn_check(uvm_object_wrapper seq_type);
-  if (!m_check(seq_type,this))
-    return 0;
-  foreach (sequences[i])
-    if (sequences[i] == seq_type)
-      return 0;
-  return 1;
-endfunction
+function bit uvm_sequence_library::m_dyn_check(uvm_object_wrapper seq_type); endfunction
 
 
 // m_check
 // -------
 
-function bit uvm_sequence_library::m_check(uvm_object_wrapper seq_type, this_type lib);
-  uvm_object obj;
-  uvm_sequence_base seq;
-  uvm_root top;
-  uvm_coreservice_t cs;   
-  string name;
-  string typ;
-  obj = seq_type.create_object();
-`ifdef UVM_ENABLE_DEPRECATED_API
-  name = (lib == null) ? type_name : lib.get_full_name();
-  typ = (lib == null) ? type_name : lib.get_type_name();
-`else
-  name = (lib == null) ? type_name() : lib.get_full_name();
-  typ = (lib == null) ? type_name() : lib.get_type_name();
-`endif
-  cs = uvm_coreservice_t::get();   
-  top = cs.get_root();
-
-  if (!$cast(seq, obj)) begin
-    `uvm_error_context("SEQLIB/BAD_SEQ_TYPE",
-        {"Object '",obj.get_type_name(),
-        "' is not a sequence. Cannot add to sequence library '",name,
-        "'"},top)
-     return 0;
-  end
-  return 1;
-endfunction
+function bit uvm_sequence_library::m_check(uvm_object_wrapper seq_type, this_type lib); endfunction
 
 
 // pre_randomize
 // -------------
 
-function void uvm_sequence_library::pre_randomize();
-  m_get_config();
-endfunction
+function void uvm_sequence_library::pre_randomize(); endfunction
 
 
 // m_get_config
 // ------------
 
-function void uvm_sequence_library::m_get_config();
-
-  uvm_sequence_library_cfg cfg;
-  string phase_name;
-  uvm_phase starting_phase = get_starting_phase();
-   
-  if (starting_phase != null) begin
-    phase_name = {starting_phase.get_name(),"_phase"};
-  end
-  if (uvm_config_db #(uvm_sequence_library_cfg)::get(m_sequencer, 
-                                        phase_name,
-                                        "default_sequence.config",
-                                        cfg) ) begin
-    selection_mode = cfg.selection_mode; 
-    min_random_count = cfg.min_random_count; 
-    max_random_count = cfg.max_random_count; 
-  end
-  else begin
-    void'(uvm_config_db #(int unsigned)::get(m_sequencer, 
-                                        phase_name,
-                                        "default_sequence.min_random_count",
-                                        min_random_count) );
-
-    void'(uvm_config_db #(int unsigned)::get(m_sequencer, 
-                                        phase_name,
-                                        "default_sequence.max_random_count",
-                                        max_random_count) );
-
-    void'(uvm_config_db #(uvm_sequence_lib_mode)::get(m_sequencer, 
-                                        phase_name,
-                                        "default_sequence.selection_mode",
-                                        selection_mode) );
-  end
-
-  if (max_random_count == 0) begin
-    `uvm_warning("SEQLIB/MAX_ZERO",
-       $sformatf("max_random_count (%0d) zero. Nothing will be done.",
-       max_random_count))
-    if (min_random_count > max_random_count)
-      min_random_count = max_random_count;
-  end
-  else if (min_random_count > max_random_count) begin
-    `uvm_error("SEQLIB/MIN_GT_MAX",
-       $sformatf("min_random_count (%0d) greater than max_random_count (%0d). Setting min to max.",
-       min_random_count,max_random_count))
-    min_random_count = max_random_count;
-  end
-  else begin
-    if (selection_mode == UVM_SEQ_LIB_ITEM) begin
-      uvm_sequencer #(REQ,RSP) seqr;
-      uvm_object_wrapper lhs = REQ::get_type();
-      uvm_object_wrapper rhs = uvm_sequence_item::get_type();
-      if (lhs == rhs) begin
-        `uvm_error("SEQLIB/BASE_ITEM", {"selection_mode cannot be UVM_SEQ_LIB_ITEM when ",
-          "the REQ type is the base uvm_sequence_item. Using UVM_SEQ_LIB_RAND mode"})
-        selection_mode = UVM_SEQ_LIB_RAND;
-      end
-      if (m_sequencer == null || !$cast(seqr,m_sequencer)) begin
-        `uvm_error("SEQLIB/VIRT_SEQ", {"selection_mode cannot be UVM_SEQ_LIB_ITEM when ",
-          "running as a virtual sequence. Using UVM_SEQ_LIB_RAND mode"})
-        selection_mode = UVM_SEQ_LIB_RAND;
-      end
-    end
-  end
-
-endfunction
+function void uvm_sequence_library::m_get_config(); endfunction
 
 
 // body
 // ----
 
-task uvm_sequence_library::body();
-
-  uvm_object_wrapper wrap;
-  uvm_phase starting_phase = get_starting_phase();
-   
-  if (m_sequencer == null) begin
-    `uvm_fatal("SEQLIB/VIRT_SEQ", {"Sequence library 'm_sequencer' handle is null ",
-      " no current support for running as a virtual sequence."})
-     return;
-  end
-
-  if (sequences.size() == 0) begin
-    `uvm_error("SEQLIB/NOSEQS", "Sequence library does not contain any sequences. Did you forget to call init_sequence_library() in the constructor?")
-    return;
-  end
-
-  if (!get_randomize_enabled())
-    m_get_config();
-
-  m_safe_raise_starting_phase({"starting sequence library ",get_full_name()," (", get_type_name(),")"});
-
-  `uvm_info("SEQLIB/START",
-     $sformatf("Starting sequence library %s in %s phase: %0d iterations in mode %s",
-      get_type_name(),
-      (starting_phase != null ? starting_phase.get_name() : "unknown"),
-      sequence_count, selection_mode.name()),UVM_LOW)
-
-   `uvm_info("SEQLIB/SPRINT",{"\n",sprint(uvm_table_printer::get_default())},UVM_FULL)
-
-    case (selection_mode)
-
-      UVM_SEQ_LIB_RAND: begin
-        valid_rand_selection.constraint_mode(1);
-        valid_sequence_count.constraint_mode(0);
-        for (int i=1; i<=sequence_count; i++) begin
-          if (!randomize(select_rand)) begin
-            `uvm_error("SEQLIB/RAND_FAIL", "Random sequence selection failed")
-            break;
-          end
-          else begin
-            wrap = sequences[select_rand];
-          end
-          execute(wrap);
-        end
-        valid_rand_selection.constraint_mode(0);
-        valid_sequence_count.constraint_mode(1);
-      end
-
-      UVM_SEQ_LIB_RANDC: begin
-        uvm_object_wrapper q[$];
-        valid_randc_selection.constraint_mode(1);
-        valid_sequence_count.constraint_mode(0);
-        for (int i=1; i<=sequence_count; i++) begin
-          if (!randomize(select_randc)) begin
-            `uvm_error("SEQLIB/RANDC_FAIL", "Random sequence selection failed")
-            break;
-          end
-          else begin
-            wrap = sequences[select_randc];
-          end
-          q.push_back(wrap);
-        end
-        valid_randc_selection.constraint_mode(0);
-        valid_sequence_count.constraint_mode(1);
-        foreach(q[i])
-          execute(q[i]);
-        valid_randc_selection.constraint_mode(0);
-        valid_sequence_count.constraint_mode(1);
-      end
-
-      UVM_SEQ_LIB_ITEM: begin
-        for (int i=1; i<=sequence_count; i++) begin
-          wrap = REQ::get_type();
-          execute(wrap);
-        end
-      end
-
-      UVM_SEQ_LIB_USER: begin
-        for (int i=1; i<=sequence_count; i++) begin
-          int user_selection;
-          user_selection = select_sequence(sequences.size()-1);
-          if (user_selection >= sequences.size()) begin
-            `uvm_error("SEQLIB/USER_FAIL", "User sequence selection out of range")
-            wrap = REQ::get_type();
-          end
-          else begin
-            wrap = sequences[user_selection];
-          end
-          execute(wrap);
-        end
-      end
-
-      default: begin
-        `uvm_fatal("SEQLIB/RAND_MODE", 
-           $sformatf("Unknown random sequence selection mode: %0d",selection_mode))
-      end
-     endcase
-
-  `uvm_info("SEQLIB/END",{"Ending sequence library in phase ",
-            (starting_phase != null ? starting_phase.get_name() : "unknown")},UVM_LOW)
- 
-  `uvm_info("SEQLIB/DSTRB",$sformatf("%p",seqs_distrib),UVM_HIGH)
-
-  m_safe_drop_starting_phase({"starting sequence library ",get_full_name()," (", get_type_name(),")"});
-
-endtask
+task uvm_sequence_library::body(); endtask
 
 
 // execute
 // -------
 
-task uvm_sequence_library::execute(uvm_object_wrapper wrap);
-
-  uvm_object obj;
-  uvm_sequence_item seq_or_item;
-  uvm_sequence_base seq_base;
-  REQ req_item;
-  
-  uvm_coreservice_t cs = uvm_coreservice_t::get();                                                     
-  uvm_factory factory=cs.get_factory();
-
-  obj = factory.create_object_by_type(wrap,get_full_name(),
-           $sformatf("%s:%0d",wrap.get_type_name(),sequences_executed+1));
-
-  if (!$cast(seq_base, obj)) begin
-     // If we're executing an item (not a sequence)
-     if (!$cast(req_item, obj)) begin
-        // But it's not our item type (This can happen if we were parameterized with
-        // a pure virtual type, because we're getting get_type() from the base class)
-        `uvm_error("SEQLIB/WRONG_ITEM_TYPE", {"The item created by '", get_full_name(), "' when in 'UVM_SEQ_LIB_ITEM' mode doesn't match the REQ type which  was passed in to the uvm_sequence_library#(REQ[,RSP]), this can happen if the REQ type which was passed in was a pure-virtual type.  Either configure the factory overrides to properly generate items for this sequence library, or do not execute this sequence library in UVM_SEQ_LIB_ITEM mode."})
-         return;
-     end
-  end
-   
-  void'($cast(seq_or_item,obj)); // already qualified, 
-   
-  `uvm_info("SEQLIB/EXEC",{"Executing ",(seq_or_item.is_item() ? "item " : "sequence "),seq_or_item.get_name(),
-                           " (",seq_or_item.get_type_name(),")"},UVM_FULL)
-  seq_or_item.print_sequence_info = 1;
-  `uvm_rand_send(seq_or_item)
-  seqs_distrib[seq_or_item.get_type_name()] = seqs_distrib[seq_or_item.get_type_name()]+1;
-
-  sequences_executed++;
-
-endtask
+task uvm_sequence_library::execute(uvm_object_wrapper wrap); endtask
   
 
 
 // do_print
 // --------
 
-function void uvm_sequence_library::do_print(uvm_printer printer);
-   printer.print_field_int("min_random_count",min_random_count,32,UVM_DEC,,"int unsigned");
-   printer.print_field_int("max_random_count",max_random_count,32,UVM_DEC,,"int unsigned");
-   printer.print_generic("selection_mode","uvm_sequence_lib_mode",32,selection_mode.name());
-   printer.print_field_int("sequence_count",sequence_count,32,UVM_DEC,,"int unsigned");
-
-   printer.print_array_header("typewide_sequences",m_typewide_sequences.size(),"queue_object_types");
-   foreach (m_typewide_sequences[i])
-     printer.print_generic($sformatf("[%0d]",i),"uvm_object_wrapper","-",m_typewide_sequences[i].get_type_name());
-   printer.print_array_footer();
-
-   printer.print_array_header("sequences",sequences.size(),"queue_object_types");
-   foreach (sequences[i])
-     printer.print_generic($sformatf("[%0d]",i),"uvm_object_wrapper","-",sequences[i].get_type_name());
-   printer.print_array_footer();
-
-   printer.print_array_header("seqs_distrib",seqs_distrib.num(),"as_int_string");
-   foreach (seqs_distrib[typ]) begin
-     printer.print_field_int({"[",typ,"]"},seqs_distrib[typ],32,,UVM_DEC,"int unsigned");
-   end
-   printer.print_array_footer();
-endfunction
+function void uvm_sequence_library::do_print(uvm_printer printer); endfunction

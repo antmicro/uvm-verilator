@@ -61,72 +61,25 @@ endclass : uvm_run_test_callback
 
 
 
-function uvm_run_test_callback::new( string name="uvm_run_test_callback");
-  super.new( name );
-endfunction
+function uvm_run_test_callback::new( string name="uvm_run_test_callback"); endfunction
 
 
 // Adds cb to the list of callbacks to be processed. The method returns 1 if cb is not already in the list of
 // callbacks; otherwise, a 0 is returned. If cb is null, 0 is returned.
-function bit uvm_run_test_callback::add( uvm_run_test_callback cb );
-  bit found;
-  int unsigned i;
-
-  if ( cb == null ) begin
-    return 0;
-  end
-
-  found = 0;
-  i = 0;
-  while ( ! found && ( i < m_registered_cbs.size() ) ) begin
-    if ( m_registered_cbs[ i ] == cb ) begin
-      found = 1;
-    end
-    ++i;
-  end
-  if ( ! found ) begin
-    m_registered_cbs.push_back( cb );
-  end
-
-  return ! found;
-endfunction
+function bit uvm_run_test_callback::add( uvm_run_test_callback cb ); endfunction
 
 
 // Removes cb from the list of callbacks to be processed. The method returns 1 if cb is in the list of callbacks;
 // otherwise, a 0 is returned. If cb is null, 0 is returned.
-function bit uvm_run_test_callback::delete( uvm_run_test_callback cb );
-  int cb_idxs[$];
-
-  if ( cb == null ) begin
-    return 0;
-  end
-
-  cb_idxs = m_registered_cbs.find_index( item ) with ( item == cb );
-  foreach ( cb_idxs[ i ] ) begin
-    m_registered_cbs.delete( i );
-  end
-  return ( cb_idxs.size() > 0 );
-endfunction
+function bit uvm_run_test_callback::delete( uvm_run_test_callback cb ); endfunction
 
 
-function void uvm_run_test_callback::m_do_pre_run_test();
-  foreach ( m_registered_cbs[ i ] ) begin
-    m_registered_cbs[ i ].pre_run_test();
-  end
-endfunction
+function void uvm_run_test_callback::m_do_pre_run_test(); endfunction
 
 
-function void uvm_run_test_callback::m_do_post_run_test();
-  foreach ( m_registered_cbs[ i ] ) begin
-    m_registered_cbs[ i ].post_run_test();
-  end
-endfunction
+function void uvm_run_test_callback::m_do_post_run_test(); endfunction
 
 
-function void uvm_run_test_callback::m_do_pre_abort();
-  foreach ( m_registered_cbs[ i ] ) begin
-    m_registered_cbs[ i ].pre_abort();
-  end
-endfunction
+function void uvm_run_test_callback::m_do_pre_abort(); endfunction
 
 

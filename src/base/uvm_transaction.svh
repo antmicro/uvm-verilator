@@ -521,91 +521,67 @@ endfunction // uvm_transaction
 
 
 // set_transaction_id
-function void uvm_transaction::set_transaction_id(int id);
-    m_transaction_id = id;
-endfunction
+function void uvm_transaction::set_transaction_id(int id); endfunction
 
 // get_transaction_id
-function int uvm_transaction::get_transaction_id();
-    return (m_transaction_id);
-endfunction
+function int uvm_transaction::get_transaction_id(); endfunction
 
 // set_initiator
 // ------------
 
-function void uvm_transaction::set_initiator(uvm_component initiator);
-  this.initiator = initiator;
-endfunction
+function void uvm_transaction::set_initiator(uvm_component initiator); endfunction
 
 // get_initiator
 // ------------
 
-function uvm_component uvm_transaction::get_initiator();
-  return initiator;
-endfunction
+function uvm_component uvm_transaction::get_initiator(); endfunction
 
 // get_event_pool
 // --------------
 
-function uvm_event_pool uvm_transaction::get_event_pool();
-  return events;
-endfunction
+function uvm_event_pool uvm_transaction::get_event_pool(); endfunction
 
 
 // is_active
 // ---------
 
-function bit uvm_transaction::is_active();
-  return (end_time == -1);
-endfunction
+function bit uvm_transaction::is_active(); endfunction
 
 
 // get_begin_time
 // --------------
 
-function time uvm_transaction::get_begin_time ();
-  return begin_time;
-endfunction
+function time uvm_transaction::get_begin_time (); endfunction
 
 
 // get_end_time
 // ------------
 
-function time uvm_transaction::get_end_time ();
-  return end_time;
-endfunction
+function time uvm_transaction::get_end_time (); endfunction
 
 
 // get_accept_time
 // ---------------
 
-function time uvm_transaction::get_accept_time ();
-  return accept_time;
-endfunction
+function time uvm_transaction::get_accept_time (); endfunction
 
 
 // do_accept_tr
 // -------------
 
-function void uvm_transaction::do_accept_tr();
-  return;
-endfunction
+function void uvm_transaction::do_accept_tr(); endfunction
 
 
 // do_begin_tr
 // ------------
 
-function void uvm_transaction::do_begin_tr();
-  return;
-endfunction
+function void uvm_transaction::do_begin_tr(); endfunction
 
 
 // do_end_tr
 // ----------
 
-function void uvm_transaction::do_end_tr();
-  return;
-endfunction
+function void uvm_transaction::do_end_tr(); endfunction
 
 // do_print
 // --------
@@ -644,145 +620,53 @@ endfunction
 // do_record
 // ---------
 
-function void uvm_transaction::do_record (uvm_recorder recorder);
-  string s;
-  super.do_record(recorder);
-  if(accept_time != -1) 
-     recorder.record_field("accept_time", accept_time, $bits(accept_time), UVM_TIME);
-  if(initiator != null) begin
-    uvm_recursion_policy_enum p = recorder.get_recursion_policy();
-    recorder.set_recursion_policy(UVM_REFERENCE);
-    recorder.record_object("initiator", initiator);
-    recorder.set_recursion_policy(p);
-  end
-endfunction
+function void uvm_transaction::do_record (uvm_recorder recorder); endfunction
 
 // get_tr_handle
 // ---------
 
-function int uvm_transaction::get_tr_handle ();
-   if (tr_recorder != null)
-     return tr_recorder.get_handle();
-   else 
-     return 0;
-endfunction
+function int uvm_transaction::get_tr_handle (); endfunction
 
 
 // disable_recording
 // -----------------
 
-function void uvm_transaction::disable_recording ();
-   this.stream_handle = null;
-endfunction
+function void uvm_transaction::disable_recording (); endfunction
 
 
 // enable_recording
 // ----------------
 
-function void uvm_transaction::enable_recording (uvm_tr_stream stream);
-   this.stream_handle = stream;
-endfunction : enable_recording
+function void uvm_transaction::enable_recording (uvm_tr_stream stream); endfunction : enable_recording
    
 // is_recording_enabled
 // --------------------
 
-function bit uvm_transaction::is_recording_enabled ();
-  return (this.stream_handle != null);
-endfunction
+function bit uvm_transaction::is_recording_enabled (); endfunction
 
 
 // accept_tr
 // ---------
 
-function void uvm_transaction::accept_tr (time accept_time = 0);
-  uvm_event#(uvm_object) e;
-   
-  if(accept_time != 0)
-    this.accept_time = accept_time;
-  else
-    this.accept_time = $realtime;
-
-  do_accept_tr();
-  e = events.get("accept");
-
-  if(e!=null) 
-    e.trigger();
-endfunction
+function void uvm_transaction::accept_tr (time accept_time = 0); endfunction
 
 // begin_tr
 // -----------
 
-function int uvm_transaction::begin_tr (time begin_time=0); 
-  return m_begin_tr(begin_time);
-endfunction
+function int uvm_transaction::begin_tr (time begin_time=0); endfunction
 
 // begin_child_tr
 // --------------
 
 //Use a parent handle of zero to link to the parent after begin
 function int uvm_transaction::begin_child_tr (time begin_time=0,
-                                                  int parent_handle=0); 
-  return m_begin_tr(begin_time, parent_handle);
-endfunction
+                                                  int parent_handle=0); endfunction
 
 // m_begin_tr
 // -----------
 
 function int uvm_transaction::m_begin_tr (time begin_time=0, 
                                               int parent_handle=0);
-   time tmp_time = (begin_time == 0) ? $realtime : begin_time;
-   uvm_recorder parent_recorder;
-
-   if (parent_handle != 0)
-     parent_recorder = uvm_recorder::get_recorder_from_handle(parent_handle);
-   
-   // If we haven't ended the previous record, end it.
-   if (tr_recorder != null)
-     // Don't free the handle, someone else may be using it...
-     end_tr(tmp_time);
-
-   // May want to establish predecessor/successor relation 
-   // (don't free handle until then)
-   if(is_recording_enabled()) begin 
-      uvm_tr_database db = stream_handle.get_db();
-      
-      this.end_time = -1;
-      this.begin_time = tmp_time;
-      
-      if(parent_recorder == null)
-        tr_recorder = stream_handle.open_recorder(get_type_name(),
-                                                  this.begin_time,
-                                                  "Begin_No_Parent, Link");
-      else begin
-         tr_recorder = stream_handle.open_recorder(get_type_name(),
-                                                   this.begin_time,
-                                                   "Begin_End, Link");
-
-         if (tr_recorder != null)
-           db.establish_link(uvm_parent_child_link::get_link(parent_recorder, tr_recorder));
-      end
-
-      if (tr_recorder != null)
-        m_begin_tr = tr_recorder.get_handle();
-      else
-        m_begin_tr = 0;
-   end
-   else begin
-      tr_recorder = null;
-      this.end_time = -1;
-      this.begin_time = tmp_time;
-
-      m_begin_tr = 0;
-   end
-   
-   do_begin_tr(); //execute callback before event trigger
-   
-   begin
-      uvm_event#(uvm_object) begin_event ;
-      begin_event = events.get("begin");
-      begin_event.trigger();
-   end
-
 endfunction
 
 
@@ -790,27 +674,4 @@ endfunction
 // ------
 
 function void uvm_transaction::end_tr (time end_time=0, bit free_handle=1);
-   this.end_time = (end_time == 0) ? $realtime : end_time;
-
-   do_end_tr(); // Callback prior to actual ending of transaction
-
-   if(is_recording_enabled() && (tr_recorder != null)) begin
-      record(tr_recorder);
-
-      tr_recorder.close(this.end_time);
-
-      if(free_handle) 
-        begin  
-           // once freed, can no longer link to
-           tr_recorder.free();
-        end
-   end // if (is_active())
-
-   tr_recorder = null;
-
-   begin
-      uvm_event#(uvm_object) end_event ;
-      end_event = events.get("end") ;
-      end_event.trigger();
-   end
 endfunction

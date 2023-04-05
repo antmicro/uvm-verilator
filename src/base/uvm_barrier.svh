@@ -47,14 +47,7 @@ class uvm_barrier extends uvm_object;
   // Creates a new barrier object.
 
   // @uvm-ieee 1800.2-2017 auto 10.3.2.1
-  function new (string name="", int threshold=0);
-    super.new(name);
-    m_event = new({"barrier_",name});
-    this.threshold = threshold;
-    num_waiters = 0;
-    auto_reset = 1;
-    at_threshold = 0;
-  endfunction
+  function new (string name="", int threshold=0); endfunction
 
 
   // Task -- NODOCS -- wait_for
@@ -64,23 +57,7 @@ class uvm_barrier extends uvm_object;
   // The number of processes to wait for is set by the <set_threshold> method.
 
   // @uvm-ieee 1800.2-2017 auto 10.3.2.2
-  virtual task wait_for();
-
-    if (at_threshold)
-      return;
-
-    num_waiters++;
-
-    if (num_waiters >= threshold) begin
-      if (!auto_reset)
-        at_threshold=1;
-      m_trigger();
-      return;
-    end
-
-    m_event.wait_trigger();
-
-  endtask
+  virtual task wait_for(); endtask
 
   
   // Function -- NODOCS -- reset
@@ -94,16 +71,7 @@ class uvm_barrier extends uvm_object;
   // be activated.
 
   // @uvm-ieee 1800.2-2017 auto 10.3.2.3
-  virtual function void reset (bit wakeup=1);
-    at_threshold = 0;
-    if (num_waiters) begin
-      if (wakeup)
-        m_event.trigger();
-      else
-        m_event.reset();
-    end
-    num_waiters = 0;
-  endfunction
+  virtual function void reset (bit wakeup=1); endfunction
 
 
   // Function -- NODOCS -- set_auto_reset
@@ -118,10 +86,7 @@ class uvm_barrier extends uvm_object;
   // pass through without being blocked until the barrier is reset.
 
   // @uvm-ieee 1800.2-2017 auto 10.3.2.4
-  virtual function void set_auto_reset (bit value=1);
-    at_threshold = 0;
-    auto_reset = value;
-  endfunction
+  virtual function void set_auto_reset (bit value=1); endfunction
 
 
   // Function -- NODOCS -- set_threshold
@@ -138,11 +103,7 @@ class uvm_barrier extends uvm_object;
   // activated.
 
   // @uvm-ieee 1800.2-2017 auto 10.3.2.6
-  virtual function void set_threshold (int threshold);
-    this.threshold = threshold;
-    if (threshold <= num_waiters)
-      reset(1);
-  endfunction
+  virtual function void set_threshold (int threshold); endfunction
 
 
   // Function -- NODOCS -- get_threshold
@@ -150,9 +111,7 @@ class uvm_barrier extends uvm_object;
   // Gets the current threshold setting for the barrier.
 
   // @uvm-ieee 1800.2-2017 auto 10.3.2.5
-  virtual function int get_threshold ();
-    return threshold;
-  endfunction
+  virtual function int get_threshold (); endfunction
 
   
   // Function -- NODOCS -- get_num_waiters
@@ -160,9 +119,7 @@ class uvm_barrier extends uvm_object;
   // Returns the number of processes currently waiting at the barrier.
 
   // @uvm-ieee 1800.2-2017 auto 10.3.2.7
-  virtual function int get_num_waiters ();
-    return num_waiters;
-  endfunction
+  virtual function int get_num_waiters (); endfunction
 
 
   // Function -- NODOCS -- cancel
@@ -171,34 +128,12 @@ class uvm_barrier extends uvm_object;
   // waiting on the barrier is killed or activated by some other means.
 
   // @uvm-ieee 1800.2-2017 auto 10.3.2.8
-  virtual function void cancel ();
-    m_event.cancel();
-    num_waiters = m_event.get_num_waiters();
-  endfunction
+  virtual function void cancel (); endfunction
 
-  local task m_trigger();
-    m_event.trigger();
-    num_waiters=0;
-    #0; //this process was last to wait; allow other procs to resume first
-  endtask
+  local task m_trigger(); endtask
 
-  virtual function void do_print (uvm_printer printer);
-    printer.print_field_int("threshold", threshold, $bits(threshold), UVM_DEC, ".", "int");
-    printer.print_field_int("num_waiters", num_waiters, $bits(num_waiters), UVM_DEC, ".", "int");
-    printer.print_field_int("at_threshold", at_threshold, $bits(at_threshold), UVM_BIN, ".", "bit");
-    printer.print_field_int("auto_reset", auto_reset, $bits(auto_reset), UVM_BIN, ".", "bit");
-  endfunction
+  virtual function void do_print (uvm_printer printer); endfunction
 
-  virtual function void do_copy (uvm_object rhs);
-    uvm_barrier b;
-    super.do_copy(rhs);
-    if(!$cast(b, rhs) || (b==null)) return;
-
-    threshold = b.threshold;
-    num_waiters = b.num_waiters;
-    at_threshold = b.at_threshold;
-    auto_reset = b.auto_reset;
-    m_event = b.m_event;
-  endfunction  
+  virtual function void do_copy (uvm_object rhs); endfunction  
 
 endclass

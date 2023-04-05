@@ -108,24 +108,7 @@ parameter UVM_RADIX = 'hf000000; //4 bits setting the radix
 
 // Function- uvm_radix_to_string
 
-function string uvm_radix_to_string(uvm_radix_enum radix);
-  case(radix)
-    UVM_BIN:        return "b";
-    UVM_OCT:        return "o";
-    UVM_DEC:        return "d";
-    UVM_HEX:        return "h";
-    UVM_UNSIGNED:   return "u";
-    UVM_UNFORMAT2:  return "u";
-    UVM_UNFORMAT4:  return "z";
-    UVM_STRING:     return "s";
-    UVM_TIME:       return "t";
-    UVM_ENUM:       return "s";
-    UVM_REAL:       return "g";
-    UVM_REAL_DEC:   return "f";
-    UVM_REAL_EXP:   return "e";
-    default:        return "x"; //hex
-  endcase
-endfunction
+function string uvm_radix_to_string(uvm_radix_enum radix); endfunction
 
 
 // Enum --NODOCS-- uvm_recursion_policy_enum

@@ -87,16 +87,7 @@ typedef logic [UVM_HDL_MAX_WIDTH-1:0] uvm_hdl_data_t;
   // If ~force_time~ is 0, <uvm_hdl_deposit> is called.
   // Returns 1 if the call succeeded, 0 otherwise.
   //
-  task uvm_hdl_force_time(string path, uvm_hdl_data_t value, time force_time = 0);
-    if (force_time == 0) begin
-      void'(uvm_hdl_deposit(path, value));
-      return;
-    end
-    if (!uvm_hdl_force(path, value))
-      return;
-    #force_time;
-    void'(uvm_hdl_release_and_read(path, value));
-  endtask
+  task uvm_hdl_force_time(string path, uvm_hdl_data_t value, time force_time = 0); endtask
 
 
   // Function -- NODOCS -- uvm_hdl_release_and_read
@@ -129,40 +120,17 @@ typedef logic [UVM_HDL_MAX_WIDTH-1:0] uvm_hdl_data_t;
 
 `else
 
-  function int uvm_hdl_check_path(string path);
-    uvm_report_fatal("UVM_HDL_CHECK_PATH", 
-      $sformatf("uvm_hdl DPI routines are compiled off. Recompile without +define+UVM_HDL_NO_DPI"));
-    return 0;
-  endfunction
+  function int uvm_hdl_check_path(string path); endfunction
 
-  function int uvm_hdl_deposit(string path, uvm_hdl_data_t value);
-    uvm_report_fatal("UVM_HDL_DEPOSIT", 
-      $sformatf("uvm_hdl DPI routines are compiled off. Recompile without +define+UVM_HDL_NO_DPI"));
-    return 0;
-  endfunction
+  function int uvm_hdl_deposit(string path, uvm_hdl_data_t value); endfunction
 
-  function int uvm_hdl_force(string path, uvm_hdl_data_t value);
-    uvm_report_fatal("UVM_HDL_FORCE", 
-      $sformatf("uvm_hdl DPI routines are compiled off. Recompile without +define+UVM_HDL_NO_DPI"));
-    return 0;
-  endfunction
+  function int uvm_hdl_force(string path, uvm_hdl_data_t value); endfunction
 
-  task uvm_hdl_force_time(string path, uvm_hdl_data_t value, time force_time=0);
-    uvm_report_fatal("UVM_HDL_FORCE_TIME", 
-      $sformatf("uvm_hdl DPI routines are compiled off. Recompile without +define+UVM_HDL_NO_DPI"));
-  endtask
+  task uvm_hdl_force_time(string path, uvm_hdl_data_t value, time force_time=0); endtask
 
-  function int uvm_hdl_release(string path, output uvm_hdl_data_t value);
-    uvm_report_fatal("UVM_HDL_RELEASE", 
-      $sformatf("uvm_hdl DPI routines are compiled off. Recompile without +define+UVM_HDL_NO_DPI"));
-    return 0;
-  endfunction
+  function int uvm_hdl_release(string path, output uvm_hdl_data_t value); endfunction
 
-  function int uvm_hdl_read(string path, output uvm_hdl_data_t value);
-    uvm_report_fatal("UVM_HDL_READ", 
-      $sformatf("uvm_hdl DPI routines are compiled off. Recompile without +define+UVM_HDL_NO_DPI"));
-    return 0;
-  endfunction
+  function int uvm_hdl_read(string path, output uvm_hdl_data_t value); endfunction
 
 `endif
 

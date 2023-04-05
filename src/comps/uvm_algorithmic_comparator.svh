@@ -109,23 +109,8 @@ class uvm_algorithmic_comparator #( type BEFORE=int,
   // which must already be allocated (handles can't be ~null~) and must implement
   // the transform() method.
 
- function new(string name, uvm_component parent=null, TRANSFORMER transformer=null);
+ function new(string name, uvm_component parent=null, TRANSFORMER transformer=null); endfunction virtual function void connect_phase(uvm_phase phase); endfunction
 
-    super.new( name , parent );
-     
-    m_transformer = transformer;
-    comp = new("comp", this );
-    
-    before_export = new("before_analysis_export" , this );
-    after_export = new("after_analysis_export" , this );
-  endfunction
-
-  virtual function void connect_phase(uvm_phase phase);
-    after_export.connect( comp.after_export );
-  endfunction
-
-  function void write( input BEFORE b );
-    comp.before_export.write( m_transformer.transform( b ) );
-  endfunction
+  function void write( input BEFORE b ); endfunction
       
 endclass

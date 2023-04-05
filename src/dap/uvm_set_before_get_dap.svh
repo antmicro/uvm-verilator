@@ -81,43 +81,27 @@ class uvm_set_before_get_dap#(type T=int) extends uvm_set_get_dap_base#(T);
 
    // Function -- NODOCS -- new
    // Constructor
-   function new(string name="unnamed-uvm_set_before_get_dap#(T)");
-      super.new(name);
-      m_set = 0;
-   endfunction : new
+   function new(string name="unnamed-uvm_set_before_get_dap#(T)"); endfunction : new
 
    // Group -- NODOCS -- Set/Get Interface
    
    // Function -- NODOCS -- set
    // Updates the value stored within the DAP.
    //
-   virtual function void set(T value);
-      m_set = 1;
-      m_value = value;
-   endfunction : set
+   virtual function void set(T value); endfunction : set
 
    // Function -- NODOCS -- try_set
    // Attempts to update the value stored within the DAP.
    //
    // ~try_set~ will always return a 1.
-   virtual function bit try_set(T value);
-      set(value);
-      return 1;
-   endfunction : try_set
+   virtual function bit try_set(T value); endfunction : try_set
    
    // Function -- NODOCS -- get
    // Returns the current value stored within the DAP.
    //
    // If 'get' is called before a call to <set> or <try_set>, then
    // an error will be reported.
-   virtual  function T get();
-      if (!m_set) begin
-         `uvm_error("UVM/SET_BEFORE_GET_DAP/NO_SET",
-                    $sformatf("Attempt to get value on '%s', but the data access policy forbits calling 'get' prior to calling 'set' or 'try_set'!",
-                              get_full_name()))
-      end
-      return m_value;
-   endfunction : get
+   virtual  function T get(); endfunction : get
 
    // Function -- NODOCS -- try_get
    // Attempts to retrieve the current value stored within the DAP
@@ -125,15 +109,7 @@ class uvm_set_before_get_dap#(type T=int) extends uvm_set_get_dap_base#(T);
    // If the value has not been 'set', then try_get will return a 0,
    // otherwise it will return a 1, and set ~value~ to the current
    // value stored within the DAP.
-   virtual function bit try_get(output T value);
-      if (!m_set) begin
-        return 0;
-      end
-      else begin
-         value = m_value;
-         return 1;
-      end
-   endfunction : try_get
+   virtual function bit try_get(output T value); endfunction : try_get
 
    // Group -- NODOCS -- Introspection
    //
@@ -144,40 +120,18 @@ class uvm_set_before_get_dap#(type T=int) extends uvm_set_get_dap_base#(T);
    //  
    // A call to any of these methods will result in an error.
 
-   virtual function void do_copy(uvm_object rhs);
-      `uvm_error("UVM/SET_BEFORE_GET_DAP/CPY",
-                 "'copy()' is not supported for 'uvm_set_before_get_dap#(T)'")
-   endfunction : do_copy
+   virtual function void do_copy(uvm_object rhs); endfunction : do_copy
 
-   virtual function void do_pack(uvm_packer packer);
-      `uvm_error("UVM/SET_BEFORE_GET_DAP/PCK",
-                 "'pack()' is not supported for 'uvm_set_before_get_dap#(T)'")
-   endfunction : do_pack
+   virtual function void do_pack(uvm_packer packer); endfunction : do_pack
 
-   virtual function void do_unpack(uvm_packer packer);
-      `uvm_error("UVM/SET_BEFORE_GET_DAP/UPK",
-                 "'unpack()' is not supported for 'uvm_set_before_get_dap#(T)'")
-   endfunction : do_unpack
+   virtual function void do_unpack(uvm_packer packer); endfunction : do_unpack
 
    // Group- Reporting
    
    // Function- convert2string
-   virtual function string convert2string();
-      if (m_set)
-        return $sformatf("(%s) %0p [SET]", `uvm_typename(m_value), m_value);
-      else
-        return $sformatf("(%s) %0p [UNSET]", `uvm_typename(m_value), m_value);
-   endfunction : convert2string
+   virtual function string convert2string(); endfunction : convert2string
    
    // Function- do_print
-   virtual function void do_print(uvm_printer printer);
-      super.do_print(printer);
-      printer.print_field_int("set_state", m_set, $bits(m_set));
-      printer.print_generic("value", 
-                            `uvm_typename(m_value), 
-                            0, 
-                            $sformatf("%0p", m_value));
-      
-   endfunction : do_print
+   virtual function void do_print(uvm_printer printer); endfunction : do_print
 
 endclass // uvm_set_before_get_dap

@@ -64,10 +64,7 @@ class uvm_reg_fifo extends uvm_reg;
     function new(string name = "reg_fifo",
                  int unsigned size,
                  int unsigned n_bits,
-                 int has_cover);
-       super.new(name,n_bits,has_cover);
-       m_size = size;
-    endfunction
+                 int has_cover); endfunction
 
 
     // Funtion: build
@@ -75,21 +72,12 @@ class uvm_reg_fifo extends uvm_reg;
     // Builds the abstract FIFO register object. Called by
     // the instantiating block, a <uvm_reg_block> subtype.
     //
-    virtual function void build();
-`ifdef VERILATOR
-       value = uvm_reg_field::type_id_create("value");
-`else
-       value = uvm_reg_field::type_id::create("value");
-`endif
-        value.configure(this, get_n_bits(), 0, "RW", 0, 32'h0, 1, 0, 1);
-    endfunction
+    virtual function void build(); endfunction
 
 
 
     // @uvm-ieee 1800.2-2017 auto 18.8.3.2
-    function void set_compare(uvm_check_e check=UVM_CHECK);
-       value.set_compare(check);
-    endfunction
+    function void set_compare(uvm_check_e check=UVM_CHECK); endfunction
 
 
     //---------------------
@@ -100,18 +88,14 @@ class uvm_reg_fifo extends uvm_reg;
     //
     // The number of entries currently in the FIFO.
     //
-    function int unsigned size();
-      return fifo.size();
-    endfunction
+    function int unsigned size(); endfunction
 
 
     // Function -- NODOCS -- capacity
     //
     // The maximum number of entries, or depth, of the FIFO.
 
-    function int unsigned capacity();
-      return m_size;
-    endfunction
+    function int unsigned capacity(); endfunction
 
 
     //--------------
@@ -141,16 +125,7 @@ class uvm_reg_fifo extends uvm_reg;
     // @uvm-ieee 1800.2-2017 auto 18.8.5.2
     virtual function void set(uvm_reg_data_t  value,
                               string          fname = "",
-                              int             lineno = 0);
-      // emulate write, with intention of update
-      value &= ((1 << get_n_bits())-1);
-      if (fifo.size() == m_size) begin
-        return;
-      end
-      super.set(value,fname,lineno);
-      m_set_cnt++;
-      fifo.push_back(this.value.value);
-    endfunction
+                              int             lineno = 0); endfunction
     
 
 
@@ -162,20 +137,7 @@ class uvm_reg_fifo extends uvm_reg;
                         input  int               prior = -1,
                         input  uvm_object        extension = null,
                         input  string            fname = "",
-                        input  int               lineno = 0);
-       uvm_reg_data_t upd;
-       if (!m_set_cnt || fifo.size() == 0)
-          return;
-       m_update_in_progress = 1;
-       for (int i=fifo.size()-m_set_cnt; m_set_cnt > 0; i++, m_set_cnt--) begin
-         if (i >= 0) begin
-            //uvm_reg_data_t val = get();
-            //super.update(status,path,map,parent,prior,extension,fname,lineno);
-            write(status,fifo[i],path,map,parent,prior,extension,fname,lineno);
-         end
-       end
-       m_update_in_progress = 0;
-    endtask
+                        input  int               lineno = 0); endtask
 
 
     // Function -- NODOCS -- mirror
@@ -188,10 +150,7 @@ class uvm_reg_fifo extends uvm_reg;
 
 
     // @uvm-ieee 1800.2-2017 auto 18.8.5.1
-    virtual function uvm_reg_data_t get(string fname="", int lineno=0);
-       //return fifo.pop_front();
-       return fifo[0];
-    endfunction
+    virtual function uvm_reg_data_t get(string fname="", int lineno=0); endfunction
 
 
     // Function -- NODOCS -- do_predict
@@ -212,39 +171,7 @@ class uvm_reg_fifo extends uvm_reg;
     //
     virtual function void do_predict(uvm_reg_item      rw,
                                      uvm_predict_e     kind = UVM_PREDICT_DIRECT,
-                                     uvm_reg_byte_en_t be = -1);
-
-      super.do_predict(rw,kind,be);
-
-      if (rw.status == UVM_NOT_OK)
-        return;
-
-      case (kind)
-
-        UVM_PREDICT_WRITE,
-        UVM_PREDICT_DIRECT:
-        begin
-           if (fifo.size() != m_size && !m_update_in_progress)
-             fifo.push_back(this.value.value);
-        end
-
-        UVM_PREDICT_READ:
-        begin
-           uvm_reg_data_t value = rw.value[0] & ((1 << get_n_bits())-1);
-           uvm_reg_data_t mirror_val;
-           if (fifo.size() == 0) begin
-             return;
-           end
-           mirror_val = fifo.pop_front();
-           if (this.value.get_compare() == UVM_CHECK && mirror_val != value) begin
-              `uvm_warning("MIRROR_MISMATCH",
-               $sformatf("Observed DUT read value 'h%0h != mirror value 'h%0h",value,mirror_val))
-           end
-        end
-
-      endcase
-
-    endfunction
+                                     uvm_reg_byte_en_t be = -1); endfunction
 
 
     // Group -- NODOCS -- Special Overrides
@@ -258,18 +185,7 @@ class uvm_reg_fifo extends uvm_reg;
     // If in your application the DUT allows writes to a full FIFO, you
     // must override ~pre_write~ as appropriate.
     //
-    virtual task pre_write(uvm_reg_item rw);
-      if (m_set_cnt && !m_update_in_progress) begin
-        `uvm_error("Needs Update","Must call update() after set() and before write()")
-        rw.status = UVM_NOT_OK;
-        return;
-      end
-      if (fifo.size() >= m_size && !m_update_in_progress) begin
-        `uvm_error("FIFO Full","Write to full FIFO ignored")
-        rw.status = UVM_NOT_OK;
-        return;
-      end
-    endtask
+    virtual task pre_write(uvm_reg_item rw); endtask
 
 
     // Task -- NODOCS -- pre_read
@@ -280,17 +196,9 @@ class uvm_reg_fifo extends uvm_reg;
     // appropriate.
     //
     //
-    virtual task pre_read(uvm_reg_item rw);
-      // abort if fifo empty
-      if (fifo.size() == 0) begin
-        rw.status = UVM_NOT_OK;
-        return;
-      end
-    endtask
+    virtual task pre_read(uvm_reg_item rw); endtask
 
 
-    function void post_randomize();
-      m_set_cnt = 0;
-    endfunction
+    function void post_randomize(); endfunction
 
 endclass

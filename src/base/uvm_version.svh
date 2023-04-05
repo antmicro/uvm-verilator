@@ -33,8 +33,6 @@ parameter string UVM_VERSION_STRING = "Accellera:1800.2-2017:UVM:1.0";
    parameter string uvm_revision = UVM_VERSION_STRING;
 `endif // UVM_ENABLE_DEPRECATED_API
 
-function string uvm_revision_string();
-  return UVM_VERSION_STRING;
-endfunction
+function string uvm_revision_string(); endfunction
 
 `endif // UVM_VERSION_SVH

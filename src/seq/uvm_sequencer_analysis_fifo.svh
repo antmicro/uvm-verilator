@@ -25,14 +25,7 @@ class uvm_sequencer_analysis_fifo #(type RSP = uvm_sequence_item) extends uvm_tl
   uvm_analysis_imp #(RSP, uvm_sequencer_analysis_fifo #(RSP)) analysis_export;
   uvm_sequencer_base sequencer_ptr;
 
-  function new (string name, uvm_component parent = null);
-    super.new(name, parent, 0);
-    analysis_export = new ("analysis_export", this);
-  endfunction
+  function new (string name, uvm_component parent = null); endfunction
 
-  function void write(input RSP t);
-    if (sequencer_ptr == null)
-      uvm_report_fatal ("SEQRNULL", "The sequencer pointer is null when attempting a write", UVM_NONE);
-    sequencer_ptr.analysis_write(t);
-  endfunction // void
+  function void write(input RSP t); endfunction // void
 endclass

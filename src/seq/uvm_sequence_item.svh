@@ -55,13 +55,9 @@ class uvm_sequence_item extends uvm_transaction;
   // The constructor method for uvm_sequence_item. 
   
   // @uvm-ieee 1800.2-2017 auto 14.1.2.1
-  function new (string name = "uvm_sequence_item");
-    super.new(name);
-  endfunction
+  function new (string name = "uvm_sequence_item"); endfunction
 
-  function string get_type_name();
-    return "uvm_sequence_item";
-  endfunction 
+  function string get_type_name(); endfunction 
 
   // Macro for factory creation
   `uvm_object_registry(uvm_sequence_item, "uvm_sequence_item")
@@ -69,9 +65,7 @@ class uvm_sequence_item extends uvm_transaction;
 
   // Function- set_sequence_id
 
-  function void set_sequence_id(int id);
-    m_sequence_id = id;
-  endfunction
+  function void set_sequence_id(int id); endfunction
 
 
   // Function -- NODOCS -- get_sequence_id
@@ -104,9 +98,7 @@ class uvm_sequence_item extends uvm_transaction;
   // sequence may use the transaction_id to correlate responses with their
   // requests.
 
-  function int get_sequence_id();
-    return (m_sequence_id);
-  endfunction
+  function int get_sequence_id(); endfunction
 
 
   // Function -- NODOCS -- set_item_context
@@ -115,23 +107,14 @@ class uvm_sequence_item extends uvm_transaction;
 
   // @uvm-ieee 1800.2-2017 auto 14.1.2.2
   function void set_item_context(uvm_sequence_base  parent_seq,
-                                 uvm_sequencer_base sequencer = null);
-     set_use_sequence_info(1);
-     if (parent_seq != null) set_parent_sequence(parent_seq);
-     if (sequencer == null && m_parent_sequence != null) sequencer = m_parent_sequence.get_sequencer();
-     set_sequencer(sequencer); 
-     if (m_parent_sequence != null) set_depth(m_parent_sequence.get_depth() + 1); 
-     reseed();      
-  endfunction
+                                 uvm_sequencer_base sequencer = null); endfunction
 
 
   // Function -- NODOCS -- set_use_sequence_info
   //
 
   // @uvm-ieee 1800.2-2017 auto 14.1.2.3
-  function void set_use_sequence_info(bit value);
-    m_use_sequence_info = value;
-  endfunction
+  function void set_use_sequence_info(bit value); endfunction
 
 
   // Function -- NODOCS -- get_use_sequence_info
@@ -144,9 +127,7 @@ class uvm_sequence_item extends uvm_transaction;
   // the sequence information will be used in printing and copying.
 
   // @uvm-ieee 1800.2-2017 auto 14.1.2.3
-  function bit get_use_sequence_info();
-    return (m_use_sequence_info);
-  endfunction
+  function bit get_use_sequence_info(); endfunction
 
 
   // Function -- NODOCS -- set_id_info
@@ -156,13 +137,7 @@ class uvm_sequence_item extends uvm_transaction;
   // initialize responses for future compatibility.
 
   // @uvm-ieee 1800.2-2017 auto 14.1.2.4
-  function void set_id_info(uvm_sequence_item item);
-    if (item == null) begin
-      uvm_report_fatal(get_full_name(), "set_id_info called with null parameter", UVM_NONE);
-    end
-    this.set_transaction_id(item.get_transaction_id());
-    this.set_sequence_id(item.get_sequence_id());
-  endfunction
+  function void set_id_info(uvm_sequence_item item); endfunction
 
 
   // Function -- NODOCS -- set_sequencer
@@ -172,10 +147,7 @@ class uvm_sequence_item extends uvm_transaction;
   // actively communicating with the sequencer.
 
   // @uvm-ieee 1800.2-2017 auto 14.1.2.6
-  virtual function void set_sequencer(uvm_sequencer_base sequencer);
-    m_sequencer = sequencer;
-    m_set_p_sequencer();
-  endfunction
+  virtual function void set_sequencer(uvm_sequencer_base sequencer); endfunction
 
 
   // Function -- NODOCS -- get_sequencer
@@ -183,9 +155,7 @@ class uvm_sequence_item extends uvm_transaction;
   // Returns a reference to the default sequencer used by this sequence.
 
   // @uvm-ieee 1800.2-2017 auto 14.1.2.5
-  function uvm_sequencer_base get_sequencer();
-    return m_sequencer;
-  endfunction
+  function uvm_sequencer_base get_sequencer(); endfunction
 
 
   // Function -- NODOCS -- set_parent_sequence
@@ -195,9 +165,7 @@ class uvm_sequence_item extends uvm_transaction;
 
   // @uvm-ieee 1800.2-2017 auto 14.1.2.8
   // @uvm-ieee 1800.2-2017 auto 19.1.1.2.10
-  function void set_parent_sequence(uvm_sequence_base parent);
-    m_parent_sequence = parent;
-  endfunction
+  function void set_parent_sequence(uvm_sequence_base parent); endfunction
 
 
   // Function -- NODOCS -- get_parent_sequence
@@ -207,9 +175,7 @@ class uvm_sequence_item extends uvm_transaction;
 
   // @uvm-ieee 1800.2-2017 auto 14.1.2.7
   // @uvm-ieee 1800.2-2017 auto 19.1.1.2.10
-  function uvm_sequence_base get_parent_sequence();
-    return (m_parent_sequence);
-  endfunction 
+  function uvm_sequence_base get_parent_sequence(); endfunction 
 
 
   // Function -- NODOCS -- set_depth
@@ -220,9 +186,7 @@ class uvm_sequence_item extends uvm_transaction;
   // incorrect.  
 
   // @uvm-ieee 1800.2-2017 auto 14.1.2.10
-  function void set_depth(int value);
-    m_depth = value;
-  endfunction
+  function void set_depth(int value); endfunction
 
 
   // Function -- NODOCS -- get_depth
@@ -232,22 +196,7 @@ class uvm_sequence_item extends uvm_transaction;
   // will have a depth of 3.
 
   // @uvm-ieee 1800.2-2017 auto 14.1.2.9
-  function int get_depth();
-
-    // If depth has been set or calculated, then use that
-    if (m_depth != -1) begin
-      return (m_depth);
-    end
-
-    // Calculate the depth, store it, and return the value
-    if (m_parent_sequence == null) begin
-      m_depth = 1;
-    end else begin
-      m_depth = m_parent_sequence.get_depth() + 1;
-    end
-
-    return (m_depth);
-  endfunction 
+  function int get_depth(); endfunction 
 
 
   // Function -- NODOCS -- is_item
@@ -256,26 +205,14 @@ class uvm_sequence_item extends uvm_transaction;
   // return 1 for items and 0 for sequences (which derive from this class).
 
   // @uvm-ieee 1800.2-2017 auto 14.1.2.11
-  virtual function bit is_item();
-    return(1);
-  endfunction
+  virtual function bit is_item(); endfunction
 
 
   // Function- get_full_name
   //
   // Internal method; overrides must follow same naming convention
 
-  function string get_full_name();
-    if(m_parent_sequence != null) 
-      get_full_name = {m_parent_sequence.get_full_name(), "."};
-    else if(m_sequencer!=null)
-      get_full_name = {m_sequencer.get_full_name(), "."};
-    if(get_name() != "") 
-      get_full_name = {get_full_name, get_name()};
-    else begin
-      get_full_name = {get_full_name, "_item"};
-    end
-  endfunction
+  function string get_full_name(); endfunction
 
 
   // Function -- NODOCS -- get_root_sequence_name
@@ -283,23 +220,14 @@ class uvm_sequence_item extends uvm_transaction;
   // Provides the name of the root sequence (the top-most parent sequence).
 
   // @uvm-ieee 1800.2-2017 auto 14.1.2.12
-  function string get_root_sequence_name();
-    uvm_sequence_base root_seq;
-    root_seq = get_root_sequence();
-    if (root_seq == null)
-      return "";
-    else
-      return root_seq.get_name();
-  endfunction
+  function string get_root_sequence_name(); endfunction
 
 
   // Function- m_set_p_sequencer
   //
   // Internal method
 
-  virtual function void m_set_p_sequencer();
-    return;
-  endfunction  
+  virtual function void m_set_p_sequencer(); endfunction  
 
 
   // Function -- NODOCS -- get_root_sequence
@@ -307,19 +235,7 @@ class uvm_sequence_item extends uvm_transaction;
   // Provides a reference to the root sequence (the top-most parent sequence).
 
   // @uvm-ieee 1800.2-2017 auto 14.1.2.13
-  function uvm_sequence_base get_root_sequence();
-    uvm_sequence_item root_seq_base;
-    uvm_sequence_base root_seq;
-    root_seq_base = this;
-    while(1) begin
-      if(root_seq_base.get_parent_sequence()!=null) begin
-        root_seq_base = root_seq_base.get_parent_sequence();
-        $cast(root_seq, root_seq_base);
-      end
-      else
-        return root_seq;
-    end
-  endfunction
+  function uvm_sequence_base get_root_sequence(); endfunction
 
 
   // Function -- NODOCS -- get_sequence_path
@@ -328,20 +244,7 @@ class uvm_sequence_item extends uvm_transaction;
   // path. A "." is used as the separator between each sequence.
 
   // @uvm-ieee 1800.2-2017 auto 14.1.2.14
-  function string get_sequence_path();
-    uvm_sequence_item this_item;
-    string seq_path;
-    this_item = this;
-    seq_path = this.get_name();
-    while(1) begin
-      if(this_item.get_parent_sequence()!=null) begin
-        this_item = this_item.get_parent_sequence();
-        seq_path = {this_item.get_name(), ".", seq_path};
-      end
-      else
-        return seq_path;
-    end
-  endfunction
+  function string get_sequence_path(); endfunction
 
 
   //---------------------------
@@ -355,22 +258,11 @@ class uvm_sequence_item extends uvm_transaction;
   // then the global reporter will be used.
 
   // @uvm-ieee 1800.2-2017 auto 14.1.3.1
-  virtual function uvm_report_object uvm_get_report_object();
-    if(m_sequencer == null) begin
-      uvm_coreservice_t cs = uvm_coreservice_t::get();
-       return cs.get_root();
-    end else 
-      return m_sequencer;
-  endfunction
+  virtual function uvm_report_object uvm_get_report_object(); endfunction
 
   // @uvm-ieee 1800.2-2017 auto 14.1.3.2
   function int uvm_report_enabled(int verbosity, 
-    				  uvm_severity severity=UVM_INFO, string id="");
-    uvm_report_object l_report_object = uvm_get_report_object();
-    if (l_report_object.get_report_verbosity_level(severity, id) < verbosity)
-      return 0;
-    return 1;
-  endfunction
+    				  uvm_severity severity=UVM_INFO, string id=""); endfunction
 
 
   // @uvm-ieee 1800.2-2017 auto 14.1.3.3
@@ -382,18 +274,7 @@ class uvm_sequence_item extends uvm_transaction;
                                     string filename = "",
                                     int line = 0,
                                     string context_name = "",
-                                    bit report_enabled_checked = 0);
-    uvm_report_message l_report_message;
-    if (report_enabled_checked == 0) begin
-      if (!uvm_report_enabled(verbosity, severity, id))
-        return;
-    end
-    l_report_message = uvm_report_message::new_report_message();
-    l_report_message.set_report_message(severity, id, message, 
-					verbosity, filename, line, context_name);
-    uvm_process_report_message(l_report_message);
-
-  endfunction
+                                    bit report_enabled_checked = 0); endfunction
     
   // Function -- NODOCS -- uvm_report_info
 
@@ -404,11 +285,7 @@ class uvm_sequence_item extends uvm_transaction;
 					 string filename = "",
 					 int line = 0,
    					 string context_name = "",
-					 bit report_enabled_checked = 0);
-
-    this.uvm_report(UVM_INFO, id, message, verbosity, filename, line,
-                    context_name, report_enabled_checked);
-  endfunction
+					 bit report_enabled_checked = 0); endfunction
 
   // Function -- NODOCS -- uvm_report_warning
 
@@ -419,11 +296,7 @@ class uvm_sequence_item extends uvm_transaction;
 					    string filename = "",
 					    int line = 0,
    					    string context_name = "",
-					    bit report_enabled_checked = 0);
-
-    this.uvm_report(UVM_WARNING, id, message, verbosity, filename, line,
-                    context_name, report_enabled_checked);
-  endfunction
+					    bit report_enabled_checked = 0); endfunction
 
   // Function -- NODOCS -- uvm_report_error
 
@@ -434,11 +307,7 @@ class uvm_sequence_item extends uvm_transaction;
 					  string filename = "",
 					  int line = 0,
    					  string context_name = "",
-					  bit report_enabled_checked = 0);
-
-    this.uvm_report(UVM_ERROR, id, message, verbosity, filename, line,
-                    context_name, report_enabled_checked);
-  endfunction
+					  bit report_enabled_checked = 0); endfunction
 
   // Function -- NODOCS -- uvm_report_fatal
   //
@@ -454,74 +323,32 @@ class uvm_sequence_item extends uvm_transaction;
 					  string filename = "",
 					  int line = 0,
    					  string context_name = "",
-					  bit report_enabled_checked = 0);
-
-    this.uvm_report(UVM_FATAL, id, message, verbosity, filename, line,
-                    context_name, report_enabled_checked);
-  endfunction
+					  bit report_enabled_checked = 0); endfunction
 
   // @uvm-ieee 1800.2-2017 auto 14.1.3.4
-  virtual function void uvm_process_report_message (uvm_report_message report_message);
-    uvm_report_object l_report_object = uvm_get_report_object();
-    report_message.set_report_object(l_report_object);
-    if (report_message.get_context() == "")
-      report_message.set_context(get_sequence_path());
-    l_report_object.m_rh.process_report_message(report_message);
-  endfunction
+  virtual function void uvm_process_report_message (uvm_report_message report_message); endfunction
 
 
   // Function- do_print
   //
   // Internal method
 
-  function void do_print (uvm_printer printer);
-    string temp_str0, temp_str1;
-    int depth = get_depth();
-    super.do_print(printer);
-    if(print_sequence_info || m_use_sequence_info) begin
-      printer.print_field_int("depth", depth, $bits(depth), UVM_DEC, ".", "int");
-      if(m_parent_sequence != null) begin
-        temp_str0 = m_parent_sequence.get_name();
-        temp_str1 = m_parent_sequence.get_full_name();
-      end
-      printer.print_string("parent sequence (name)", temp_str0);
-      printer.print_string("parent sequence (full name)", temp_str1);
-      temp_str1 = "";
-      if(m_sequencer != null) begin
-        temp_str1 = m_sequencer.get_full_name();
-      end
-      printer.print_string("sequencer", temp_str1);
-    end
-  endfunction
+  function void do_print (uvm_printer printer); endfunction
 
   /*
-  virtual task pre_do(bit is_item);
-    return;
-  endtask
+  virtual task pre_do(bit is_item); endtask
 
-  virtual task body();
-    return;
-  endtask  
+  virtual task body(); endtask  
 
-  virtual function void mid_do(uvm_sequence_item this_item);
-    return;
-  endfunction
+  virtual function void mid_do(uvm_sequence_item this_item); endfunction
   
-  virtual function void post_do(uvm_sequence_item this_item);
-    return;
-  endfunction
+  virtual function void post_do(uvm_sequence_item this_item); endfunction
 
-  virtual task wait_for_grant(int item_priority = -1, bit  lock_request = 0);
-    return;
-  endtask
+  virtual task wait_for_grant(int item_priority = -1, bit  lock_request = 0); endtask
 
-  virtual function void send_request(uvm_sequence_item request, bit rerandomize = 0);
-    return;
-  endfunction
+  virtual function void send_request(uvm_sequence_item request, bit rerandomize = 0); endfunction
 
-  virtual task wait_for_item_done(int transaction_id = -1);
-    return;
-  endtask
+  virtual task wait_for_item_done(int transaction_id = -1); endtask
   */
 
 endclass

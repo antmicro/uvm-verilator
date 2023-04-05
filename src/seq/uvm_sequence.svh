@@ -60,9 +60,7 @@ virtual class uvm_sequence #(type REQ = uvm_sequence_item,
   // Creates and initializes a new sequence object.
 
   // @uvm-ieee 1800.2-2017 auto 14.3.3.1
-  function new (string name = "uvm_sequence");
-    super.new(name);
-  endfunction
+  function new (string name = "uvm_sequence"); endfunction
 
   // Function -- NODOCS -- send_request
   //
@@ -71,17 +69,7 @@ virtual class uvm_sequence #(type REQ = uvm_sequence_item,
   // randomized before being sent to the driver. The send_request function may
   // only be called after <uvm_sequence_base::wait_for_grant> returns.
 
-  function void send_request(uvm_sequence_item request, bit rerandomize = 0);
-    REQ m_request;
-
-    if (m_sequencer == null) begin
-      uvm_report_fatal("SSENDREQ", "Null m_sequencer reference", UVM_NONE);
-    end
-    if (!$cast(m_request, request)) begin
-      uvm_report_fatal("SSENDREQ", "Failure to cast uvm_sequence_item to request", UVM_NONE);
-    end
-    m_sequencer.send_request(this, m_request, rerandomize);
-  endfunction
+  function void send_request(uvm_sequence_item request, bit rerandomize = 0); endfunction
 
 
   // Function -- NODOCS -- get_current_item
@@ -96,11 +84,7 @@ virtual class uvm_sequence #(type REQ = uvm_sequence_item,
   // since the item is completed at the same time as it is requested.
 
   // @uvm-ieee 1800.2-2017 auto 14.3.3.2
-  function REQ get_current_item();
-    if (!$cast(param_sequencer, m_sequencer))
-      uvm_report_fatal("SGTCURR", "Failure to cast m_sequencer to the parameterized sequencer", UVM_NONE);
-    return (param_sequencer.get_current_item());
-  endfunction
+  function REQ get_current_item(); endfunction
 
 
   // Task -- NODOCS -- get_response
@@ -122,11 +106,7 @@ virtual class uvm_sequence #(type REQ = uvm_sequence_item,
   // set_response_queue_error_report_enabled.
 
   // @uvm-ieee 1800.2-2017 auto 14.3.3.3
-  virtual task get_response(output RSP response, input int transaction_id = -1);
-    uvm_sequence_item rsp;
-    get_base_response( rsp, transaction_id);
-    $cast(response,rsp);
-  endtask
+  virtual task get_response(output RSP response, input int transaction_id = -1); endtask
 
 
 
@@ -134,21 +114,11 @@ virtual class uvm_sequence #(type REQ = uvm_sequence_item,
   //
   // Internal method.
 
-  virtual function void put_response(uvm_sequence_item response_item);
-    RSP response;
-    if (!$cast(response, response_item)) begin
-      uvm_report_fatal("PUTRSP", "Failure to cast response in put_response", UVM_NONE);
-    end
-    put_base_response(response_item);
-  endfunction
+  virtual function void put_response(uvm_sequence_item response_item); endfunction
 
 
   // Function- do_print
   //
-  function void do_print (uvm_printer printer);
-    super.do_print(printer);
-    printer.print_object("req", req);
-    printer.print_object("rsp", rsp);
-  endfunction
+  function void do_print (uvm_printer printer); endfunction
 
 endclass

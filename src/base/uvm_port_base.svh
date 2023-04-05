@@ -63,9 +63,7 @@ typedef uvm_port_component_base uvm_port_list[string];
 
 virtual class uvm_port_component_base extends uvm_component;
    
-  function new (string name, uvm_component parent);
-    super.new(name,parent);
-  endfunction
+  function new (string name="", uvm_component parent=null); endfunction
 
   // Function: get_connected_to
   //
@@ -94,9 +92,7 @@ virtual class uvm_port_component_base extends uvm_component;
   pure virtual function bit is_imp();
 
   // Turn off auto config by not calling build_phase()
-  virtual function bit use_automatic_config();
-    return 0;
-  endfunction : use_automatic_config    
+  virtual function bit use_automatic_config(); endfunction : use_automatic_config    
    
   virtual task do_task_phase (uvm_phase phase);
   endtask
@@ -118,29 +114,15 @@ class uvm_port_component #(type PORT=uvm_object) extends uvm_port_component_base
   
   PORT m_port;
 
-  function new (string name, uvm_component parent, PORT port);
-    super.new(name,parent);
-    if (port == null)
-      uvm_report_fatal("Bad usage", "Null handle to port", UVM_NONE);
-    m_port = port;
-  endfunction
+  function new (string name, uvm_component parent, PORT port); endfunction
 
-  virtual function string get_type_name();
-    if(m_port == null) return "uvm_port_component";
-    return m_port.get_type_name();
-  endfunction
-    
-  virtual function void resolve_bindings();
-    m_port.resolve_bindings();
-  endfunction
+  virtual function string get_type_name(); endfunction virtual function void resolve_bindings(); endfunction
   
   // Function -- NODOCS -- get_port
   //
   // Retrieve the actual port object that this proxy refers to.
 
-  function PORT get_port();
-    return m_port;
-  endfunction
+  function PORT get_port(); endfunction
 
   // Function: get_connected_to
   //
@@ -148,26 +130,11 @@ class uvm_port_component #(type PORT=uvm_object) extends uvm_port_component_base
   //
   // @uvm-accellera The details of this API are specific to the Accellera implementation, and are not being considered for contribution to 1800.2
 
-  virtual function void get_connected_to(ref uvm_port_list list);
-    PORT list1[string];
-    m_port.get_connected_to(list1);
-    list.delete();
-    foreach(list1[name]) begin
-      list[name] = list1[name].get_comp();
-    end
-  endfunction
+  virtual function void get_connected_to(ref uvm_port_list list); endfunction function bit is_port (); endfunction
 
-  function bit is_port ();
-    return m_port.is_port();
-  endfunction
+  function bit is_export (); endfunction
 
-  function bit is_export ();
-    return m_port.is_export();
-  endfunction
-
-  function bit is_imp ();
-    return m_port.is_imp();
-  endfunction
+  function bit is_imp (); endfunction
 
 endclass
 
@@ -256,18 +223,7 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
                 uvm_component parent,
                 uvm_port_type_e port_type,
                 int min_size=0,
-                int max_size=1);
-    uvm_component comp;
-    int tmp;
-    m_port_type = port_type;
-    m_min_size  = min_size;
-    m_max_size  = max_size;
-    m_comp = new(name, parent, this);
-
-    if (!uvm_config_int::get(m_comp, "", "check_connection_relationships",tmp))
-      m_comp.set_report_id_action(s_connection_warning_id, UVM_NO_ACTION);
-
-  endfunction
+                int max_size=1); endfunction
 
 
   // Function -- NODOCS -- get_name
@@ -275,9 +231,7 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
   // Returns the leaf name of this port. 
 
   // @uvm-ieee 1800.2-2017 auto 5.5.2.2
-  function string get_name();
-    return m_comp.get_name();
-  endfunction
+  function string get_name(); endfunction
 
 
   // Function -- NODOCS -- get_full_name
@@ -285,9 +239,7 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
   // Returns the full hierarchical name of this port. 
 
   // @uvm-ieee 1800.2-2017 auto 5.5.2.3
-  virtual function string get_full_name();
-    return m_comp.get_full_name();
-  endfunction
+  virtual function string get_full_name(); endfunction
 
 
   // Function -- NODOCS -- get_parent
@@ -295,9 +247,7 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
   // Returns the handle to this port's parent, or ~null~ if it has no parent.
 
   // @uvm-ieee 1800.2-2017 auto 5.5.2.4
-  virtual function uvm_component get_parent();
-    return m_comp.get_parent();
-  endfunction
+  virtual function uvm_component get_parent(); endfunction
 
 
   // Function: get_comp
@@ -310,9 +260,7 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
   //
   // @uvm-accellera The details of this API are specific to the Accellera implementation, and are not being considered for contribution to 1800.2
 
-  virtual function uvm_port_component_base get_comp();
-    return m_comp;
-  endfunction
+  virtual function uvm_port_component_base get_comp(); endfunction
 
 
   // Function -- NODOCS -- get_type_name
@@ -322,13 +270,7 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
   // "uvm_port", "uvm_export" or "uvm_implementation" is returned.
 
   // @uvm-ieee 1800.2-2017 auto 5.5.2.5
-  virtual function string get_type_name();
-    case( m_port_type )
-      UVM_PORT : return "port";
-      UVM_EXPORT : return "export";
-      UVM_IMPLEMENTATION : return "implementation";
-    endcase
-  endfunction
+  virtual function string get_type_name(); endfunction
 
 
   // Function -- NODOCS -- min_size
@@ -337,9 +279,7 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
   // be connected to this port by the end_of_elaboration phase.
 
   // @uvm-ieee 1800.2-2017 auto 5.5.2.7
-  function int max_size ();
-    return m_max_size;
-  endfunction
+  function int max_size (); endfunction
 
 
   // Function -- NODOCS -- max_size
@@ -348,9 +288,7 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
   // be connected to this port by the end_of_elaboration phase.
 
   // @uvm-ieee 1800.2-2017 auto 5.5.2.6
-  function int min_size ();
-    return m_min_size;
-  endfunction
+  function int min_size (); endfunction
 
 
   // Function -- NODOCS -- is_unbounded
@@ -360,24 +298,18 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
   // argument in the constructor is specified as ~UVM_UNBOUNDED_CONNECTIONS~.
 
   // @uvm-ieee 1800.2-2017 auto 5.5.2.8
-  function bit is_unbounded ();
-    return (m_max_size ==  UVM_UNBOUNDED_CONNECTIONS);
-  endfunction
+  function bit is_unbounded (); endfunction
 
 
   // Function -- NODOCS -- is_port
 
   // @uvm-ieee 1800.2-2017 auto 5.5.2.11
-  function bit is_port ();
-    return m_port_type == UVM_PORT;
-  endfunction
+  function bit is_port (); endfunction
 
   // Function -- NODOCS -- is_export
 
   // @uvm-ieee 1800.2-2017 auto 5.5.2.11
-  function bit is_export ();
-    return m_port_type == UVM_EXPORT;
-  endfunction
+  function bit is_export (); endfunction
 
   // Function -- NODOCS -- is_imp
   //
@@ -385,9 +317,7 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
   // 0 otherwise.
 
   // @uvm-ieee 1800.2-2017 auto 5.5.2.11
-  function bit is_imp ();
-    return m_port_type == UVM_IMPLEMENTATION;
-  endfunction
+  function bit is_imp (); endfunction
 
 
   // Function -- NODOCS -- size
@@ -397,20 +327,12 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
   // not yet been resolved.
 
   // @uvm-ieee 1800.2-2017 auto 5.5.2.12
-  function int size ();
-    return m_imp_list.num();
-  endfunction
+  function int size (); endfunction
 
 
-  function void set_if (int index=0);
-    m_if = get_if(index);
-    if (m_if != null)
-      m_def_index = index;
-  endfunction
+  function void set_if (int index=0); endfunction
 
-  function int m_get_if_mask();
-    return m_if_mask;
-  endfunction
+  function int m_get_if_mask(); endfunction
 
 
   // Function -- NODOCS -- set_default_index
@@ -421,9 +343,7 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
   // have not yet been resolved.
 
   // @uvm-ieee 1800.2-2017 auto 5.5.2.13
-  function void set_default_index (int index);
-    m_def_index = index;
-  endfunction
+  function void set_default_index (int index); endfunction
 
 
   // Function -- NODOCS -- connect
@@ -468,60 +388,6 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
 
   // @uvm-ieee 1800.2-2017 auto 5.5.2.14
   virtual function void connect (this_type provider);
-     uvm_root top;
-     uvm_coreservice_t cs;
-     cs = uvm_coreservice_t::get();
-     top = cs.get_root();
-    if (end_of_elaboration_ph.get_state() == UVM_PHASE_EXECUTING || // TBD tidy
-        end_of_elaboration_ph.get_state() == UVM_PHASE_DONE ) begin
-       m_comp.uvm_report_warning("Late Connection", 
-         {"Attempt to connect ",this.get_full_name()," (of type ",this.get_type_name(),
-          ") at or after end_of_elaboration phase.  Ignoring."});
-       return;
-     end
-
-    if (provider == null) begin
-      m_comp.uvm_report_error(s_connection_error_id,
-                       "Cannot connect to null port handle", UVM_NONE);
-      return;
-    end
-    
-    if (provider == this) begin
-      m_comp.uvm_report_error(s_connection_error_id,
-                       "Cannot connect a port instance to itself", UVM_NONE);
-      return;
-    end
-
-    if ((provider.m_if_mask & m_if_mask) != m_if_mask) begin
-      m_comp.uvm_report_error(s_connection_error_id, 
-        {provider.get_full_name(),
-         " (of type ",provider.get_type_name(),
-         ") does not provide the complete interface required of this port (type ",
-         get_type_name(),")"}, UVM_NONE);
-      return;
-    end
-
-    // IMP.connect(anything) is illegal
-    if (is_imp()) begin
-      m_comp.uvm_report_error(s_connection_error_id,
-        $sformatf(
-"Cannot call an imp port's connect method. An imp is connected only to the component passed in its constructor. (You attempted to bind this imp to %s)", provider.get_full_name()), UVM_NONE);
-      return;
-    end
-  
-    // EXPORT.connect(PORT) are illegal
-    if (is_export() && provider.is_port()) begin
-      m_comp.uvm_report_error(s_connection_error_id,
-        $sformatf(
-"Cannot connect exports to ports Try calling port.connect(export) instead. (You attempted to bind this export to %s).", provider.get_full_name()), UVM_NONE);
-      return;
-    end
-  
-    void'(m_check_relationship(provider));
-  
-    m_provided_by[provider.get_full_name()] = provider;
-    provider.m_provided_to[get_full_name()] = this;
-    
   endfunction
 
 
@@ -538,58 +404,6 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
 
 
   function void debug_connected_to (int level=0, int max_level=-1);
-    int sz, num, curr_num;
-    string s_sz;
-    static string indent, save;
-    this_type port;
-  
-    if (level <  0) level = 0;
-    if (level == 0) begin save = ""; indent="  "; end
-  
-    if (max_level != -1 && level >= max_level)
-      return;
-  
-    num = m_provided_by.num();
-  
-    if (m_provided_by.num() != 0) begin
-      foreach (m_provided_by[nm]) begin
-        curr_num++;
-        port = m_provided_by[nm];
-        save = {save, indent, "  | \n"};
-        save = {save, indent, "  |_",nm," (",port.get_type_name(),")\n"};
-        indent = (num > 1 && curr_num != num) ?  {indent,"  | "}:{indent, "    "};
-        port.debug_connected_to(level+1, max_level);
-        indent = indent.substr(0,indent.len()-4-1);
-      end
-    end
-  
-    if (level == 0) begin
-      if (save != "")
-        save = {"This port's fanout network:\n\n  ",
-               get_full_name()," (",get_type_name(),")\n",save,"\n"};
-      if (m_imp_list.num() == 0) begin
-	 uvm_root top;
-	 uvm_coreservice_t cs;
-	 cs = uvm_coreservice_t::get();
-	 top = cs.get_root();
-        if (end_of_elaboration_ph.get_state() == UVM_PHASE_EXECUTING ||
-            end_of_elaboration_ph.get_state() == UVM_PHASE_DONE )  // TBD tidy
-           save = {save,"  Connected implementations: none\n"};
-        else
-           save = {save,
-                 "  Connected implementations: not resolved until end-of-elab\n"};
-      end
-      else begin
-        save = {save,"  Resolved implementation list:\n"};
-        foreach (m_imp_list[nm]) begin
-          port = m_imp_list[nm];
-          s_sz.itoa(sz);
-          save = {save, indent, s_sz, ": ",nm," (",port.get_type_name(),")\n"};
-          sz++;
-        end
-      end
-      m_comp.uvm_report_info("debug_connected_to", save);
-    end
   endfunction
   
 
@@ -604,161 +418,34 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
   // @uvm-accellera The details of this API are specific to the Accellera implementation, and are not being considered for contribution to 1800.2
 
 
-  function void debug_provided_to  (int level=0, int max_level=-1);
-    string nm;
-    int num,curr_num;
-    this_type port;
-    static string indent, save;
-  
-    if (level <  0) level = 0; 
-    if (level == 0) begin save = ""; indent = "  "; end
-
-    if (max_level != -1 && level > max_level)
-      return;
-  
-    num = m_provided_to.num();
-  
-    if (num != 0) begin
-      foreach (m_provided_to[nm]) begin
-        curr_num++;
-        port = m_provided_to[nm];
-        save = {save, indent, "  | \n"};
-        save = {save, indent, "  |_",nm," (",port.get_type_name(),")\n"};
-        indent = (num > 1 && curr_num != num) ?  {indent,"  | "}:{indent, "    "};
-        port.debug_provided_to(level+1, max_level);
-        indent = indent.substr(0,indent.len()-4-1);
-      end
-    end
-
-    if (level == 0) begin
-      if (save != "")
-        save = {"This port's fanin network:\n\n  ",
-               get_full_name()," (",get_type_name(),")\n",save,"\n"};
-      if (m_provided_to.num() == 0)
-        save = {save,indent,"This port has not been bound\n"};
-      m_comp.uvm_report_info("debug_provided_to", save);
-    end
-  
-  endfunction
+  function void debug_provided_to  (int level=0, int max_level=-1); endfunction
 
 
   // get_connected_to
   // ----------------
 
   // @uvm-ieee 1800.2-2017 auto 5.5.2.9
-  function void get_connected_to (ref uvm_port_base #(IF) list[string]);
-    this_type port;
-    list.delete();
-    foreach (m_provided_by[name]) begin
-      port = m_provided_by[name];
-      list[name] = port;
-    end
-  endfunction
+  function void get_connected_to (ref uvm_port_base #(IF) list[string]); endfunction
 
 
   // get_provided_to
   // ---------------
 
   // @uvm-ieee 1800.2-2017 auto 5.5.2.10
-  function void get_provided_to (ref uvm_port_base #(IF) list[string]);
-    this_type port;
-    list.delete();
-    foreach (m_provided_to[name]) begin
-      port = m_provided_to[name];
-      list[name] = port;
-    end
-  endfunction
+  function void get_provided_to (ref uvm_port_base #(IF) list[string]); endfunction
 
 
   // m_check_relationship
   // --------------------
 
-  local function bit  m_check_relationship (this_type provider);  
-    string s;
-    this_type from;
-    uvm_component from_parent;
-    uvm_component to_parent;
-    uvm_component from_gparent;
-    uvm_component to_gparent;
-  
-    // Checks that the connection is between ports that are hierarchically
-    // adjacent (up or down one level max, or are siblings),
-    // and check for legal direction, requirer.connect(provider).
-
-    // if we're an analysis port, allow connection to anywhere
-    if (get_type_name() == "uvm_analysis_port")
-      return 1;
-    
-    from         = this;
-    from_parent  = get_parent();
-    to_parent    = provider.get_parent();
-  
-    // skip check if we have a parentless port
-    if (from_parent == null || to_parent == null)
-      return 1;
-  
-    from_gparent = from_parent.get_parent();
-    to_gparent   = to_parent.get_parent();
-  
-    // Connecting port-to-port: CHILD.port.connect(PARENT.port)
-    //
-    if (from.is_port() && provider.is_port() && from_gparent != to_parent) begin
-      s = {provider.get_full_name(),
-           " (of type ",provider.get_type_name(),
-           ") is not up one level of hierarchy from this port. ",
-           "A port-to-port connection takes the form ",
-           "child_component.child_port.connect(parent_port)"};
-      m_comp.uvm_report_warning(s_connection_warning_id, s, UVM_NONE);
-      return 0;
-    end    
-      
-    // Connecting port-to-export: SIBLING.port.connect(SIBLING.export)
-    // Connecting port-to-imp:    SIBLING.port.connect(SIBLING.imp)
-    //
-    else if (from.is_port() && (provider.is_export() || provider.is_imp()) &&
-             from_gparent != to_gparent) begin
-        s = {provider.get_full_name(),
-           " (of type ",provider.get_type_name(),
-           ") is not at the same level of hierarchy as this port. ",
-           "A port-to-export connection takes the form ",
-           "component1.port.connect(component2.export)"};
-      m_comp.uvm_report_warning(s_connection_warning_id, s, UVM_NONE);
-      return 0;
-    end
-  
-    // Connecting export-to-export: PARENT.export.connect(CHILD.export)
-    // Connecting export-to-imp:    PARENT.export.connect(CHILD.imp)
-    //
-    else if (from.is_export() && (provider.is_export() || provider.is_imp()) &&
-             from_parent != to_gparent) begin
-      s = {provider.get_full_name(),
-           " (of type ",provider.get_type_name(),
-           ") is not down one level of hierarchy from this export. ",
-           "An export-to-export or export-to-imp connection takes the form ",
-           "parent_export.connect(child_component.child_export)"};
-      m_comp.uvm_report_warning(s_connection_warning_id, s, UVM_NONE);
-      return 0;
-    end
-
-    return 1;
-  endfunction
+  local function bit  m_check_relationship (this_type provider); endfunction
 
 
   // m_add_list
   //
   // Internal method.
 
-  local function void m_add_list           (this_type provider);
-    string sz;
-    this_type imp;
-
-    for (int i = 0; i < provider.size(); i++) begin
-      imp = provider.get_if(i);
-      if (!m_imp_list.exists(imp.get_full_name()))
-        m_imp_list[imp.get_full_name()] = imp;
-    end
-
-  endfunction
+  local function void m_add_list           (this_type provider); endfunction
 
 
   // Function -- NODOCS -- resolve_bindings
@@ -773,40 +460,7 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
   // end_of_elaboration phase. Users should not need to call it directly.
 
   // @uvm-ieee 1800.2-2017 auto 5.5.2.15
-  virtual function void resolve_bindings();
-    if (m_resolved) // don't repeat ourselves
-     return;
-
-    if (is_imp()) begin
-      m_imp_list[get_full_name()] = this;
-    end
-    else begin
-      foreach (m_provided_by[nm]) begin
-        this_type port;
-        port = m_provided_by[nm];
-        port.resolve_bindings();
-        m_add_list(port);
-      end
-    end
-  
-    m_resolved = 1;
-  
-    if (size() < min_size() ) begin
-      m_comp.uvm_report_error(s_connection_error_id, 
-        $sformatf("connection count of %0d does not meet required minimum of %0d",
-        size(), min_size()), UVM_NONE);
-    end
-  
-    if (max_size() != UVM_UNBOUNDED_CONNECTIONS && size() > max_size() ) begin
-      m_comp.uvm_report_error(s_connection_error_id, 
-        $sformatf("connection count of %0d exceeds maximum of %0d",
-        size(), max_size()), UVM_NONE);
-    end
-
-    if (size())
-      set_if(0);
-  
-  endfunction
+  virtual function void resolve_bindings(); endfunction
   
 
   // Function -- NODOCS -- get_if
@@ -816,23 +470,6 @@ virtual class uvm_port_base #(type IF=uvm_void) extends IF;
   // This method can only be called at the end_of_elaboration phase or after, as
   // port connections are not resolved before then.
 
-  function uvm_port_base #(IF) get_if(int index=0);
-    string s;
-    if (size()==0) begin
-      m_comp.uvm_report_warning("get_if",
-        "Port size is zero; cannot get interface at any index", UVM_NONE);
-      return null;
-    end
-    if (index < 0 || index >= size()) begin
-      $sformat(s, "Index %0d out of range [0,%0d]", index, size()-1);
-      m_comp.uvm_report_warning(s_connection_error_id, s, UVM_NONE);
-      return null;
-    end
-    foreach (m_imp_list[nm]) begin
-      if (index == 0)
-        return m_imp_list[nm];
-      index--;
-    end
-  endfunction
+  function uvm_port_base #(IF) get_if(int index=0); endfunction
 
 endclass

@@ -57,33 +57,9 @@ virtual class uvm_agent extends uvm_component;
   //| uvm_config_int::set(this, "<relative_path_to_agent>, "is_active", UVM_ACTIVE);
 
   // @uvm-ieee 1800.2-2017 auto 13.4.2.1
-  function new (string name, uvm_component parent);
-    super.new(name, parent);
-  endfunction
+  function new (string name, uvm_component parent); endfunction
 
-  function void build_phase(uvm_phase phase);
-     int active;
-     uvm_resource_pool rp;
-     uvm_resource_types::rsrc_q_t rq;
-     bit found;
-     
-     super.build_phase(phase);
-     // is_active is treated as if it were declared via `uvm_field_enum,
-     // which means it matches against uvm_active_passive_enum, int,
-     // int unsigned, uvm_integral_t, uvm_bitstream_t, and string.
-     rp = uvm_resource_pool::get();
-     rq = rp.lookup_name(get_full_name(), "is_active", null, 0);
-     uvm_resource_pool::sort_by_precedence(rq);
-     for (int i = 0; i < rq.size() && !found; i++) begin
-        uvm_resource_base rsrc = rq.get(i);
-	`uvm_resource_enum_read(/* SUCCESS */ found,
-				/* RSRC */    rsrc, 
-				/* TYPE */    uvm_active_passive_enum, 
-				/* VAL */     is_active, 
-				/* OBJ */     this)
-     end
-     
-  endfunction
+  function void build_phase(uvm_phase phase); endfunction
 
   // Function -- NODOCS -- get_is_active
   //
@@ -94,7 +70,5 @@ virtual class uvm_agent extends uvm_component;
   // the active/passive nature of the agent.
 
   // @uvm-ieee 1800.2-2017 auto 13.4.2.2
-  virtual function uvm_active_passive_enum get_is_active();
-    return is_active;
-  endfunction
+  virtual function uvm_active_passive_enum get_is_active(); endfunction
 endclass

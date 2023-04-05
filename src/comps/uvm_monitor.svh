@@ -43,8 +43,6 @@ virtual class uvm_monitor extends uvm_component;
   // instance, and ~parent~ is the handle to the hierarchical parent, if any.
 
   // @uvm-ieee 1800.2-2017 auto 13.5.2
-  function new (string name, uvm_component parent);
-    super.new(name, parent);
-  endfunction
+  function new (string name, uvm_component parent); endfunction
 
 endclass

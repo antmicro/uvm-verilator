@@ -39,9 +39,7 @@ virtual class uvm_bottomup_phase extends uvm_phase;
 
 
   // @uvm-ieee 1800.2-2017 auto 9.5.2.1
-  function new(string name);
-    super.new(name,UVM_PHASE_IMP);
-  endfunction
+  function new(string name=""); endfunction
 
 
 
@@ -49,58 +47,12 @@ virtual class uvm_bottomup_phase extends uvm_phase;
   virtual function void traverse(uvm_component comp,
                                  uvm_phase phase,
                                  uvm_phase_state state);
-    string name;
-    uvm_domain phase_domain =phase.get_domain();
-    uvm_domain comp_domain = comp.get_domain();
-
-    if (comp.get_first_child(name))
-      do
-        traverse(comp.get_child(name), phase, state);
-      while(comp.get_next_child(name));
-
-    if (m_phase_trace)
-    `uvm_info("PH_TRACE",$sformatf("bottomup-phase phase=%s state=%s comp=%s comp.domain=%s phase.domain=%s",
-          phase.get_name(), state.name(), comp.get_full_name(),comp_domain.get_name(),phase_domain.get_name()),
-          UVM_DEBUG)
-
-    if (phase_domain == uvm_domain::get_common_domain() ||
-        phase_domain == comp_domain) begin
-      case (state)
-        UVM_PHASE_STARTED: begin
-          comp.m_current_phase = phase;
-          comp.m_apply_verbosity_settings(phase);
-          comp.phase_started(phase);
-          end
-        UVM_PHASE_EXECUTING: begin
-          uvm_phase ph = this; 
-          if (comp.m_phase_imps.exists(this))
-            ph = comp.m_phase_imps[this];
-          ph.execute(comp, phase);
-          end
-        UVM_PHASE_READY_TO_END: begin
-          comp.phase_ready_to_end(phase);
-          end
-        UVM_PHASE_ENDED: begin
-          comp.phase_ended(phase);
-          comp.m_current_phase = null;
-          end
-        default:
-          `uvm_fatal("PH_BADEXEC","bottomup phase traverse internal error")
-      endcase
-    end
   endfunction
 
 
 
   // @uvm-ieee 1800.2-2017 auto 9.5.2.3
   virtual function void execute(uvm_component comp,
-                                          uvm_phase phase);
-    // reseed this process for random stability
-    process proc = process::self();
-    proc.srandom(uvm_create_random_seed(phase.get_type_name(), comp.get_full_name()));
-
-    comp.m_current_phase = phase;
-    exec_func(comp,phase);
-  endfunction
+                                          uvm_phase phase); endfunction
 
 endclass

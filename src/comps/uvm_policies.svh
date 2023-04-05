@@ -41,9 +41,7 @@
 
 class uvm_built_in_comp #(type T=int);
 
-  static function bit comp(T a, T b);
-    return a == b;
-  endfunction
+  static function bit comp(T a, T b); endfunction
 
 endclass
 
@@ -58,9 +56,7 @@ endclass
 //----------------------------------------------------------------------
 
 class uvm_built_in_converter #(type T=int);
-  static function string convert2string(input T t);
-    return $sformatf("%p" , t );
-  endfunction
+  static function string convert2string(input T t); endfunction
 endclass
 
 
@@ -74,9 +70,7 @@ endclass
 
 class uvm_built_in_clone #(type T=int);
 
-  static function T clone(input T from);
-    return from;
-  endfunction
+  static function T clone(input T from); endfunction
 
 endclass
 
@@ -93,9 +87,7 @@ endclass
 
 class uvm_class_comp #(type T=int);
 
-  static function bit comp(input T a, input T b);
-    return a.compare(b);
-  endfunction
+  static function bit comp(input T a, input T b); endfunction
 
 endclass
 
@@ -113,9 +105,7 @@ endclass
 
 class uvm_class_converter #(type T=int);
 
-  static function string convert2string(input T t);
-    return t.convert2string();
-  endfunction
+  static function string convert2string(input T t); endfunction
 
 endclass
 
@@ -134,8 +124,6 @@ endclass
 
 class uvm_class_clone #(type T=int);
 
-  static function uvm_object clone(input T from);
-    return from.clone();
-  endfunction
+  static function uvm_object clone(input T from); endfunction
 
 endclass

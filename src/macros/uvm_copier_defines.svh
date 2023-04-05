@@ -92,9 +92,6 @@ end
 
 `define uvm_copier_get_function(FUNCTION) \
 function int get_``FUNCTION``_copy(uvm_object rhs, ref uvm_object lhs); \
-  if (m_recur_states.exists(rhs)) \
-    return m_recur_states[rhs].FUNCTION(lhs); \
-  return 0; \
 endfunction : get_``FUNCTION``_copy
 
 `endif // UVM_COPIER_DEFINES_SVH

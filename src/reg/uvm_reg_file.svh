@@ -135,220 +135,69 @@ endclass: uvm_reg_file
 
 // new
 
-function uvm_reg_file::new(string name="");
-   super.new(name);
-   hdl_paths_pool = new("hdl_paths");
-endfunction: new
+function uvm_reg_file::new(string name=""); endfunction: new
 
 
 // configure
 
-function void uvm_reg_file::configure(uvm_reg_block blk_parent, uvm_reg_file regfile_parent, string hdl_path = "");
-   if (blk_parent == null) begin
-     `uvm_error("UVM/RFILE/CFG/NOBLK", {"uvm_reg_file::configure() called without a parent block for instance \"", get_name(), "\" of register file type \"", get_type_name(), "\"."})
-     return;
-   end
-
-   this.parent = blk_parent;
-   this.m_rf = regfile_parent;
-   this.add_hdl_path(hdl_path);
-endfunction: configure
+function void uvm_reg_file::configure(uvm_reg_block blk_parent, uvm_reg_file regfile_parent, string hdl_path = ""); endfunction: configure
 
 
 // get_block
 
-function uvm_reg_block uvm_reg_file::get_block();
-   get_block = this.parent;
-endfunction: get_block
+function uvm_reg_block uvm_reg_file::get_block(); endfunction: get_block
 
 
 // get_regfile
 
-function uvm_reg_file uvm_reg_file::get_regfile();
-   return m_rf;
-endfunction
+function uvm_reg_file uvm_reg_file::get_regfile(); endfunction
 
 
 // clear_hdl_path
 
-function void uvm_reg_file::clear_hdl_path(string kind = "RTL");
-  if (kind == "ALL") begin
-    hdl_paths_pool = new("hdl_paths");
-    return;
-  end
-
-  if (kind == "") begin
-     if (m_rf != null)
-        kind = m_rf.get_default_hdl_path();
-     else
-        kind = parent.get_default_hdl_path();
-  end
-
-  if (!hdl_paths_pool.exists(kind)) begin
-    `uvm_warning("RegModel",{"Unknown HDL Abstraction '",kind,"'"})
-    return;
-  end
-
-  hdl_paths_pool.delete(kind);
-endfunction
+function void uvm_reg_file::clear_hdl_path(string kind = "RTL"); endfunction
 
 
 // add_hdl_path
 
-function void uvm_reg_file::add_hdl_path(string path, string kind = "RTL");
-
-  uvm_queue #(string) paths;
-
-  paths = hdl_paths_pool.get(kind);
-
-  paths.push_back(path);
-
-endfunction
+function void uvm_reg_file::add_hdl_path(string path, string kind = "RTL"); endfunction
 
 
 // has_hdl_path
 
-function bit  uvm_reg_file::has_hdl_path(string kind = "");
-  if (kind == "") begin
-     if (m_rf != null)
-        kind = m_rf.get_default_hdl_path();
-     else
-        kind = parent.get_default_hdl_path();
-  end
-  
-  return hdl_paths_pool.exists(kind);
-endfunction
+function bit  uvm_reg_file::has_hdl_path(string kind = ""); endfunction
 
 
 // get_hdl_path
 
-function void uvm_reg_file::get_hdl_path(ref string paths[$], input string kind = "");
-
-  uvm_queue #(string) hdl_paths;
-
-  if (kind == "") begin
-     if (m_rf != null)
-        kind = m_rf.get_default_hdl_path();
-     else
-        kind = parent.get_default_hdl_path();
-  end
-
-  if (!has_hdl_path(kind)) begin
-    `uvm_error("RegModel",{"Register does not have hdl path defined for abstraction '",kind,"'"})
-    return;
-  end
-
-  hdl_paths = hdl_paths_pool.get(kind);
-
-  for (int i=0; i<hdl_paths.size();i++)
-    paths.push_back(hdl_paths.get(i));
-
-endfunction
+function void uvm_reg_file::get_hdl_path(ref string paths[$], input string kind = ""); endfunction
 
 
 // get_full_hdl_path
 
 function void uvm_reg_file::get_full_hdl_path(ref string paths[$],
                                               input string kind = "",
-                                              input string separator = ".");
-   if (kind == "")
-      kind = get_default_hdl_path();
-
-   if (!has_hdl_path(kind)) begin
-      `uvm_error("RegModel",{"Register file does not have hdl path defined for abstraction '",kind,"'"})
-      return;
-   end
-   
-   paths.delete();
-
-   begin
-      uvm_queue #(string) hdl_paths = hdl_paths_pool.get(kind);
-      string parent_paths[$];
-
-      if (m_rf != null)
-         m_rf.get_full_hdl_path(parent_paths, kind, separator);
-      else if (parent != null)
-         parent.get_full_hdl_path(parent_paths, kind, separator);
-
-      for (int i=0; i<hdl_paths.size();i++) begin
-         string hdl_path = hdl_paths.get(i);
-
-         if (parent_paths.size() == 0) begin
-            if (hdl_path != "")
-               paths.push_back(hdl_path);
-
-            continue;
-         end
-         
-         foreach (parent_paths[j])  begin
-            if (hdl_path == "")
-               paths.push_back(parent_paths[j]);
-            else
-               paths.push_back({ parent_paths[j], separator, hdl_path });
-         end
-      end
-   end
-
-endfunction
+                                              input string separator = "."); endfunction
 
 
 // get_default_hdl_path
 
-function string uvm_reg_file::get_default_hdl_path();
-  if (default_hdl_path == "") begin
-     if (m_rf != null)
-        return m_rf.get_default_hdl_path();
-     else
-        return parent.get_default_hdl_path();
-  end
-  return default_hdl_path;
-endfunction
+function string uvm_reg_file::get_default_hdl_path(); endfunction
 
 
 // set_default_hdl_path
 
-function void uvm_reg_file::set_default_hdl_path(string kind);
-
-  if (kind == "") begin
-    if (m_rf != null)
-       kind = m_rf.get_default_hdl_path();
-    else if (parent == null)
-       kind = parent.get_default_hdl_path();
-    else begin
-      `uvm_error("RegModel",{"Register file has no parent. ",
-           "Must specify a valid HDL abstraction (kind)"})
-      return;
-    end
-  end
-
-  default_hdl_path = kind;
-
-endfunction
+function void uvm_reg_file::set_default_hdl_path(string kind); endfunction
 
 
 // get_parent
 
-function uvm_reg_block uvm_reg_file::get_parent();
-  return get_block();
-endfunction
+function uvm_reg_block uvm_reg_file::get_parent(); endfunction
 
 
 // get_full_name
 
-function string uvm_reg_file::get_full_name();
-   uvm_reg_block blk;
-
-   get_full_name = this.get_name();
-
-   // Is there a parent register file?
-   if (m_rf != null)
-      return {m_rf.get_full_name(), ".", get_full_name};
-
-   // No: then prepend the full name of the parent block (if any)
-   if (this.parent == null)
-      return get_full_name;
-   get_full_name = {this.parent.get_full_name(), ".", get_full_name};
-endfunction: get_full_name
+function string uvm_reg_file::get_full_name(); endfunction: get_full_name
 
 
 //-------------
@@ -357,52 +206,35 @@ endfunction: get_full_name
 
 // convert2string
 
-function string uvm_reg_file::convert2string();
-  `uvm_fatal("RegModel","RegModel register files cannot be converted to strings")
-   return "";
-endfunction: convert2string
+function string uvm_reg_file::convert2string(); endfunction: convert2string
 
 
 // do_print
 
-function void uvm_reg_file::do_print (uvm_printer printer);
-  super.do_print(printer);
-endfunction
+function void uvm_reg_file::do_print (uvm_printer printer); endfunction
 
 
 
 // clone
 
-function uvm_object uvm_reg_file::clone();
-  `uvm_fatal("RegModel","RegModel register files cannot be cloned")
-  return null;
-endfunction
+function uvm_object uvm_reg_file::clone(); endfunction
 
 // do_copy
 
-function void uvm_reg_file::do_copy(uvm_object rhs);
-  `uvm_fatal("RegModel","RegModel register files cannot be copied")
-endfunction
+function void uvm_reg_file::do_copy(uvm_object rhs); endfunction
 
 
 // do_compare
 
 function bit uvm_reg_file::do_compare (uvm_object  rhs,
-                                        uvm_comparer comparer);
-  `uvm_warning("RegModel","RegModel register files cannot be compared")
-  return 0;
-endfunction
+                                        uvm_comparer comparer); endfunction
 
 
 // do_pack
 
-function void uvm_reg_file::do_pack (uvm_packer packer);
-  `uvm_warning("RegModel","RegModel register files cannot be packed")
-endfunction
+function void uvm_reg_file::do_pack (uvm_packer packer); endfunction
 
 
 // do_unpack
 
-function void uvm_reg_file::do_unpack (uvm_packer packer);
-  `uvm_warning("RegModel","RegModel register files cannot be unpacked")
-endfunction
+function void uvm_reg_file::do_unpack (uvm_packer packer); endfunction

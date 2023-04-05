@@ -49,10 +49,7 @@ class uvm_simple_lock_dap#(type T=int) extends uvm_set_get_dap_base#(T);
 
    // Function -- NODOCS -- new
    // Constructor
-   function new(string name="unnamed-uvm_simple_lock_dap#(T)");
-      super.new(name);
-      m_locked = 0;
-   endfunction : new
+   function new(string name="unnamed-uvm_simple_lock_dap#(T)"); endfunction : new
 
    // Group -- NODOCS -- Set/Get Interface
    
@@ -61,15 +58,7 @@ class uvm_simple_lock_dap#(type T=int) extends uvm_set_get_dap_base#(T);
    //
    // ~set~ will result in an error if the DAP has
    // been locked.
-   virtual function void set(T value);
-      if (m_locked)
-        `uvm_error("UVM/SIMPLE_LOCK_DAP/SAG",
-                   $sformatf("Attempt to set new value on '%s', but the data access policy forbids setting while locked!",
-                             get_full_name()))
-      else begin
-         m_value = value;
-      end
-   endfunction : set
+   virtual function void set(T value); endfunction : set
 
    // Function -- NODOCS -- try_set
    // Attempts to update the value stored within the DAP.
@@ -78,30 +67,18 @@ class uvm_simple_lock_dap#(type T=int) extends uvm_set_get_dap_base#(T);
    // updated, or a 0 if the value can not be updated due
    // to the DAP being locked.  No errors will be reported
    // if ~try_set~ fails.
-   virtual function bit try_set(T value);
-      if (m_locked)
-        return 0;
-      else begin
-         m_value = value;
-         return 1;
-      end
-   endfunction : try_set
+   virtual function bit try_set(T value); endfunction : try_set
    
    // Function -- NODOCS -- get
    // Returns the current value stored within the DAP
    //
-   virtual  function T get();
-      return m_value;
-   endfunction : get
+   virtual  function T get(); endfunction : get
 
    // Function -- NODOCS -- try_get
    // Retrieves the current value stored within the DAP
    //
    // ~try_get~ will always return 1.
-   virtual function bit try_get(output T value);
-      value = get();
-      return 1;
-   endfunction : try_get
+   virtual function bit try_get(output T value); endfunction : try_get
 
    // Group -- NODOCS -- Locking
 
@@ -109,16 +86,12 @@ class uvm_simple_lock_dap#(type T=int) extends uvm_set_get_dap_base#(T);
    // Locks the data value
    //
    // The data value cannot be updated via <set> or <try_set> while locked.
-   function void lock();
-      m_locked = 1;
-   endfunction : lock
+   function void lock(); endfunction : lock
 
    // Function -- NODOCS -- unlock
    // Unlocks the data value
    //
-   function void unlock();
-      m_locked = 0;
-   endfunction : unlock
+   function void unlock(); endfunction : unlock
 
    // Function -- NODOCS -- is_locked
    // Returns the state of the lock.
@@ -126,9 +99,7 @@ class uvm_simple_lock_dap#(type T=int) extends uvm_set_get_dap_base#(T);
    // Returns:
    // 1 - The value is locked
    // 0 - The value is unlocked
-   function bit is_locked();
-      return m_locked;
-   endfunction : is_locked
+   function bit is_locked(); endfunction : is_locked
    
    // Group -- NODOCS -- Introspection
    //
@@ -139,40 +110,18 @@ class uvm_simple_lock_dap#(type T=int) extends uvm_set_get_dap_base#(T);
    //  
    // A call to any of these methods will result in an error.
 
-   virtual function void do_copy(uvm_object rhs);
-      `uvm_error("UVM/SIMPLE_LOCK_DAP/CPY",
-                 "'copy()' is not supported for 'uvm_simple_lock_dap#(T)'")
-   endfunction : do_copy
+   virtual function void do_copy(uvm_object rhs); endfunction : do_copy
 
-   virtual function void do_pack(uvm_packer packer);
-      `uvm_error("UVM/SIMPLE_LOCK_DAP/PCK",
-                 "'pack()' is not supported for 'uvm_simple_lock_dap#(T)'")
-   endfunction : do_pack
+   virtual function void do_pack(uvm_packer packer); endfunction : do_pack
 
-   virtual function void do_unpack(uvm_packer packer);
-      `uvm_error("UVM/SIMPLE_LOCK_DAP/UPK",
-                 "'unpack()' is not supported for 'uvm_simple_lock_dap#(T)'")
-   endfunction : do_unpack
+   virtual function void do_unpack(uvm_packer packer); endfunction : do_unpack
 
    // Group- Reporting
    
    // Function- convert2string
-   virtual function string convert2string();
-      if (m_locked)
-        return $sformatf("(%s) %0p [LOCKED]", `uvm_typename(m_value), m_value);
-      else
-        return $sformatf("(%s) %0p [UNLOCKED]", `uvm_typename(m_value), m_value);
-   endfunction : convert2string
+   virtual function string convert2string(); endfunction : convert2string
    
    // Function- do_print
-   virtual function void do_print(uvm_printer printer);
-      super.do_print(printer);
-      printer.print_field("lock_state", m_locked, $bits(m_locked));
-      printer.print_generic("value", 
-                            `uvm_typename(m_value), 
-                            0, 
-                            $sformatf("%0p", m_value));
-      
-   endfunction : do_print
+   virtual function void do_print(uvm_printer printer); endfunction : do_print
 
 endclass // uvm_simple_lock_dap

@@ -172,36 +172,12 @@ class uvm_reg_item extends uvm_sequence_item;
 
 
   // @uvm-ieee 1800.2-2017 auto 19.1.1.3.1
-  function new(string name="");
-    super.new(name);
-    value = new[1];
-  endfunction
+  function new(string name=""); endfunction
 
 
 
   // @uvm-ieee 1800.2-2017 auto 19.1.1.3.2
-  virtual function string convert2string();
-    string s,value_s;
-    s = {"kind=",kind.name(),
-         " ele_kind=",element_kind.name(),
-         " ele_name=",element==null?"null":element.get_full_name() };
-
-    if (value.size() > 1 && uvm_report_enabled(UVM_HIGH, UVM_INFO, "RegModel")) begin
-      value_s = "'{";
-      foreach (value[i])
-         value_s = {value_s,$sformatf("%0h,",value[i])};
-      value_s[value_s.len()-1]="}";
-    end
-    else
-      value_s = $sformatf("%0h",value[0]);
-    s = {s, " value=",value_s};
-
-    if (element_kind == UVM_MEM)
-      s = {s, $sformatf(" offset=%0h",offset)};
-    s = {s," map=",(map==null?"null":map.get_full_name())," path=",path.name()};
-    s = {s," status=",status.name()};
-    return s;
-  endfunction
+  virtual function string convert2string(); endfunction
 
 
   // Function -- NODOCS -- do_copy
@@ -209,32 +185,7 @@ class uvm_reg_item extends uvm_sequence_item;
   // Copy the ~rhs~ object into this object. The ~rhs~ object must
   // derive from <uvm_reg_item>.
   //
-  virtual function void do_copy(uvm_object rhs);
-    uvm_reg_item rhs_;
-    if (rhs == null)
-     `uvm_fatal("REG/NULL","do_copy: rhs argument is null") 
-
-    if (!$cast(rhs_,rhs)) begin
-      `uvm_error("WRONG_TYPE","Provided rhs is not of type uvm_reg_item")
-      return;
-    end
-    super.do_copy(rhs);
-    element_kind = rhs_.element_kind;
-    element = rhs_.element;
-    kind = rhs_.kind;
-    value = rhs_.value;
-    offset = rhs_.offset;
-    status = rhs_.status;
-    local_map = rhs_.local_map;
-    map = rhs_.map;
-    path = rhs_.path;
-    extension = rhs_.extension;
-    bd_kind = rhs_.bd_kind;
-    parent = rhs_.parent;
-    prior = rhs_.prior;
-    fname = rhs_.fname;
-    lineno = rhs_.lineno;
-  endfunction
+  virtual function void do_copy(uvm_object rhs); endfunction
 
 endclass
 

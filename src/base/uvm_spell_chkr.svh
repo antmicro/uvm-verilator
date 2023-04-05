@@ -68,65 +68,7 @@ class uvm_spell_chkr #(type T=int);
   //
   // note: strtab should not be modified inside check() 
   //--------------------------------------------------------------------
-  static function bit check ( /* const */ ref tab_t strtab, input string s);
-
-    string key;
-    int distance;
-    int unsigned min;
-    string min_key[$];
-
-    if(strtab.exists(s)) begin
-      return 1;
-    end
-
-    min = max;
-    foreach(strtab[key]) begin
-      distance = levenshtein_distance(key, s);
-
-      // A distance < 0 means either key, s, or both are empty.  This
-      // should never happen here but we check for that condition just
-      // in case.
-      if(distance < 0)
-        continue;
-
-      if(distance < min) begin
-        // set a new minimum.  Clean out the queue since previous
-        // alternatives are now invalidated.
-        min = distance;
-        min_key.delete();
-        min_key.push_back(key);
-        continue;
-      end
-
-      if(distance == min) begin
-        min_key.push_back(key);
-      end
-
-    end
-
-
-    // if (min == max) then the string table is empty
-    if(min == max) begin
-	  `uvm_info("UVM/CONFIGDB/SPELLCHK",$sformatf("%s not located, no alternatives to suggest", s),UVM_NONE)
-    end	
-    else
-    // dump all the alternatives with the minimum distance    
-    begin
-	   	string q[$];
-	    
-	   	foreach(min_key[i]) begin
-     			q.push_back(min_key[i]);
-     			q.push_back("|");
-	   	end
-	   	if(q.size())
-	   		void'(q.pop_back());
-	   		
-	   	`uvm_info("UVM/CONFIGDB/SPELLCHK",$sformatf("%s not located, did you mean %s", s, `UVM_STRING_QUEUE_STREAMING_PACK(q)),UVM_NONE)
-    end	
-    
-    return 0;
-
-  endfunction
+  static function bit check ( /* const */ ref tab_t strtab, input string s); endfunction
 
 
   //--------------------------------------------------------------------
@@ -146,59 +88,11 @@ class uvm_spell_chkr #(type T=int);
   // distance computation algorithm is a SystemVerilog adaptation of the
   // C implementatiion located at http://www.merriampark.com/ldc.htm.
   //--------------------------------------------------------------------
-  static local function int levenshtein_distance(string s, string t);
-
-    int k, i, j, n, m, cost, distance;
-    int d[];
-
-    //Step 1
-    n = s.len() + 1;
-    m = t.len() + 1;
-
-    if(n == 1 || m == 1)
-      return -1; //a negative return value means that one or both strings are empty.
-
-    d = new[m*n];
-
-    //Step 2	
-    for(k = 0; k < n; k++)
-      d[k] = k;
-
-    for(k = 0; k < m; k++)
-      d[k*n] = k;
-
-    //Steps 3 and 4	
-    for(i = 1; i < n; i++) begin
-      for(j = 1; j < m; j++) begin
-
-        //Step 5
-        cost = !(s[i-1] == t[j-1]);
-
-        //Step 6			 
-        d[j*n+i] = minimum(d[(j-1)*n+i]+1, d[j*n+i-1]+1, d[(j-1)*n+i-1]+cost);
-
-      end
-    end
-
-    distance = d[n*m-1];
-    return distance;
-
-  endfunction
+  static local function int levenshtein_distance(string s, string t); endfunction
 
   //--------------------------------------------------------------------
   // Gets the minimum of three values
   //--------------------------------------------------------------------
-  static local function int minimum(int a, int b, int c);
-
-    int min = a;
-
-    if(b < min)
-      min = b;
-    if(c < min)
-      min = c;
-
-    return min;
-
-  endfunction
+  static local function int minimum(int a, int b, int c); endfunction
 
 endclass

@@ -191,22 +191,12 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
 
 
   // @uvm-ieee 1800.2-2017 auto 14.2.2.1
-  function new (string name = "uvm_sequence");
+  function new (string name = "uvm_sequence"); endfunction
 
-    super.new(name);
-    m_sequence_state = UVM_CREATED;
-    m_wait_for_grant_semaphore = 0;
-    m_init_phase_daps(1);
-  endfunction
-
-  virtual  function bit get_randomize_enabled();
-     return (do_not_randomize == 0);
-  endfunction : get_randomize_enabled
+  virtual  function bit get_randomize_enabled(); endfunction : get_randomize_enabled
 
   // @uvm-ieee 1800.2-2017 auto 14.2.2.3
-  virtual  function void set_randomize_enabled(bit enable);
-     do_not_randomize = !enable;
-  endfunction : set_randomize_enabled
+  virtual  function void set_randomize_enabled(bit enable); endfunction : set_randomize_enabled
   
 
   // Function -- NODOCS -- is_item
@@ -214,9 +204,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   // Returns 1 on items and 0 on sequences. As this object is a sequence,
   // ~is_item~ will always return 0.
   //
-  virtual function bit is_item();
-    return 0;
-  endfunction
+  virtual function bit is_item(); endfunction
 
 
   // Function -- NODOCS -- get_sequence_state
@@ -227,9 +215,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   //| wait(get_sequence_state() & (UVM_STOPPED|UVM_FINISHED));
 
   // @uvm-ieee 1800.2-2017 auto 14.2.2.4
-  function uvm_sequence_state_enum get_sequence_state();
-    return m_sequence_state;
-  endfunction
+  function uvm_sequence_state_enum get_sequence_state(); endfunction
 
 
   // Task -- NODOCS -- wait_for_sequence_state
@@ -240,9 +226,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   //| wait_for_sequence_state(UVM_STOPPED|UVM_FINISHED);
 
   // @uvm-ieee 1800.2-2017 auto 14.2.2.5
-  task wait_for_sequence_state(int unsigned state_mask);
-    wait (m_sequence_state & state_mask);
-  endtask
+  task wait_for_sequence_state(int unsigned state_mask); endtask
 
 
   // Function -- NODOCS -- get_tr_handle
@@ -251,12 +235,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   // Can be used to associate sub-sequences and sequence items as
   // child transactions when calling <uvm_component::begin_child_tr>.
 
-  function int get_tr_handle();
-     if (m_tr_recorder != null)
-       return m_tr_recorder.get_handle();
-     else
-       return 0;
-  endfunction
+  function int get_tr_handle(); endfunction
 
 
   //--------------------------
@@ -291,152 +270,13 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
                       uvm_sequence_base parent_sequence = null,
                       int this_priority = -1,
                       bit call_pre_post = 1);
-    bit                  old_automatic_phase_objection;
-
-    set_item_context(parent_sequence, sequencer);
-
-    if (!(m_sequence_state inside {UVM_CREATED,UVM_STOPPED,UVM_FINISHED})) begin
-      uvm_report_fatal("SEQ_NOT_DONE",
-         {"Sequence ", get_full_name(), " already started"},UVM_NONE);
-    end
-
-    if (m_parent_sequence != null) begin
-       m_parent_sequence.children_array[this] = 1;
-    end
-
-    if (this_priority < -1) begin
-      uvm_report_fatal("SEQPRI", $sformatf("Sequence %s start has illegal priority: %0d",
-                                           get_full_name(),
-                                           this_priority), UVM_NONE);
-    end
-    if (this_priority < 0) begin
-       if (parent_sequence == null) this_priority = 100;
-       else this_priority = parent_sequence.get_priority();
-    end
-
-    // Check that the response queue is empty from earlier runs
-    clear_response_queue();
-
-    m_priority           = this_priority;
-
-    if (m_sequencer != null) begin
-       int handle;
-       if (m_parent_sequence == null) begin
-          handle = m_sequencer.begin_tr(this, get_name());
-          m_tr_recorder = uvm_recorder::get_recorder_from_handle(handle);
-       end else begin
-          handle = m_sequencer.begin_tr(.tr(this), .stream_name(get_root_sequence_name()),
-                                        .parent_handle((m_parent_sequence.m_tr_recorder == null) ? 0 : m_parent_sequence.m_tr_recorder.get_handle()));                                          
-          m_tr_recorder = uvm_recorder::get_recorder_from_handle(handle);
-       end
-    end
-
-     // Ensure that the sequence_id is intialized in case this sequence has been stopped previously
-    set_sequence_id(-1);
-
-    // Register the sequence with the sequencer if defined.
-    if (m_sequencer != null) begin
-      void'(m_sequencer.m_register_sequence(this));
-    end
-
-    // Change the state to PRE_START, do this before the fork so that
-    // the "if (!(m_sequence_state inside {...}" works
-    m_sequence_state = UVM_PRE_START;
-    fork
-      begin
-        m_sequence_process = process::self();
-
-        // absorb delta to ensure PRE_START was seen
-        #0;
-
-        // Raise the objection if enabled
-        // (This will lock the uvm_get_to_lock_dap)
-        if (get_automatic_phase_objection()) begin
-           m_safe_raise_starting_phase("automatic phase objection");
-        end
-
-        pre_start();
-
-        if (call_pre_post == 1) begin
-          m_sequence_state = UVM_PRE_BODY;
-          #0;
-          pre_body();
-        end
-
-        if (parent_sequence != null) begin
-          parent_sequence.pre_do(0);    // task
-          parent_sequence.mid_do(this); // function
-        end
-
-        m_sequence_state = UVM_BODY;
-        #0;
-        body();
-
-        m_sequence_state = UVM_ENDED;
-        #0;
-
-        if (parent_sequence != null) begin
-          parent_sequence.post_do(this);
-        end
-
-        if (call_pre_post == 1) begin
-          m_sequence_state = UVM_POST_BODY;
-          #0;
-          post_body();
-        end
-
-        m_sequence_state = UVM_POST_START;
-        #0;
-        post_start();
-
-        // Drop the objection if enabled
-        if (get_automatic_phase_objection()) begin
-           m_safe_drop_starting_phase("automatic phase objection");
-        end
-
-        m_sequence_state = UVM_FINISHED;
-        #0;
-
-      end
-    join
-
-    if (m_sequencer != null) begin
-      m_sequencer.end_tr(this);
-    end
-
-    // Clean up any sequencer queues after exiting; if we
-    // were forcibly stopped, this step has already taken place
-    if (m_sequence_state != UVM_STOPPED) begin
-       clean_exit_sequence();
-    end
-
-    #0; // allow stopped and finish waiters to resume
-
-    if ((m_parent_sequence != null) && (m_parent_sequence.children_array.exists(this))) begin
-       m_parent_sequence.children_array.delete(this);
-    end
-
-    old_automatic_phase_objection = get_automatic_phase_objection();
-    m_init_phase_daps(1);
-    set_automatic_phase_objection(old_automatic_phase_objection);
   endtask
 
   // Function -- NODOCS -- clean_exit_sequence
   // This function is for Clean up any sequencer queues after exiting; if we
   // were forcibly stopped, this step has already taken place
 
-   function void clean_exit_sequence();
-      if (m_sequencer != null)
-        m_sequencer.m_sequence_exiting(this);	 
-      else	
-	      // remove any routing for this sequence even when virtual sequencers (or a null sequencer is involved)
-	      // once we pass this point nothing can be routed to this sequence(id)
-	      foreach(m_sqr_seq_ids[seqrID]) begin
-		      uvm_sequencer_base s = uvm_sequencer_base::all_sequencer_insts[seqrID];
-		      s.m_sequence_exiting(this);
-	      end	
-	       m_sqr_seq_ids.delete();
- endfunction
+   function void clean_exit_sequence(); endfunction
  
 
   // Task -- NODOCS -- pre_start
@@ -446,9 +286,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   // This method should not be called directly by the user.
 
   // @uvm-ieee 1800.2-2017 auto 14.2.3.2
-  virtual task pre_start();
-    return;
-  endtask
+  virtual task pre_start(); endtask
 
 
   // Task -- NODOCS -- pre_body
@@ -460,9 +298,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   // This method should not be called directly by the user.
 
   // @uvm-ieee 1800.2-2017 auto 14.2.3.3
-  virtual task pre_body();
-    return;
-  endtask
+  virtual task pre_body(); endtask
 
 
   // Task -- NODOCS -- pre_do
@@ -478,9 +314,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   // This method should not be called directly by the user.
 
   // @uvm-ieee 1800.2-2017 auto 14.2.3.4
-  virtual task pre_do(bit is_item);
-    return;
-  endtask
+  virtual task pre_do(bit is_item); endtask
 
 
   // Function -- NODOCS -- mid_do
@@ -490,9 +324,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   // to the driver.  This method should not be called directly by the user.
 
   // @uvm-ieee 1800.2-2017 auto 14.2.3.5
-  virtual function void mid_do(uvm_sequence_item this_item);
-    return;
-  endfunction
+  virtual function void mid_do(uvm_sequence_item this_item); endfunction
   
   
   // Task -- NODOCS -- body
@@ -501,10 +333,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   // This method should not be called directly by the user.
 
   // @uvm-ieee 1800.2-2017 auto 14.2.3.6
-  virtual task body();
-    uvm_report_warning("uvm_sequence_base", "Body definition undefined");
-    return;
-  endtask
+  virtual task body(); endtask
 
 
   // Function -- NODOCS -- post_do
@@ -515,9 +344,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   // by the user.
 
   // @uvm-ieee 1800.2-2017 auto 14.2.3.7
-  virtual function void post_do(uvm_sequence_item this_item);
-    return;
-  endfunction
+  virtual function void post_do(uvm_sequence_item this_item); endfunction
 
 
   // Task -- NODOCS -- post_body
@@ -531,9 +358,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   // This method should not be called directly by the user.
 
   // @uvm-ieee 1800.2-2017 auto 14.2.3.8
-  virtual task post_body();
-    return;
-  endtask
+  virtual task post_body(); endtask
 
 
   // Task -- NODOCS -- post_start
@@ -543,9 +368,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   // This method should not be called directly by the user.
 
   // @uvm-ieee 1800.2-2017 auto 14.2.3.9
-  virtual task post_start();
-    return;
-  endtask
+  virtual task post_start(); endtask
 
 
   // Group -- NODOCS -- Run-Time Phasing
@@ -558,24 +381,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
 
   // Function- m_init_phase_daps
   // Either creates or renames DAPS
-  function void m_init_phase_daps(bit create);
-     string apo_name = $sformatf("%s.automatic_phase_objection", get_full_name());
-     string sp_name = $sformatf("%s.starting_phase", get_full_name());
-
-     if (create) begin
-`ifdef VERILATOR
-        m_automatic_phase_objection_dap = uvm_get_to_lock_dap#(bit)::type_id_create(apo_name, get_sequencer());
-        m_starting_phase_dap = uvm_get_to_lock_dap#(uvm_phase)::type_id_create(sp_name, get_sequencer());
-`else
-        m_automatic_phase_objection_dap = uvm_get_to_lock_dap#(bit)::type_id::create(apo_name, get_sequencer());
-        m_starting_phase_dap = uvm_get_to_lock_dap#(uvm_phase)::type_id::create(sp_name, get_sequencer());
-`endif
-     end
-     else begin
-        m_automatic_phase_objection_dap.set_name(apo_name);
-        m_starting_phase_dap.set_name(sp_name);
-     end
-  endfunction : m_init_phase_daps
+  function void m_init_phase_daps(bit create); endfunction : m_init_phase_daps
 
   // Function -- NODOCS -- get_starting_phase
   // Returns the 'starting phase'.
@@ -592,43 +398,27 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   // then the starting phase value can be modified again.
   //
   // @uvm-ieee 1800.2-2017 auto 14.2.4.1
-  function uvm_phase get_starting_phase();
-     return m_starting_phase_dap.get();
-  endfunction : get_starting_phase
+  function uvm_phase get_starting_phase(); endfunction : get_starting_phase
 
 
   // @uvm-ieee 1800.2-2017 auto 14.2.4.2
-  function void set_starting_phase(uvm_phase phase);
-     m_starting_phase_dap.set(phase);
-  endfunction : set_starting_phase
+  function void set_starting_phase(uvm_phase phase); endfunction : set_starting_phase
    
 
   // @uvm-ieee 1800.2-2017 auto 14.2.4.4
-  function void set_automatic_phase_objection(bit value);
-     m_automatic_phase_objection_dap.set(value);
-  endfunction : set_automatic_phase_objection
+  function void set_automatic_phase_objection(bit value); endfunction : set_automatic_phase_objection
 
 
   // @uvm-ieee 1800.2-2017 auto 14.2.4.3
-  function bit get_automatic_phase_objection();
-     return m_automatic_phase_objection_dap.get();
-  endfunction : get_automatic_phase_objection
+  function bit get_automatic_phase_objection(); endfunction : get_automatic_phase_objection
 
   // m_safe_raise_starting_phase
   function void m_safe_raise_starting_phase(string description = "",
-                                            int count = 1);
-     uvm_phase starting_phase = get_starting_phase();
-     if (starting_phase != null)
-       starting_phase.raise_objection(this, description, count);
-  endfunction : m_safe_raise_starting_phase
+                                            int count = 1); endfunction : m_safe_raise_starting_phase
 
   // m_safe_drop_starting_phase
   function void m_safe_drop_starting_phase(string description = "",
-                                           int count = 1);
-     uvm_phase starting_phase = get_starting_phase();
-     if (starting_phase != null)
-       starting_phase.drop_objection(this, description, count);
-  endfunction : m_safe_drop_starting_phase
+                                           int count = 1); endfunction : m_safe_drop_starting_phase
 
   //------------------------
   // Group -- NODOCS -- Sequence Control
@@ -644,9 +434,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   // in higher priorities.
 
   // @uvm-ieee 1800.2-2017 auto 14.2.5.2
-  function void set_priority (int value);
-    m_priority = value;
-  endfunction
+  function void set_priority (int value); endfunction
 
 
   // Function -- NODOCS -- get_priority
@@ -654,9 +442,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   // This function returns the current priority of the sequence.
 
   // @uvm-ieee 1800.2-2017 auto 14.2.5.1
-  function int get_priority();
-    return m_priority;
-  endfunction
+  function int get_priority(); endfunction
 
 
   // Function -- NODOCS -- is_relevant
@@ -680,10 +466,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   // sequence to become relevant.
 
   // @uvm-ieee 1800.2-2017 auto 14.2.5.3
-  virtual function bit is_relevant();
-    is_rel_default = 1;
-    return 1;
-  endfunction
+  virtual function bit is_relevant(); endfunction
 
 
   // Task -- NODOCS -- wait_for_relevant
@@ -701,14 +484,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   // a wait_for_relevant method.
 
   // @uvm-ieee 1800.2-2017 auto 14.2.5.4
-  virtual task wait_for_relevant();
-    event e;
-    wait_rel_default = 1;
-    if (is_rel_default != wait_rel_default)
-      uvm_report_fatal("RELMSM",
-        "is_relevant() was implemented without defining wait_for_relevant()", UVM_NONE);
-    @e;  // this is intended to never return
-  endtask
+  virtual task wait_for_relevant(); endtask
 
 
   // Task -- NODOCS -- lock
@@ -723,15 +499,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   // The lock call will return when the lock has been granted.
 
   // @uvm-ieee 1800.2-2017 auto 14.2.5.5
-  task lock(uvm_sequencer_base sequencer = null);
-    if (sequencer == null)
-      sequencer = m_sequencer;
-
-    if (sequencer == null)
-      uvm_report_fatal("LOCKSEQR", "Null m_sequencer reference", UVM_NONE);
-
-    sequencer.lock(this);
-  endtask
+  task lock(uvm_sequencer_base sequencer = null); endtask
 
 
   // Task -- NODOCS -- grab
@@ -746,17 +514,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   // The grab call will return when the grab has been granted.
 
   // @uvm-ieee 1800.2-2017 auto 14.2.5.6
-  task grab(uvm_sequencer_base sequencer = null);
-    if (sequencer == null) begin
-      if (m_sequencer == null) begin
-        uvm_report_fatal("GRAB", "Null m_sequencer reference", UVM_NONE);
-      end
-      m_sequencer.grab(this);
-    end
-    else begin
-      sequencer.grab(this);
-    end
-  endtask
+  task grab(uvm_sequencer_base sequencer = null); endtask
 
 
   // Function -- NODOCS -- unlock
@@ -766,16 +524,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   // current default sequencer.
 
   // @uvm-ieee 1800.2-2017 auto 14.2.5.7
-  function void  unlock(uvm_sequencer_base sequencer = null);
-    if (sequencer == null) begin
-      if (m_sequencer == null) begin
-        uvm_report_fatal("UNLOCK", "Null m_sequencer reference", UVM_NONE);
-      end
-      m_sequencer.unlock(this);
-    end else begin
-      sequencer.unlock(this);
-    end
-  endfunction
+  function void  unlock(uvm_sequencer_base sequencer = null); endfunction
 
 
   // Function -- NODOCS -- ungrab
@@ -785,9 +534,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   // current default sequencer.
 
   // @uvm-ieee 1800.2-2017 auto 14.2.5.8
-  function void  ungrab(uvm_sequencer_base sequencer = null);
-    unlock(sequencer);
-  endfunction
+  function void  ungrab(uvm_sequencer_base sequencer = null); endfunction
 
 
   // Function -- NODOCS -- is_blocked
@@ -800,9 +547,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   // sequence can issue a request.
 
   // @uvm-ieee 1800.2-2017 auto 14.2.5.9
-  function bit is_blocked();
-    return m_sequencer.is_blocked(this);
-  endfunction
+  function bit is_blocked(); endfunction
 
 
   // Function -- NODOCS -- has_lock
@@ -814,9 +559,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   // operations on the sequencer.
 
   // @uvm-ieee 1800.2-2017 auto 14.2.5.10
-  function bit has_lock();
-    return m_sequencer.has_lock(this);
-  endfunction
+  function bit has_lock(); endfunction
 
 
   // Function -- NODOCS -- kill
@@ -832,28 +575,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   // method.
 
   // @uvm-ieee 1800.2-2017 auto 14.2.5.11
-  function void kill();
-    if (m_sequence_process != null) begin
-      // If we are not connected to a sequencer, then issue
-      // kill locally.
-      if (m_sequencer == null) begin
-        m_kill();
-        // We need to drop the objection if we raised it...
-        if (get_automatic_phase_objection()) begin
-           m_safe_drop_starting_phase("automatic phase objection");
-        end
-        return;
-      end
-      // If we are attached to a sequencer, then the sequencer
-      // will clear out queues, and then kill this sequence
-      m_sequencer.kill_sequence(this);
-      // We need to drop the objection if we raised it...
-      if (get_automatic_phase_objection()) begin
-         m_safe_drop_starting_phase("automatic phase objection");
-      end
-      return;
-    end
-  endfunction
+  function void kill(); endfunction
 
 
   // Function: do_kill
@@ -869,24 +591,9 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   // @uvm-contrib This API is being considered for potential contribution to 1800.2
   
   // @uvm-ieee 1800.2-2017 auto 14.2.5.12
-  virtual function void do_kill();
-    return;
-  endfunction
+  virtual function void do_kill(); endfunction
 
-  function void m_kill();
-    do_kill();
-    foreach(children_array[i]) begin
-       i.kill();
-    end
-    if (m_sequence_process != null) begin
-      m_sequence_process.kill;
-      m_sequence_process = null;
-    end
-    m_sequence_state = UVM_STOPPED;
-    if ((m_parent_sequence != null) && (m_parent_sequence.children_array.exists(this)))
-      m_parent_sequence.children_array.delete(this);
-    clean_exit_sequence();
-  endfunction
+  function void m_kill(); endfunction
 
 
   //-------------------------------
@@ -901,14 +608,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
 
   // @uvm-ieee 1800.2-2017 auto 14.2.6.1
   protected function uvm_sequence_item create_item(uvm_object_wrapper type_var,
-                                                   uvm_sequencer_base l_sequencer, string name);
-
-    uvm_coreservice_t cs = uvm_coreservice_t::get();
-    uvm_factory factory=cs.get_factory();
-    $cast(create_item,  factory.create_object_by_type( type_var, this.get_full_name(), name ));
-
-    create_item.set_item_context(this, l_sequencer);
-  endfunction
+                                                   uvm_sequencer_base l_sequencer, string name); endfunction
 
 
   // Function -- NODOCS -- start_item
@@ -1014,12 +714,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   // item to be sent via the send_request call.
 
   // @uvm-ieee 1800.2-2017 auto 14.2.6.4
-  virtual task wait_for_grant(int item_priority = -1, bit lock_request = 0);
-    if (m_sequencer == null) begin
-      uvm_report_fatal("WAITGRANT", "Null m_sequencer reference", UVM_NONE);
-    end
-    m_sequencer.wait_for_grant(this, item_priority, lock_request);
-  endtask
+  virtual task wait_for_grant(int item_priority = -1, bit lock_request = 0); endtask
 
 
   // Function -- NODOCS -- send_request
@@ -1030,12 +725,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   // randomized before being sent to the driver.
 
   // @uvm-ieee 1800.2-2017 auto 14.2.6.5
-  virtual function void send_request(uvm_sequence_item request, bit rerandomize = 0);
-    if (m_sequencer == null) begin
-        uvm_report_fatal("SENDREQ", "Null m_sequencer reference", UVM_NONE);
-      end
-    m_sequencer.send_request(this, request, rerandomize);
-  endfunction
+  virtual function void send_request(uvm_sequence_item request, bit rerandomize = 0); endfunction
 
 
   // Task -- NODOCS -- wait_for_item_done
@@ -1052,12 +742,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
 
 
   // @uvm-ieee 1800.2-2017 auto 14.2.6.6
-  virtual task wait_for_item_done(int transaction_id = -1);
-    if (m_sequencer == null) begin
-        uvm_report_fatal("WAITITEMDONE", "Null m_sequencer reference", UVM_NONE);
-      end
-    m_sequencer.wait_for_item_done(this, transaction_id);
-  endtask
+  virtual task wait_for_item_done(int transaction_id = -1); endtask
 
 
 
@@ -1076,9 +761,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   // function with each response.
 
   // @uvm-ieee 1800.2-2017 auto 14.2.7.1
-  function void use_response_handler(bit enable);
-    m_use_response_handler = enable;
-  endfunction
+  function void use_response_handler(bit enable); endfunction
 
 
   // Function -- NODOCS -- get_use_response_handler
@@ -1086,9 +769,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   // Returns the state of the use_response_handler bit.
 
   // @uvm-ieee 1800.2-2017 auto 14.2.7.2
-  function bit get_use_response_handler();
-    return m_use_response_handler;
-  endfunction
+  function bit get_use_response_handler(); endfunction
 
 
   // Function -- NODOCS -- response_handler
@@ -1097,9 +778,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   // by the sequencer for each response that arrives for this sequence.
 
   // @uvm-ieee 1800.2-2017 auto 14.2.7.3
-  virtual function void response_handler(uvm_sequence_item response);
-    return;
-  endfunction
+  virtual function void response_handler(uvm_sequence_item response); endfunction
 
   // Function -- NODOCS -- set_response_queue_error_report_enabled
   //
@@ -1111,9 +790,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   // '1' enables them.
 
   // @uvm-ieee 1800.2-2017 auto 14.2.7.5
-  function void set_response_queue_error_report_enabled(bit value);
-    response_queue_error_report_enabled = value;
-  endfunction : set_response_queue_error_report_enabled
+  function void set_response_queue_error_report_enabled(bit value); endfunction : set_response_queue_error_report_enabled
 
   // Function -- NODOCS -- get_response_queue_error_report_enabled
   //
@@ -1122,9 +799,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   // reports are generated.
 
   // @uvm-ieee 1800.2-2017 auto 14.2.7.4
-  function bit get_response_queue_error_report_enabled();
-    return response_queue_error_report_enabled;
-  endfunction : get_response_queue_error_report_enabled
+  function bit get_response_queue_error_report_enabled(); endfunction : get_response_queue_error_report_enabled
 
 `ifdef UVM_ENABLE_DEPRECATED_API
 
@@ -1135,9 +810,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   // from the driver than get_response calls are made. Setting value to 0
   // disables these errors, while setting it to 1 enables them.
 
-  function void set_response_queue_error_report_disabled(bit value);
-    response_queue_error_report_enabled = value; // Note that the value isn't inverted... confusing given the name of the method, no?  That's why we deprecated it.
-  endfunction
+  function void set_response_queue_error_report_disabled(bit value); endfunction
 
 
   // Function- get_response_queue_error_report_disabled
@@ -1146,9 +819,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   // the response queue overflows. When this bit is 1, no such error
   // reports are generated.
 
-  function bit get_response_queue_error_report_disabled();
-    return !response_queue_error_report_enabled;
-  endfunction
+  function bit get_response_queue_error_report_disabled(); endfunction
 
 `endif // UVM_ENABLE_DEPRECATED_API
 
@@ -1161,9 +832,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   // response queue.  No checking is done.
 
   // @uvm-ieee 1800.2-2017 auto 14.2.7.7
-  function void set_response_queue_depth(int value);
-    response_queue_depth = value;
-  endfunction
+  function void set_response_queue_depth(int value); endfunction
 
 
   // Function -- NODOCS -- get_response_queue_depth
@@ -1171,9 +840,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   // Returns the current depth setting for the response queue.
 
   // @uvm-ieee 1800.2-2017 auto 14.2.7.6
-  function int get_response_queue_depth();
-    return response_queue_depth;
-  endfunction
+  function int get_response_queue_depth(); endfunction
 
 
   // Function -- NODOCS -- clear_response_queue
@@ -1181,59 +848,22 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   // Empties the response queue for this sequence.
 
   // @uvm-ieee 1800.2-2017 auto 14.2.7.8
-  virtual function void clear_response_queue();
-    response_queue.delete();
-  endfunction
+  virtual function void clear_response_queue(); endfunction
 
 
-  virtual function void put_base_response(input uvm_sequence_item response);
-    if ((response_queue_depth == -1) ||
-        (response_queue.size() < response_queue_depth)) begin
-      response_queue.push_back(response);
-      return;
-    end
-    if (response_queue_error_report_enabled) begin
-      uvm_report_error(get_full_name(), "Response queue overflow, response was dropped", UVM_NONE);
-    end
-  endfunction
+  virtual function void put_base_response(input uvm_sequence_item response); endfunction
 
 
   // Function- put_response
   //
   // Internal method.
 
-  virtual function void put_response (uvm_sequence_item response_item);
-    put_base_response(response_item); // no error-checking
-  endfunction
+  virtual function void put_response (uvm_sequence_item response_item); endfunction
 
 
   // Function- get_base_response
 
-  virtual task get_base_response(output uvm_sequence_item response, input int transaction_id = -1);
-
-    int queue_size, i;
-
-    if (response_queue.size() == 0)
-      wait (response_queue.size() != 0);
-
-    if (transaction_id == -1) begin
-      response = response_queue.pop_front();
-      return;
-    end
-
-    forever begin
-      queue_size = response_queue.size();
-      for (i = 0; i < queue_size; i++) begin
-        if (response_queue[i].get_transaction_id() == transaction_id)
-          begin
-            $cast(response,response_queue[i]);
-            response_queue.delete(i);
-            return;
-          end
-      end
-      wait (response_queue.size() != queue_size);
-    end
-  endtask
+  virtual task get_base_response(output uvm_sequence_item response, input int transaction_id = -1); endtask
 
   //----------------------
   // Misc Internal methods
@@ -1243,27 +873,12 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   // m_get_sqr_sequence_id
   // ---------------------
 
-  function int m_get_sqr_sequence_id(int sequencer_id, bit update_sequence_id);
-    if (m_sqr_seq_ids.exists(sequencer_id)) begin
-      if (update_sequence_id == 1) begin
-        set_sequence_id(m_sqr_seq_ids[sequencer_id]);
-      end
-      return m_sqr_seq_ids[sequencer_id];
-    end
-
-    if (update_sequence_id == 1)
-      set_sequence_id(-1);
-
-    return -1;
-  endfunction
+  function int m_get_sqr_sequence_id(int sequencer_id, bit update_sequence_id); endfunction
 
 
   // m_set_sqr_sequence_id
   // ---------------------
 
-  function void m_set_sqr_sequence_id(int sequencer_id, int sequence_id);
-    m_sqr_seq_ids[sequencer_id] = sequence_id;
-    set_sequence_id(sequence_id);
-  endfunction
+  function void m_set_sqr_sequence_id(int sequencer_id, int sequence_id); endfunction
 
 endclass

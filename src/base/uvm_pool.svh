@@ -50,9 +50,7 @@ class uvm_pool #(type KEY=int, T=uvm_void) extends uvm_object;
   // Creates a new pool with the given ~name~.
 
   // @uvm-ieee 1800.2-2017 auto 11.2.2.1
-  function new (string name="");
-    super.new(name);
-  endfunction
+  function new (string name=""); endfunction
 
 
   // Function -- NODOCS -- get_global_pool
@@ -62,11 +60,7 @@ class uvm_pool #(type KEY=int, T=uvm_void) extends uvm_object;
   // This allows items to be shared amongst components throughout the
   // verification environment.
 
-  static function this_type get_global_pool ();
-    if (m_global_pool==null)
-      m_global_pool = new("pool");
-    return m_global_pool;
-  endfunction
+  static function this_type get_global_pool (); endfunction
 
 
   // Function -- NODOCS -- get_global
@@ -74,11 +68,7 @@ class uvm_pool #(type KEY=int, T=uvm_void) extends uvm_object;
   // Returns the specified item instance from the global item pool. 
 
   // @uvm-ieee 1800.2-2017 auto 11.2.2.3
-  static function T get_global (KEY key);
-    this_type gpool;
-    gpool = get_global_pool(); 
-    return gpool.get(key);
-  endfunction
+  static function T get_global (KEY key); endfunction
 
 
   // Function -- NODOCS -- get
@@ -89,13 +79,7 @@ class uvm_pool #(type KEY=int, T=uvm_void) extends uvm_object;
   // and returned.
 
   // @uvm-ieee 1800.2-2017 auto 11.2.2.4
-  virtual function T get (KEY key);
-    if (!pool.exists(key)) begin
-      T default_value;
-      pool[key] = default_value;
-    end
-    return pool[key];
-  endfunction
+  virtual function T get (KEY key); endfunction
   
 
   // Function -- NODOCS -- add
@@ -104,9 +88,7 @@ class uvm_pool #(type KEY=int, T=uvm_void) extends uvm_object;
   // exists at the given ~key~ it is overwritten with the new ~item~.
 
   // @uvm-ieee 1800.2-2017 auto 11.2.2.5
-  virtual function void add (KEY key, T item);
-    pool[key] = item;
-  endfunction
+  virtual function void add (KEY key, T item); endfunction
   
 
   // Function -- NODOCS -- num
@@ -114,9 +96,7 @@ class uvm_pool #(type KEY=int, T=uvm_void) extends uvm_object;
   // Returns the number of uniquely keyed items stored in the pool.
 
   // @uvm-ieee 1800.2-2017 auto 11.2.2.6
-  virtual function int num ();
-    return pool.num();
-  endfunction
+  virtual function int num (); endfunction
 
 
   // Function -- NODOCS -- delete
@@ -124,14 +104,7 @@ class uvm_pool #(type KEY=int, T=uvm_void) extends uvm_object;
   // Removes the item with the given ~key~ from the pool.
 
   // @uvm-ieee 1800.2-2017 auto 11.2.2.7
-  virtual function void delete (KEY key);
-    if (!exists(key)) begin
-      uvm_report_warning("POOLDEL",
-        $sformatf("delete: pool key doesn't exist. Ignoring delete request"));
-      return;
-    end
-    pool.delete(key);
-  endfunction
+  virtual function void delete (KEY key); endfunction
 
 
   // Function -- NODOCS -- exists
@@ -140,9 +113,7 @@ class uvm_pool #(type KEY=int, T=uvm_void) extends uvm_object;
   // 0 otherwise.
 
   // @uvm-ieee 1800.2-2017 auto 11.2.2.8
-  virtual function int exists (KEY key);
-    return pool.exists(key);
-  endfunction
+  virtual function int exists (KEY key); endfunction
 
 
   // Function -- NODOCS -- first
@@ -155,9 +126,7 @@ class uvm_pool #(type KEY=int, T=uvm_void) extends uvm_object;
   // and 1 is returned.
 
   // @uvm-ieee 1800.2-2017 auto 11.2.2.9
-  virtual function int first (ref KEY key);
-    return pool.first(key);
-  endfunction
+  virtual function int first (ref KEY key); endfunction
 
 
   // Function -- NODOCS -- last
@@ -170,9 +139,7 @@ class uvm_pool #(type KEY=int, T=uvm_void) extends uvm_object;
   // the pool and 1 is returned.
 
   // @uvm-ieee 1800.2-2017 auto 11.2.2.10
-  virtual function int last (ref KEY key);
-    return pool.last(key);
-  endfunction
+  virtual function int last (ref KEY key); endfunction
 
 
   // Function -- NODOCS -- next
@@ -186,9 +153,7 @@ class uvm_pool #(type KEY=int, T=uvm_void) extends uvm_object;
   // and 1 is returned.
 
   // @uvm-ieee 1800.2-2017 auto 11.2.2.11
-  virtual function int next (ref KEY key);
-    return pool.next(key);
-  endfunction
+  virtual function int next (ref KEY key); endfunction
 
 
   // Function -- NODOCS -- prev
@@ -202,35 +167,11 @@ class uvm_pool #(type KEY=int, T=uvm_void) extends uvm_object;
   // and 1 is returned.
 
   // @uvm-ieee 1800.2-2017 auto 11.2.2.12
-  virtual function int prev (ref KEY key);
-    return pool.prev(key);
-  endfunction
+  virtual function int prev (ref KEY key); endfunction
 
-  virtual function void do_copy (uvm_object rhs);
-    this_type p;
-    KEY key;
-    super.do_copy(rhs);
-    if (rhs==null || !$cast(p, rhs))
-      return;
-    pool = p.pool;
-  endfunction
+  virtual function void do_copy (uvm_object rhs); endfunction
 
-  virtual function void do_print (uvm_printer printer);
-    string v;
-    int cnt;
-    string item;
-    KEY key;
-    printer.print_array_header("pool",pool.num(),"aa_object_string");
-    if (pool.first(key))
-      do begin
-        item.itoa(cnt);
-        item = {"[-key",item,"--]"};
-        $swrite(v,pool[key]);
-        printer.print_generic(item,"",-1,v,"[");
-      end
-      while (pool.next(key));
-    printer.print_array_footer();
-  endfunction
+  virtual function void do_print (uvm_printer printer); endfunction
 
 endclass
 
@@ -259,9 +200,7 @@ class uvm_object_string_pool #(type T=uvm_object) extends uvm_pool #(string,T);
   //
   // Creates a new pool with the given ~name~.
 
-  function new (string name="");
-    super.new(name);
-  endfunction
+  function new (string name=""); endfunction
 
   // Function -- NODOCS -- get_global_pool
   //
@@ -270,22 +209,14 @@ class uvm_object_string_pool #(type T=uvm_object) extends uvm_pool #(string,T);
   // This allows items to be shared amongst components throughout the
   // verification environment.
 
-  static function this_type get_global_pool ();
-    if (m_global_pool==null)
-      m_global_pool = new("global_pool");
-    return m_global_pool;
-  endfunction
+  static function this_type get_global_pool (); endfunction
 
 
   // Function -- NODOCS -- get_global
   //
   // Returns the specified item instance from the global item pool. 
 
-  static function T get_global (string key);
-    this_type gpool;
-    gpool = get_global_pool(); 
-    return gpool.get(key);
-  endfunction
+  static function T get_global (string key); endfunction
 
 
   // Function -- NODOCS -- get
@@ -295,38 +226,19 @@ class uvm_object_string_pool #(type T=uvm_object) extends uvm_pool #(string,T);
   // If no item exists by the given ~key~, a new item is created for that key
   // and returned.
 
-  virtual function T get (string key);
-    if (!pool.exists(key))
-      pool[key] = new (key);
-    return pool[key];
-  endfunction
+  virtual function T get (string key); endfunction
   
 
   // Function -- NODOCS -- delete
   //
   // Removes the item with the given string ~key~ from the pool.
 
-  virtual function void delete (string key);
-    if (!exists(key)) begin
-      uvm_report_warning("POOLDEL",
-        $sformatf("delete: key '%s' doesn't exist", key));
-      return;
-    end
-    pool.delete(key);
-  endfunction
+  virtual function void delete (string key); endfunction
 
 
   // Function- do_print
 
-  virtual function void do_print (uvm_printer printer);
-    string key;
-    printer.print_array_header("pool",pool.num(),"aa_object_string");
-    if (pool.first(key))
-      do
-        printer.print_object({"[",key,"]"}, pool[key],"[");
-      while (pool.next(key));
-    printer.print_array_footer();
-  endfunction
+  virtual function void do_print (uvm_printer printer); endfunction
 
 endclass
 

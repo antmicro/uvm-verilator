@@ -62,35 +62,21 @@ virtual class uvm_tr_database extends uvm_object;
    
 
    // @uvm-ieee 1800.2-2017 auto 7.1.2
-   function new(string name="unnamed-uvm_tr_database");
-      super.new(name);
-   endfunction : new
+   function new(string name="unnamed-uvm_tr_database"); endfunction : new
 
    // Group -- NODOCS -- Database API
    
 
    // @uvm-ieee 1800.2-2017 auto 7.1.3.1
-   function bit open_db();
-      if (!m_is_opened)
-        m_is_opened = do_open_db();
-      return m_is_opened;
-   endfunction : open_db
+   function bit open_db(); endfunction : open_db
 
 
    // @uvm-ieee 1800.2-2017 auto 7.1.3.2
-   function bit close_db();
-      if (m_is_opened) begin
-         if (do_close_db())
-           m_is_opened = 0;
-      end
-      return (m_is_opened == 0);
-   endfunction : close_db
+   function bit close_db(); endfunction : close_db
 
 
    // @uvm-ieee 1800.2-2017 auto 7.1.3.3
-   function bit is_open();
-      return m_is_opened;
-   endfunction : is_open
+   function bit is_open(); endfunction : is_open
 
    // Group -- NODOCS -- Stream API
    
@@ -98,111 +84,21 @@ virtual class uvm_tr_database extends uvm_object;
    // @uvm-ieee 1800.2-2017 auto 7.1.4.1
    function uvm_tr_stream open_stream(string name,
                                       string scope="",
-                                      string type_name="");
-      if (!open_db()) begin
-         return null;
-      end
-      else begin
-         process p = process::self();
-         string s;
-
-         if (p != null)
-           s = p.get_randstate();
-
-         open_stream = do_open_stream(name, scope, type_name);
-
-
-         if (open_stream != null) begin
-            m_streams[open_stream] = 1;
-            open_stream.m_do_open(this, scope, type_name);
-         end
-         
-         if (p != null)
-           p.set_randstate(s);
-
-      end
-   endfunction : open_stream
+                                      string type_name=""); endfunction : open_stream
 
    // Function- m_free_stream
    // Removes stream from the internal array
-   function void m_free_stream(uvm_tr_stream stream);
-      if (m_streams.exists(stream))
-        m_streams.delete(stream);
-   endfunction : m_free_stream
+   function void m_free_stream(uvm_tr_stream stream); endfunction : m_free_stream
    
 
    // @uvm-ieee 1800.2-2017 auto 7.1.4.2
-   function unsigned get_streams(ref uvm_tr_stream q[$]);
-      // Clear out the queue first...
-      q.delete();
-      // Then fill in the values
-      foreach (m_streams[idx])
-        q.push_back(idx);
-      // Finally, return the size of the queue
-      return q.size();
-   endfunction : get_streams
+   function unsigned get_streams(ref uvm_tr_stream q[$]); endfunction : get_streams
    
    // Group -- NODOCS -- Link API
    
 
    // @uvm-ieee 1800.2-2017 auto 7.1.5
-   function void establish_link(uvm_link_base link);
-      uvm_tr_stream s_lhs, s_rhs;
-      uvm_recorder r_lhs, r_rhs;
-      uvm_object lhs = link.get_lhs();
-      uvm_object rhs = link.get_rhs();
-      uvm_tr_database db;
-
-      if (lhs == null) begin
-         `uvm_warning("UVM/TR_DB/BAD_LINK",
-                      "left hand side '<null>' is not supported in links for 'uvm_tr_database'")
-         return;
-      end
-      if (rhs == null) begin
-         `uvm_warning("UVM/TR_DB/BAD_LINK",
-                      "right hand side '<null>' is not supported in links for 'uvm_tr_database'")
-         return;
-      end
-      
-      if (!$cast(s_lhs, lhs) && 
-          !$cast(r_lhs, lhs)) begin
-         `uvm_warning("UVM/TR_DB/BAD_LINK",
-                      $sformatf("left hand side of type '%s' not supported in links for 'uvm_tr_database'",
-                                lhs.get_type_name()))
-         return;
-      end
-      if (!$cast(s_rhs, rhs) && 
-          !$cast(r_rhs, rhs)) begin
-         `uvm_warning("UVM/TR_DB/BAD_LINK",
-                      $sformatf("right hand side of type '%s' not supported in links for 'uvm_record_datbasae'",
-                                rhs.get_type_name()))
-         return;
-      end
-      
-      if (r_lhs != null) begin
-         s_lhs = r_lhs.get_stream();
-      end
-      if (r_rhs != null) begin
-         s_rhs = r_rhs.get_stream();
-      end
-
-      if ((s_lhs != null) && (s_lhs.get_db() != this)) begin
-         db = s_lhs.get_db();
-         `uvm_warning("UVM/TR_DB/BAD_LINK",
-                      $sformatf("attempt to link stream from '%s' into '%s'",
-                                db.get_name(), this.get_name()))
-         return;
-      end
-      if ((s_rhs != null) && (s_rhs.get_db() != this)) begin
-         db = s_rhs.get_db();
-         `uvm_warning("UVM/TR_DB/BAD_LINK",
-                      $sformatf("attempt to link stream from '%s' into '%s'",
-                                db.get_name(), this.get_name()))
-         return;
-      end
-
-      do_establish_link(link);
-   endfunction : establish_link
+   function void establish_link(uvm_link_base link); endfunction : establish_link
       
    // Group -- NODOCS -- Implementation Agnostic API
    //

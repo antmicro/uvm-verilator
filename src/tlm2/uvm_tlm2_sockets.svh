@@ -61,32 +61,11 @@ class uvm_tlm_b_initiator_socket #(type T=uvm_tlm_generic_payload)
 
 
   // @uvm-ieee 1800.2-2017 auto 12.3.5.2.3
-  function new(string name, uvm_component parent);
-    super.new(name, parent);
-  endfunction 
+  function new(string name, uvm_component parent); endfunction 
    
 
   // @uvm-ieee 1800.2-2017 auto 12.3.5.2.4
-  function void connect(this_type provider);
-
-    uvm_tlm_b_passthrough_initiator_socket_base #(T) initiator_pt_socket;
-    uvm_tlm_b_passthrough_target_socket_base #(T) target_pt_socket;
-    uvm_tlm_b_target_socket_base #(T) target_socket;
-
-    uvm_component c;
-
-    super.connect(provider);
-
-    if($cast(initiator_pt_socket, provider)  ||
-       $cast(target_pt_socket, provider)     ||
-       $cast(target_socket, provider))
-      return;
-
-    c = get_comp();
-    `uvm_error_context(get_type_name(),
-       "type mismatch in connect -- connection cannot be completed", c)
-
-  endfunction
+  function void connect(this_type provider); endfunction
 
 endclass
 
@@ -112,27 +91,11 @@ class uvm_tlm_b_target_socket #(type IMP=int,
 
 
   // @uvm-ieee 1800.2-2017 auto 12.3.5.1.3
-  function new (string name, uvm_component parent, IMP imp = null);
-    super.new (name, parent);
-    if (imp == null) $cast(m_imp, parent);
-    else m_imp = imp;
-    if (m_imp == null)
-       `uvm_error("UVM/TLM2/NOIMP", {"b_target socket ", name,
-                                     " has no implementation"})
-  endfunction
+  function new (string name, uvm_component parent, IMP imp = null); endfunction
 
 
   // @uvm-ieee 1800.2-2017 auto 12.3.5.1.4
-  function void connect(this_type provider);
-
-    uvm_component c;
-
-    super.connect(provider);
-
-    c = get_comp();
-    `uvm_error_context(get_type_name(),
-       "You cannot call connect() on a target termination socket", c)
-  endfunction
+  function void connect(this_type provider); endfunction
 
   `UVM_TLM_B_TRANSPORT_IMP(m_imp, T, t, delay)
 
@@ -160,46 +123,11 @@ class uvm_tlm_nb_initiator_socket #(type IMP=int,
 
 
   // @uvm-ieee 1800.2-2017 auto 12.3.5.4.3
-  function new(string name, uvm_component parent, IMP imp = null);
-    super.new (name, parent);
-    if (imp == null) $cast(imp, parent);
-    if (imp == null)
-       `uvm_error("UVM/TLM2/NOIMP", {"nb_initiator socket ", name,
-                                     " has no implementation"})
-    bw_imp = new("bw_imp", imp);
-  endfunction
+  function new(string name, uvm_component parent, IMP imp = null); endfunction
 
 
    // @uvm-ieee 1800.2-2017 auto 12.3.5.4.4
-   function void connect(this_type provider);
-
-    uvm_tlm_nb_passthrough_initiator_socket_base #(T,P) initiator_pt_socket;
-    uvm_tlm_nb_passthrough_target_socket_base #(T,P) target_pt_socket;
-    uvm_tlm_nb_target_socket_base #(T,P) target_socket;
-
-    uvm_component c;
-
-    super.connect(provider);
-
-    if($cast(initiator_pt_socket, provider)) begin
-      initiator_pt_socket.bw_export.connect(bw_imp);
-      return;
-    end
-    if($cast(target_pt_socket, provider)) begin
-      target_pt_socket.bw_port.connect(bw_imp);
-      return;
-    end
-
-    if($cast(target_socket, provider)) begin
-      target_socket.bw_port.connect(bw_imp);
-      return;
-    end
-    
-    c = get_comp();
-    `uvm_error_context(get_type_name(),
-        "type mismatch in connect -- connection cannot be completed", c)
-
-  endfunction
+   function void connect(this_type provider); endfunction
 
 endclass
 
@@ -226,28 +154,11 @@ class uvm_tlm_nb_target_socket #(type IMP=int,
 
 
   // @uvm-ieee 1800.2-2017 auto 12.3.5.3.3
-  function new (string name, uvm_component parent, IMP imp = null);
-    super.new (name, parent);
-    if (imp == null) $cast(m_imp, parent);
-    else m_imp = imp;
-    bw_port = new("bw_port", get_comp());
-    if (m_imp == null)
-       `uvm_error("UVM/TLM2/NOIMP", {"nb_target socket ", name,
-                                     " has no implementation"})
-  endfunction
+  function new (string name, uvm_component parent, IMP imp = null); endfunction
 
 
   // @uvm-ieee 1800.2-2017 auto 12.3.5.3.4
-  function void connect(this_type provider);
-
-    uvm_component c;
-
-    super.connect(provider);
-
-    c = get_comp();
-    `uvm_error_context(get_type_name(),
-       "You cannot call connect() on a target termination socket", c)
-  endfunction
+  function void connect(this_type provider); endfunction
 
   `UVM_TLM_NB_TRANSPORT_FW_IMP(m_imp, T, P, t, p, delay)
 
@@ -264,32 +175,12 @@ endclass
 class uvm_tlm_b_passthrough_initiator_socket #(type T=uvm_tlm_generic_payload)
   extends uvm_tlm_b_passthrough_initiator_socket_base #(T);
 
-  function new(string name, uvm_component parent);
-    super.new(name, parent);
-  endfunction
+  function new(string name, uvm_component parent); endfunction
 
    // Function  -- NODOCS -- connect
    //
    // Connect this socket to the specified <uvm_tlm_b_target_socket>
-  function void connect(this_type provider);
-
-    uvm_tlm_b_passthrough_initiator_socket_base #(T) initiator_pt_socket;
-    uvm_tlm_b_passthrough_target_socket_base #(T) target_pt_socket;
-    uvm_tlm_b_target_socket_base #(T) target_socket;
-
-    uvm_component c;
-
-    super.connect(provider);
-
-    if($cast(initiator_pt_socket, provider) ||
-       $cast(target_pt_socket, provider)    ||
-       $cast(target_socket, provider))
-      return;
-
-    c = get_comp();
-    `uvm_error_context(get_type_name(), "type mismatch in connect -- connection cannot be completed", c)
-
-  endfunction
+  function void connect(this_type provider); endfunction
 
 endclass
 
@@ -298,30 +189,12 @@ endclass
 class uvm_tlm_b_passthrough_target_socket #(type T=uvm_tlm_generic_payload)
   extends uvm_tlm_b_passthrough_target_socket_base #(T);
 
-  function new(string name, uvm_component parent);
-    super.new(name, parent);
-  endfunction 
+  function new(string name, uvm_component parent); endfunction 
    
    // Function  -- NODOCS -- connect
    //
    // Connect this socket to the specified <uvm_tlm_b_initiator_socket>
-  function void connect(this_type provider);
-
-    uvm_tlm_b_passthrough_target_socket_base #(T) target_pt_socket;
-    uvm_tlm_b_target_socket_base #(T) target_socket;
-
-    uvm_component c;
-
-    super.connect(provider);
-
-    if($cast(target_pt_socket, provider)    ||
-       $cast(target_socket, provider))
-      return;
-
-    c = get_comp();
-    `uvm_error_context(get_type_name(),
-       "type mismatch in connect -- connection cannot be completed", c)
-  endfunction
+  function void connect(this_type provider); endfunction
 
 endclass
 
@@ -338,43 +211,12 @@ class uvm_tlm_nb_passthrough_initiator_socket #(type T=uvm_tlm_generic_payload,
                                              type P=uvm_tlm_phase_e)
   extends uvm_tlm_nb_passthrough_initiator_socket_base #(T,P);
 
-  function new(string name, uvm_component parent);
-    super.new(name, parent);
-  endfunction
+  function new(string name, uvm_component parent); endfunction
 
    // Function  -- NODOCS -- connect
    //
    // Connect this socket to the specified <uvm_tlm_nb_target_socket>
-  function void connect(this_type provider);
-
-    uvm_tlm_nb_passthrough_initiator_socket_base #(T,P) initiator_pt_socket;
-    uvm_tlm_nb_passthrough_target_socket_base #(T,P) target_pt_socket;
-    uvm_tlm_nb_target_socket_base #(T,P) target_socket;
-
-    uvm_component c;
-
-    super.connect(provider);
-
-    if($cast(initiator_pt_socket, provider)) begin
-      bw_export.connect(initiator_pt_socket.bw_export);
-      return;
-    end
-
-    if($cast(target_pt_socket, provider)) begin
-      target_pt_socket.bw_port.connect(bw_export);
-      return;
-    end
-
-    if($cast(target_socket, provider)) begin
-      target_socket.bw_port.connect(bw_export);
-      return;
-    end
-
-    c = get_comp();
-    `uvm_error_context(get_type_name(),
-       "type mismatch in connect -- connection cannot be completed", c)
-
-  endfunction
+  function void connect(this_type provider); endfunction
 
 endclass
 
@@ -389,36 +231,11 @@ class uvm_tlm_nb_passthrough_target_socket #(type T=uvm_tlm_generic_payload,
                                           type P=uvm_tlm_phase_e)
   extends uvm_tlm_nb_passthrough_target_socket_base #(T,P);
 
-  function new(string name, uvm_component parent);
-    super.new(name, parent);
-  endfunction
+  function new(string name, uvm_component parent); endfunction
 
 
   // @uvm-ieee 1800.2-2017 auto 12.3.5.6.2
-  function void connect(this_type provider);
-
-    uvm_tlm_nb_passthrough_target_socket_base #(T,P) target_pt_socket;
-    uvm_tlm_nb_target_socket_base #(T,P) target_socket;
-
-    uvm_component c;
-
-    super.connect(provider);
-
-    if($cast(target_pt_socket, provider)) begin
-      target_pt_socket.bw_port.connect(bw_port);
-      return;
-    end
-
-    if($cast(target_socket, provider)) begin
-      target_socket.bw_port.connect(bw_port);
-      return;
-    end
-
-    c = get_comp();
-    `uvm_error_context(get_type_name(),
-       "type mismatch in connect -- connection cannot be completed", c)
-
-  endfunction
+  function void connect(this_type provider); endfunction
 
 endclass
 

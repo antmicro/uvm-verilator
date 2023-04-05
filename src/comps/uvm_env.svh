@@ -42,8 +42,6 @@ virtual class uvm_env extends uvm_component;
   // instance, and ~parent~ is the handle to the hierarchical parent, if any.
 
   // @uvm-ieee 1800.2-2017 auto 13.3.2
-  function new (string name="env", uvm_component parent=null);
-    super.new(name,parent);
-  endfunction
+  function new (string name="env", uvm_component parent=null); endfunction
 
 endclass

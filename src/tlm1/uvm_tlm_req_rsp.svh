@@ -207,71 +207,11 @@ class uvm_tlm_req_rsp_channel #(type REQ=int, type RSP=REQ) extends uvm_componen
   // @uvm-ieee 1800.2-2017 auto 12.2.9.1.11
   function new (string name, uvm_component parent=null, 
                 int request_fifo_size=1,
-                int response_fifo_size=1);
+                int response_fifo_size=1); endfunction
 
-    super.new (name, parent);
+  virtual function void connect_phase(uvm_phase phase); endfunction
 
-    m_request_fifo  = new ("request_fifo",  this, request_fifo_size);
-    m_response_fifo = new ("response_fifo", this, response_fifo_size);
-
-    request_ap      = new ("request_ap",  this);
-    response_ap     = new ("response_ap", this);
-            
-    put_request_export       = new ("put_request_export",       this);
-    get_peek_request_export  = new ("get_peek_request_export",  this);
-
-    put_response_export      = new ("put_response_export",      this); 
-    get_peek_response_export = new ("get_peek_response_export", this);
-
-    master_export   = new ("master_export", this, m_request_fifo, m_response_fifo);
-    slave_export    = new ("slave_export",  this, m_request_fifo, m_response_fifo);
-
-    create_aliased_exports();
-
-    set_report_id_action_hier(s_connection_error_id, UVM_NO_ACTION);
-
-  endfunction
-
-  virtual function void connect_phase(uvm_phase phase);
-    put_request_export.connect       (m_request_fifo.put_export);
-    get_peek_request_export.connect  (m_request_fifo.get_peek_export);
-    m_request_fifo.put_ap.connect    (request_ap);
-    put_response_export.connect      (m_response_fifo.put_export);
-    get_peek_response_export.connect (m_response_fifo.get_peek_export);
-    m_response_fifo.put_ap.connect   (response_ap);
-  endfunction
-
-  function void create_aliased_exports();
-    // request
-    blocking_put_request_export         = put_request_export;
-    nonblocking_put_request_export      = put_request_export;
-    get_request_export                  = get_peek_request_export;
-    blocking_get_request_export         = get_peek_request_export;
-    nonblocking_get_request_export      = get_peek_request_export;
-    peek_request_export                 = get_peek_request_export;
-    blocking_peek_request_export        = get_peek_request_export;
-    nonblocking_peek_request_export     = get_peek_request_export;
-    blocking_get_peek_request_export    = get_peek_request_export;
-    nonblocking_get_peek_request_export = get_peek_request_export;
-  
-    // response
-    blocking_put_response_export         = put_response_export;
-    nonblocking_put_response_export      = put_response_export;
-    get_response_export                  = get_peek_response_export;
-    blocking_get_response_export         = get_peek_response_export;
-    nonblocking_get_response_export      = get_peek_response_export;
-    peek_response_export                 = get_peek_response_export;
-    blocking_peek_response_export        = get_peek_response_export;
-    nonblocking_peek_response_export     = get_peek_response_export;
-    blocking_get_peek_response_export    = get_peek_response_export;
-    nonblocking_get_peek_response_export = get_peek_response_export;
-  
-    // master/slave
-    blocking_master_export    = master_export; 
-    nonblocking_master_export = master_export;
-    blocking_slave_export     = slave_export;
-    nonblocking_slave_export  = slave_export;
-  endfunction
+  function void create_aliased_exports(); endfunction
   
 endclass
 
@@ -320,23 +260,12 @@ class uvm_tlm_transport_channel #(type REQ=int, type RSP=REQ)
   // interface.
 
   // @uvm-ieee 1800.2-2017 auto 12.2.9.2.3
-  function new (string name, uvm_component parent=null);
-    super.new(name, parent, 1, 1);
-    transport_export = new("transport_export", this);
-  endfunction
+  function new (string name, uvm_component parent=null); endfunction
 
   // @uvm-ieee 1800.2-2017 auto 12.2.9.2.2
-  task transport (REQ request, output RSP response );
-    this.m_request_fifo.put( request );
-    this.m_response_fifo.get( response );
-  endtask
+  task transport (REQ request, output RSP response ); endtask
 
   // @uvm-ieee 1800.2-2017 auto 12.2.9.2.2
-  function bit nb_transport (REQ req, output RSP rsp );
-    if(this.m_request_fifo.try_put(req)) 
-      return this.m_response_fifo.try_get(rsp);
-    else
-      return 0;
-  endfunction
+  function bit nb_transport (REQ req, output RSP rsp ); endfunction
 
 endclass

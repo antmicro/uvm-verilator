@@ -850,134 +850,82 @@ endclass
 // new
 // ---
 
-function uvm_object::new (string name="");
-
-  m_inst_id = m_inst_count++;
-  m_leaf_name = name;
-endfunction
+function uvm_object::new (string name=""); endfunction
 
 // get_uvm_seeding
 // ------
 
-function bit uvm_object::get_uvm_seeding();
-  uvm_coreservice_t cs = uvm_coreservice_t::get();
-  return cs.get_uvm_seeding();
-endfunction
+function bit uvm_object::get_uvm_seeding(); endfunction
 
 // set_uvm_seeding
 // ------
 
-function void uvm_object::set_uvm_seeding(bit enable);
-  uvm_coreservice_t cs = uvm_coreservice_t::get();
-  cs.set_uvm_seeding(enable);
-endfunction
+function void uvm_object::set_uvm_seeding(bit enable); endfunction
 
 // reseed
 // ------
 
-function void uvm_object::reseed ();
-  if(get_uvm_seeding())
-    this.srandom(uvm_create_random_seed(get_type_name(), get_full_name()));
-endfunction
+function void uvm_object::reseed (); endfunction
 
 
 // get type
 // --------
 
-function uvm_object_wrapper uvm_object::get_type();
-  uvm_report_error("NOTYPID", "get_type not implemented in derived class.", UVM_NONE);
-  return null;
-endfunction
+function uvm_object_wrapper uvm_object::get_type(); endfunction
 
 
 // get inst_id
 // -----------
 
-function int uvm_object::get_inst_id();
-  return m_inst_id;
-endfunction
+function int uvm_object::get_inst_id(); endfunction
 
 
 // get_object_type
 // ---------------
 
-function uvm_object_wrapper uvm_object::get_object_type();
-  uvm_coreservice_t cs = uvm_coreservice_t::get();                                                     
-  uvm_factory factory=cs.get_factory();
-  if(get_type_name() == "<unknown>") return null;
-  return factory.find_wrapper_by_name(get_type_name());
-endfunction
+function uvm_object_wrapper uvm_object::get_object_type(); endfunction
 
 
 // get inst_count
 // --------------
 
-function int uvm_object::get_inst_count();
-  return m_inst_count;
-endfunction
+function int uvm_object::get_inst_count(); endfunction
 
 
 // get_name
 // --------
 
-function string uvm_object::get_name ();
-  return m_leaf_name;
-endfunction
+function string uvm_object::get_name (); endfunction
 
 
 // get_full_name
 // -------------
 
-function string uvm_object::get_full_name ();
-  return get_name();
-endfunction
+function string uvm_object::get_full_name (); endfunction
 
 
 // set_name
 // --------
 
-function void uvm_object::set_name (string name);
-  m_leaf_name = name;
-endfunction
+function void uvm_object::set_name (string name); endfunction
 
 
 // print 
 // -----
  
-function void uvm_object::print(uvm_printer printer=null);
-  if (printer==null) printer = uvm_printer::get_default();
-  $fwrite(printer.get_file(),sprint(printer)); 
-endfunction
+function void uvm_object::print(uvm_printer printer=null); endfunction
 
 
 // sprint
 // ------
 
-function string uvm_object::sprint(uvm_printer printer=null);
-  string name;
-
-  if(printer==null) printer = uvm_printer::get_default();
-  if (printer.get_active_object_depth() == 0) begin
-    printer.flush() ;
-    name  = printer.get_root_enabled() ? get_full_name() : get_name();
-  end
-  else begin
-    name  = get_name();
-  end
-  
-  printer.print_object(name,this);
-  
-  return printer.emit();
-
-endfunction
+function string uvm_object::sprint(uvm_printer printer=null); endfunction
 
 
 // convert2string (virtual)
 // --------------
 
-function string uvm_object::convert2string();
-  return "";
-endfunction
+function string uvm_object::convert2string(); endfunction
 
 `ifdef UVM_ENABLE_DEPRECATED_API
 // set_int_local
@@ -985,19 +933,7 @@ endfunction
 
 function void  uvm_object::set_int_local (string      field_name,
                                           uvm_bitstream_t value,
-                                          bit         recurse=1);
-  uvm_field_op field_op = uvm_field_op::m_get_available_op();
-  uvm_resource_base rsrc_base  = m_set_local_rsrc;
-  if (rsrc_base == null) begin
-    uvm_resource#(uvm_bitstream_t) rsrc = new(field_name);
-    rsrc.write(value);
-    rsrc_base = rsrc;
-  end
-  field_op.set(UVM_SET, null, rsrc_base);
-  do_execute_op(field_op);
-  field_op.m_recycle();
-  m_set_local_rsrc = null;
-endfunction
+                                          bit         recurse=1); endfunction
 
 
 // set_object_local
@@ -1006,181 +942,60 @@ endfunction
 function void  uvm_object::set_object_local (string     field_name,
                                              uvm_object value,
                                              bit        clone=1,
-                                             bit        recurse=1);
-  uvm_field_op field_op = uvm_field_op::m_get_available_op();
-  uvm_resource_base rsrc_base  = m_set_local_rsrc;
-  if (rsrc_base == null) begin
-    uvm_resource#(uvm_object) rsrc  = new(field_name);
-    if (clone && (value != null)) begin
-      uvm_object cc  = value.clone();
-      if (cc != null) cc.set_name(field_name);
-      rsrc.write(cc);
-    end
-    else
-      rsrc.write(value);
-    rsrc_base = rsrc;
-  end
-  field_op.set(UVM_SET, null, rsrc_base);
-  do_execute_op(field_op);
-  field_op.m_recycle();
-  m_set_local_rsrc = null;
-endfunction
+                                             bit        recurse=1); endfunction
 
 
 // set_string_local
 // ----------------
 function void  uvm_object::set_string_local (string field_name,
                                              string value,
-                                             bit    recurse=1);
-                                             
-  uvm_field_op field_op = uvm_field_op::m_get_available_op();
-  uvm_resource_base rsrc_base  = m_set_local_rsrc;
-  if (rsrc_base == null) begin
-    uvm_resource#(string) rsrc = new(field_name);
-    rsrc.write(value);
-    rsrc_base = rsrc;
-  end
-  field_op.set(UVM_SET, null, rsrc_base);
-  do_execute_op(field_op);
-  field_op.m_recycle();
-  m_set_local_rsrc = null;
-endfunction
+                                             bit    recurse=1); endfunction
 `endif // UVM_ENABLE_DEPRECATED_API
 
 
 // set_local
 // ----------------
 
-function void  uvm_object::set_local(uvm_resource_base rsrc) ;
-  if(rsrc==null) begin
-    return ;
-  end
-  else begin
-`ifdef UVM_ENABLE_DEPRECATED_API
-    bit success;
-    uvm_object obj;
-    m_set_local_rsrc = rsrc;
-    `uvm_resource_read(success,
-                       rsrc,
-                       uvm_object,
-                       obj,
-                       this)
-    if (success) begin
-      set_object_local(rsrc.get_name(), obj, 0);
-    end
-    else begin
-      string str;
-      `uvm_resource_read(success,
-                         rsrc,
-                         string,
-                         str,
-                         this)
-      if (success) begin
-        set_string_local(rsrc.get_name(), str);
-      end
-      else begin
-        uvm_bitstream_t bits;
-        `uvm_resource_builtin_int_read(success,
-                                       rsrc,
-                                       bits,
-                                       this)
-        if (success) begin
-          set_int_local(rsrc.get_name(), bits);
-        end
-      end
-    end
-    if (!success)
-`endif
-      
-    begin
-      uvm_field_op op;
-      op  = uvm_field_op::m_get_available_op();
-      op.set(UVM_SET,null,rsrc);
-      this.do_execute_op(op);
-      op.m_recycle();
-    end
-  end 
-endfunction
+function void  uvm_object::set_local(uvm_resource_base rsrc) ; endfunction
 
 
 // m_unsupported_set_local
 // ----------------------
 //
 
-function void uvm_object::m_unsupported_set_local(uvm_resource_base rsrc);
-
-  return;
-endfunction
+function void uvm_object::m_unsupported_set_local(uvm_resource_base rsrc); endfunction
 
 
 // clone
 // -----
 
-function uvm_object uvm_object::clone();
-  uvm_object tmp;
-  tmp = this.create(get_name());
-  if(tmp == null)
-    uvm_report_warning("CRFLD", $sformatf("The create method failed for %s,  object cannot be cloned", get_name()), UVM_NONE);
-  else
-    tmp.copy(this);
-  return(tmp);
-endfunction
+function uvm_object uvm_object::clone(); endfunction
 
 
 // copy
 // ----
 
-function void uvm_object::copy (uvm_object rhs, uvm_copier copier=null);
-uvm_coreservice_t coreservice ;
-uvm_copier m_copier;
-
-  if(rhs == null)  begin
-	`uvm_error("OBJ/COPY","Passing a null object to be copied")
-	return;
-  end
-
-  if(copier == null) begin
-	coreservice = uvm_coreservice_t::get() ;
-       m_copier = coreservice.get_default_copier() ;
- end
-   else 
-	m_copier = copier;
-  // Copier is available. check depth as and flush it. Sec 5.3.8.1
-	if(m_copier.get_active_object_depth() == 0) 
-		m_copier.flush();
-
-  m_copier.copy_object(this,rhs);
-endfunction
+function void uvm_object::copy (uvm_object rhs, uvm_copier copier=null); endfunction
 
 
 // do_copy
 // -------
 
-function void uvm_object::do_copy (uvm_object rhs);
-  return;
-endfunction
+function void uvm_object::do_copy (uvm_object rhs); endfunction
 
 
 // compare
 // -------
 
 function bit  uvm_object::compare (uvm_object rhs,
-                                   uvm_comparer comparer=null);
-  if (comparer == null) comparer = uvm_comparer::get_default();
-  if (comparer.get_active_object_depth() == 0) 
-    comparer.flush() ;
-  compare = comparer.compare_object(get_name(),this,rhs);
-
-endfunction
+                                   uvm_comparer comparer=null); endfunction
 
 
 // do_compare
 // ----------
 
 function bit  uvm_object::do_compare (uvm_object rhs,
-                                      uvm_comparer comparer);
-  return 1;
-endfunction
+                                      uvm_comparer comparer); endfunction
 
 
 // __m_uvm_field_automation
@@ -1188,148 +1003,91 @@ endfunction
 
 function void uvm_object::__m_uvm_field_automation (uvm_object tmp_data__,
                                               uvm_field_flag_t what__,
-                                              string           str__ );
-  return;
-endfunction
+                                              string           str__ ); endfunction
 
 
 
 // do_print (virtual override)
 // ------------
 
-function void uvm_object::do_print(uvm_printer printer);
-  return;
-endfunction
+function void uvm_object::do_print(uvm_printer printer); endfunction
 
 
 // m_pack
 // ------
 
-function void uvm_object::m_pack (inout uvm_packer packer);
-  if (packer == null)
-    packer  = uvm_packer::get_default();
-  if(packer.get_active_object_depth() == 0) 
-    packer.flush(); 
-  packer.pack_object(this);
-  
-endfunction
+function void uvm_object::m_pack (inout uvm_packer packer); endfunction
   
 
 // pack
 // ---- 
   
 function int uvm_object::pack (ref bit bitstream [],
-                               input uvm_packer packer =null );
-  m_pack(packer);
-  packer.get_packed_bits(bitstream);
-  return packer.get_packed_size();
-endfunction
+                               input uvm_packer packer =null ); endfunction
 
 // pack_bytes
 // ----------
 
 function int uvm_object::pack_bytes (ref byte unsigned bytestream [],
-                                     input uvm_packer packer=null );
-  m_pack(packer);
-  packer.get_packed_bytes(bytestream);
-  return packer.get_packed_size();
-endfunction
+                                     input uvm_packer packer=null ); endfunction
 
 
 // pack_ints
 // ---------
 
 function int uvm_object::pack_ints (ref int unsigned intstream [],
-                                    input uvm_packer packer=null );
-  m_pack(packer);
-  packer.get_packed_ints(intstream);
-  return packer.get_packed_size();
-endfunction
+                                    input uvm_packer packer=null ); endfunction
 
 // pack_longints
 // ---------
 
 function int uvm_object::pack_longints (ref longint unsigned longintstream [],
-                                        input uvm_packer packer=null );
-  m_pack(packer);
-  packer.get_packed_longints(longintstream);
-  return packer.get_packed_size();
-endfunction
+                                        input uvm_packer packer=null ); endfunction
 
 
 // do_pack
 // -------
 
-function void uvm_object::do_pack (uvm_packer packer );
-  if (packer == null)
-    `uvm_error("UVM/OBJ/PACK/NULL", "uvm_object::do_pack called with null packer!")
-  return;
-endfunction
+function void uvm_object::do_pack (uvm_packer packer ); endfunction
 
 
 // m_unpack_pre
 // ------------
   
-function void uvm_object::m_unpack_pre (inout uvm_packer packer);
-  if (packer == null)
-    packer  = uvm_packer::get_default();
-  if(packer.get_active_object_depth() == 0) 
-    packer.flush(); 
-
-endfunction
+function void uvm_object::m_unpack_pre (inout uvm_packer packer); endfunction
   
 
 // m_unpack_post
 // -------------
 
-function int uvm_object::m_unpack_post (uvm_packer packer);
-  int size_before_unpack = packer.get_packed_size();
-  packer.unpack_object(this);
-  return size_before_unpack - packer.get_packed_size();
-endfunction
+function int uvm_object::m_unpack_post (uvm_packer packer); endfunction
 
 
 // unpack
 // ------
 
 function int uvm_object::unpack (ref    bit        bitstream [],
-                                 input  uvm_packer packer=null);
-  m_unpack_pre(packer);
-  packer.set_packed_bits(bitstream);
-  return m_unpack_post(packer);
-endfunction
+                                 input  uvm_packer packer=null); endfunction
 
 
 // unpack_bytes
 // ------------
 
 function int uvm_object::unpack_bytes (ref    byte unsigned bytestream [],
-                                       input  uvm_packer packer=null);
-  m_unpack_pre(packer);
-  packer.set_packed_bytes(bytestream);
-  return m_unpack_post(packer);
-endfunction
+                                       input  uvm_packer packer=null); endfunction
 
 
 // unpack_ints
 // -----------
   
 function int uvm_object::unpack_ints (ref    int unsigned intstream [],
-                                      input  uvm_packer packer=null);
-  m_unpack_pre(packer);
-  packer.set_packed_ints(intstream);
-  return m_unpack_post(packer);
-endfunction
+                                      input  uvm_packer packer=null); endfunction
 
 // unpack_longints
 // -----------
   
 function int uvm_object::unpack_longints (ref    longint unsigned longintstream [],
-                                          input  uvm_packer packer=null);
-  m_unpack_pre(packer);
-  packer.set_packed_longints(longintstream);
-  return m_unpack_post(packer);
-endfunction
+                                          input  uvm_packer packer=null); endfunction
 
 
 function void uvm_object::do_execute_op ( uvm_field_op op);
@@ -1340,36 +1098,22 @@ endfunction
 // do_unpack
 // ---------
 
-function void uvm_object::do_unpack (uvm_packer packer);
-  if (packer == null)
-    `uvm_error("UVM/OBJ/UNPACK/NULL", "uvm_object::do_unpack called with null packer!")
-  return;
-endfunction
+function void uvm_object::do_unpack (uvm_packer packer); endfunction
 
 
 // record
 // ------
 
-function void uvm_object::record (uvm_recorder recorder=null);
-
-  if(recorder == null)
-    return;
-
-  recorder.record_object(get_name(), this);
-endfunction
+function void uvm_object::record (uvm_recorder recorder=null); endfunction
 
 
 // do_record (virtual)
 // ---------
 
-function void uvm_object::do_record (uvm_recorder recorder);
-  return;
-endfunction
+function void uvm_object::do_record (uvm_recorder recorder); endfunction
 
 
 // m_get_report_object
 // -------------------
 
-function uvm_report_object uvm_object::m_get_report_object();
-  return null;
-endfunction
+function uvm_report_object uvm_object::m_get_report_object(); endfunction

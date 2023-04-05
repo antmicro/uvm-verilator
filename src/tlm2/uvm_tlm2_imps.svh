@@ -58,15 +58,7 @@
 // transport interface.
    
 `define UVM_TLM_NB_TRANSPORT_FW_IMP(imp, T, P, t, p, delay)              \
-  function uvm_tlm_sync_e nb_transport_fw(T t, ref P p, input uvm_tlm_time delay);  \
-    if (delay == null) begin \
-       `uvm_error("UVM/TLM/NULLDELAY", \
-                  {get_full_name(), \
-                   ".nb_transport_fw() called with 'null' delay"}) \
-       return UVM_TLM_COMPLETED; \
-    end \
-    return imp.nb_transport_fw(t, p, delay);                          \
-  endfunction
+  function uvm_tlm_sync_e nb_transport_fw(T t, ref P p, input uvm_tlm_time delay); endfunction
 
 
 // Macro -- NODOCS -- `UVM_TLM_NB_TRANSPORT_BW_IMP
@@ -110,15 +102,7 @@
 //| endclass
 
 `define UVM_TLM_NB_TRANSPORT_BW_IMP(imp, T, P, t, p, delay) \
-  function uvm_tlm_sync_e nb_transport_bw(T t, ref P p, input uvm_tlm_time delay);  \
-    if (delay == null) begin \
-       `uvm_error("UVM/TLM/NULLDELAY", \
-                  {get_full_name(), \
-                   ".nb_transport_bw() called with 'null' delay"}) \
-       return UVM_TLM_COMPLETED; \
-    end \
-    return imp.nb_transport_bw(t, p, delay); \
-  endfunction
+  function uvm_tlm_sync_e nb_transport_bw(T t, ref P p, input uvm_tlm_time delay); endfunction
 
 
 // Macro -- NODOCS -- `UVM_TLM_B_TRANSPORT_IMP
@@ -141,15 +125,7 @@
 // at which the task call and return are executed.
 
 `define UVM_TLM_B_TRANSPORT_IMP(imp, T, t, delay)                        \
-  task b_transport(T t, uvm_tlm_time delay);                              \
-    if (delay == null) begin \
-       `uvm_error("UVM/TLM/NULLDELAY", \
-                  {get_full_name(), \
-                   ".b_transport() called with 'null' delay"}) \
-       return; \
-    end \
-    imp.b_transport(t, delay);                                        \
-  endtask
+  task b_transport(T t, uvm_tlm_time delay); endtask
 
 
 

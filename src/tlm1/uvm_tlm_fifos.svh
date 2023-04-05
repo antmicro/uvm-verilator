@@ -63,11 +63,7 @@ class uvm_tlm_fifo #(type T=int) extends uvm_tlm_fifo_base #(T);
   // statically elaborated construct (e.g., a module). The ~size~ indicates the
   // maximum size of the FIFO; a value of zero indicates no upper bound.
 
-  function new(string name, uvm_component parent = null, int size = 1);
-    super.new(name, parent);
-    m = new( size );
-    m_size = size;
-  endfunction
+  function new(string name, uvm_component parent = null, int size = 1); endfunction
 
   // Function -- NODOCS -- size
   //
@@ -75,27 +71,21 @@ class uvm_tlm_fifo #(type T=int) extends uvm_tlm_fifo_base #(T);
   // the FIFO is capable of holding. A return value of 0 indicates the
   // FIFO capacity has no limit.
 
-  virtual function int size();
-    return m_size;
-  endfunction
+  virtual function int size(); endfunction
  
 
   // Function -- NODOCS -- used
   //
   // Returns the number of entries put into the FIFO.
 
-  virtual function int used();
-    return m.num();
-  endfunction
+  virtual function int used(); endfunction
 
 
   // Function -- NODOCS -- is_empty
   //
   // Returns 1 when there are no entries in the FIFO, 0 otherwise.
 
-  virtual function bit is_empty();
-    return (m.num() == 0);
-  endfunction
+  virtual function bit is_empty(); endfunction
  
 
   // Function -- NODOCS -- is_full
@@ -103,64 +93,23 @@ class uvm_tlm_fifo #(type T=int) extends uvm_tlm_fifo_base #(T);
   // Returns 1 when the number of entries in the FIFO is equal to its <size>,
   // 0 otherwise.
 
-  virtual function bit is_full();
-    return (m_size != 0) && (m.num() == m_size);
-  endfunction
+  virtual function bit is_full(); endfunction
  
 
 
-  virtual task put( input T t );
-    m.put( t );
-    put_ap.write( t );
-  endtask
+  virtual task put( input T t ); endtask
 
-  virtual task get( output T t );
-    m_pending_blocked_gets++;
-    m.get( t );
-    m_pending_blocked_gets--;
-    get_ap.write( t );
-  endtask
-  
-  virtual task peek( output T t );
-    m.peek( t );
-  endtask
+  virtual task get( output T t ); endtask virtual task peek( output T t ); endtask
    
-  virtual function bit try_get( output T t );
-    if( !m.try_get( t ) ) begin
-      return 0;
-    end
-
-    get_ap.write( t );
-    return 1;
-  endfunction 
+  virtual function bit try_get( output T t ); endfunction 
   
-  virtual function bit try_peek( output T t );
-    if( !m.try_peek( t ) ) begin
-      return 0;
-    end
-    return 1;
-  endfunction
+  virtual function bit try_peek( output T t ); endfunction
 
-  virtual function bit try_put( input T t );
-    if( !m.try_put( t ) ) begin
-      return 0;
-    end
+  virtual function bit try_put( input T t ); endfunction virtual function bit can_put(); endfunction  
+
+  virtual function bit can_get(); endfunction
   
-    put_ap.write( t );
-    return 1;
-  endfunction  
-
-  virtual function bit can_put();
-    return m_size == 0 || m.num() < m_size;
-  endfunction  
-
-  virtual function bit can_get();
-    return m.num() > 0 && m_pending_blocked_gets == 0;
-  endfunction
-  
-  virtual function bit can_peek();
-    return m.num() > 0;
-  endfunction
+  virtual function bit can_peek(); endfunction
 
 
   // Function -- NODOCS -- flush
@@ -168,19 +117,7 @@ class uvm_tlm_fifo #(type T=int) extends uvm_tlm_fifo_base #(T);
   // Removes all entries from the FIFO, after which <used> returns 0
   // and <is_empty> returns 1.
 
-  virtual function void flush();
-    T t;
-    bit r;
-
-    r = 1; 
-    while( r ) r = try_get( t ) ;
-    
-    if( m.num() > 0 && m_pending_blocked_gets != 0 ) begin
-      uvm_report_error("flush failed" ,
-		       "there are blocked gets preventing the flush", UVM_NONE);
-    end
-  
-  endfunction
+  virtual function void flush(); endfunction
  
 endclass 
 
@@ -221,13 +158,8 @@ class uvm_tlm_analysis_fifo #(type T = int) extends uvm_tlm_fifo #(T);
   // component is instantiated in statically elaborated constructs and must be
   // specified when this component is a child of another UVM component.
 
-  function new(string name ,  uvm_component parent = null);
-    super.new(name, parent, 0); // analysis fifo must be unbounded
-    analysis_export = new("analysis_export", this);
-  endfunction
+  function new(string name ,  uvm_component parent = null); endfunction
 
-  function void write(input T t);
-    void'(this.try_put(t)); // unbounded => must succeed
-  endfunction
+  function void write(input T t); endfunction
 
 endclass

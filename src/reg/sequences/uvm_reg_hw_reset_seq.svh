@@ -56,9 +56,7 @@ class uvm_reg_hw_reset_seq extends uvm_reg_sequence #(uvm_sequence #(uvm_reg_ite
    `uvm_object_utils(uvm_reg_hw_reset_seq)
 
    // @uvm-ieee 1800.2-2017 auto E.1.2.1.1
-   function new(string name="uvm_reg_hw_reset_seq");
-     super.new(name);
-   endfunction
+   function new(string name="uvm_reg_hw_reset_seq"); endfunction
 
 
    // Variable -- NODOCS -- model
@@ -74,99 +72,13 @@ class uvm_reg_hw_reset_seq extends uvm_reg_sequence #(uvm_sequence #(uvm_reg_ite
    // Do not call directly. Use seq.start() instead.
 
    // @uvm-ieee 1800.2-2017 auto E.1.2.1.2
-   virtual task body();
-
-      if (model == null) begin
-         `uvm_error("uvm_reg_hw_reset_seq", "Not block or system specified to run sequence on")
-         return;
-      end
-      `uvm_info("STARTING_SEQ",{"\n\nStarting ",get_name()," sequence...\n"},UVM_LOW)
-      
-      this.reset_blk(model);
-      model.reset();
-
-      do_block(model);
-   endtask: body
+   virtual task body(); endtask: body
 
 // Task -- NODOCS -- do_block
    //
    // Test all of the registers in a given ~block~
    //
-   protected virtual task do_block(uvm_reg_block blk);
-      uvm_reg_map maps[$];
-      uvm_reg_map sub_maps[$];
-	  uvm_reg regs[$];
-
-      if (uvm_resource_db#(bit)::get_by_name({"REG::",blk.get_full_name()},
-                                             "NO_REG_TESTS", 0) != null ||
-          uvm_resource_db#(bit)::get_by_name({"REG::",blk.get_full_name()},
-                                             "NO_REG_HW_RESET_TEST", 0) != null ) begin
-            return;
-
-      end
-
-      blk.get_registers(regs, UVM_NO_HIER);
-                                             
-      foreach(regs[ridx]) begin
-	                if (uvm_resource_db#(bit)::get_by_name({"REG::",regs[ridx].get_full_name()},
-                                                 "NO_REG_TESTS", 0) != null ||
-                      regs[ridx].has_reset() == 0 ||
-		                uvm_resource_db#(bit)::get_by_name({"REG::",regs[ridx].get_full_name()},
-                                                 "NO_REG_HW_RESET_TEST", 0) != null )
-			                	continue;
-	      
-	      begin
-		      uvm_reg_map rm[$];
-		      uvm_status_e status;
-            uvm_reg_field fields[$];
-            uvm_check_e field_check_restore[uvm_reg_field];
-		      
-		      regs[ridx].get_maps(rm);
-		      
-            regs[ridx].get_fields(fields);
-            
-            foreach(fields[fidx]) begin
-               if (fields[fidx].has_reset() == 0 ||
-                   fields[fidx].get_compare() == UVM_NO_CHECK || 
-                   uvm_resource_db#(bit)::get_by_name({"REG::",fields[fidx].get_full_name()},
-                                                       "NO_REG_HW_RESET_TEST", 0) != null) begin
-                  field_check_restore[fields[fidx]] = fields[fidx].get_compare();  
-                  fields[fidx].set_compare(UVM_NO_CHECK);
-               end
-            end  
-            // if there are some fields to check
-            if(fields.size() != field_check_restore.size()) begin
-               foreach(rm[midx]) begin
-                  `uvm_info(get_type_name(),
-                     $sformatf("Verifying reset value of register %s in map \"%s\"...",
-                        regs[ridx].get_full_name(), rm[midx].get_full_name()), UVM_LOW)
-               
-                  regs[ridx].mirror(status, UVM_CHECK, UVM_FRONTDOOR, rm[midx], this);
-               
-                  if (status != UVM_IS_OK) begin
-                      `uvm_error(get_type_name(),
-                         $sformatf("Status was %s when reading reset value of register \"%s\" through map \"%s\".",
-                          status.name(), regs[ridx].get_full_name(), rm[midx].get_full_name()))
-                  end   
-               end
-            end
-            // restore compare setting
-            foreach(field_check_restore[field]) begin
-               field.set_compare(field_check_restore[field]);
-            end
-      	end
-      end	
-      
-      begin
-         uvm_reg_block blks[$];
-         
-         blk.get_blocks(blks);
-         foreach (blks[i]) begin
-            do_block(blks[i]);
-         end
-      end
-
-   endtask:do_block
+   protected virtual task do_block(uvm_reg_block blk); endtask:do_block
 
 
    //

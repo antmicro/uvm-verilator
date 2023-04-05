@@ -133,21 +133,13 @@ virtual class uvm_recorder extends uvm_policy;
   uvm_recursion_policy_enum policy = UVM_DEFAULT_POLICY;
 
   // @uvm-ieee 1800.2-2017 auto 16.4.2.1
-  virtual function void set_recursion_policy(uvm_recursion_policy_enum policy);
-    this.policy  = policy;
-  endfunction : set_recursion_policy
+  virtual function void set_recursion_policy(uvm_recursion_policy_enum policy); endfunction : set_recursion_policy
 
   // @uvm-ieee 1800.2-2017 auto 16.4.2.1
-  virtual function uvm_recursion_policy_enum get_recursion_policy();
-    return this.policy;
-  endfunction : get_recursion_policy
+  virtual function uvm_recursion_policy_enum get_recursion_policy(); endfunction : get_recursion_policy
 
   // @uvm-ieee 1800.2-2017 auto 16.4.4.1
-  virtual function void flush();
-    policy      = UVM_DEFAULT_POLICY;
-    identifier  = 1;
-    free();
-  endfunction : flush
+  virtual function void flush(); endfunction : flush
   
    // Variable- m_ids_by_recorder
    // An associative array of int, indexed by uvm_recorders.  This
@@ -160,25 +152,13 @@ virtual class uvm_recorder extends uvm_policy;
    local static int m_ids_by_recorder[uvm_recorder];
 
 
-  function new(string name = "uvm_recorder");
-     super.new(name);
-     m_stream_dap = new("stream_dap");
-     m_warn_null_stream = 1;
-  endfunction
+  function new(string name = "uvm_recorder"); endfunction
 
    // Group -- NODOCS -- Configuration API
    
 
    // @uvm-ieee 1800.2-2017 auto 16.4.3
-   function uvm_tr_stream get_stream();
-      if (!m_stream_dap.try_get(get_stream)) begin
-         if (m_warn_null_stream == 1) 
-           `uvm_warning("UVM/REC/NO_CFG",
-                        $sformatf("attempt to retrieve STREAM from '%s' before it was set!",
-                                  get_name()))
-         m_warn_null_stream = 0;
-      end
-   endfunction : get_stream
+   function uvm_tr_stream get_stream(); endfunction : get_stream
 
    // Group -- NODOCS -- Transaction Recorder API
    //
@@ -194,78 +174,27 @@ virtual class uvm_recorder extends uvm_policy;
 
 
    // @uvm-ieee 1800.2-2017 auto 16.4.4.2
-   function void close(time close_time = 0);
-      if (close_time == 0)
-        close_time = $realtime;
-
-      if (!is_open())
-        return;
-
-      do_close(close_time);
-      
-      m_is_opened = 0;
-      m_is_closed = 1;
-      m_close_time = close_time;
-   endfunction : close
+   function void close(time close_time = 0); endfunction : close
 
 
    // @uvm-ieee 1800.2-2017 auto 16.4.4.3
-   function void free(time close_time = 0);
-	   process p=process::self();
-	   string s;
-	
-       uvm_tr_stream stream;
-       
-      if (!is_open() && !is_closed())
-        return;
-
-      if (is_open()) begin
-         close(close_time);
-      end
-
-      do_free();
-
-      // Clear out internal state
-      stream = get_stream();
-      
-      m_is_closed = 0;
-      if(p != null)
-      	s=p.get_randstate();
-      m_stream_dap = new("stream_dap");
-      if(p != null)
-      	p.set_randstate(s);
-      m_warn_null_stream = 1;
-      if (m_ids_by_recorder.exists(this))
-        m_free_id(m_ids_by_recorder[this]);
-
-      // Clear out stream state
-      if (stream != null)
-        stream.m_free_recorder(this);
-   endfunction : free
+   function void free(time close_time = 0); endfunction : free
       
 
    // @uvm-ieee 1800.2-2017 auto 16.4.4.4
-   function bit is_open();
-      return m_is_opened;
-   endfunction : is_open
+   function bit is_open(); endfunction : is_open
 
 
    // @uvm-ieee 1800.2-2017 auto 16.4.4.5
-   function time get_open_time();
-      return m_open_time;
-   endfunction : get_open_time
+   function time get_open_time(); endfunction : get_open_time
 
 
    // @uvm-ieee 1800.2-2017 auto 16.4.4.6
-   function bit is_closed();
-      return m_is_closed;
-   endfunction : is_closed
+   function bit is_closed(); endfunction : is_closed
     
 
    // @uvm-ieee 1800.2-2017 auto 16.4.4.7
-   function time get_close_time();
-      return m_close_time;
-   endfunction : get_close_time
+   function time get_close_time(); endfunction : get_close_time
 
   // Function- m_do_open
   // Initializes the internal state of the recorder.
@@ -279,28 +208,7 @@ virtual class uvm_recorder extends uvm_policy;
   // - ~m_do_open~ is called more than once without the
   //  recorder being ~freed~ in between.
   // - ~stream~ is ~null~
-  function void m_do_open(uvm_tr_stream stream, time open_time, string type_name);
-     uvm_tr_stream m_stream;
-     if (stream == null) begin
-        `uvm_error("UVM/REC/NULL_STREAM",
-                   $sformatf("Illegal attempt to set STREAM for '%s' to '<null>'",
-                             this.get_name()))
-        return;
-     end
-
-     if (m_stream_dap.try_get(m_stream)) begin
-        `uvm_error("UVM/REC/RE_INIT",
-                   $sformatf("Illegal attempt to re-initialize '%s'",
-                             this.get_name()))
-        return;
-     end
-
-     m_stream_dap.set(stream);
-     m_open_time = open_time;
-     m_is_opened = 1;
-     
-     do_open(stream, open_time, type_name);
-  endfunction : m_do_open
+  function void m_do_open(uvm_tr_stream stream, time open_time, string type_name); endfunction : m_do_open
 
    // Group -- NODOCS -- Handles
 
@@ -317,48 +225,15 @@ virtual class uvm_recorder extends uvm_policy;
    // Function- m_free_id
    // Frees the id/recorder link (memory cleanup)
    //
-   static function void m_free_id(int id);
-      uvm_recorder recorder;
-      if ((!$isunknown(id)) && (m_recorders_by_id.exists(id)))
-        recorder = m_recorders_by_id[id];
-
-      if (recorder != null) begin
-         m_recorders_by_id.delete(id);
-         m_ids_by_recorder.delete(recorder);
-      end
-   endfunction : m_free_id
+   static function void m_free_id(int id); endfunction : m_free_id
             
 
    // @uvm-ieee 1800.2-2017 auto 16.4.5.1
-   function int get_handle();
-      if (!is_open() && !is_closed()) begin
-         return 0;
-      end
-      else begin
-         int handle = get_inst_id();
-
-         // Check for the weird case where our handle changed.
-         if (m_ids_by_recorder.exists(this) && m_ids_by_recorder[this] != handle)
-           m_recorders_by_id.delete(m_ids_by_recorder[this]);
-           
-         m_recorders_by_id[handle] = this;
-         m_ids_by_recorder[this] = handle;
-
-         return handle;
-      end
-   endfunction : get_handle
+   function int get_handle(); endfunction : get_handle
 
 
    // @uvm-ieee 1800.2-2017 auto 16.4.5.2
-   static function uvm_recorder get_recorder_from_handle(int id);
-      if (id == 0)
-        return null;
-
-      if (($isunknown(id)) || (!m_recorders_by_id.exists(id)))
-        return null;
-
-      return m_recorders_by_id[id];
-   endfunction : get_recorder_from_handle
+   static function uvm_recorder get_recorder_from_handle(int id); endfunction : get_recorder_from_handle
 
    // Group -- NODOCS -- Attribute Recording
    
@@ -367,96 +242,47 @@ virtual class uvm_recorder extends uvm_policy;
    function void record_field(string name,
                               uvm_bitstream_t value,
                               int size,
-                              uvm_radix_enum radix=UVM_NORADIX);
-      if (get_stream() == null) begin
-         return;
-      end
-      do_record_field(name, value, size, radix);
-   endfunction : record_field
+                              uvm_radix_enum radix=UVM_NORADIX); endfunction : record_field
 
 
    // @uvm-ieee 1800.2-2017 auto 16.4.6.2
    function void record_field_int(string name,
                                   uvm_integral_t value,
                                   int size,
-                                  uvm_radix_enum radix=UVM_NORADIX);
-        if (get_stream() == null) begin
-         return;
-      end
-      do_record_field_int(name, value, size, radix);
-   endfunction : record_field_int
+                                  uvm_radix_enum radix=UVM_NORADIX); endfunction : record_field_int
 
 
    // @uvm-ieee 1800.2-2017 auto 16.4.6.3
    function void record_field_real(string name,
-                                   real value);
-      if (get_stream() == null) begin
-         return;
-      end
-      do_record_field_real(name, value);
-   endfunction : record_field_real
+                                   real value); endfunction : record_field_real
 
    // @uvm-ieee 1800.2-2017 auto 16.4.6.4
    function void record_object(string name,
-                               uvm_object value);
-      if (get_stream() == null) begin
-         return;
-      end
-
-      if (value == null)
-        do_record_object(name, value);
-      else begin
-        push_active_object(value);
-        do_record_object(name, value);
-        void'(pop_active_object());
-      end
-   endfunction : record_object
+                               uvm_object value); endfunction : record_object
 
 
    // @uvm-ieee 1800.2-2017 auto 16.4.6.5
    function void record_string(string name,
-                               string value);
-      if (get_stream() == null) begin
-         return;
-      end
-
-      do_record_string(name, value);
-   endfunction : record_string
+                               string value); endfunction : record_string
    
 
    // @uvm-ieee 1800.2-2017 auto 16.4.6.6
    function void record_time(string name,
-                             time value);
-      if (get_stream() == null) begin
-         return;
-      end
-
-      do_record_time(name, value);
-   endfunction : record_time
+                             time value); endfunction : record_time
    
 
    // @uvm-ieee 1800.2-2017 auto 16.4.6.7
    function void record_generic(string name,
                                 string value,
-                                string type_name="");
-      if (get_stream() == null) begin
-         return;
-      end
-
-      do_record_generic(name, value, type_name);
-   endfunction : record_generic
+                                string type_name=""); endfunction : record_generic
 
 
   // @uvm-ieee 1800.2-2017 auto 16.4.6.8
-  virtual function bit use_record_attribute();
-     return 0;
-  endfunction : use_record_attribute
+  virtual function bit use_record_attribute(); endfunction : use_record_attribute
 
 
    // @uvm-ieee 1800.2-2017 auto 16.4.6.9
-   virtual function int get_record_attribute_handle();
-      return get_handle();
-   endfunction : get_record_attribute_handle
+   virtual function int get_record_attribute_handle(); endfunction : get_record_attribute_handle
    
    // Group -- NODOCS -- Implementation Agnostic API
 
@@ -505,17 +331,7 @@ virtual class uvm_recorder extends uvm_policy;
   
    // @uvm-ieee 1800.2-2017 auto 16.4.7.7
    virtual protected function void do_record_object(string name,
-                                                    uvm_object value);
-     if ((get_recursion_policy() != UVM_REFERENCE) &&
-         (value != null)) begin
-       uvm_field_op field_op = uvm_field_op::m_get_available_op();
-       field_op.set(UVM_RECORD, this, null);
-       value.do_execute_op(field_op);
-       if (field_op.user_hook_enabled())
-         value.do_record(this);
-       field_op.m_recycle();
-     end 
-   endfunction : do_record_object
+                                                    uvm_object value); endfunction : do_record_object
 
 
    // @uvm-ieee 1800.2-2017 auto 16.4.7.9
@@ -554,18 +370,14 @@ virtual class uvm_recorder extends uvm_policy;
   // Opens the file in the <filename> property and assigns to the
   // file descriptor <file>.
   //
-  virtual function bit open_file();
-     return 0;
-  endfunction
+  virtual function bit open_file(); endfunction
 
   // Function- create_stream
   //
   //
   virtual function int create_stream (string name,
                                           string t,
-                                          string scope);
-     return -1;
-  endfunction
+                                          string scope); endfunction
 
    
   // Function- m_set_attribute
@@ -590,9 +402,7 @@ virtual class uvm_recorder extends uvm_policy;
   // Function- check_handle_kind
   //
   //
-  virtual function int check_handle_kind (string htype, int handle);
-     return 0;
-  endfunction
+  virtual function int check_handle_kind (string htype, int handle); endfunction
   
   
   // Function- begin_tr
@@ -656,9 +466,7 @@ class uvm_text_recorder extends uvm_recorder;
    //
    // Parameters --NODOCS--
    // name - Instance name
-   function new(string name="unnamed-uvm_text_recorder");
-      super.new(name);
-   endfunction : new
+   function new(string name="unnamed-uvm_text_recorder"); endfunction : new
 
    // Group --NODOCS-- Implementation Agnostic API
 
@@ -668,47 +476,19 @@ class uvm_text_recorder extends uvm_recorder;
    // Text-backend specific implementation.
    protected virtual function void do_open(uvm_tr_stream stream,
                                              time open_time,
-                                             string type_name);
-      $cast(m_text_db, stream.get_db());
-      if (m_text_db.open_db())
-        $fdisplay(m_text_db.m_file, 
-                  "    OPEN_RECORDER @%0t {TXH:%0d STREAM:%0d NAME:%s TIME:%0t TYPE=\"%0s\"}",
-                  $realtime,
-                  this.get_handle(),
-                  stream.get_handle(),
-                  this.get_name(),
-                  open_time,
-                  type_name);
-   endfunction : do_open
+                                             string type_name); endfunction : do_open
 
    // Function --NODOCS-- do_close
    // Callback triggered via <uvm_recorder::close>.
    //
    // Text-backend specific implementation.
-   protected virtual function void do_close(time close_time);
-      if (m_text_db.open_db()) begin
-         $fdisplay(m_text_db.m_file, 
-                   "    CLOSE_RECORDER @%0t {TXH:%0d TIME=%0t}",
-                   $realtime,
-                   this.get_handle(),
-                   close_time);
-         
-      end
-   endfunction : do_close
+   protected virtual function void do_close(time close_time); endfunction : do_close
 
    // Function --NODOCS-- do_free
    // Callback triggered via <uvm_recorder::free>.
    //
    // Text-backend specific implementation.
-   protected virtual function void do_free();
-      if (m_text_db.open_db()) begin
-         $fdisplay(m_text_db.m_file, 
-                   "    FREE_RECORDER @%0t {TXH:%0d}",
-                   $realtime,
-                   this.get_handle());
-      end
-      m_text_db = null;
-   endfunction : do_free
+   protected virtual function void do_free(); endfunction : do_free
    
    // Function --NODOCS-- do_record_field
    // Records an integral field (less than or equal to 4096 bits).
@@ -717,16 +497,7 @@ class uvm_text_recorder extends uvm_recorder;
    protected virtual function void do_record_field(string name,
                                                    uvm_bitstream_t value,
                                                    int size,
-                                                   uvm_radix_enum radix);
-      if (!radix)
-        radix = default_radix;
-
-      write_attribute(m_current_context(name),
-                      value,
-                      radix,
-                      size);
-
-   endfunction : do_record_field
+                                                   uvm_radix_enum radix); endfunction : do_record_field
   
    
    // Function --NODOCS-- do_record_field_int
@@ -736,16 +507,7 @@ class uvm_text_recorder extends uvm_recorder;
    protected virtual function void do_record_field_int(string name,
                                                        uvm_integral_t value,
                                                        int          size,
-                                                       uvm_radix_enum radix);
-      if (!radix)
-        radix = default_radix;
-
-      write_attribute_int(m_current_context(name),
-                          value,
-                          radix,
-                          size);
-
-   endfunction : do_record_field_int
+                                                       uvm_radix_enum radix); endfunction : do_record_field_int
 
 
    // Function --NODOCS-- do_record_field_real
@@ -753,36 +515,11 @@ class uvm_text_recorder extends uvm_recorder;
    //
    // Text-backened specific implementation.
    protected virtual function void do_record_field_real(string name,
-                                                        real value);
-      bit [63:0] ival = $realtobits(value);
-
-      write_attribute_int(m_current_context(name),
-                          ival,
-                          UVM_REAL,
-                          64);
-   endfunction : do_record_field_real
+                                                        real value); endfunction : do_record_field_real
 
   // Stores the passed-in names of the objects in the hierarchy
   local string m_object_names[$];
-  local function string m_current_context(string name="");
-    if (m_object_names.size()  == 0)
-      return name; //??
-    else if ((m_object_names.size() == 1) && (name==""))
-      return m_object_names[0];
-    else begin
-      string     full_name;
-      foreach(m_object_names[i]) begin
-        if (i == m_object_names.size() - 1)
-          full_name = {full_name, m_object_names[i]};
-        else
-          full_name  = {full_name, m_object_names[i], "."};
-      end
-      if (name != "")
-        return {full_name, ".", name};
-      else
-        return full_name;
-    end
-  endfunction : m_current_context
+  local function string m_current_context(string name=""); endfunction : m_current_context
 
   
    // Function --NODOCS-- do_record_object
@@ -794,56 +531,21 @@ class uvm_text_recorder extends uvm_recorder;
    // record the object instance id, and ~recursion_policy~ to
    // determine whether or not to recurse into the object.
    protected virtual function void do_record_object(string name,
-                                                    uvm_object value);
-      int            v;
-      string         str;
-      
-      if(identifier) begin 
-         if(value != null) begin
-           v = value.get_inst_id(); 
-         end
-         write_attribute_int("inst_id", 
-                             v, 
-                             UVM_DEC, 
-                             32);
-      end
-
-      if (get_active_object_depth() > 1)
-        m_object_names.push_back(name);
-      super.do_record_object(name, value);
-      if (get_active_object_depth() > 1)
-        void'(m_object_names.pop_back());
-   endfunction : do_record_object
+                                                    uvm_object value); endfunction : do_record_object
 
    // Function --NODOCS-- do_record_string
    // Records a string field.
    //
    // Text-backend specific implementation.
    protected virtual function void do_record_string(string name,
-                                                    string value);
-      if (m_text_db.open_db()) begin
-         $fdisplay(m_text_db.m_file, 
-                   "      SET_ATTR @%0t {TXH:%0d NAME:%s VALUE:%s   RADIX:%s BITS=%0d}",
-                   $realtime,
-                   this.get_handle(),
-                   m_current_context(name),
-                   value,
-                   "UVM_STRING",
-                   8+value.len());
-      end
-   endfunction : do_record_string
+                                                    string value); endfunction : do_record_string
 
    // Function --NODOCS-- do_record_time
    // Records a time field.
    //
    // Text-backend specific implementation.
    protected virtual function void do_record_time(string name,
-                                                    time value);
-      write_attribute_int(m_current_context(name), 
-                          value,
-                          UVM_TIME, 
-                          64);
-   endfunction : do_record_time
+                                                    time value); endfunction : do_record_time
 
    // Function --NODOCS-- do_record_generic
    // Records a name/value pair, where ~value~ has been converted to a string.
@@ -851,12 +553,7 @@ class uvm_text_recorder extends uvm_recorder;
    // Text-backend specific implementation.
    protected virtual function void do_record_generic(string name,
                                                      string value,
-                                                     string type_name);
-      write_attribute(m_current_context(name), 
-                      uvm_string_to_bits(value), 
-                      UVM_STRING, 
-                      8+value.len());
-   endfunction : do_record_generic
+                                                     string type_name); endfunction : do_record_generic
 
    // Group: Implementation Specific API
    
@@ -873,18 +570,7 @@ class uvm_text_recorder extends uvm_recorder;
    function void write_attribute(string nm,
                                  uvm_bitstream_t value,
                                  uvm_radix_enum radix,
-                                 int numbits=$bits(uvm_bitstream_t));
-      if (m_text_db.open_db()) begin
-         $fdisplay(m_text_db.m_file, 
-                   "      SET_ATTR @%0t {TXH:%0d NAME:%s VALUE:%s   RADIX:%s BITS=%0d}",
-                   $realtime,
-                   this.get_handle(),
-                   nm,
-                   uvm_bitstream_to_string(value, numbits, radix),
-                    radix.name(),
-                   numbits);
-      end
-   endfunction : write_attribute
+                                 int numbits=$bits(uvm_bitstream_t)); endfunction : write_attribute
 
    // Function: write_attribute_int
    // Outputs an <uvm_integral_t> attribute to the textual log
@@ -899,18 +585,7 @@ class uvm_text_recorder extends uvm_recorder;
    function void write_attribute_int(string  nm,
                                      uvm_integral_t value,
                                      uvm_radix_enum radix,
-                                     int numbits=$bits(uvm_bitstream_t));
-      if (m_text_db.open_db()) begin
-         $fdisplay(m_text_db.m_file, 
-                   "      SET_ATTR @%0t {TXH:%0d NAME:%s VALUE:%s   RADIX:%s BITS=%0d}",
-                   $realtime,
-                   this.get_handle(),
-                   nm,
-                   uvm_integral_to_string(value, numbits, radix),
-                   radix.name(),
-                   numbits);
-      end
-   endfunction : write_attribute_int
+                                     int numbits=$bits(uvm_bitstream_t)); endfunction : write_attribute_int
 
    /// LEFT FOR BACKWARDS COMPAT ONLY!!!!!!!!
 
@@ -931,12 +606,7 @@ class uvm_text_recorder extends uvm_recorder;
   // Opens the file in the <filename> property and assigns to the
   // file descriptor <file>.
   //
-  virtual function bit open_file();
-     if (!filename_set) begin
-        m_text_db.set_file_name(filename);
-     end
-     return m_text_db.open_db();
-  endfunction
+  virtual function bit open_file(); endfunction
 
 
   // Function- create_stream
@@ -944,14 +614,7 @@ class uvm_text_recorder extends uvm_recorder;
   //
   virtual function int create_stream (string name,
                                           string t,
-                                          string scope);
-     uvm_text_tr_stream stream;
-     if (open_file()) begin
-        $cast(stream,m_text_db.open_stream(name, scope, t));
-        return stream.get_handle();
-     end
-     return 0;
-  endfunction
+                                          string scope); endfunction
 
    
   // Function- m_set_attribute
@@ -959,12 +622,7 @@ class uvm_text_recorder extends uvm_recorder;
   //
   virtual function void m_set_attribute (int txh,
                                  string nm,
-                                 string value);
-     if (open_file()) begin
-        UVM_FILE file = m_text_db.m_file;
-        $fdisplay(file,"      SET_ATTR @%0t {TXH:%0d NAME:%s VALUE:%s}", $realtime,txh,nm,value);
-     end
-  endfunction
+                                 string value); endfunction
   
   
   // Function- set_attribute
@@ -974,29 +632,13 @@ class uvm_text_recorder extends uvm_recorder;
                                string nm,
                                logic [1023:0] value,
                                uvm_radix_enum radix,
-                               int numbits=1024);
-     if (open_file()) begin
-        UVM_FILE file = m_text_db.m_file;
-         $fdisplay(file, 
-                   "      SET_ATTR @%0t {TXH:%0d NAME:%s VALUE:%s   RADIX:%s BITS=%0d}",
-                   $realtime,
-                   txh,
-                   nm,
-                   uvm_bitstream_to_string(value, numbits, radix),
-                   radix.name(),
-                   numbits);
-        
-     end
-  endfunction
+                               int numbits=1024); endfunction
   
   
   // Function- check_handle_kind
   //
   //
-  virtual function int check_handle_kind (string htype, int handle);
-     return ((uvm_recorder::get_recorder_from_handle(handle) != null) ||
-             (uvm_tr_stream::get_stream_from_handle(handle) != null));
-  endfunction
+  virtual function int check_handle_kind (string htype, int handle); endfunction
   
   
   // Function- begin_tr
@@ -1041,24 +683,14 @@ class uvm_text_recorder extends uvm_recorder;
   //
   virtual function void link_tr(int h1,
                                  int h2,
-                                 string relation="");
-    if (open_file())
-      $fdisplay(m_text_db.m_file,"  LINK @%0t {TXH1:%0d TXH2:%0d RELATION=%0s}", $realtime,h1,h2,relation);
-  endfunction
+                                 string relation=""); endfunction
   
   
   
   // Function- free_tr
   //
   //
-  virtual function void free_tr(int handle);
-     if (open_file()) begin
-        uvm_recorder record = uvm_recorder::get_recorder_from_handle(handle);
-        if (record != null) begin
-           record.free();
-        end
-     end
-  endfunction // free_tr
+  virtual function void free_tr(int handle); endfunction // free_tr
 
 endclass : uvm_text_recorder
 

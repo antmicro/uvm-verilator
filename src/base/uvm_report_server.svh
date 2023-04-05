@@ -52,12 +52,8 @@ typedef class uvm_report_object;
 typedef class uvm_default_report_server;
 // @uvm-ieee 1800.2-2017 auto 6.5.1
 virtual class uvm_report_server extends uvm_object;
-        function string get_type_name();
-                return "uvm_report_server";
-        endfunction
-        function new(string name="base");
-                super.new(name);
-        endfunction
+        function string get_type_name(); endfunction
+        function new(string name="base"); endfunction
 
 
         // @uvm-ieee 1800.2-2017 auto 6.5.1.2
@@ -109,30 +105,7 @@ virtual class uvm_report_server extends uvm_object;
 
 
         // @uvm-ieee 1800.2-2017 auto 6.5.1.12
-        function void do_copy (uvm_object rhs);
-                uvm_report_server rhs_;
-
-                super.do_copy(rhs);
-                if(!$cast(rhs_,rhs)) `uvm_error("UVM/REPORT/SERVER/RPTCOPY","cannot copy to report_server from the given datatype")
-
-                begin
-                        uvm_severity q[$];
-                        rhs_.get_severity_set(q);
-                        foreach(q[s])
-                                set_severity_count(q[s],rhs_.get_severity_count(q[s]));
-                end
-
-                begin
-                        string q[$];
-                        rhs_.get_id_set(q);
-                        foreach(q[s])
-                                set_id_count(q[s],rhs_.get_id_count(q[s]));
-                end
-
-                set_message_database(rhs_.get_message_database());
-                set_max_quit_count(rhs_.get_max_quit_count());
-                set_quit_count(rhs_.get_quit_count());
-        endfunction
+        function void do_copy (uvm_object rhs); endfunction
 
 
         // Function- process_report_message
@@ -199,11 +172,7 @@ virtual class uvm_report_server extends uvm_object;
         // | uvm_report_server::set_server(your_server);
    
         // @uvm-ieee 1800.2-2017 auto 6.5.1.18
-        static function void set_server(uvm_report_server server);
-	        uvm_coreservice_t cs = uvm_coreservice_t::get();
-                server.copy(cs.get_report_server());
-                cs.set_report_server(server);
-        endfunction
+        static function void set_server(uvm_report_server server); endfunction
 
 
         // Function -- NODOCS -- get_server
@@ -226,10 +195,7 @@ virtual class uvm_report_server extends uvm_object;
         //
 
         // @uvm-ieee 1800.2-2017 auto 6.5.1.17
-        static function uvm_report_server get_server();
-	        uvm_coreservice_t cs = uvm_coreservice_t::get();
-                return cs.get_report_server();
-        endfunction
+        static function uvm_report_server get_server(); endfunction
 endclass
 
 //------------------------------------------------------------------------------
@@ -287,21 +253,14 @@ class uvm_default_report_server extends uvm_report_server;
   bit show_terminator = 0;
 
   // Needed for callbacks
-  function string get_type_name();
-    return "uvm_default_report_server";
-  endfunction
+  function string get_type_name(); endfunction
 
 
   // Function --NODOCS-- new
   //
   // Creates an instance of the class.
 
-  function new(string name = "uvm_report_server");
-    super.new(name);
-    set_max_quit_count(0);
-    reset_quit_count();
-    reset_severity_counts();
-  endfunction
+  function new(string name = "uvm_report_server"); endfunction
 
 
   // Function --NODOCS-- print
@@ -330,46 +289,7 @@ class uvm_default_report_server extends uvm_report_server;
 
 
   // Print to show report server state
-  virtual function void do_print (uvm_printer printer);
-
-    uvm_severity l_severity_count_index;
-    string l_id_count_index;
-
-    printer.print_field("quit_count", m_quit_count, $bits(m_quit_count), UVM_DEC,
-      ".", "int");
-    printer.print_field("max_quit_count", m_max_quit_count,
-      $bits(m_max_quit_count), UVM_DEC, ".", "int");
-    printer.print_field("max_quit_overridable", max_quit_overridable,
-      $bits(max_quit_overridable), UVM_BIN, ".", "bit");
-
-    if (m_severity_count.first(l_severity_count_index)) begin
-      printer.print_array_header("severity_count",m_severity_count.size(),"severity counts");
-      do
-        printer.print_field($sformatf("[%s]",l_severity_count_index.name()),
-          m_severity_count[l_severity_count_index], 32, UVM_DEC);
-      while (m_severity_count.next(l_severity_count_index));
-      printer.print_array_footer();
-    end
-
-    if (m_id_count.first(l_id_count_index)) begin
-      printer.print_array_header("id_count",m_id_count.size(),"id counts");
-      do
-        printer.print_field($sformatf("[%s]",l_id_count_index),
-          m_id_count[l_id_count_index], 32, UVM_DEC);
-      while (m_id_count.next(l_id_count_index));
-      printer.print_array_footer();
-    end
-
-    printer.print_field("enable_report_id_count_summary", enable_report_id_count_summary,
-      $bits(enable_report_id_count_summary), UVM_BIN, ".", "bit");
-    printer.print_field("record_all_messages", record_all_messages,
-      $bits(record_all_messages), UVM_BIN, ".", "bit");
-    printer.print_field("show_verbosity", show_verbosity,
-      $bits(show_verbosity), UVM_BIN, ".", "bit");
-    printer.print_field("show_terminator", show_terminator,
-      $bits(show_terminator), UVM_BIN, ".", "bit");
-
-  endfunction
+  virtual function void do_print (uvm_printer printer); endfunction
 
 
   //----------------------------------------------------------------------------
@@ -379,9 +299,7 @@ class uvm_default_report_server extends uvm_report_server;
 
   // Function --NODOCS-- get_max_quit_count
 
-  function int get_max_quit_count();
-    return m_max_quit_count;
-  endfunction
+  function int get_max_quit_count(); endfunction
 
   // Function --NODOCS-- set_max_quit_count
   //
@@ -389,53 +307,34 @@ class uvm_default_report_server extends uvm_report_server;
   // before a UVM_EXIT action is taken. The default is 0, which specifies
   // no maximum.
 
-  function void set_max_quit_count(int count, bit overridable = 1);
-    if (max_quit_overridable == 0) begin
-      uvm_report_info("NOMAXQUITOVR", 
-        $sformatf("The max quit count setting of %0d is not overridable to %0d due to a previous setting.", 
-        m_max_quit_count, count), UVM_NONE);
-      return;
-    end
-    max_quit_overridable = overridable;
-    m_max_quit_count = count < 0 ? 0 : count;
-  endfunction
+  function void set_max_quit_count(int count, bit overridable = 1); endfunction
 
 
   // Function --NODOCS-- get_quit_count
 
-  function int get_quit_count();
-    return m_quit_count;
-  endfunction
+  function int get_quit_count(); endfunction
 
   // Function --NODOCS-- set_quit_count
 
-  function void set_quit_count(int quit_count);
-    m_quit_count = quit_count < 0 ? 0 : quit_count;
-  endfunction
+  function void set_quit_count(int quit_count); endfunction
 
   // Function --NODOCS-- incr_quit_count
 
-  function void incr_quit_count();
-    m_quit_count++;
-  endfunction
+  function void incr_quit_count(); endfunction
 
   // Function --NODOCS-- reset_quit_count
   //
   // Set, get, increment, or reset to 0 the quit count, i.e., the number of
   // COUNT actions issued.
 
-  function void reset_quit_count();
-    m_quit_count = 0;
-  endfunction
+  function void reset_quit_count(); endfunction
 
   // Function --NODOCS-- is_quit_count_reached
   //
   // If is_quit_count_reached returns 1, then the quit counter has reached
   // the maximum.
 
-  function bit is_quit_count_reached();
-    return (m_quit_count >= m_max_quit_count);
-  endfunction
+  function bit is_quit_count_reached(); endfunction
 
 
   //----------------------------------------------------------------------------
@@ -445,36 +344,22 @@ class uvm_default_report_server extends uvm_report_server;
 
   // Function --NODOCS-- get_severity_count
 
-  function int get_severity_count(uvm_severity severity);
-    return m_severity_count[severity];
-  endfunction
+  function int get_severity_count(uvm_severity severity); endfunction
 
   // Function --NODOCS-- set_severity_count
 
-  function void set_severity_count(uvm_severity severity, int count);
-    m_severity_count[severity] = count < 0 ? 0 : count;
-  endfunction
+  function void set_severity_count(uvm_severity severity, int count); endfunction
 
   // Function --NODOCS-- incr_severity_count
 
-  function void incr_severity_count(uvm_severity severity);
-    m_severity_count[severity]++;
-  endfunction
+  function void incr_severity_count(uvm_severity severity); endfunction
 
   // Function --NODOCS-- reset_severity_counts
   //
   // Set, get, or increment the counter for the given severity, or reset
   // all severity counters to 0.
 
-  function void reset_severity_counts();
-    uvm_severity s;
-    s = s.first();
-    forever begin
-      m_severity_count[s] = 0;
-      if(s == s.last()) break;
-      s = s.next();
-    end
-  endfunction
+  function void reset_severity_counts(); endfunction
 
 
   //----------------------------------------------------------------------------
@@ -484,28 +369,17 @@ class uvm_default_report_server extends uvm_report_server;
 
   // Function --NODOCS-- get_id_count
 
-  function int get_id_count(string id);
-    if(m_id_count.exists(id))
-      return m_id_count[id];
-    return 0;
-  endfunction
+  function int get_id_count(string id); endfunction
 
   // Function --NODOCS-- set_id_count
 
-  function void set_id_count(string id, int count);
-    m_id_count[id] = count < 0 ? 0 : count;
-  endfunction
+  function void set_id_count(string id, int count); endfunction
 
   // Function --NODOCS-- incr_id_count
   //
   // Set, get, or increment the counter for reports with the given id.
 
-  function void incr_id_count(string id);
-    if(m_id_count.exists(id))
-      m_id_count[id]++;
-    else
-      m_id_count[id] = 1;
-  endfunction
+  function void incr_id_count(string id); endfunction
 
   //----------------------------------------------------------------------------
   // Group --NODOCS-- message recording
@@ -518,28 +392,18 @@ class uvm_default_report_server extends uvm_report_server;
 
    // Function --NODOCS-- set_message_database
    // sets the <uvm_tr_database> used for recording messages
-   virtual function void set_message_database(uvm_tr_database database);
-      m_message_db = database;
-   endfunction : set_message_database
+   virtual function void set_message_database(uvm_tr_database database); endfunction : set_message_database
 
    // Function --NODOCS-- get_message_database
    // returns the <uvm_tr_database> used for recording messages
    //
-   virtual function uvm_tr_database get_message_database();
-      return m_message_db;
-   endfunction : get_message_database
+   virtual function uvm_tr_database get_message_database(); endfunction : get_message_database
 
 
-  virtual function void get_severity_set(output uvm_severity q[$]);
-    foreach(m_severity_count[idx])
-      q.push_back(idx);
-  endfunction
+  virtual function void get_severity_set(output uvm_severity q[$]); endfunction
 
 
-  virtual function void get_id_set(output string q[$]);
-    foreach(m_id_count[idx])
-      q.push_back(idx);
-  endfunction
+  virtual function void get_id_set(output string q[$]); endfunction
 
 
   // Function- f_display
@@ -547,47 +411,14 @@ class uvm_default_report_server extends uvm_report_server;
   // This method sends string severity to the command line if file is 0 and to
   // the file(s) specified by file if it is not 0.
 
-  function void f_display(UVM_FILE file, string str);
-    if (file == 0)
-      $display("%s", str);
-    else
-      $fdisplay(file, "%s", str);
-  endfunction
+  function void f_display(UVM_FILE file, string str); endfunction
 
 
   // Function- process_report_message
   //
   //
 
-  virtual function void process_report_message(uvm_report_message report_message);
-
-    uvm_report_handler l_report_handler = report_message.get_report_handler();
-    	process p = process::self();
-    bit report_ok = 1;
-
-    // Set the report server for this message
-    report_message.set_report_server(this);
-
-    if(report_ok)
-      report_ok = uvm_report_catcher::process_all_report_catchers(report_message);
-
-    if(uvm_action_type'(report_message.get_action()) == UVM_NO_ACTION)
-      report_ok = 0;
-
-    if(report_ok) begin	
-      string m;
-      uvm_coreservice_t cs = uvm_coreservice_t::get();
-      // give the global server a chance to intercept the calls
-      uvm_report_server svr = cs.get_report_server();
-
-      // no need to compose when neither UVM_DISPLAY nor UVM_LOG is set
-      if (report_message.get_action() & (UVM_LOG|UVM_DISPLAY))
-        m = svr.compose_report_message(report_message);
-
-      svr.execute_report_message(report_message, m);
-    end
-
-  endfunction
+  virtual function void process_report_message(uvm_report_message report_message); endfunction
 
 
   //----------------------------------------------------------------------------
@@ -602,98 +433,7 @@ class uvm_default_report_server extends uvm_report_server;
   // Expert users can overload this method to customize action processing.
  
   virtual function void execute_report_message(uvm_report_message report_message,
-                                               string composed_message);
-                                               
-                                               process p = process::self();
-                                               
-    // Update counts 
-    incr_severity_count(report_message.get_severity());
-    incr_id_count(report_message.get_id());
-
-    if (record_all_messages)
-      report_message.set_action(report_message.get_action() | UVM_RM_RECORD);
-
-    // UVM_RM_RECORD action
-    if(report_message.get_action() & UVM_RM_RECORD) begin
-       uvm_tr_stream stream;
-       uvm_report_object ro = report_message.get_report_object();
-       uvm_report_handler rh = report_message.get_report_handler();
-
-       // Check for pre-existing stream
-       if (m_streams.exists(ro.get_name()) && (m_streams[ro.get_name()].exists(rh.get_name())))
-         stream = m_streams[ro.get_name()][rh.get_name()];
-
-       // If no pre-existing stream (or for some reason pre-existing stream was ~null~)
-       if (stream == null) begin
-          uvm_tr_database db;
-
-          // Grab the database
-          db = get_message_database();
-
-          // If database is ~null~, use the default database
-          if (db == null) begin
-             uvm_coreservice_t cs = uvm_coreservice_t::get();
-             db = cs.get_default_tr_database();
-          end
-          if (db != null) begin
-             // Open the stream.  Name=report object name, scope=report handler name, type=MESSAGES
-             stream = db.open_stream(ro.get_name(), rh.get_name(), "MESSAGES");
-             // Save off the openned stream
-             m_streams[ro.get_name()][rh.get_name()] = stream;
-          end
-       end
-       if (stream != null) begin
-          uvm_recorder recorder = stream.open_recorder(report_message.get_name(),,report_message.get_type_name());
-             if (recorder != null) begin
-             report_message.record(recorder);
-             recorder.free();
-          end
-       end
-    end
-
-    // DISPLAY action
-    if(report_message.get_action() & UVM_DISPLAY)
-      $display("%s", composed_message);
-
-    // LOG action
-    // if log is set we need to send to the file but not resend to the
-    // display. So, we need to mask off stdout for an mcd or we need
-    // to ignore the stdout file handle for a file handle.
-    if(report_message.get_action() & UVM_LOG)
-      if( (report_message.get_file() == 0) || 
-        (report_message.get_file() != 32'h8000_0001) ) begin //ignore stdout handle
-        UVM_FILE tmp_file = report_message.get_file();
-        if((report_message.get_file() & 32'h8000_0000) == 0) begin //is an mcd so mask off stdout
-          tmp_file = report_message.get_file() & 32'hffff_fffe;
-        end
-      f_display(tmp_file, composed_message);
-    end    
-
-    // Process the UVM_COUNT action
-    if(report_message.get_action() & UVM_COUNT) begin
-      if(get_max_quit_count() != 0) begin
-        incr_quit_count();
-        // If quit count is reached, add the UVM_EXIT action.
-        if(is_quit_count_reached()) begin
-          report_message.set_action(report_message.get_action() | UVM_EXIT);
-        end
-      end  
-    end
-
-    // Process the UVM_EXIT action
-    if(report_message.get_action() & UVM_EXIT) begin
-       uvm_root l_root;
-       uvm_coreservice_t cs;
-       cs = uvm_coreservice_t::get();
-       l_root = cs.get_root();
-       l_root.die();
-    end
-
-    // Process the UVM_STOP action
-    if (report_message.get_action() & UVM_STOP) 
-      $stop;
-
-  endfunction
+                                               string composed_message); endfunction
 
 
   // Function: compose_report_message
@@ -763,68 +503,7 @@ class uvm_default_report_server extends uvm_report_server;
   // @uvm-accellera The details of this API are specific to the Accellera implementation, and are not being considered for contribution to 1800.2
   
   virtual function string compose_report_message(uvm_report_message report_message,
-                                                 string report_object_name = "");
-
-    string sev_string;
-    uvm_severity l_severity;
-    uvm_verbosity l_verbosity;
-    string filename_line_string;
-    string time_str;
-    string line_str;
-    string context_str;
-    string verbosity_str;
-    string terminator_str;
-    string msg_body_str;
-    uvm_report_message_element_container el_container;
-    string prefix;
-    uvm_report_handler l_report_handler;
-
-    l_severity = report_message.get_severity();
-    sev_string = l_severity.name();
-
-    if (report_message.get_filename() != "") begin
-      line_str.itoa(report_message.get_line());
-      filename_line_string = {report_message.get_filename(), "(", line_str, ") "};
-    end
-
-    // Make definable in terms of units.
-    $swrite(time_str, "%0t", $time);
- 
-    if (report_message.get_context() != "")
-      context_str = {"@@", report_message.get_context()};
-
-    if (show_verbosity) begin
-      if ($cast(l_verbosity, report_message.get_verbosity()))
-        verbosity_str = l_verbosity.name();
-      else
-        verbosity_str.itoa(report_message.get_verbosity());
-      verbosity_str = {"(", verbosity_str, ")"};
-    end
-
-    if (show_terminator)
-      terminator_str = {" -",sev_string};
-
-    el_container = report_message.get_element_container();
-    if (el_container.size() == 0)
-      msg_body_str = report_message.get_message();
-    else begin
-      uvm_printer uvm_default_printer = uvm_printer::get_default() ;
-      prefix = uvm_default_printer.get_line_prefix();
-      uvm_default_printer.set_line_prefix(" +");
-      msg_body_str = {report_message.get_message(), "\n", el_container.sprint()};
-      uvm_default_printer.set_line_prefix(prefix);
-    end
-
-    if (report_object_name == "") begin
-      l_report_handler = report_message.get_report_handler();
-      report_object_name = l_report_handler.get_full_name();
-    end
-
-    compose_report_message = {sev_string, verbosity_str, " ", filename_line_string, "@ ", 
-      time_str, ": ", report_object_name, context_str,
-      " [", report_message.get_id(), "] ", msg_body_str, terminator_str};
-
-  endfunction 
+                                                 string report_object_name = ""); endfunction 
 
 
   // Function --NODOCS-- report_summarize
@@ -835,34 +514,7 @@ class uvm_default_report_server extends uvm_report_server;
   //
   // The <run_test> method in uvm_top calls this method.
 
-  virtual function void report_summarize(UVM_FILE file = UVM_STDOUT);
-    string id;
-    string name;
-    string output_str;
-    string q[$];
-
-    uvm_report_catcher::summarize();
-    q.push_back("\n--- UVM Report Summary ---\n\n");
-
-    if(m_max_quit_count != 0) begin
-      if ( m_quit_count >= m_max_quit_count )
-        q.push_back("Quit count reached!\n");
-      q.push_back($sformatf("Quit count : %5d of %5d\n",m_quit_count, m_max_quit_count));
-    end
-
-    q.push_back("** Report counts by severity\n");
-    foreach(m_severity_count[s]) begin
-      q.push_back($sformatf("%s :%5d\n", s.name(), m_severity_count[s]));
-    end
-
-    if (enable_report_id_count_summary) begin
-      q.push_back("** Report counts by id\n");
-      foreach(m_id_count[id])
-        q.push_back($sformatf("[%s] %5d\n", id, m_id_count[id]));
-    end
-
-    `uvm_info("UVM/REPORT/SERVER",`UVM_STRING_QUEUE_STREAMING_PACK(q),UVM_NONE)
-  endfunction
+  virtual function void report_summarize(UVM_FILE file = UVM_STDOUT); endfunction
 
 endclass
 

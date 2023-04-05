@@ -47,9 +47,7 @@ virtual class uvm_event_callback#(type T=uvm_object) extends uvm_callback;
   // Creates a new callback object.
 
   // @uvm-ieee 1800.2-2017 auto 10.2.2.1
-  function new (string name=""); 
-    super.new(name);
-  endfunction
+  function new (string name=""); endfunction
 
 
   // Function -- NODOCS -- pre_trigger
@@ -66,9 +64,7 @@ virtual class uvm_event_callback#(type T=uvm_object) extends uvm_callback;
   // is the optional data associated with the event trigger.
 
   // @uvm-ieee 1800.2-2017 auto 10.2.2.2
-  virtual function bit pre_trigger (uvm_event#(T) e, T data);
-    return 0;
-  endfunction
+  virtual function bit pre_trigger (uvm_event#(T) e, T data); endfunction
 
 
   // Function -- NODOCS -- post_trigger
@@ -82,13 +78,9 @@ virtual class uvm_event_callback#(type T=uvm_object) extends uvm_callback;
   // is the optional data associated with the event trigger.
 
   // @uvm-ieee 1800.2-2017 auto 10.2.2.3
-  virtual function void post_trigger (uvm_event#(T) e, T data);
-    return;
-  endfunction
+  virtual function void post_trigger (uvm_event#(T) e, T data); endfunction
 
 
-  virtual function uvm_object create (string name=""); 
-    return null;
-  endfunction
+  virtual function uvm_object create (string name=""); endfunction
 
 endclass

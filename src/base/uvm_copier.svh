@@ -48,9 +48,7 @@ class uvm_copier extends uvm_policy;
 
 
    // @uvm-ieee 1800.2-2017 auto 16.6.2.1
-   function new(string name="uvm_copier") ; 
-	super.new(name);
-   endfunction
+   function new(string name="uvm_copier") ; endfunction
 	
    // Implementation only.
 
@@ -75,74 +73,30 @@ class uvm_copier extends uvm_policy;
   // @uvm-ieee 1800.2-2017 auto 16.6.4.1
   virtual function void copy_object (
                                        uvm_object lhs,
-                                       uvm_object rhs);
-
-    uvm_field_op field_op;
-    if (get_recursion_policy() == UVM_REFERENCE) begin
-      `uvm_error("UVM_COPY_POLICY","Attempting to make a copy of a object which is a reference")
-      return;
-    end
-
-    if (rhs == null || lhs == null) begin
-      `uvm_error("UVM_COPY_NULL_OBJ","Attempting to make a copy of a object with null src/target")
-      return;
-    end
-
-    push_active_object(lhs);
-    m_recur_states[rhs][lhs][get_recursion_policy()] = uvm_policy::STARTED;
-    field_op = uvm_field_op::m_get_available_op() ;
-    field_op.set(UVM_COPY,this,rhs);
-    lhs.do_execute_op(field_op);
-    if (field_op.user_hook_enabled()) begin
-       lhs.do_copy(rhs);
-    end
-    field_op.m_recycle();
-    m_recur_states[rhs][lhs][get_recursion_policy()] = uvm_policy::FINISHED;
-    void'(pop_active_object());
-  endfunction
+                                       uvm_object rhs); endfunction
   
    // @uvm-ieee 1800.2-2017 auto 16.6.4.2
    virtual function recursion_state_e object_copied(
 	 			uvm_object lhs,
   				uvm_object rhs,
   				uvm_recursion_policy_enum recursion
-  );
-  if (!m_recur_states.exists(rhs)) return NEVER ;
-  else if (!m_recur_states[rhs].exists(lhs)) return NEVER ;
-  else if (!m_recur_states[rhs][lhs].exists(recursion)) return NEVER ;
-  else begin
-     return m_recur_states[rhs][lhs][recursion];
-  end
-  
-  
-	
-endfunction
+  ); endfunction
 
 
-function void flush();
-  m_recur_states.delete();
-endfunction
+function void flush(); endfunction
 
 // @uvm-ieee 1800.2-2017 auto 16.6.3
-virtual function void set_recursion_policy (uvm_recursion_policy_enum policy);
-	this.policy = policy;
-endfunction
+virtual function void set_recursion_policy (uvm_recursion_policy_enum policy); endfunction
 
 // @uvm-ieee 1800.2-2017 auto 16.6.3
-virtual function uvm_recursion_policy_enum get_recursion_policy();
-	  return policy;
-endfunction
+virtual function uvm_recursion_policy_enum get_recursion_policy(); endfunction
 
 // Function: get_num_copies
 //
 // Returns the number of times the ~rhs~ has been copied to a unique ~lhs~ 
 //
 // @uvm-contrib This API is being considered for potential contribution to 1800.2
-function int unsigned get_num_copies(uvm_object rhs);
-  if (m_recur_states.exists(rhs))
-    return m_recur_states[rhs].size();
-  return 0;
-endfunction : get_num_copies
+function int unsigned get_num_copies(uvm_object rhs); endfunction : get_num_copies
 
 // Function: get_first_copy
 //
@@ -192,17 +146,9 @@ endfunction : get_num_copies
 `uvm_copier_get_function(prev)
 
 // @uvm-ieee 1800.2-2017 auto 16.6.2.3
-static function void set_default (uvm_copier copier) ;
-     uvm_coreservice_t coreservice ;
-     coreservice = uvm_coreservice_t::get() ;
-     coreservice.set_default_copier(copier) ;
-endfunction
+static function void set_default (uvm_copier copier) ; endfunction
 
 // @uvm-ieee 1800.2-2017 auto 16.6.2.4
-static function uvm_copier get_default () ;
-     uvm_coreservice_t coreservice ;
-     coreservice = uvm_coreservice_t::get() ;
-     return coreservice.get_default_copier() ;
-endfunction
+static function uvm_copier get_default () ; endfunction
  
 endclass

@@ -111,10 +111,7 @@ class uvm_tlm_if #(type T=uvm_tlm_generic_payload,
    
   // @uvm-ieee 1800.2-2017 auto 12.3.2.2.1
   // @uvm-ieee 1800.2-2017 auto 12.3.5.3
-  virtual function uvm_tlm_sync_e nb_transport_fw(T t, ref P p, input uvm_tlm_time delay);
-    `uvm_error("nb_transport_fw", `UVM_TLM_FUNCTION_ERROR)
-    return UVM_TLM_ACCEPTED;
-  endfunction
+  virtual function uvm_tlm_sync_e nb_transport_fw(T t, ref P p, input uvm_tlm_time delay); endfunction
 
    // Function -- NODOCS -- nb_transport_bw
    //
@@ -154,10 +151,7 @@ class uvm_tlm_if #(type T=uvm_tlm_generic_payload,
    //| endclass
    
   // @uvm-ieee 1800.2-2017 auto 12.3.2.2.2
-  virtual function uvm_tlm_sync_e nb_transport_bw(T t, ref P p, input uvm_tlm_time delay);
-    `uvm_error("nb_transport_bw", `UVM_TLM_FUNCTION_ERROR)
-    return UVM_TLM_ACCEPTED;
-  endfunction
+  virtual function uvm_tlm_sync_e nb_transport_bw(T t, ref P p, input uvm_tlm_time delay); endfunction
 
    // Function -- NODOCS -- b_transport
    //
@@ -178,8 +172,6 @@ class uvm_tlm_if #(type T=uvm_tlm_generic_payload,
    // at which the task call and return are executed.
    
   // @uvm-ieee 1800.2-2017 auto 12.3.2.2.3
-  virtual task b_transport(T t, uvm_tlm_time delay);
-    `uvm_error("b_transport", `UVM_TLM_TASK_ERROR)
-  endtask
+  virtual task b_transport(T t, uvm_tlm_time delay); endtask
 
 endclass

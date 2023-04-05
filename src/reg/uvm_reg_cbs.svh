@@ -51,9 +51,7 @@ class uvm_reg_cbs extends uvm_callback;
 
 
    // @uvm-ieee 1800.2-2017 auto 18.11.2.1
-   function new(string name = "uvm_reg_cbs");
-      super.new(name);
-   endfunction
+   function new(string name = "uvm_reg_cbs"); endfunction
 
 
 
@@ -205,73 +203,27 @@ class uvm_reg_read_only_cbs extends uvm_reg_cbs;
 // SEE MANTIS 6040. This is supposed to be Virtual, but cannot since an instance is 
 // created.  leaving NON virtual for now. 
 
-   function new(string name = "uvm_reg_read_only_cbs");
-      super.new(name);
-   endfunction
+   function new(string name = "uvm_reg_read_only_cbs"); endfunction
 
    `uvm_object_utils(uvm_reg_read_only_cbs)
 
    
 
    // @uvm-ieee 1800.2-2017 auto 18.11.4.2.1
-   virtual task pre_write(uvm_reg_item rw);
-      string name = rw.element.get_full_name();
-      
-      if (rw.status != UVM_IS_OK)
-         return;
-
-      if (rw.element_kind == UVM_FIELD) begin
-         uvm_reg_field fld;
-         uvm_reg rg;
-         $cast(fld, rw.element);
-         rg = fld.get_parent();
-         name = rg.get_full_name();
-      end
-      
-      `uvm_error("UVM/REG/READONLY",
-                 {name, " is read-only. Cannot call write() method."})
-
-      rw.status = UVM_NOT_OK;
-   endtask
+   virtual task pre_write(uvm_reg_item rw); endtask
 
    local static uvm_reg_read_only_cbs m_me;
-   local static function uvm_reg_read_only_cbs get();
-      if (m_me == null) m_me = new;
-      return m_me;
-   endfunction
+   local static function uvm_reg_read_only_cbs get(); endfunction
 
 
 
    // @uvm-ieee 1800.2-2017 auto 18.11.4.2.2
-   static function void add(uvm_reg rg);
-      uvm_reg_field flds[$];
-      
-      uvm_reg_cb::add(rg, get());
-      rg.get_fields(flds);
-      foreach (flds[i]) begin
-         uvm_reg_field_cb::add(flds[i], get());
-      end
-   endfunction
+   static function void add(uvm_reg rg); endfunction
 
 
 
    // @uvm-ieee 1800.2-2017 auto 18.11.4.2.3
-   static function void remove(uvm_reg rg);
-      uvm_reg_cb_iter cbs = new(rg);
-      uvm_reg_field flds[$];
-
-      void'(cbs.first());
-      while (cbs.get_cb() != get()) begin
-         if (cbs.get_cb() == null)
-            return;
-         void'(cbs.next());
-      end
-      uvm_reg_cb::delete(rg, get());
-      rg.get_fields(flds);
-      foreach (flds[i]) begin
-         uvm_reg_field_cb::delete(flds[i], get());
-      end
-   endfunction
+   static function void remove(uvm_reg rg); endfunction
 endclass
 
 
@@ -290,70 +242,24 @@ class uvm_reg_write_only_cbs extends uvm_reg_cbs;
 // created.  leaving NON virtual for now. 
 
    // @uvm-ieee 1800.2-2017 auto 18.1.2.1
-   function new(string name = "uvm_reg_write_only_cbs");
-      super.new(name);
-   endfunction
+   function new(string name = "uvm_reg_write_only_cbs"); endfunction
 
    `uvm_object_utils(uvm_reg_write_only_cbs)
    
 
    // @uvm-ieee 1800.2-2017 auto 18.11.5.2.1
-   virtual task pre_read(uvm_reg_item rw);
-      string name = rw.element.get_full_name();
-      
-      if (rw.status != UVM_IS_OK)
-         return;
-
-      if (rw.element_kind == UVM_FIELD) begin
-         uvm_reg_field fld;
-         uvm_reg rg;
-         $cast(fld, rw.element);
-         rg = fld.get_parent();
-         name = rg.get_full_name();
-      end
-      
-      `uvm_error("UVM/REG/WRTEONLY",
-                 {name, " is write-only. Cannot call read() method."})
-
-      rw.status = UVM_NOT_OK;
-   endtask
+   virtual task pre_read(uvm_reg_item rw); endtask
 
    local static uvm_reg_write_only_cbs m_me;
-   local static function uvm_reg_write_only_cbs get();
-      if (m_me == null) m_me = new;
-      return m_me;
-   endfunction
+   local static function uvm_reg_write_only_cbs get(); endfunction
 
 
 
    // @uvm-ieee 1800.2-2017 auto 18.11.5.2.2
-   static function void add(uvm_reg rg);
-      uvm_reg_field flds[$];
-      
-      uvm_reg_cb::add(rg, get());
-      rg.get_fields(flds);
-      foreach (flds[i]) begin
-         uvm_reg_field_cb::add(flds[i], get());
-      end
-   endfunction
+   static function void add(uvm_reg rg); endfunction
 
 
 
    // @uvm-ieee 1800.2-2017 auto 18.11.5.2.3
-   static function void remove(uvm_reg rg);
-      uvm_reg_cb_iter cbs = new(rg);
-      uvm_reg_field flds[$];
-
-      void'(cbs.first());
-      while (cbs.get_cb() != get()) begin
-         if (cbs.get_cb() == null)
-            return;
-         void'(cbs.next());
-      end
-      uvm_reg_cb::delete(rg, get());
-      rg.get_fields(flds);
-      foreach (flds[i]) begin
-         uvm_reg_field_cb::delete(flds[i], get());
-      end
-   endfunction
+   static function void remove(uvm_reg rg); endfunction
 endclass

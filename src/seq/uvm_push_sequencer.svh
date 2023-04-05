@@ -44,10 +44,7 @@ class uvm_push_sequencer #(type REQ=uvm_sequence_item, RSP=REQ)
 
 
   // @uvm-ieee 1800.2-2017 auto 15.6.3.2
-  function new (string name, uvm_component parent=null);
-    super.new(name, parent);
-    req_port = new ("req_port", this);
-  endfunction 
+  function new (string name, uvm_component parent=null); endfunction 
 
 
   // Task -- NODOCS -- run_phase
@@ -59,25 +56,8 @@ class uvm_push_sequencer #(type REQ=uvm_sequence_item, RSP=REQ)
   // <uvm_push_driver #(REQ,RSP)>, which would be responsible for
   // executing the item.
   //
-  task run_phase(uvm_phase phase);
-    REQ t;
-    int selected_sequence;
+  task run_phase(uvm_phase phase); endtask
 
-    fork
-      super.run_phase(phase);
-      forever
-        begin
-          m_select_sequence();
-          m_req_fifo.get(t);
-          req_port.put(t);
-          m_wait_for_item_sequence_id = t.get_sequence_id();
-          m_wait_for_item_transaction_id = t.get_transaction_id();
-        end
-    join
-  endtask
-
-  protected virtual function int  m_find_number_driver_connections();
-    return req_port.size();
-  endfunction
+  protected virtual function int  m_find_number_driver_connections(); endfunction
 
 endclass

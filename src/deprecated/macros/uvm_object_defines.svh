@@ -177,10 +177,7 @@
 // <do_execute_op> method.
 
 `define uvm_field_utils_begin(T)                                                \
-function void do_execute_op( uvm_field_op op );                                 \
-  super.do_execute_op(op);                                                      \
-  __m_uvm_execute_field_op(op);                                                 \
-endfunction : do_execute_op                                                     \
+function void do_execute_op( uvm_field_op op ); endfunction : do_execute_op                                                     \
 function void __m_uvm_execute_field_op( uvm_field_op __local_op__ );            \
    uvm_field_flag_t local_op_type__; /* Used to avoid re-querying */            \
    T local_rhs__; /* Used for $casting copy and compare */                      \
@@ -437,12 +434,8 @@ endfunction : __m_uvm_execute_field_op
 
 `define uvm_object_registry(T,S) \
    typedef uvm_object_registry#(T,S) type_id; \
-   static function type_id get_type(); \
-     return type_id::get(); \
-   endfunction \
-   virtual function uvm_object_wrapper get_object_type(); \
-     return type_id::get(); \
-   endfunction
+   static function type_id get_type(); endfunction \
+   virtual function uvm_object_wrapper get_object_type(); endfunction
 
 
 // MACRO -- NODOCS -- `uvm_component_registry
@@ -458,12 +451,8 @@ endfunction : __m_uvm_execute_field_op
 
 `define uvm_component_registry(T,S) \
    typedef uvm_component_registry #(T,S) type_id; \
-   static function type_id get_type(); \
-     return type_id::get(); \
-   endfunction \
-   virtual function uvm_object_wrapper get_object_type(); \
-     return type_id::get(); \
-   endfunction
+   static function type_id get_type(); endfunction \
+   virtual function uvm_object_wrapper get_object_type(); endfunction
 
 
 `define uvm_declare_type_alias(TYPE,NAME,SFX=) \
@@ -474,9 +463,7 @@ endfunction : __m_uvm_execute_field_op
 // ------------
 
 `define uvm_new_func \
-  function new (string name, uvm_component parent); \
-    super.new(name, parent); \
-  endfunction
+  function new (string name, uvm_component parent); endfunction
 
 
 //-----------------------------------------------------------------------------
@@ -487,12 +474,7 @@ endfunction : __m_uvm_execute_field_op
 // ------------------------
 
 `define m_uvm_object_create_func(T) \
-   function uvm_object create (string name=""); \
-     T tmp; \
-     if (name=="") tmp = new(); \
-     else tmp = new(name); \
-     return tmp; \
-   endfunction
+   function uvm_object create (string name=""); endfunction
 
 // Macro --NODOCS-- uvm_type_name_decl(TNAME_STRING)
 // Potentially public macro for Mantis 5003.
@@ -514,17 +496,11 @@ endfunction : __m_uvm_execute_field_op
 `ifdef UVM_ENABLE_DEPRECATED_API
  `define uvm_type_name_decl(TNAME_STRING) \
      const static string type_name = TNAME_STRING; \
-     virtual function string get_type_name(); \
-       return TNAME_STRING; \
-     endfunction : get_type_name
+     virtual function string get_type_name(); endfunction : get_type_name
 `else
  `define uvm_type_name_decl(TNAME_STRING) \
-     static function string type_name(); \
-       return TNAME_STRING; \
-     endfunction : type_name \
-     virtual function string get_type_name(); \
-       return TNAME_STRING; \
-     endfunction : get_type_name
+     static function string type_name(); endfunction : type_name \
+     virtual function string get_type_name(); endfunction : get_type_name
 `endif // !`ifdef UVM_ENABLE_DEPRECATED_API
 
 
@@ -535,12 +511,8 @@ endfunction : __m_uvm_execute_field_op
 //created by args to lower level macros.
 `define m_uvm_object_registry_internal(T,S) \
    typedef uvm_object_registry#(T,`"S`") type_id; \
-   static function type_id get_type(); \
-     return type_id::get(); \
-   endfunction \
-   virtual function uvm_object_wrapper get_object_type(); \
-     return type_id::get(); \
-   endfunction
+   static function type_id get_type(); endfunction \
+   virtual function uvm_object_wrapper get_object_type(); endfunction
 
 
 // m_uvm_object_registry_param
@@ -548,12 +520,8 @@ endfunction : __m_uvm_execute_field_op
 
 `define m_uvm_object_registry_param(T) \
    typedef uvm_object_registry #(T) type_id; \
-   static function type_id get_type(); \
-     return type_id::get(); \
-   endfunction \
-   virtual function uvm_object_wrapper get_object_type(); \
-     return type_id::get(); \
-   endfunction
+   static function type_id get_type(); endfunction \
+   virtual function uvm_object_wrapper get_object_type(); endfunction
 
 // m_uvm_object_abstract_registry_internal
 // ---------------------------------------
@@ -562,12 +530,8 @@ endfunction : __m_uvm_execute_field_op
 //created by args to lower level macros.
 `define m_uvm_object_abstract_registry_internal(T,S) \
    typedef uvm_abstract_object_registry#(T,`"S`") type_id; \
-   static function type_id get_type(); \
-     return type_id::get(); \
-   endfunction \
-   virtual function uvm_object_wrapper get_object_type(); \
-     return type_id::get(); \
-   endfunction
+   static function type_id get_type(); endfunction \
+   virtual function uvm_object_wrapper get_object_type(); endfunction
 
 
 // m_uvm_object_abstract_registry_param
@@ -575,12 +539,8 @@ endfunction : __m_uvm_execute_field_op
 
 `define m_uvm_object_abstract_registry_param(T) \
    typedef uvm_abstract_object_registry #(T) type_id; \
-   static function type_id get_type(); \
-     return type_id::get(); \
-   endfunction \
-   virtual function uvm_object_wrapper get_object_type(); \
-     return type_id::get(); \
-   endfunction
+   static function type_id get_type(); endfunction \
+   virtual function uvm_object_wrapper get_object_type(); endfunction
 
 
 // m_uvm_component_registry_internal
@@ -590,12 +550,8 @@ endfunction : __m_uvm_execute_field_op
 //created by args to lower level macros.
 `define m_uvm_component_registry_internal(T,S) \
    typedef uvm_component_registry #(T,`"S`") type_id; \
-   static function type_id get_type(); \
-     return type_id::get(); \
-   endfunction \
-   virtual function uvm_object_wrapper get_object_type(); \
-     return type_id::get(); \
-   endfunction
+   static function type_id get_type(); endfunction \
+   virtual function uvm_object_wrapper get_object_type(); endfunction
 
 // versions of the uvm_component_registry macros to be used with
 // parameterized classes
@@ -605,12 +561,8 @@ endfunction : __m_uvm_execute_field_op
 
 `define m_uvm_component_registry_param(T) \
    typedef uvm_component_registry #(T) type_id; \
-   static function type_id get_type(); \
-     return type_id::get(); \
-   endfunction \
-   virtual function uvm_object_wrapper get_object_type(); \
-     return type_id::get(); \
-   endfunction
+   static function type_id get_type(); endfunction \
+   virtual function uvm_object_wrapper get_object_type(); endfunction
 
 // m_uvm_component_abstract_registry_internal
 // ------------------------------------------
@@ -619,12 +571,8 @@ endfunction : __m_uvm_execute_field_op
 //created by args to lower level macros.
 `define m_uvm_component_abstract_registry_internal(T,S) \
    typedef uvm_abstract_component_registry #(T,`"S`") type_id; \
-   static function type_id get_type(); \
-     return type_id::get(); \
-   endfunction \
-   virtual function uvm_object_wrapper get_object_type(); \
-     return type_id::get(); \
-   endfunction
+   static function type_id get_type(); endfunction \
+   virtual function uvm_object_wrapper get_object_type(); endfunction
 
 // versions of the uvm_component_abstract_registry macros to be used with
 // parameterized classes
@@ -634,12 +582,8 @@ endfunction : __m_uvm_execute_field_op
 
 `define m_uvm_component_abstract_registry_param(T) \
    typedef uvm_abstract_component_registry #(T) type_id; \
-   static function type_id get_type(); \
-     return type_id::get(); \
-   endfunction \
-   virtual function uvm_object_wrapper get_object_type(); \
-     return type_id::get(); \
-   endfunction
+   static function type_id get_type(); endfunction \
+   virtual function uvm_object_wrapper get_object_type(); endfunction
 
 
 

@@ -89,14 +89,7 @@ class uvm_report_object extends uvm_object;
   uvm_report_handler m_rh;
 
   local bit m_rh_set;
-  local function void m_rh_init();
-    if (!m_rh_set)
-`ifdef VERILATOR
-      set_report_handler(uvm_report_handler::type_id_create(get_name()));
-`else
-      set_report_handler(uvm_report_handler::type_id::create(get_name()));
-`endif
-  endfunction : m_rh_init
+  local function void m_rh_init(); endfunction : m_rh_init
 
   // Function -- NODOCS -- new
   //
@@ -104,9 +97,7 @@ class uvm_report_object extends uvm_object;
   // a new <uvm_report_handler> object to which most tasks are delegated.
 
   // @uvm-ieee 1800.2-2017 auto 6.3.2
-  function new(string name = "");
-    super.new(name);
-  endfunction
+  function new(string name = ""); endfunction
 
 
   //----------------------------------------------------------------------------
@@ -121,9 +112,7 @@ class uvm_report_object extends uvm_object;
   // See also the global version of <uvm_get_report_object>.
 
   // @uvm-ieee 1800.2-2017 auto 6.3.3.1
-  function uvm_report_object uvm_get_report_object();
-    return this;
-  endfunction
+  function uvm_report_object uvm_get_report_object(); endfunction
 
   // Function -- NODOCS -- uvm_report_enabled
   //
@@ -135,11 +124,7 @@ class uvm_report_object extends uvm_object;
 
   // @uvm-ieee 1800.2-2017 auto 6.3.3.2
   function int uvm_report_enabled(int verbosity, 
-  				  uvm_severity severity = UVM_INFO, string id = "");
-    if (get_report_verbosity_level(severity, id) < verbosity)
-      return 0;
-    return 1;
-  endfunction
+  				  uvm_severity severity = UVM_INFO, string id = ""); endfunction
 
   // Function -- NODOCS -- uvm_report
 
@@ -152,17 +137,7 @@ class uvm_report_object extends uvm_object;
                                     string filename = "",
                                     int line = 0,
                                     string context_name = "",
-                                    bit report_enabled_checked =0);
-    uvm_report_message l_report_message;
-    if ((severity == UVM_INFO) && (report_enabled_checked == 0)) begin
-      if (!uvm_report_enabled(verbosity, severity, id))
-        return;
-    end
-    l_report_message = uvm_report_message::new_report_message();
-    l_report_message.set_report_message(severity, id, message, 
-					verbosity, filename, line, context_name);
-    uvm_process_report_message(l_report_message);
-  endfunction 
+                                    bit report_enabled_checked =0); endfunction 
 
 
   // Function -- NODOCS -- uvm_report_info
@@ -174,11 +149,7 @@ class uvm_report_object extends uvm_object;
 					 string filename = "",
 					 int line = 0,
     					 string context_name = "",
-					 bit report_enabled_checked = 0);
-
-    uvm_report (UVM_INFO, id, message, verbosity, 
-                filename, line, context_name, report_enabled_checked);
-  endfunction
+					 bit report_enabled_checked = 0); endfunction
 
   // Function -- NODOCS -- uvm_report_warning
 
@@ -189,11 +160,7 @@ class uvm_report_object extends uvm_object;
 					    string filename = "",
 					    int line = 0,
     					    string context_name = "",
-					    bit report_enabled_checked = 0);
-
-    uvm_report (UVM_WARNING, id, message, verbosity,
-                filename, line, context_name, report_enabled_checked);
-  endfunction
+					    bit report_enabled_checked = 0); endfunction
 
   // Function -- NODOCS -- uvm_report_error
 
@@ -204,11 +171,7 @@ class uvm_report_object extends uvm_object;
 					  string filename = "",
 					  int line = 0,
    					  string context_name = "",
-					  bit report_enabled_checked = 0);
-
-    uvm_report (UVM_ERROR, id, message, verbosity,
-                filename, line, context_name, report_enabled_checked);
-  endfunction
+					  bit report_enabled_checked = 0); endfunction
 
   // Function -- NODOCS -- uvm_report_fatal
   //
@@ -256,11 +219,7 @@ class uvm_report_object extends uvm_object;
 					  string filename = "",
 					  int line = 0,
    					  string context_name = "",
-					  bit report_enabled_checked = 0);
-
-    uvm_report (UVM_FATAL, id, message, verbosity,
-                filename, line, context_name, report_enabled_checked);
-  endfunction
+					  bit report_enabled_checked = 0); endfunction
 
   // Function -- NODOCS -- uvm_process_report_message
   //
@@ -269,11 +228,7 @@ class uvm_report_object extends uvm_object;
   // It is expected to be checked for verbosity and populated.
 
   // @uvm-ieee 1800.2-2017 auto 6.3.3.4
-  virtual function void uvm_process_report_message(uvm_report_message report_message);
-    m_rh_init();
-    report_message.set_report_object(this);
-    m_rh.process_report_message(report_message);
-  endfunction
+  virtual function void uvm_process_report_message(uvm_report_message report_message); endfunction
 
 
   //----------------------------------------------------------------------------
@@ -289,10 +244,7 @@ class uvm_report_object extends uvm_object;
   // specific severity/tag combinations.
 
   // @uvm-ieee 1800.2-2017 auto 6.3.4.1
-  function int get_report_verbosity_level(uvm_severity severity=UVM_INFO, string id="");
-    m_rh_init();
-    return m_rh.get_verbosity_level(severity, id);
-  endfunction
+  function int get_report_verbosity_level(uvm_severity severity=UVM_INFO, string id=""); endfunction
 
 
   // Function -- NODOCS -- get_report_max_verbosity_level
@@ -302,10 +254,7 @@ class uvm_report_object extends uvm_object;
   // be ignored.
 
   // @uvm-ieee 1800.2-2017 auto 6.3.4.2
-  function int get_report_max_verbosity_level();
-    m_rh_init();
-    return m_rh.m_max_verbosity_level;
-  endfunction
+  function int get_report_max_verbosity_level(); endfunction
 
 
   // Function -- NODOCS -- set_report_verbosity_level
@@ -315,17 +264,11 @@ class uvm_report_object extends uvm_object;
   // be ignored.
 
   // @uvm-ieee 1800.2-2017 auto 6.3.4.3
-  function void set_report_verbosity_level (int verbosity_level);
-    m_rh_init();
-    m_rh.set_verbosity_level(verbosity_level);
-  endfunction
+  function void set_report_verbosity_level (int verbosity_level); endfunction
 
 
   // @uvm-ieee 1800.2-2017 auto 6.3.4.4
-  function void set_report_id_verbosity (string id, int verbosity);
-    m_rh_init();
-    m_rh.set_id_verbosity(id, verbosity);
-  endfunction
+  function void set_report_id_verbosity (string id, int verbosity); endfunction
 
   // Function -- NODOCS -- set_report_severity_id_verbosity
   //
@@ -342,10 +285,7 @@ class uvm_report_object extends uvm_object;
 
   // @uvm-ieee 1800.2-2017 auto 6.3.4.4
   function void set_report_severity_id_verbosity (uvm_severity severity,
-                                               string id, int verbosity);
-    m_rh_init();
-    m_rh.set_severity_id_verbosity(severity, id, verbosity);
-  endfunction
+                                               string id, int verbosity); endfunction
 
 
   //----------------------------------------------------------------------------
@@ -359,26 +299,17 @@ class uvm_report_object extends uvm_object;
   // and ~id~.
 
   // @uvm-ieee 1800.2-2017 auto 6.3.5.1
-  function int get_report_action(uvm_severity severity, string id);
-    m_rh_init();
-    return m_rh.get_action(severity,id);
-  endfunction
+  function int get_report_action(uvm_severity severity, string id); endfunction
 
 
 
   // @uvm-ieee 1800.2-2017 auto 6.3.5.2
   function void set_report_severity_action (uvm_severity severity,
-                                            uvm_action action);
-    m_rh_init();
-    m_rh.set_severity_action(severity, action);
-  endfunction
+                                            uvm_action action); endfunction
 
 
   // @uvm-ieee 1800.2-2017 auto 6.3.5.2
-  function void set_report_id_action (string id, uvm_action action);
-    m_rh_init();
-    m_rh.set_id_action(id, action);
-  endfunction
+  function void set_report_id_action (string id, uvm_action action); endfunction
 
   // Function -- NODOCS -- set_report_severity_id_action
   //
@@ -393,10 +324,7 @@ class uvm_report_object extends uvm_object;
 
   // @uvm-ieee 1800.2-2017 auto 6.3.5.2
   function void set_report_severity_id_action (uvm_severity severity,
-                                               string id, uvm_action action);
-    m_rh_init();
-    m_rh.set_severity_id_action(severity, id, action);
-  endfunction
+                                               string id, uvm_action action); endfunction
 
 
   //----------------------------------------------------------------------------
@@ -410,34 +338,22 @@ class uvm_report_object extends uvm_object;
   // ~severity~ and ~id~.
 
   // @uvm-ieee 1800.2-2017 auto 6.3.6.1
-  function int get_report_file_handle(uvm_severity severity, string id);
-    m_rh_init();
-    return m_rh.get_file_handle(severity,id);
-  endfunction
+  function int get_report_file_handle(uvm_severity severity, string id); endfunction
 
 
   // Function -- NODOCS -- set_report_default_file
   
   // @uvm-ieee 1800.2-2017 auto 6.3.6.2
-  function void set_report_default_file (UVM_FILE file);
-    m_rh_init();
-    m_rh.set_default_file(file);
-  endfunction
+  function void set_report_default_file (UVM_FILE file); endfunction
 
   // Function -- NODOCS -- set_report_id_file
   
   // @uvm-ieee 1800.2-2017 auto 6.3.6.2
-  function void set_report_id_file (string id, UVM_FILE file);
-    m_rh_init();
-    m_rh.set_id_file(id, file);
-  endfunction
+  function void set_report_id_file (string id, UVM_FILE file); endfunction
 
 
   // @uvm-ieee 1800.2-2017 auto 6.3.6.2
-  function void set_report_severity_file (uvm_severity severity, UVM_FILE file);
-    m_rh_init();
-    m_rh.set_severity_file(severity, file);
-  endfunction
+  function void set_report_severity_file (uvm_severity severity, UVM_FILE file); endfunction
 
   // Function -- NODOCS -- set_report_severity_id_file
   //
@@ -457,10 +373,7 @@ class uvm_report_object extends uvm_object;
 
   // @uvm-ieee 1800.2-2017 auto 6.3.6.2
   function void set_report_severity_id_file (uvm_severity severity, string id,
-                                             UVM_FILE file);
-    m_rh_init();
-    m_rh.set_severity_id_file(severity, id, file);
-  endfunction
+                                             UVM_FILE file); endfunction
 
 
   //----------------------------------------------------------------------------
@@ -471,19 +384,13 @@ class uvm_report_object extends uvm_object;
 
   // @uvm-ieee 1800.2-2017 auto 6.3.7
   function void set_report_severity_override(uvm_severity cur_severity,
-                                             uvm_severity new_severity);
-    m_rh_init();
-    m_rh.set_severity_override(cur_severity, new_severity);
-  endfunction
+                                             uvm_severity new_severity); endfunction
 
 
   // @uvm-ieee 1800.2-2017 auto 6.3.7
   function void set_report_severity_id_override(uvm_severity cur_severity,
                                                 string id, 
-                                                uvm_severity new_severity);
-    m_rh_init();
-    m_rh.set_severity_id_override(cur_severity, id, new_severity);
-  endfunction
+                                                uvm_severity new_severity); endfunction
 
 
   //----------------------------------------------------------------------------
@@ -496,10 +403,7 @@ class uvm_report_object extends uvm_object;
   // more than one component to share the same report handler.
 
   // @uvm-ieee 1800.2-2017 auto 6.3.8.2
-  function void set_report_handler(uvm_report_handler handler);
-    m_rh = handler;
-    m_rh_set = 1;
-  endfunction
+  function void set_report_handler(uvm_report_handler handler); endfunction
 
 
   // Function -- NODOCS -- get_report_handler
@@ -508,10 +412,7 @@ class uvm_report_object extends uvm_object;
   // are delegated.
 
   // @uvm-ieee 1800.2-2017 auto 6.3.8.1
-  function uvm_report_handler get_report_handler();
-    m_rh_init();
-    return m_rh;
-  endfunction
+  function uvm_report_handler get_report_handler(); endfunction
 
 
   // Function -- NODOCS -- reset_report_handler
@@ -520,10 +421,7 @@ class uvm_report_object extends uvm_object;
   // any settings made with the ~set_report_*~ methods (see below).
 
   // @uvm-ieee 1800.2-2017 auto 6.3.8.3
-  function void reset_report_handler;
-    m_rh_init();
-    m_rh.initialize();
-  endfunction
+  function void reset_report_handler; endfunction
 
 endclass
 

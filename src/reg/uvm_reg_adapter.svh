@@ -52,9 +52,7 @@ virtual class uvm_reg_adapter extends uvm_object;
   // Create a new instance of this type, giving it the optional ~name~.
 
   // @uvm-ieee 1800.2-2017 auto 19.2.1.2.1
-  function new(string name="");
-    super.new(name);
-  endfunction
+  function new(string name=""); endfunction
 
 
   // Variable -- NODOCS -- supports_byte_enable
@@ -114,13 +112,9 @@ virtual class uvm_reg_adapter extends uvm_object;
 
   
   // @uvm-ieee 1800.2-2017 auto 19.2.1.2.7
-  virtual function uvm_reg_item get_item();
-    return m_item;
-  endfunction
+  virtual function uvm_reg_item get_item(); endfunction
   
-  virtual function void m_set_item(uvm_reg_item item);
-    m_item = item;
-  endfunction
+  virtual function void m_set_item(uvm_reg_item item); endfunction
 endclass
 
 
@@ -176,84 +170,19 @@ class uvm_reg_tlm_adapter extends uvm_reg_adapter;
 
   `uvm_object_utils(uvm_reg_tlm_adapter)
 
-  function new(string name = "uvm_reg_tlm_adapter");
-    super.new(name);
-  endfunction
+  function new(string name = "uvm_reg_tlm_adapter"); endfunction
 
   // Function -- NODOCS -- reg2bus
   //
   // Converts a <uvm_reg_bus_op> struct to a <uvm_tlm_gp> item.
 
   // @uvm-ieee 1800.2-2017 auto 19.2.2.2.1
-  virtual function uvm_sequence_item reg2bus(const ref uvm_reg_bus_op rw);
-
-`ifdef VERILATOR
-     uvm_tlm_gp gp = uvm_tlm_gp::type_id_create("tlm_gp",, this.get_full_name());
-`else
-     uvm_tlm_gp gp = uvm_tlm_gp::type_id::create("tlm_gp",, this.get_full_name());
-`endif
-     int nbytes = (rw.n_bits-1)/8+1;
-     uvm_reg_addr_t addr=rw.addr;
-
-     if (rw.kind == UVM_WRITE)
-        gp.set_command(UVM_TLM_WRITE_COMMAND);
-     else
-        gp.set_command(UVM_TLM_READ_COMMAND);
-
-     gp.set_address(addr);
-
-     gp.m_byte_enable = new [nbytes];
-     gp.m_byte_enable_length = nbytes;
-
-     gp.set_streaming_width (nbytes);
-
-     gp.m_data = new [gp.get_streaming_width()];
-     gp.m_length = nbytes; 
-
-     for (int i = 0; i < nbytes; i++) begin
-        gp.m_data[i] = rw.data[i*8+:8];
-        gp.m_byte_enable[i] = (i > nbytes) ? 8'h00 : (rw.byte_en[i] ? 8'hFF : 8'h00);
-     end
-
-     return gp;
-
-  endfunction
+  virtual function uvm_sequence_item reg2bus(const ref uvm_reg_bus_op rw); endfunction
 
 
 
   // @uvm-ieee 1800.2-2017 auto 19.2.2.2.2
   virtual function void bus2reg(uvm_sequence_item bus_item,
-                                ref uvm_reg_bus_op rw);
-
-    uvm_tlm_gp gp;
-    int nbytes;
-
-    if (bus_item == null)
-     `uvm_fatal("REG/NULL_ITEM","bus2reg: bus_item argument is null") 
-
-    if (!$cast(gp,bus_item)) begin
-      `uvm_error("WRONG_TYPE","Provided bus_item is not of type uvm_tlm_gp")
-      return;
-    end
-
-    if (gp.get_command() == UVM_TLM_WRITE_COMMAND)
-      rw.kind = UVM_WRITE;
-    else
-      rw.kind = UVM_READ;
-
-    rw.addr = gp.get_address();
-
-    rw.byte_en = 0;
-    foreach (gp.m_byte_enable[i])
-      rw.byte_en[i] = gp.m_byte_enable[i];
-
-    rw.data = 0;
-    foreach (gp.m_data[i])
-      rw.data[i*8+:8] = gp.m_data[i];
-
-    rw.status = (gp.is_response_ok()) ? UVM_IS_OK : UVM_NOT_OK;
-
-
-  endfunction
+                                ref uvm_reg_bus_op rw); endfunction
 
 endclass

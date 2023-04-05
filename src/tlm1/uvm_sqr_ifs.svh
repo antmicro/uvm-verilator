@@ -61,9 +61,7 @@ virtual class uvm_sqr_if_base #(type T1=uvm_object, T2=T1);
   // item from the sequencer FIFO.
 
   // @uvm-ieee 1800.2-2017 auto 15.2.1.2.1
-  virtual task get_next_item(output T1 t);
-    uvm_report_error("get_next_item", `UVM_SEQ_ITEM_TASK_ERROR, UVM_NONE);
-  endtask
+  virtual task get_next_item(output T1 t); endtask
  
 
   // Task -- NODOCS -- try_next_item
@@ -86,9 +84,7 @@ virtual class uvm_sqr_if_base #(type T1=uvm_object, T2=T1);
   // item from the sequencer FIFO.
 
   // @uvm-ieee 1800.2-2017 auto 15.2.1.2.2
-  virtual task try_next_item(output T1 t);
-    uvm_report_error("try_next_item", `UVM_SEQ_ITEM_TASK_ERROR, UVM_NONE);
-  endtask
+  virtual task try_next_item(output T1 t); endtask
 
 
   // Function -- NODOCS -- item_done
@@ -110,9 +106,7 @@ virtual class uvm_sqr_if_base #(type T1=uvm_object, T2=T1);
   // will cause the sequencer to arbitrate for a new item.
 
   // @uvm-ieee 1800.2-2017 auto 15.2.1.2.3
-  virtual function void item_done(input T2 t = null);
-    uvm_report_error("item_done", `UVM_SEQ_ITEM_FUNCTION_ERROR, UVM_NONE);
-  endfunction
+  virtual function void item_done(input T2 t = null); endfunction
 
   
   // Task -- NODOCS -- wait_for_sequences
@@ -125,9 +119,7 @@ virtual class uvm_sqr_if_base #(type T1=uvm_object, T2=T1);
   // application-specific implementation.
 
   // @uvm-ieee 1800.2-2017 auto 15.2.1.2.4
-  virtual task wait_for_sequences();
-    uvm_report_error("wait_for_sequences", `UVM_SEQ_ITEM_TASK_ERROR, UVM_NONE);
-  endtask
+  virtual task wait_for_sequences(); endtask
 
 
   // Function -- NODOCS -- has_do_available
@@ -136,10 +128,7 @@ virtual class uvm_sqr_if_base #(type T1=uvm_object, T2=T1);
   // Implementations should return 1 if an item is available, 0 otherwise. 
 
   // @uvm-ieee 1800.2-2017 auto 15.2.1.2.5
-  virtual function bit has_do_available();
-    uvm_report_error("has_do_available", `UVM_SEQ_ITEM_FUNCTION_ERROR, UVM_NONE);
-    return 0;
-  endfunction
+  virtual function bit has_do_available(); endfunction
 
 
   //-----------------------
@@ -167,9 +156,7 @@ virtual class uvm_sqr_if_base #(type T1=uvm_object, T2=T1);
   // <put>, or uvm_driver::rsp_port.write().
 
   // @uvm-ieee 1800.2-2017 auto 15.2.1.2.6
-  virtual task get(output T1 t);
-    uvm_report_error("get", `UVM_SEQ_ITEM_TASK_ERROR, UVM_NONE);
-  endtask
+  virtual task get(output T1 t); endtask
 
   // Task -- NODOCS -- peek
   //
@@ -192,9 +179,7 @@ virtual class uvm_sqr_if_base #(type T1=uvm_object, T2=T1);
   // the FIFO until either get or <item_done> is called.
 
   // @uvm-ieee 1800.2-2017 auto 15.2.1.2.7
-  virtual task peek(output T1 t);
-    uvm_report_error("peek", `UVM_SEQ_ITEM_TASK_ERROR, UVM_NONE);
-  endtask
+  virtual task peek(output T1 t); endtask
 
 
   // Task -- NODOCS -- put
@@ -214,9 +199,7 @@ virtual class uvm_sqr_if_base #(type T1=uvm_object, T2=T1);
    
 
   // @uvm-ieee 1800.2-2017 auto 15.2.1.2.8
-  virtual task put(input T2 t);
-    uvm_report_error("put", `UVM_SEQ_ITEM_TASK_ERROR, UVM_NONE);
-  endtask
+  virtual task put(input T2 t); endtask
 
 
   // Function -- NODOCS -- put_response
@@ -230,9 +213,7 @@ virtual class uvm_sqr_if_base #(type T1=uvm_object, T2=T1);
   //
 
   // @uvm-ieee 1800.2-2017 auto 15.2.1.2.9
-  virtual function void put_response(input T2 t);
-    uvm_report_error("put_response", `UVM_SEQ_ITEM_FUNCTION_ERROR, UVM_NONE);
-  endfunction
+  virtual function void put_response(input T2 t); endfunction
 
   // Function -- NODOCS -- disable_auto_item_recording
   //
@@ -251,17 +232,12 @@ virtual class uvm_sqr_if_base #(type T1=uvm_object, T2=T1);
   // turned off at compile time by defining UVM_DISABLE_AUTO_ITEM_RECORDING
 
   // @uvm-ieee 1800.2-2017 auto 15.2.1.2.10
-  virtual function void disable_auto_item_recording();
-    uvm_report_error("disable_auto_item_recording", `UVM_SEQ_ITEM_FUNCTION_ERROR, UVM_NONE);
-  endfunction
+  virtual function void disable_auto_item_recording(); endfunction
   
   // Function -- NODOCS -- is_auto_item_recording_enabled
   //
   // Return TRUE if automatic item recording is enabled for this port instance.
 
   // @uvm-ieee 1800.2-2017 auto 15.2.1.2.11
-  virtual function bit is_auto_item_recording_enabled();
-    uvm_report_error("is_auto_item_recording_enabled", `UVM_SEQ_ITEM_FUNCTION_ERROR, UVM_NONE);
-    return 0;
-  endfunction
+  virtual function bit is_auto_item_recording_enabled(); endfunction
 endclass

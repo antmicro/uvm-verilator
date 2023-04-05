@@ -35,9 +35,7 @@ virtual class uvm_set_get_dap_base#(type T=int) extends uvm_object;
 
    // Function -- NODOCS -- new
    // Constructor
-   function new(string name="unnamed-uvm_set_get_dap_base#(T)");
-      super.new(name);
-   endfunction : new
+   function new(string name="unnamed-uvm_set_get_dap_base#(T)"); endfunction : new
 
    // Group -- NODOCS -- Set/Get Interface
    //

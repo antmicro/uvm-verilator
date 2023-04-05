@@ -30,9 +30,7 @@
 
 // @uvm-ieee 1800.2-2017 auto F.5.1.1
 virtual class uvm_visitor#(type NODE=uvm_component) extends uvm_object;
-  function new (string name = "");
-    super.new(name);
-  endfunction 
+  function new (string name = ""); endfunction 
 
   // Function -- NODOCS -- begin_v
   //
@@ -66,9 +64,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto F.5.2.1
 virtual class uvm_structure_proxy#(type STRUCTURE=uvm_component) extends uvm_object;
   // @uvm-ieee 1800.2-2017 auto F.5.2.2.1
-  function new (string name = "");
-    super.new(name);
-  endfunction     
+  function new (string name = ""); endfunction     
 
   // Function -- NODOCS -- get_immediate_children
   //
@@ -99,9 +95,7 @@ virtual class uvm_visitor_adapter#(type STRUCTURE=uvm_component,VISITOR=uvm_visi
   pure virtual function void accept(STRUCTURE s, VISITOR v,uvm_structure_proxy#(STRUCTURE) p, bit invoke_begin_end=1);
 
   // @uvm-ieee 1800.2-2017 auto F.5.3.2.1
-  function new (string name = "");
-    super.new(name);
-  endfunction 
+  function new (string name = ""); endfunction 
 endclass
 
 //------------------------------------------------------------------------------
@@ -118,25 +112,9 @@ class uvm_top_down_visitor_adapter#(type STRUCTURE=uvm_component,VISITOR=uvm_vis
   uvm_visitor_adapter#(STRUCTURE,VISITOR);
 
   // @uvm-ieee 1800.2-2017 auto F.5.4.2
-  function new (string name = "");
-    super.new(name);
-  endfunction         
+  function new (string name = ""); endfunction         
 
   virtual function void accept(STRUCTURE s, VISITOR v,uvm_structure_proxy#(STRUCTURE) p, bit invoke_begin_end=1);
-    STRUCTURE c[$];
-
-    if(invoke_begin_end)
-      v.begin_v();
-
-    v.visit(s);
-    p.get_immediate_children(s, c);
-
-    foreach(c[idx])
-      accept(c[idx],v,p,0);
-
-    if(invoke_begin_end)
-      v.end_v();
-
   endfunction
 endclass
 
@@ -154,25 +132,9 @@ class uvm_bottom_up_visitor_adapter#(type STRUCTURE=uvm_component,VISITOR=uvm_vi
   uvm_visitor_adapter#(STRUCTURE,VISITOR);
 
   // @uvm-ieee 1800.2-2017 auto F.5.5.2
-  function new (string name = "");
-    super.new(name);
-  endfunction         
+  function new (string name = ""); endfunction         
 
   virtual function void accept(STRUCTURE s, VISITOR v,uvm_structure_proxy#(STRUCTURE) p, bit invoke_begin_end=1);
-    STRUCTURE c[$];
-
-    if(invoke_begin_end)
-      v.begin_v();
-
-    p.get_immediate_children(s, c);
-    foreach(c[idx])
-      accept(c[idx],v,p,0);
-
-    v.visit(s);
-
-    if(invoke_begin_end)
-      v.end_v();
-
   endfunction
 endclass
 
@@ -189,31 +151,9 @@ class uvm_by_level_visitor_adapter#(type STRUCTURE=uvm_component,VISITOR=uvm_vis
   uvm_visitor_adapter#(STRUCTURE,VISITOR);
 
   // @uvm-ieee 1800.2-2017 auto F.5.6.2
-  function new (string name = "");
-    super.new(name);
-  endfunction         
+  function new (string name = ""); endfunction         
 
   virtual function void accept(STRUCTURE s, VISITOR v,uvm_structure_proxy#(STRUCTURE) p, bit invoke_begin_end=1);
-    STRUCTURE c[$];
-    c.push_back(s);
-
-    if(invoke_begin_end)
-      v.begin_v();
-
-    while(c.size() > 0) begin
-      STRUCTURE q[$];
-      foreach(c[idx]) begin
-        STRUCTURE t[$]; 
-
-        v.visit(c[idx]);
-        p.get_immediate_children(c[idx], t);
-        q = {q,t};
-      end 
-      c=q;
-    end 
-
-    if(invoke_begin_end)
-      v.end_v();
   endfunction
 endclass
 
@@ -226,14 +166,10 @@ endclass
 
 // @uvm-ieee 1800.2-2017 auto F.5.7.1
 class uvm_component_proxy extends uvm_structure_proxy#(uvm_component);
-  virtual function void get_immediate_children(STRUCTURE s, ref STRUCTURE children[$]);   
-    s.get_children(children);   
-  endfunction
+  virtual function void get_immediate_children(STRUCTURE s, ref STRUCTURE children[$]); endfunction
 
   // @uvm-ieee 1800.2-2017 auto F.5.7.2
-  function new (string name = "");
-    super.new(name);
-  endfunction 
+  function new (string name = ""); endfunction 
 endclass
 
 
@@ -263,22 +199,9 @@ class uvm_component_name_check_visitor extends uvm_visitor#(uvm_component);
   // This method should return a regex for what is being considered a valid/good component name.
   // The visitor will check all component names using this regex and report failing names
     
-  virtual function string get_name_constraint();
-    return "/^[][[:alnum:](){}_:-]([][[:alnum:](){} _:-]*[][[:alnum:](){}_:-])?$/";
-  endfunction
+  virtual function string get_name_constraint(); endfunction
 
-  virtual function void visit(NODE node);
-    // dont check the root component
-    if(_root != node) begin
-      if ( ! uvm_is_match( get_name_constraint(), node.get_name() ) ) begin
-        `uvm_warning("UVM/COMP/NAME",$sformatf("the name \"%s\" of the component \"%s\" violates the uvm component name constraints",node.get_name(),node.get_full_name()))
-      end
-    end
-  endfunction 
-
-  function new (string name = "");
-    super.new(name);
-  endfunction 
+  virtual function void visit(NODE node); endfunction function new (string name = ""); endfunction 
 
   virtual function void begin_v(); 
     uvm_coreservice_t cs = uvm_coreservice_t::get();
