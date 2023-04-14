@@ -31,9 +31,9 @@
 //------------------------------------------------------------------------------
 
 // @uvm-ieee 1800.2-2017 auto 15.5.1
-class uvm_sequencer1 #(type REQ=uvm_sequence_item, RSP=int);
+class uvm_sequencer1;
    typedef int A;
-  uvm_seq_item_pull_imp1 #(REQ, A) seq_item_export;
+  uvm_seq_item_pull_imp1 #(int, A) seq_item_export;
 endclass
 
 class uvm_sequencer #(type REQ=uvm_sequence_item, RSP=int)
