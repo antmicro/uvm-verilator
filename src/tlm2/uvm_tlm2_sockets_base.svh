@@ -73,8 +73,8 @@ virtual
 class uvm_tlm_b_initiator_socket_base #(type T=uvm_tlm_generic_payload)
   extends uvm_port_base;
 
-  `UVM_PORT_COMMON(`UVM_TLM_B_MASK, "uvm_tlm_b_initiator_socket")
-  `UVM_TLM_B_TRANSPORT_IMP(this.m_if, T, t, delay)
+
+
 
 endclass
 
