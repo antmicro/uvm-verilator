@@ -90,3 +90,7 @@ class uvm_seq_item_pull_imp #(type REQ=int, type RSP=REQ)
   `UVM_SEQ_ITEM_PULL_IMP(m_imp, REQ, RSP, t, t)
 
 endclass
+
+class uvm_seq_item_pull_imp1 #(type REQ=int, type RSP=REQ)
+   extends uvm_port_base;
+endclass
