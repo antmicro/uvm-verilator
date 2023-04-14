@@ -31,8 +31,17 @@
 //------------------------------------------------------------------------------
 
 // @uvm-ieee 1800.2-2017 auto 15.5.1
-class uvm_sequencer #(type REQ=uvm_sequence_item, RSP=REQ)
+class uvm_sequencer1 #(type REQ=uvm_sequence_item, RSP=int)
                                    extends uvm_sequencer_param_base;
+   typedef int A;
+  uvm_seq_item_pull_imp #(REQ, A) seq_item_export;
+endclass
+
+class uvm_sequencer #(type REQ=uvm_sequence_item, RSP=int)
+                                   extends uvm_sequencer_param_base;
+   typedef int A;
+  uvm_seq_item_pull_imp #(REQ, int) seq_item_export;
+
 
   typedef uvm_sequencer this_type;
 
@@ -40,7 +49,6 @@ class uvm_sequencer #(type REQ=uvm_sequence_item, RSP=REQ)
   bit get_next_item_called;
 
   `uvm_component_param_utils(this_type)
-
 
 
 
@@ -83,7 +91,6 @@ class uvm_sequencer #(type REQ=uvm_sequence_item, RSP=REQ)
   // sequencer interface.
   //
 
-  uvm_seq_item_pull_imp #(REQ, RSP, this_type) seq_item_export;
 
   // Task -- NODOCS -- get_next_item
   // Retrieves the next available item from a sequence.
