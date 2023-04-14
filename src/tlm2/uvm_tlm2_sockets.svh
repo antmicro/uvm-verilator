@@ -56,36 +56,11 @@
 //----------------------------------------------------------------------
 
 // @uvm-ieee 1800.2-2017 auto 12.3.5.2.1
-class uvm_tlm_b_initiator_socket #(type T=uvm_tlm_generic_payload)
+class uvm_tlm_b_initiator_socket
                            extends uvm_tlm_b_initiator_socket_base;
 
 
-  // @uvm-ieee 1800.2-2017 auto 12.3.5.2.3
-  function new(string name, uvm_component parent);
-    super.new(name, parent);
-  endfunction 
-   
-
-  // @uvm-ieee 1800.2-2017 auto 12.3.5.2.4
   function void connect(this_type provider);
-
-    uvm_tlm_b_passthrough_initiator_socket_base  initiator_pt_socket;
-    uvm_tlm_b_passthrough_target_socket_base  target_pt_socket;
-    uvm_tlm_b_target_socket_base  target_socket;
-
-    uvm_component c;
-
-    super.connect(provider);
-
-    if($cast(initiator_pt_socket, provider)  ||
-       $cast(target_pt_socket, provider)     ||
-       $cast(target_socket, provider))
-      return;
-
-
-    `uvm_error_context(get_type_name(),
-       "type mismatch in connect -- connection cannot be completed", c)
-
   endfunction
 
 endclass
