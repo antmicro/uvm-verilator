@@ -37,7 +37,7 @@
 //
 // ~SUCCESS~ shall be set to true if the resource was succesfully
 // read, false otherwise.
-`define uvm_resource_read1(SUCCESS, RSRC, TYPE, VAL, OBJ=null)   \
+`define uvm_resource_read1(VAL, OBJ=null)   \
 begin                                                           \
   uvm_resource __tmp_rsrc__;                             \
     VAL = __tmp_rsrc__.read(OBJ);                               \
@@ -100,6 +100,10 @@ end
 // ~SUCCESS~ shall be set to true if the resource was succesfully
 // read, false otherwise.
 //
+`define uvm_resource_enum_read1(VAL, OBJ=null) \
+begin                                                              \
+  `uvm_resource_read1(VAL, OBJ)                \
+end
 
 `define uvm_resource_enum_read(SUCCESS, RSRC, TYPE, VAL, OBJ=null) \
 begin                                                              \
