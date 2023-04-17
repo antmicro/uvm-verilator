@@ -67,14 +67,16 @@ endclass
 // IS-A forward port; has no backward path except via the payload
 // contents
 //----------------------------------------------------------------------
-`ifndef UVM_ENABLE_DEPRECATED_API
-virtual
-`endif
+virtual class uvm_port_base1 #(type IF=uvm_void) extends IF;
+   typedef uvm_port_base this_type;
+endclass
+class uvm_tlm_b_initiator_socket_base1 #(type T=uvm_tlm_generic_payload)
+  extends uvm_port_base1;
+
+endclass
+
 class uvm_tlm_b_initiator_socket_base #(type T=uvm_tlm_generic_payload)
   extends uvm_port_base;
-
-
-
 
 endclass
 

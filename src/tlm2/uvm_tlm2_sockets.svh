@@ -57,7 +57,7 @@
 
 // @uvm-ieee 1800.2-2017 auto 12.3.5.2.1
 class uvm_tlm_b_initiator_socket
-                           extends uvm_tlm_b_initiator_socket_base;
+                           extends uvm_tlm_b_initiator_socket_base1;
 
 
   function void connect(this_type provider);
