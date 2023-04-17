@@ -37,14 +37,16 @@
 //
 // ~SUCCESS~ shall be set to true if the resource was succesfully
 // read, false otherwise.
+`define uvm_resource_read1(SUCCESS, RSRC, TYPE, VAL, OBJ=null)   \
+begin                                                           \
+  uvm_resource __tmp_rsrc__;                             \
+    VAL = __tmp_rsrc__.read(OBJ);                               \
+end                                                             
 
 `define uvm_resource_read(SUCCESS, RSRC, TYPE, VAL, OBJ=null)   \
 begin                                                           \
   uvm_resource __tmp_rsrc__;                             \
-  SUCCESS = $cast(__tmp_rsrc__, RSRC);                          \
-  if (SUCCESS) begin                                            \
     VAL = __tmp_rsrc__.read(OBJ);                               \
-  end                                                           \
 end                                                             
 
 // uvm_resource_builtin_int_read
