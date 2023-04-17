@@ -1327,6 +1327,10 @@ class uvm_resource #(type T=int) extends uvm_resource_base;
 
 
   // @uvm-ieee 1800.2-2017 auto C.2.5.4.1
+  function T read1(uvm_object accessor = null);
+    return val;
+  endfunction
+
   function T read(uvm_object accessor = null);
     record_read_access(accessor);
     return val;

@@ -63,7 +63,7 @@ virtual class uvm_agent extends uvm_component;
 
   function void build_phase(uvm_phase phase);
      uvm_resource __tmp_rsrc__;
-     is_active = __tmp_rsrc__.read(this);
+     is_active = __tmp_rsrc__.read1(this);
   endfunction
 
   // Function -- NODOCS -- get_is_active
