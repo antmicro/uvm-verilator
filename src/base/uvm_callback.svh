@@ -95,7 +95,7 @@ class uvm_callbacks_base extends uvm_object;
   /*protected*/ static bit m_tracing = 1;
   static this_type m_b_inst;
 
-  static uvm_pool#(uvm_object,uvm_queue#(uvm_callback)) m_pool;
+  static uvm_object m_pool;
 
   static function this_type m_initialize();
     if(m_b_inst == null) begin

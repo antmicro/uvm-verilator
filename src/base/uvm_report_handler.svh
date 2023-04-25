@@ -106,16 +106,6 @@ class uvm_report_handler extends uvm_object;
   //
   // |uvm_test_top                uvm_report_handler  -     @555                    
   // |  max_verbosity_level       uvm_verbosity       32    UVM_FULL                
-  // |  id_verbosities            uvm_pool            3     -                       
-  // |    [ID1]                   uvm_verbosity       32    UVM_LOW                 
-  // |  severity_id_verbosities   array               4     -                       
-  // |    [UVM_INFO:ID4]          int                 32    501                     
-  // |  id_actions                uvm_pool            2     -                       
-  // |    [ACT_ID]                uvm_action          32    DISPLAY LOG COUNT       
-  // |  severity_actions          array               4     -                       
-  // |    [UVM_INFO]              uvm_action          32    DISPLAY                 
-  // |    [UVM_WARNING]           uvm_action          32    DISPLAY RM_RECORD COUNT 
-  // |    [UVM_ERROR]             uvm_action          32    DISPLAY COUNT           
   // |    [UVM_FATAL]             uvm_action          32    DISPLAY EXIT            
   // |  default_file_handle       int                 32    'h1                     
 
