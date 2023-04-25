@@ -23,12 +23,6 @@
 //------------------------------------------------------------------------------
 
 // Title -- NODOCS -- Pool Classes
-// This section defines the <uvm_pool #(KEY, T)> class and derivative.
-
-//------------------------------------------------------------------------------
-//
-// CLASS -- NODOCS -- uvm_pool #(KEY,T)
-//
 //------------------------------------------------------------------------------
 // Implements a class-based dynamic associative array. Allows sparse arrays to
 // be allocated on demand, and passed and stored by reference.
@@ -237,14 +231,8 @@ endclass
 
 //------------------------------------------------------------------------------
 //
-// CLASS -- NODOCS -- uvm_object_string_pool #(T)
+
 //
-//------------------------------------------------------------------------------
-// This provides a specialization of the generic <uvm_pool #(KEY,T)> class for
-// an associative array of <uvm_object>-based objects indexed by string. 
-// Specializations of this class include the ~uvm_event_pool~ (a
-// uvm_object_string_pool storing ~uvm_event#(uvm_object)~) and
-// ~uvm_barrier_pool~ (a uvm_obejct_string_pool storing <uvm_barrier>).
 //------------------------------------------------------------------------------
 
 class uvm_object_string_pool #(type T=uvm_object) extends uvm_pool #(string,T);
