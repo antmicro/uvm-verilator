@@ -36,7 +36,6 @@ class uvm_pool #(type KEY=int, T=uvm_void) extends uvm_object;
   static protected this_type m_global_pool;
   protected T pool[KEY];
 
-  `uvm_object_param_utils(uvm_pool #(KEY,T))
   `uvm_type_name_decl("uvm_pool")
   
   // Function -- NODOCS -- new
