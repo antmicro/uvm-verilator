@@ -296,9 +296,8 @@ class uvm_object_string_pool #(type T=uvm_object) extends uvm_pool #(string,T);
   // and returned.
 
   virtual function T get (string key);
-    if (!pool.exists(key))
-      pool[key] = new (key);
-    return pool[key];
+     T t;
+     return t;
   endfunction
   
 
@@ -307,25 +306,12 @@ class uvm_object_string_pool #(type T=uvm_object) extends uvm_pool #(string,T);
   // Removes the item with the given string ~key~ from the pool.
 
   virtual function void delete (string key);
-    if (!exists(key)) begin
-      uvm_report_warning("POOLDEL",
-        $sformatf("delete: key '%s' doesn't exist", key));
-      return;
-    end
-    pool.delete(key);
   endfunction
 
 
   // Function- do_print
 
   virtual function void do_print (uvm_printer printer);
-    string key;
-    printer.print_array_header("pool",pool.num(),"aa_object_string");
-    if (pool.first(key))
-      do
-        printer.print_object({"[",key,"]"}, pool[key],"[");
-      while (pool.next(key));
-    printer.print_array_footer();
   endfunction
 
 endclass
@@ -334,5 +320,5 @@ endclass
 typedef class uvm_barrier;
 typedef class uvm_event;
 
-typedef uvm_object_string_pool #(uvm_barrier) uvm_barrier_pool /* @uvm-ieee 1800.2-2017 auto 10.4.2.1*/   ;
-typedef uvm_object_string_pool #(uvm_event#(uvm_object)) uvm_event_pool /* @uvm-ieee 1800.2-2017 auto 10.4.1.1*/   ;
+typedef uvm_object uvm_barrier_pool /* @uvm-ieee 1800.2-2017 auto 10.4.2.1*/   ;
+typedef uvm_object uvm_event_pool /* @uvm-ieee 1800.2-2017 auto 10.4.1.1*/   ;

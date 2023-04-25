@@ -2441,7 +2441,7 @@ function void uvm_component::accept_tr (uvm_transaction tr,
   
   tr.accept_tr(accept_time);
   do_accept_tr(tr);
-  e = event_pool.get("accept_tr");
+
   if(e!=null) 
     e.trigger();
 endfunction
@@ -2631,7 +2631,7 @@ function int uvm_component::m_begin_tr (uvm_transaction tr,
       
    end
    
-   e = event_pool.get("begin_tr");
+
    if (e!=null) 
      e.trigger(tr);
    
@@ -2678,7 +2678,7 @@ function void uvm_component::end_tr (uvm_transaction tr,
       
    end
 
-   e = event_pool.get("end_tr");
+
    if(e!=null) 
      e.trigger();
 

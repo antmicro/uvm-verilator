@@ -703,7 +703,7 @@ function void uvm_transaction::accept_tr (time accept_time = 0);
     this.accept_time = $realtime;
 
   do_accept_tr();
-  e = events.get("accept");
+
 
   if(e!=null) 
     e.trigger();
@@ -779,7 +779,7 @@ function int uvm_transaction::m_begin_tr (time begin_time=0,
    
    begin
       uvm_event#(uvm_object) begin_event ;
-      begin_event = events.get("begin");
+
       begin_event.trigger();
    end
 
@@ -810,7 +810,7 @@ function void uvm_transaction::end_tr (time end_time=0, bit free_handle=1);
 
    begin
       uvm_event#(uvm_object) end_event ;
-      end_event = events.get("end") ;
+
       end_event.trigger();
    end
 endfunction
