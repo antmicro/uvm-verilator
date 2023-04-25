@@ -172,24 +172,7 @@ endfunction
 // clear_hdl_path
 
 function void uvm_reg_file::clear_hdl_path(string kind = "RTL");
-  if (kind == "ALL") begin
-    hdl_paths_pool = new("hdl_paths");
-    return;
-  end
 
-  if (kind == "") begin
-     if (m_rf != null)
-        kind = m_rf.get_default_hdl_path();
-     else
-        kind = parent.get_default_hdl_path();
-  end
-
-  if (!hdl_paths_pool.exists(kind)) begin
-    `uvm_warning("RegModel",{"Unknown HDL Abstraction '",kind,"'"})
-    return;
-  end
-
-  hdl_paths_pool.delete(kind);
 endfunction
 
 
@@ -199,24 +182,13 @@ function void uvm_reg_file::add_hdl_path(string path, string kind = "RTL");
 
   uvm_queue #(string) paths;
 
-  paths = hdl_paths_pool.get(kind);
-
-  paths.push_back(path);
-
 endfunction
 
 
 // has_hdl_path
 
 function bit  uvm_reg_file::has_hdl_path(string kind = "");
-  if (kind == "") begin
-     if (m_rf != null)
-        kind = m_rf.get_default_hdl_path();
-     else
-        kind = parent.get_default_hdl_path();
-  end
-  
-  return hdl_paths_pool.exists(kind);
+   return 1;
 endfunction
 
 
@@ -238,11 +210,6 @@ function void uvm_reg_file::get_hdl_path(ref string paths[$], input string kind 
     return;
   end
 
-  hdl_paths = hdl_paths_pool.get(kind);
-
-  for (int i=0; i<hdl_paths.size();i++)
-    paths.push_back(hdl_paths.get(i));
-
 endfunction
 
 
@@ -262,7 +229,7 @@ function void uvm_reg_file::get_full_hdl_path(ref string paths[$],
    paths.delete();
 
    begin
-      uvm_queue #(string) hdl_paths = hdl_paths_pool.get(kind);
+      uvm_queue #(string) hdl_paths;
       string parent_paths[$];
 
       if (m_rf != null)
