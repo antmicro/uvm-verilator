@@ -61,7 +61,7 @@ class uvm_config_db#(type T=int) extends uvm_resource_db#(T);
 
   // Internal lookup of config settings so they can be reused
   // The context has a pool that is keyed by the inst/field name.
-  static uvm_pool#(string,uvm_resource#(T)) m_rsc[uvm_component];
+  
 
   // Internal waiter list for wait_modified
   static local uvm_queue#(m_uvm_waiter) m_waiters[string];
