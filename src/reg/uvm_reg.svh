@@ -789,12 +789,6 @@ function void uvm_reg::clear_hdl_path(string kind = "RTL");
         kind = m_parent.get_default_hdl_path();
   end
 
-  if (!m_hdl_paths_pool.exists(kind)) begin
-    `uvm_warning("RegModel",{"Unknown HDL Abstraction '",kind,"'"})
-    return;
-  end
-
-  m_hdl_paths_pool.delete(kind);
 endfunction
 
 
@@ -802,7 +796,7 @@ endfunction
 
 function void uvm_reg::add_hdl_path(uvm_hdl_path_slice slices[],
                                     string kind = "RTL");
-    uvm_queue #(uvm_hdl_path_concat) paths = m_hdl_paths_pool.get(kind);
+   uvm_queue #(uvm_hdl_path_concat) paths;
     uvm_hdl_path_concat concat = new();
 
     concat.set(slices);
@@ -817,7 +811,7 @@ function void uvm_reg::add_hdl_path_slice(string name,
                                           int size,
                                           bit first = 0,
                                           string kind = "RTL");
-    uvm_queue #(uvm_hdl_path_concat) paths = m_hdl_paths_pool.get(kind);
+   uvm_queue #(uvm_hdl_path_concat) paths;
     uvm_hdl_path_concat concat;
     
     if (first || paths.size() == 0) begin
@@ -834,27 +828,13 @@ endfunction
 // has_hdl_path
 
 function bit  uvm_reg::has_hdl_path(string kind = "");
-  if (kind == "") begin
-     if (m_regfile_parent != null)
-        kind = m_regfile_parent.get_default_hdl_path();
-     else
-        kind = m_parent.get_default_hdl_path();
-  end
-
-  return m_hdl_paths_pool.exists(kind);
+   return 1;
 endfunction
 
 
 // get_hdl_path_kinds
 
 function void uvm_reg::get_hdl_path_kinds (ref string kinds[$]);
-  string kind;
-  kinds.delete();
-  if (!m_hdl_paths_pool.first(kind))
-    return;
-  do
-    kinds.push_back(kind);
-  while (m_hdl_paths_pool.next(kind));
 endfunction
 
 
@@ -876,12 +856,6 @@ function void uvm_reg::get_hdl_path(ref uvm_hdl_path_concat paths[$],
     `uvm_error("RegModel",
        {"Register does not have hdl path defined for abstraction '",kind,"'"})
     return;
-  end
-
-  hdl_paths = m_hdl_paths_pool.get(kind);
-
-  for (int i=0; i<hdl_paths.size();i++) begin
-     paths.push_back(hdl_paths.get(i));
   end
 
 endfunction
@@ -907,7 +881,7 @@ function void uvm_reg::get_full_hdl_path(ref uvm_hdl_path_concat paths[$],
    end
 
    begin
-      uvm_queue #(uvm_hdl_path_concat) hdl_paths = m_hdl_paths_pool.get(kind);
+      uvm_queue #(uvm_hdl_path_concat) hdl_paths;
       string parent_paths[$];
 
       if (m_regfile_parent != null)
