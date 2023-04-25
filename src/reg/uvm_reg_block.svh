@@ -55,7 +55,7 @@ class uvm_reg_block extends uvm_object;
 
    local string         default_hdl_path = "RTL";
    local uvm_reg_backdoor backdoor;
-   local uvm_object_string_pool #(uvm_queue #(string)) hdl_paths_pool;
+   local uvm_object hdl_paths_pool;
    local string         root_hdl_paths[string];
 
    local bit            locked;
@@ -2036,12 +2036,6 @@ function void uvm_reg_block::clear_hdl_path(string kind = "RTL");
   if (kind == "")
     kind = get_default_hdl_path();
 
-  if (!hdl_paths_pool.exists(kind)) begin
-    `uvm_warning("RegModel",{"Unknown HDL Abstraction '",kind,"'"})
-    return;
-  end
-
-  hdl_paths_pool.delete(kind);
 endfunction
 
 
@@ -2051,20 +2045,13 @@ function void uvm_reg_block::add_hdl_path(string path, string kind = "RTL");
 
   uvm_queue #(string) paths;
 
-  paths = hdl_paths_pool.get(kind);
-
-  paths.push_back(path);
-
 endfunction
 
 
 // has_hdl_path
 
 function bit  uvm_reg_block::has_hdl_path(string kind = "");
-  if (kind == "") begin
-    kind = get_default_hdl_path();
-  end
-  return hdl_paths_pool.exists(kind);
+   return 1;
 endfunction
 
 
@@ -2082,7 +2069,7 @@ function void uvm_reg_block::get_hdl_path(ref string paths[$], input string kind
     return;
   end
 
-  hdl_paths = hdl_paths_pool.get(kind);
+
 
   for (int i=0; i<hdl_paths.size();i++)
     paths.push_back(hdl_paths.get(i));
@@ -2112,7 +2099,7 @@ function void uvm_reg_block::get_full_hdl_path(ref string paths[$],
    end
    
    begin
-      uvm_queue #(string) hdl_paths = hdl_paths_pool.get(kind);
+      uvm_queue #(string) hdl_paths;
       string parent_paths[$];
 
       if (parent != null)
