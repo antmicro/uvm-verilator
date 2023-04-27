@@ -65,7 +65,7 @@ class uvm_mem extends uvm_object;
    local string            m_fname;
    local int               m_lineno;
    local bit               m_vregs[uvm_vreg];
-   local uvm_object_string_pool
+   local uvm_pool
                #(uvm_queue #(uvm_hdl_path_concat)) m_hdl_paths_pool;
 
    local static int unsigned  m_max_size;

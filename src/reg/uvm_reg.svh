@@ -55,7 +55,7 @@ class uvm_reg extends uvm_object;
 
    local static int unsigned m_max_size;
 
-   local uvm_object_string_pool
+   local uvm_pool
        #(uvm_queue #(uvm_hdl_path_concat)) m_hdl_paths_pool;
 
    //----------------------

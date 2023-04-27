@@ -24,7 +24,6 @@
 //-----------------------------------------------------------------------------
 
 typedef class uvm_event;
-typedef class uvm_event_pool;
 typedef class uvm_component;
 typedef class uvm_parent_child_link;
     
@@ -352,7 +351,7 @@ virtual class uvm_transaction extends uvm_object;
   // specialization of <uvm_pool#(KEY,T)>, e.g. a ~uvm_pool#(uvm_event)~.
 
   // @uvm-ieee 1800.2-2017 auto 5.4.2.14
-  extern function uvm_event_pool get_event_pool ();
+  extern function uvm_pool#() get_event_pool ();
 
 
   // Function -- NODOCS -- set_initiator
@@ -428,9 +427,8 @@ virtual class uvm_transaction extends uvm_object;
   // various milestones: by default, begin, accept, and end
 
 `ifdef UVM_ENABLE_DEPRECATED_API
-  const uvm_event_pool events = new("events");
 `else
-  const local uvm_event_pool events = new("events");
+  const local uvm_pool#() events = new("events");
 `endif 
 
 
@@ -539,7 +537,7 @@ function uvm_component uvm_transaction::get_initiator(); endfunction
 // get_event_pool
 // --------------
 
-function uvm_event_pool uvm_transaction::get_event_pool(); endfunction
+function uvm_pool#() uvm_transaction::get_event_pool(); endfunction
 
 
 // is_active

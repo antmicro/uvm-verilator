@@ -189,62 +189,11 @@ endclass
 //------------------------------------------------------------------------------
 
 class uvm_object_string_pool #(type T=uvm_object) extends uvm_pool #(string,T);
-
-  typedef uvm_object_string_pool this_type;
-  static protected this_type m_global_pool;
-
-  `uvm_object_param_utils(uvm_object_string_pool)
-  `uvm_type_name_decl("uvm_obj_str_pool")
-
-  // Function -- NODOCS -- new
-  //
-  // Creates a new pool with the given ~name~.
-
-  function new (string name=""); endfunction
-
-  // Function -- NODOCS -- get_global_pool
-  //
-  // Returns the singleton global pool for the item type, T. 
-  //
-  // This allows items to be shared amongst components throughout the
-  // verification environment.
-
-  static function this_type get_global_pool (); endfunction
-
-
-  // Function -- NODOCS -- get_global
-  //
-  // Returns the specified item instance from the global item pool. 
-
-  static function T get_global (string key); endfunction
-
-
-  // Function -- NODOCS -- get
-  //
-  // Returns the object item at the given string ~key~.
-  //
-  // If no item exists by the given ~key~, a new item is created for that key
-  // and returned.
-
-  virtual function T get (string key); endfunction
-  
-
-  // Function -- NODOCS -- delete
-  //
-  // Removes the item with the given string ~key~ from the pool.
-
-  virtual function void delete (string key); endfunction
-
-
-  // Function- do_print
-
-  virtual function void do_print (uvm_printer printer); endfunction
-
 endclass
+typedef uvm_object_string_pool #() uvm_event_pool /* @uvm-ieee 1800.2-2017 auto 10.4.1.1*/   ;
 
 
 typedef class uvm_barrier;
 typedef class uvm_event;
 
-typedef uvm_object_string_pool #(uvm_barrier) uvm_barrier_pool /* @uvm-ieee 1800.2-2017 auto 10.4.2.1*/   ;
-typedef uvm_object_string_pool #(uvm_event#(uvm_object)) uvm_event_pool /* @uvm-ieee 1800.2-2017 auto 10.4.1.1*/   ;
+typedef uvm_pool #(uvm_barrier) uvm_barrier_pool /* @uvm-ieee 1800.2-2017 auto 10.4.2.1*/   ;
