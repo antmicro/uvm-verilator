@@ -54,11 +54,6 @@ class uvm_reg_indirect_data extends uvm_reg;
    endfunction: build
 
 
-   // @uvm-ieee 1800.2-2017 auto 18.7.2.2
-   function void configure (uvm_reg idx,
-                            uvm_reg reg_a[],
-                            uvm_reg_block blk_parent,
-                            uvm_reg_file regfile_parent = null); endfunction
    
    /*local*/ virtual function void add_map(uvm_reg_map map); endfunction
    

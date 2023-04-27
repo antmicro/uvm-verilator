@@ -29,7 +29,7 @@
 // @uvm-ieee 1800.2-2017 auto 18.3.1
 class uvm_reg_file extends uvm_object;
 
-   local uvm_reg_block     parent;
+
    local uvm_reg_file   m_rf;
    local string            default_hdl_path = "RTL";
    local uvm_pool #(uvm_queue #(string)) hdl_paths_pool;
@@ -48,11 +48,6 @@ class uvm_reg_file extends uvm_object;
 
 
    // @uvm-ieee 1800.2-2017 auto 18.3.2.2
-   extern function void     configure  (uvm_reg_block blk_parent,
-                                        uvm_reg_file regfile_parent,
-                                        string hdl_path = "");
- 
-   //---------------------
    // Group -- NODOCS -- Introspection
    //---------------------
 
@@ -74,9 +69,6 @@ class uvm_reg_file extends uvm_object;
 
 
    // @uvm-ieee 1800.2-2017 auto 18.3.3.1
-   extern virtual function uvm_reg_block get_parent ();
-   extern virtual function uvm_reg_block get_block  ();
-
 
    // @uvm-ieee 1800.2-2017 auto 18.3.3.2
    extern virtual function uvm_reg_file  get_regfile     ();
@@ -140,13 +132,6 @@ function uvm_reg_file::new(string name=""); endfunction: new
 
 // configure
 
-function void uvm_reg_file::configure(uvm_reg_block blk_parent, uvm_reg_file regfile_parent, string hdl_path = ""); endfunction: configure
-
-
-// get_block
-
-function uvm_reg_block uvm_reg_file::get_block(); endfunction: get_block
-
 
 // get_regfile
 
@@ -192,7 +177,6 @@ function void uvm_reg_file::set_default_hdl_path(string kind); endfunction
 
 // get_parent
 
-function uvm_reg_block uvm_reg_file::get_parent(); endfunction
 
 
 // get_full_name

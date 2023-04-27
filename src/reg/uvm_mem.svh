@@ -55,7 +55,6 @@ class uvm_mem extends uvm_object;
    local bit               m_write_in_progress;
    local string            m_access;
    local longint unsigned  m_size;
-   local uvm_reg_block     m_parent;
    local bit               m_maps[uvm_reg_map];
    local int unsigned      m_n_bits;
    local uvm_reg_backdoor  m_backdoor;
@@ -85,9 +84,6 @@ class uvm_mem extends uvm_object;
    
 
    // @uvm-ieee 1800.2-2017 auto 18.6.3.2
-   extern function void configure (uvm_reg_block parent,
-                                   string        hdl_path = "");
-
    
 
    // @uvm-ieee 1800.2-2017 auto 18.6.3.3
@@ -96,7 +92,6 @@ class uvm_mem extends uvm_object;
                                             bit            unmapped = 0);
 
 
-   /*local*/ extern virtual function void set_parent(uvm_reg_block parent);
    /*local*/ extern function void add_map(uvm_reg_map map);
    /*local*/ extern function void Xlock_modelX();
    /*local*/ extern function void Xadd_vregX(uvm_vreg vreg);
@@ -139,8 +134,6 @@ class uvm_mem extends uvm_object;
 
 
    // @uvm-ieee 1800.2-2017 auto 18.6.4.1
-   extern virtual function uvm_reg_block get_parent ();
-   extern virtual function uvm_reg_block get_block  ();
 
 
 
@@ -532,9 +525,6 @@ function uvm_mem::new (string           name,
 
 // configure
 
-function void uvm_mem::configure(uvm_reg_block  parent,
-                                 string         hdl_path="");
-endfunction: configure
 
 
 // set_offset
@@ -561,7 +551,6 @@ function string uvm_mem::get_full_name(); endfunction: get_full_name
 
 // get_block
 
-function uvm_reg_block uvm_mem::get_block(); endfunction: get_block
 
 
 // get_n_maps
@@ -895,13 +884,6 @@ function void uvm_mem::get_full_hdl_path(ref uvm_hdl_path_concat paths[$],
 
 
 // set_parent
-
-function void uvm_mem::set_parent(uvm_reg_block parent); endfunction
-
-
-// get_parent
-
-function uvm_reg_block uvm_mem::get_parent(); endfunction
 
 
 // convert2string
