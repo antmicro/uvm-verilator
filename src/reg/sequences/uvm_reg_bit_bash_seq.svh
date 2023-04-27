@@ -104,7 +104,7 @@ class uvm_reg_bit_bash_seq extends uvm_reg_sequence;
    //
    // The block to be tested. Declared in the base class.
    //
-   //| uvm_reg_block model; 
+
 
 
    // Variable -- NODOCS -- reg_seq
@@ -128,7 +128,7 @@ class uvm_reg_bit_bash_seq extends uvm_reg_sequence;
    //
    // Test all of the registers in a given ~block~
    //
-   protected virtual task do_block(uvm_reg_block blk); endtask: do_block
+
 
 
    // Task -- NODOCS -- reset_blk
@@ -143,7 +143,5 @@ class uvm_reg_bit_bash_seq extends uvm_reg_sequence;
    // test sequence or this method should be implemented
    // in an extension to reset the DUT.
    //
-   virtual task reset_blk(uvm_reg_block blk);
-   endtask
 
 endclass: uvm_reg_bit_bash_seq

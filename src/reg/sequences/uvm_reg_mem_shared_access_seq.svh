@@ -144,7 +144,7 @@ class uvm_reg_mem_shared_access_seq extends uvm_reg_sequence;
    //
    // The block to be tested
    //
-   //| uvm_reg_block model; 
+
 
 
    // Variable -- NODOCS -- reg_seq
@@ -175,7 +175,7 @@ class uvm_reg_mem_shared_access_seq extends uvm_reg_sequence;
    //
    // Test all of the registers and memories in a block
    //
-   protected virtual task do_block(uvm_reg_block blk); endtask: do_block
+
 
 
    //
@@ -190,8 +190,6 @@ class uvm_reg_mem_shared_access_seq extends uvm_reg_sequence;
    // test sequence or this method should be implemented
    // in an extension to reset the DUT.
    //
-   virtual task reset_blk(uvm_reg_block blk);
-   endtask
 
 
 endclass: uvm_reg_mem_shared_access_seq

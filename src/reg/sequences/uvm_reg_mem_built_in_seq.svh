@@ -43,7 +43,7 @@ class uvm_reg_mem_built_in_seq extends uvm_reg_sequence;
    //
    // The block to be tested. Declared in the base class.
    //
-   //| uvm_reg_block model; 
+
 
 
    // Variable -- NODOCS -- tests

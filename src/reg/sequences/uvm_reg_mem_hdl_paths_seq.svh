@@ -52,7 +52,7 @@ class uvm_reg_mem_hdl_paths_seq extends uvm_reg_sequence;
     // Variable -- NODOCS -- abstractions
     // If set, check the HDL paths for the specified design abstractions.
     // If empty, check the HDL path for the default design abstraction,
-    // as specified with <uvm_reg_block::set_default_hdl_path()>
+
     string abstractions[$];
     
     `uvm_object_utils_begin(uvm_reg_mem_hdl_paths_seq)
@@ -64,16 +64,6 @@ class uvm_reg_mem_hdl_paths_seq extends uvm_reg_sequence;
 
     virtual task body(); endtask: body
 
-
-    // Any additional steps required to reset the block
-    // and make it accessible
-    virtual task reset_blk(uvm_reg_block blk);
-    endtask
-
-
-    protected virtual function void do_block(uvm_reg_block blk,
-                                             string        kind); endfunction: do_block
-    
 
     protected virtual function void check_reg(uvm_reg r,
                                               string kind); endfunction

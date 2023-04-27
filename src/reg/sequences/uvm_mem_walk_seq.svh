@@ -117,15 +117,15 @@ class uvm_mem_walk_seq extends uvm_reg_sequence;
    // Variable -- NODOCS -- model
    //
    // The block to be tested. Declared in the base class.
-   //
-   //| uvm_reg_block model; 
+   //class uvm_object_string_pool #(type T=uvm_object) extends uvm_pool #(string,T);
+
 
 
    // Variable -- NODOCS -- mem_seq
    //
    // The sequence used to test one memory
    //
-   protected uvm_mem_single_walk_seq mem_seq;
+
 
    `uvm_object_utils(uvm_mem_walk_seq)
 
@@ -142,7 +142,7 @@ class uvm_mem_walk_seq extends uvm_reg_sequence;
    //
    // Test all of the memories in a given ~block~
    //
-   protected virtual task do_block(uvm_reg_block blk); endtask: do_block
+
 
 
    // Task -- NODOCS -- reset_blk
@@ -157,7 +157,5 @@ class uvm_mem_walk_seq extends uvm_reg_sequence;
    // test sequence or this method should be implemented
    // in an extension to reset the DUT.
    //
-   virtual task reset_blk(uvm_reg_block blk);
-   endtask
 
 endclass: uvm_mem_walk_seq
