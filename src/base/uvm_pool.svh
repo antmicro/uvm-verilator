@@ -35,6 +35,24 @@
 //------------------------------------------------------------------------------
 
 // @uvm-ieee 1800.2-2017 auto 11.2.1
+class uvm_void1;
+endclass
+
+class uvm_object1;
+endclass
+
+class uvm_pool1 #(type T=uvm_void1) extends uvm_object1;
+endclass
+
+class uvm_object_string_pool1 #(type T=uvm_object1) extends uvm_pool1 #(T);
+endclass
+
+typedef uvm_object_string_pool1 #() uvm_event_pool1;
+
+class uvm_reg_block1;
+   uvm_object_string_pool1 #(string) hdl_paths_pool1;
+endclass
+
 class uvm_pool #(type KEY=int, T=uvm_void) extends uvm_object;
 
   typedef uvm_pool this_type;
@@ -188,9 +206,6 @@ endclass
 // ~uvm_barrier_pool~ (a uvm_obejct_string_pool storing <uvm_barrier>).
 //------------------------------------------------------------------------------
 
-class uvm_object_string_pool #(type T=uvm_object) extends uvm_pool #(string,T);
-endclass
-typedef uvm_object_string_pool #() uvm_event_pool /* @uvm-ieee 1800.2-2017 auto 10.4.1.1*/   ;
 
 
 typedef class uvm_barrier;
