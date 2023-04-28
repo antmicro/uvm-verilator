@@ -27,7 +27,7 @@
 
 package uvm_pkg;
 
-  `include "dpi/uvm_dpi.svh"
+
   `include "base/uvm_base.svh"
   `include "dap/uvm_dap.svh"
   `include "tlm1/uvm_tlm.svh"
