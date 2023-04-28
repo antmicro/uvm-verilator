@@ -484,15 +484,15 @@ virtual class uvm_transaction extends uvm_object;
   extern protected function int m_begin_tr (time    begin_time=0, 
                                                 int parent_handle=0);
 
-  local int m_transaction_id = -1;
 
-  local time    begin_time=-1;
-  local time    end_time=-1;
-  local time    accept_time=-1;
 
-  local uvm_component initiator;
-  local uvm_tr_stream stream_handle;
-  local uvm_recorder      tr_recorder;
+
+
+
+
+
+
+
 
 endclass
 
@@ -508,13 +508,6 @@ endclass
 function uvm_transaction::new (string name="", 
                                uvm_component initiator = null);
 
-  super.new(name);
-  this.initiator = initiator;
-  m_transaction_id = -1;
-`ifdef UVM_ENABLE_DEPRECATED_API
-  begin_event = events.get("begin");
-  end_event = events.get("end");
-`endif
 endfunction // uvm_transaction
 
 
@@ -585,34 +578,9 @@ function void uvm_transaction::do_end_tr(); endfunction
 // --------
 
 function void uvm_transaction::do_print (uvm_printer printer);
-  string str;
-  uvm_component tmp_initiator; //work around $swrite bug
-  super.do_print(printer);
-  if(accept_time != -1)
-    printer.print_time("accept_time", accept_time);
-  if(begin_time != -1)
-    printer.print_time("begin_time", begin_time);
-  if(end_time != -1)
-    printer.print_time("end_time", end_time);
-  if(initiator != null) begin
-    tmp_initiator = initiator;
-    $swrite(str,"@%0d", tmp_initiator.get_inst_id());
-    printer.print_generic("initiator", initiator.get_type_name(), -1, str);
-  end
 endfunction
 
 function void uvm_transaction::do_copy (uvm_object rhs);
-  uvm_transaction txn;
-  super.do_copy(rhs);
-  if(rhs == null) return;
-  if(!$cast(txn, rhs) ) return;
-
-  accept_time = txn.accept_time;
-  begin_time = txn.begin_time;
-  end_time = txn.end_time;
-  initiator = txn.initiator;
-  stream_handle = txn.stream_handle;
-  tr_recorder = txn.tr_recorder;
 endfunction  
 
 // do_record

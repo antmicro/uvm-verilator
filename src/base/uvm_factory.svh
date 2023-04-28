@@ -604,8 +604,8 @@ class uvm_default_factory extends uvm_factory;
   protected uvm_factory_override m_inst_overrides[$];
 
 
-  local uvm_factory_override     m_override_info[$];
-  local static bit m_debug_pass;
+
+
 
 
   extern function bit check_inst_override_exists

@@ -88,34 +88,34 @@ class uvm_reg_map extends uvm_object;
    `uvm_object_utils(uvm_reg_map)
    
    // info that is valid only if top-level map
-   local uvm_reg_addr_t     m_base_addr;
-   local int unsigned       m_n_bytes;
-   local uvm_endianness_e   m_endian;
-   local bit                m_byte_addressing;
-   local uvm_object_wrapper m_sequence_wrapper;
-   local uvm_reg_adapter    m_adapter;
-   local uvm_sequencer_base m_sequencer;
-   local bit                m_auto_predict;
-   local bit                m_check_on_read;
 
-   local uvm_reg_block      m_parent;
 
-   local int unsigned       m_system_n_bytes;
 
-   local uvm_reg_map        m_parent_map;
-   local uvm_reg_addr_t     m_submaps[uvm_reg_map];       // value=offset of submap at this level
-   local string             m_submap_rights[uvm_reg_map]; // value=rights of submap at this level
 
-   local uvm_reg_map_info   m_regs_info[uvm_reg];
-   local uvm_reg_map_info   m_mems_info[uvm_mem];
 
-   local uvm_reg            m_regs_by_offset[uvm_reg_addr_t];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                             // Use only in addition to above if a RO and a WO
                             // register share the same address.
-   local uvm_reg            m_regs_by_offset_wo[uvm_reg_addr_t]; 
-   local uvm_mem            m_mems_by_offset[uvm_reg_map_addr_range];
 
-   local uvm_reg_transaction_order_policy policy;
+
+
+
 
    extern /*local*/ function void Xinit_address_mapX();
 
@@ -444,7 +444,7 @@ class uvm_reg_map extends uvm_object;
     function uvm_reg_transaction_order_policy get_transaction_order_policy(); endfunction    
    
 // ceil() function
-local function automatic int unsigned ceil(int unsigned a, int unsigned b); endfunction
+function automatic int unsigned ceil(int unsigned a, int unsigned b); endfunction
   
  /*
   * translates an access from the current map ~this~ to an address ~base_addr~ (within the current map) with a 

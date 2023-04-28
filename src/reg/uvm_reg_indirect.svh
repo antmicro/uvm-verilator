@@ -58,7 +58,7 @@ class uvm_reg_indirect_data extends uvm_reg;
    /*local*/ virtual function void add_map(uvm_reg_map map); endfunction
    
    
-   local function void add_frontdoors(uvm_reg_map map); endfunction
+function void add_frontdoors(uvm_reg_map map); endfunction
    
    virtual function void do_predict (uvm_reg_item      rw,
                                      uvm_predict_e     kind = UVM_PREDICT_DIRECT,
@@ -136,9 +136,9 @@ endclass : uvm_reg_indirect_data
 
 
 class uvm_reg_indirect_ftdr_seq extends uvm_reg_frontdoor;
-   local uvm_reg m_addr_reg;
-   local uvm_reg m_data_reg;
-   local int     m_idx;
+
+
+
    
    function new(uvm_reg addr_reg,
                 int idx,

@@ -87,7 +87,7 @@ class uvm_tlm_b_target_socket #(type IMP=int,
                                 type T=uvm_tlm_generic_payload)
   extends uvm_tlm_b_target_socket_base #(T);
 
-  local IMP m_imp;
+
 
 
   // @uvm-ieee 1800.2-2017 auto 12.3.5.1.3
@@ -150,7 +150,7 @@ class uvm_tlm_nb_target_socket #(type IMP=int,
                                  type P=uvm_tlm_phase_e)
   extends uvm_tlm_nb_target_socket_base #(T,P);
 
-  local IMP m_imp;
+
 
 
   // @uvm-ieee 1800.2-2017 auto 12.3.5.3.3

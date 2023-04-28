@@ -50,24 +50,24 @@ class uvm_mem extends uvm_object;
 
    typedef enum {UNKNOWNS, ZEROES, ONES, ADDRESS, VALUE, INCR, DECR} init_e;
 
-   local bit               m_locked;
-   local bit               m_read_in_progress;
-   local bit               m_write_in_progress;
-   local string            m_access;
-   local longint unsigned  m_size;
-   local bit               m_maps[uvm_reg_map];
-   local int unsigned      m_n_bits;
-   local uvm_reg_backdoor  m_backdoor;
-   local bit               m_is_powered_down;
-   local int               m_has_cover;
-   local int               m_cover_on;
-   local string            m_fname;
-   local int               m_lineno;
-   local bit               m_vregs[uvm_vreg];
-   local uvm_pool
-               #(uvm_queue #(uvm_hdl_path_concat)) m_hdl_paths_pool;
 
-   local static int unsigned  m_max_size;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
    //----------------------
    // Group -- NODOCS -- Initialization

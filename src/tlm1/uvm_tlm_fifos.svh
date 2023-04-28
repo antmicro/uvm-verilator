@@ -51,8 +51,8 @@ class uvm_tlm_fifo #(type T=int) extends uvm_tlm_fifo_base #(T);
   `uvm_component_param_utils(uvm_tlm_fifo)
   `uvm_type_name_decl("uvm_tlm_fifo #(T)")
 
-  local mailbox #( T ) m;
-  local int m_size;
+
+
   protected int m_pending_blocked_gets;
 
 

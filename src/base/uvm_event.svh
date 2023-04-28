@@ -212,7 +212,7 @@ class uvm_event#(type T=uvm_object) extends uvm_event_base;
         virtual function string get_type_name(); endfunction : get_type_name
 
 	local T trigger_data;
-        local T default_data;
+
 
 	// Function -- NODOCS -- new
 	//

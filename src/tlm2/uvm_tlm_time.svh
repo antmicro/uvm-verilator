@@ -37,9 +37,9 @@
 class uvm_time;
 
    static local real m_resolution = 1.0e-12; // ps by default
-   local real m_res;
-   local time m_time;  // Number of 'm_res' time units,
-   local string m_name;
+
+
+
 
    // Function -- NODOCS -- set_time_resolution
    // Set the default canonical time resolution.
@@ -80,7 +80,7 @@ class uvm_time;
 
    // Scale a timescaled value to 'm_res' units,
    // the specified scale
-   local function real to_m_res(real t, time scaled, real secs); endfunction
+function real to_m_res(real t, time scaled, real secs); endfunction
    
    
    // Function -- NODOCS -- get_realtime

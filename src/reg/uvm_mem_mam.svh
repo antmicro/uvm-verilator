@@ -107,12 +107,12 @@ class uvm_mem_mam;
    uvm_mem_mam_policy default_alloc;
 
 
-   local uvm_mem memory;
-   local uvm_mem_mam_cfg cfg;
-   local uvm_mem_region in_use[$];
-   local int for_each_idx = -1;
-   local string fname;
-   local int lineno;
+
+
+
+
+
+
 
 
    // Function -- NODOCS -- new
@@ -286,11 +286,11 @@ class uvm_mem_region;
    /*local*/ bit [63:0] Xstart_offsetX;  // Can't be local since function
    /*local*/ bit [63:0] Xend_offsetX;    // calls not supported in constraints
 
-   local int unsigned len;
-   local int unsigned n_bytes;
-   local uvm_mem_mam  parent;
-   local string       fname;
-   local int          lineno;
+
+
+
+
+
 
    /*local*/ uvm_vreg XvregX;
 
@@ -533,12 +533,6 @@ function uvm_mem_region::new(bit [63:0] start_offset,
                              int unsigned len,
                              int unsigned n_bytes,
                              uvm_mem_mam      parent);
-   this.Xstart_offsetX = start_offset;
-   this.Xend_offsetX   = end_offset;
-   this.len            = len;
-   this.n_bytes        = n_bytes;
-   this.parent         = parent;
-   this.XvregX         = null;
 endfunction: new
 
 

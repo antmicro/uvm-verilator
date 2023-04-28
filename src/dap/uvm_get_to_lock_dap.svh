@@ -41,10 +41,10 @@ class uvm_get_to_lock_dap#(type T=int) extends uvm_set_get_dap_base#(T);
    `uvm_object_param_utils(uvm_get_to_lock_dap)
    
    // Stored data
-   local T m_value;
+
 
    // Lock state
-   local bit m_locked;
+
 
    // Function -- NODOCS -- new
    // Constructor

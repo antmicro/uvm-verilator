@@ -155,7 +155,7 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
 
   protected uvm_sequence_state m_sequence_state;
             int                m_next_transaction_id = 1;
-  local     int                m_priority = -1;
+
             uvm_recorder       m_tr_recorder;
             int                m_wait_for_grant_semaphore;
 
@@ -178,15 +178,15 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
 `ifdef UVM_ENABLE_DEPRECATED_API
   bit do_not_randomize;
 `else
-  local bit do_not_randomize;
+
 `endif 
 
   protected process  m_sequence_process;
-  local bit m_use_response_handler;
+
 
   // bits to detect if is_relevant()/wait_for_relevant() are implemented
-  local bit is_rel_default;
-  local bit wait_rel_default;
+
+
 
 
 
@@ -375,9 +375,9 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
   //
 
   // Automatic Phase Objection DAP
-  local uvm_get_to_lock_dap#(bit) m_automatic_phase_objection_dap;
+
   // Starting Phase DAP
-  local uvm_get_to_lock_dap#(uvm_phase) m_starting_phase_dap;
+
 
   // Function- m_init_phase_daps
   // Either creates or renames DAPS

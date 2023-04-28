@@ -55,7 +55,7 @@ class uvm_text_tr_database extends uvm_tr_database;
 
    // Variable- m_filename_dap
    // Data Access Protected Filename
-   local uvm_simple_lock_dap#(string) m_filename_dap;
+
 
    // Variable- m_file
    UVM_FILE m_file;

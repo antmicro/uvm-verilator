@@ -124,7 +124,7 @@ class uvm_reg_predictor #(type BUSTYPE=int) extends uvm_component;
   virtual function void pre_predict(uvm_reg_item rw);
   endfunction
 
-  local uvm_predict_s m_pending[uvm_reg];
+
 
 
   // Function- write

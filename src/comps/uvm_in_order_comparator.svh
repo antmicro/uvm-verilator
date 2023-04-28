@@ -107,8 +107,8 @@ class uvm_in_order_comparator
 
   uvm_analysis_port   pair_ap;
   
-  local uvm_tlm_analysis_fifo m_before_fifo;
-  local uvm_tlm_analysis_fifo m_after_fifo;
+
+
 
   int m_matches, m_mismatches;
 

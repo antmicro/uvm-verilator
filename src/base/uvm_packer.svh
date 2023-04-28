@@ -51,7 +51,7 @@ class uvm_packer extends uvm_policy;
    `uvm_object_utils(uvm_packer)
 
     uvm_factory m_factory;
-    local uvm_object m_object_references[int];
+
 
 
   // Function: set_packed_*

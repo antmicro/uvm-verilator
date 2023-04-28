@@ -34,11 +34,11 @@
 // @uvm-ieee 1800.2-2017 auto 10.3.1
 class uvm_barrier extends uvm_object;
 
-  local  int       threshold;
-  local  int       num_waiters;
-  local  bit       at_threshold;
-  local  bit       auto_reset;
-  local  uvm_event#(uvm_object) m_event;
+
+
+
+
+
 
   `uvm_object_utils(uvm_barrier)
 
@@ -130,7 +130,7 @@ class uvm_barrier extends uvm_object;
   // @uvm-ieee 1800.2-2017 auto 10.3.2.8
   virtual function void cancel (); endfunction
 
-  local task m_trigger(); endtask
+
 
   virtual function void do_print (uvm_printer printer); endfunction
 

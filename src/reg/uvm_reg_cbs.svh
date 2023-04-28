@@ -212,8 +212,8 @@ class uvm_reg_read_only_cbs extends uvm_reg_cbs;
    // @uvm-ieee 1800.2-2017 auto 18.11.4.2.1
    virtual task pre_write(uvm_reg_item rw); endtask
 
-   local static uvm_reg_read_only_cbs m_me;
-   local static function uvm_reg_read_only_cbs get(); endfunction
+
+
 
 
 
@@ -250,8 +250,8 @@ class uvm_reg_write_only_cbs extends uvm_reg_cbs;
    // @uvm-ieee 1800.2-2017 auto 18.11.5.2.1
    virtual task pre_read(uvm_reg_item rw); endtask
 
-   local static uvm_reg_write_only_cbs m_me;
-   local static function uvm_reg_write_only_cbs get(); endfunction
+
+
 
 
 

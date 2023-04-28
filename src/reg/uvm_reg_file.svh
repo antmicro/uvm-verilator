@@ -30,9 +30,9 @@
 class uvm_reg_file extends uvm_object;
 
 
-   local uvm_reg_file   m_rf;
-   local string            default_hdl_path = "RTL";
-   local uvm_pool #(uvm_queue #(string)) hdl_paths_pool;
+
+
+
 
 
    `uvm_object_utils(uvm_reg_file)

@@ -90,35 +90,35 @@ class uvm_objection extends uvm_report_object;
   // There's the potential for a programmability within the
   // library to dictate the largest this pool should be allowed
   // to grow, but that seems like overkill for the time being.
-  local static uvm_objection_context_object m_context_pool[$];
+
 
   // These are the active drain processes, which have been
   // forked off by the background process.  A raise can
   // use this array to kill a drain.
 `ifndef UVM_USE_PROCESS_CONTAINER   
-  local process m_drain_proc[uvm_object];
+
 `else
-  local process_container_c m_drain_proc[uvm_object];
+
 `endif
    
   // These are the contexts which have been scheduled for
   // retrieval by the background process, but which the
   // background process hasn't seen yet.
-  local static uvm_objection_context_object m_scheduled_list[$];
+
 
   // Once a context is seen by the background process, it is
   // removed from the scheduled list, and placed in the forked
   // list.  At the same time, it is placed in the scheduled
   // contexts array.  A re-raise can use the scheduled contexts
   // array to detect (and cancel) the drain.
-  local uvm_objection_context_object m_scheduled_contexts[uvm_object];
-  local uvm_objection_context_object m_forked_list[$];
+
+
 
   // Once the forked drain has actually started (this occurs
   // ~1 delta AFTER the background process schedules it), the
   // context is removed from the above array and list, and placed
   // in the forked_contexts list.  
-  local uvm_objection_context_object m_forked_contexts[uvm_object];
+
 
   protected bit m_prop_mode = 1;
   protected bit m_cleared; /* for checking obj count<0 */
@@ -481,8 +481,8 @@ class uvm_test_done_objection extends uvm_objection;
   protected bit m_forced;
 
   // For communicating all objections dropped and end of phasing
-  local  bit m_executing_stop_processes;
-  local  int m_n_stop_threads;
+
+
 
 
   // Function- new DEPRECATED

@@ -381,7 +381,7 @@ class uvm_resource_pool;
   // This function handles the mechanics of moving a resource to either
   // the front or back of the queue.
 
-  local function void set_priority_queue(uvm_resource_base rsrc,
+function void set_priority_queue(uvm_resource_base rsrc,
                                          ref uvm_resource_types::rsrc_q_t q,
                                          uvm_resource_types::priority_e pri); endfunction
 

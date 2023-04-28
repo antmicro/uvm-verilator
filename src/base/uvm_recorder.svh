@@ -126,7 +126,7 @@ virtual class uvm_recorder extends uvm_policy;
    // By default, neither ~m_ids_by_recorder~ or ~m_recorders_by_id~ are
    // used.  Recorders are only placed in the arrays when the user
    // attempts to determine the id for a recorder.
-   local static int m_ids_by_recorder[uvm_recorder];
+
 
 
   function new(string name = "uvm_recorder"); endfunction
@@ -193,11 +193,11 @@ virtual class uvm_recorder extends uvm_policy;
    // Variable- m_recorders_by_id
    // A corollary to ~m_ids_by_recorder~, this indexes the recorders by their
    // unique ids.
-   local static uvm_recorder m_recorders_by_id[int];
+
 
    // Variable- m_id
    // Static int marking the last assigned id.
-   local static int m_id;
+
 
    // Function- m_free_id
    // Frees the id/recorder link (memory cleanup)
@@ -495,8 +495,8 @@ class uvm_text_recorder extends uvm_recorder;
                                                         real value); endfunction : do_record_field_real
 
   // Stores the passed-in names of the objects in the hierarchy
-  local string m_object_names[$];
-  local function string m_current_context(string name=""); endfunction : m_current_context
+
+function string m_current_context(string name=""); endfunction : m_current_context
 
   
    // Function --NODOCS-- do_record_object

@@ -41,7 +41,7 @@ typedef class uvm_sequencer_base;
 // @uvm-ieee 1800.2-2017 auto 14.1.1
 class uvm_sequence_item extends uvm_transaction;
 
-  local      int                m_sequence_id = -1;
+
   protected  bit                m_use_sequence_info;
   protected  int                m_depth = -1;
   protected  uvm_sequencer_base m_sequencer;

@@ -49,7 +49,7 @@
 // @uvm-ieee 1800.2-2017 auto 9.8.2.1
 class uvm_pre_reset_phase extends uvm_task_phase; 
    virtual task exec_task(uvm_component comp, uvm_phase phase); endtask
-   local static uvm_pre_reset_phase m_inst;
+
    `uvm_type_name_decl("uvm_pre_reset_phase")
 
    // Function -- NODOCS -- get
@@ -61,7 +61,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto 9.8.2.2
 class uvm_reset_phase extends uvm_task_phase; 
    virtual task exec_task(uvm_component comp, uvm_phase phase); endtask
-   local static uvm_reset_phase m_inst;
+
    `uvm_type_name_decl("uvm_reset_phase")
 
    // Function -- NODOCS -- get
@@ -73,7 +73,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto 9.8.2.3
 class uvm_post_reset_phase extends uvm_task_phase; 
    virtual task exec_task(uvm_component comp, uvm_phase phase); endtask
-   local static uvm_post_reset_phase m_inst;
+
    `uvm_type_name_decl("uvm_post_reset_phase")
 
    // Function -- NODOCS -- get
@@ -86,7 +86,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto 9.8.2.4
 class uvm_pre_configure_phase extends uvm_task_phase; 
    virtual task exec_task(uvm_component comp, uvm_phase phase); endtask
-   local static uvm_pre_configure_phase m_inst;
+
    `uvm_type_name_decl("uvm_pre_configure_phase")
 
    // Function -- NODOCS -- get
@@ -99,7 +99,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto 9.8.2.5
 class uvm_configure_phase extends uvm_task_phase; 
    virtual task exec_task(uvm_component comp, uvm_phase phase); endtask
-   local static uvm_configure_phase m_inst;
+
    `uvm_type_name_decl("uvm_configure_phase")
 
    // Function -- NODOCS -- get
@@ -111,7 +111,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto 9.8.2.6
 class uvm_post_configure_phase extends uvm_task_phase; 
    virtual task exec_task(uvm_component comp, uvm_phase phase); endtask
-   local static uvm_post_configure_phase m_inst;
+
    `uvm_type_name_decl("uvm_post_configure_phase")
 
    // Function -- NODOCS -- get
@@ -123,7 +123,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto 9.8.2.7
 class uvm_pre_main_phase extends uvm_task_phase; 
    virtual task exec_task(uvm_component comp, uvm_phase phase); endtask
-   local static uvm_pre_main_phase m_inst;
+
    `uvm_type_name_decl("uvm_pre_main_phase")
 
    // Function -- NODOCS -- get
@@ -136,7 +136,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto 9.8.2.8
 class uvm_main_phase extends uvm_task_phase; 
    virtual task exec_task(uvm_component comp, uvm_phase phase); endtask
-   local static uvm_main_phase m_inst;
+
    `uvm_type_name_decl("uvm_main_phase")
 
    // Function -- NODOCS -- get
@@ -149,7 +149,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto 9.8.2.9
 class uvm_post_main_phase extends uvm_task_phase; 
    virtual task exec_task(uvm_component comp, uvm_phase phase); endtask
-   local static uvm_post_main_phase m_inst;
+
    `uvm_type_name_decl("uvm_post_main_phase")
 
    // Function -- NODOCS -- get
@@ -162,7 +162,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto 9.8.2.10
 class uvm_pre_shutdown_phase extends uvm_task_phase; 
    virtual task exec_task(uvm_component comp, uvm_phase phase); endtask
-   local static uvm_pre_shutdown_phase m_inst;
+
    `uvm_type_name_decl("uvm_pre_shutdown_phase")
 
    // Function -- NODOCS -- get
@@ -175,7 +175,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto 9.8.2.11
 class uvm_shutdown_phase extends uvm_task_phase; 
    virtual task exec_task(uvm_component comp, uvm_phase phase); endtask
-   local static uvm_shutdown_phase m_inst;
+
    `uvm_type_name_decl("uvm_shutdown_phase")
 
    // Function -- NODOCS -- get
@@ -188,7 +188,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto 9.8.2.12
 class uvm_post_shutdown_phase extends uvm_task_phase; 
    virtual task exec_task(uvm_component comp, uvm_phase phase); endtask
-   local static uvm_post_shutdown_phase m_inst;
+
    `uvm_type_name_decl("uvm_post_shutdown_phase")
 
    // Function -- NODOCS -- get

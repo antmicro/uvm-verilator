@@ -36,7 +36,7 @@ class uvm_text_tr_stream extends uvm_tr_stream;
 
    // Variable- m_text_db
    // Internal reference to the text-based backend
-   local uvm_text_tr_database m_text_db;
+
    
    `uvm_object_utils_begin(uvm_text_tr_stream)
    `uvm_object_utils_end

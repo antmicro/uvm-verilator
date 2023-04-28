@@ -98,8 +98,8 @@ class uvm_algorithmic_comparator #( type BEFORE=int,
   uvm_analysis_export after_export;
 
  
-  local uvm_in_order_class_comparator comp;
-  local TRANSFORMER m_transformer;
+
+
      
   // Function --NODOCS-- new
   //

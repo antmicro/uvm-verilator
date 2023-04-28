@@ -421,7 +421,7 @@ endclass
 class uvm_registry_common #( type Tregistry=int, type Tcreator=int, type Tcreated=int, string Tname="<unknown>" );
 
   typedef uvm_registry_common this_type;
-  local static string m__type_aliases[$];
+
 
   static function string type_name(); endfunction : type_name
 
@@ -441,7 +441,7 @@ class uvm_registry_common #( type Tregistry=int, type Tcreator=int, type Tcreate
   static function void set_type_alias(string alias_name); endfunction
 
   static function bit __deferred_init(); endfunction
-  local static bit m__initialized=__deferred_init();
+
 
   virtual function void initialize(); endfunction
 endclass

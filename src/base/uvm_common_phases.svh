@@ -67,7 +67,7 @@
 // @uvm-ieee 1800.2-2017 auto 9.8.1.1
 class uvm_build_phase extends uvm_topdown_phase;
    virtual function void exec_func(uvm_component comp, uvm_phase phase); endfunction
-   local static uvm_build_phase m_inst;
+
    `uvm_type_name_decl("uvm_build_phase")
 
    // Function -- NODOCS -- get
@@ -102,7 +102,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto 9.8.1.2
 class uvm_connect_phase extends uvm_bottomup_phase;
    virtual function void exec_func(uvm_component comp, uvm_phase phase); endfunction
-   local static uvm_connect_phase m_inst;
+
    `uvm_type_name_decl("uvm_connect_phase")
 
    // Function -- NODOCS -- get
@@ -133,16 +133,12 @@ endclass
 // @uvm-ieee 1800.2-2017 auto 9.8.1.3
 class uvm_end_of_elaboration_phase extends uvm_bottomup_phase;
    virtual function void exec_func(uvm_component comp, uvm_phase phase); endfunction
-   local static uvm_end_of_elaboration_phase m_inst;
+
    `uvm_type_name_decl("uvm_end_of_elaboration_phase")
 
    // Function -- NODOCS -- get
    // Returns the singleton phase handle 
    static function uvm_end_of_elaboration_phase get();
-      if(m_inst == null) begin 
-         m_inst = new();
-      end
-      return m_inst; 
    endfunction protected function new(string name="end_of_elaboration"); endfunction
 endclass
 
@@ -173,7 +169,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto 9.8.1.4
 class uvm_start_of_simulation_phase extends uvm_bottomup_phase;
    virtual function void exec_func(uvm_component comp, uvm_phase phase); endfunction
-   local static uvm_start_of_simulation_phase m_inst;
+
    `uvm_type_name_decl("uvm_start_of_simulation_phase")
 
    // Function -- NODOCS -- get
@@ -185,7 +181,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto 9.8.1.5
 class uvm_run_phase extends uvm_task_phase; 
    virtual task exec_task(uvm_component comp, uvm_phase phase); endtask
-   local static uvm_run_phase m_inst;
+
    `uvm_type_name_decl("uvm_run_phase")
 
    // Function -- NODOCS -- get
@@ -198,7 +194,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto 9.8.1.6
 class uvm_extract_phase extends uvm_bottomup_phase;
    virtual function void exec_func(uvm_component comp, uvm_phase phase); endfunction
-   local static uvm_extract_phase m_inst;
+
    `uvm_type_name_decl("uvm_extract_phase")
 
    // Function -- NODOCS -- get
@@ -210,7 +206,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto 9.8.1.7
 class uvm_check_phase extends uvm_bottomup_phase;
    virtual function void exec_func(uvm_component comp, uvm_phase phase); endfunction
-   local static uvm_check_phase m_inst;
+
    `uvm_type_name_decl("uvm_check_phase")
 
    // Function -- NODOCS -- get
@@ -222,7 +218,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto 9.8.1.8
 class uvm_report_phase extends uvm_bottomup_phase;
    virtual function void exec_func(uvm_component comp, uvm_phase phase); endfunction
-   local static uvm_report_phase m_inst;
+
    `uvm_type_name_decl("uvm_report_phase")
 
    // Function -- NODOCS -- get
@@ -252,7 +248,7 @@ endclass
 // @uvm-ieee 1800.2-2017 auto 9.8.1.9
 class uvm_final_phase extends uvm_topdown_phase;
    virtual function void exec_func(uvm_component comp, uvm_phase phase); endfunction
-   local static uvm_final_phase m_inst;
+
    `uvm_type_name_decl("uvm_final_phase")
 
    // Function -- NODOCS -- get

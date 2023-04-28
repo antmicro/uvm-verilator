@@ -39,31 +39,24 @@ class uvm_reg_field extends uvm_object;
    // or constrained when randomized.
    rand  uvm_reg_data_t  value; // Mirrored after randomize()
 
-   local uvm_reg_data_t  m_mirrored; // What we think is in the HW
-   local uvm_reg_data_t  m_desired;  // Mirrored after set()
-   local string          m_access;
-   local uvm_reg         m_parent;
-   local int unsigned    m_lsb;
-   local int unsigned    m_size;
-   local bit             m_volatile;
-   local uvm_reg_data_t  m_reset[string];
-   local bit             m_written;
-   local bit             m_read_in_progress;
-   local bit             m_write_in_progress;
-   local string          m_fname;
-   local int             m_lineno;
-   local int             m_cover_on;
-   local bit             m_individually_accessible;
-   local uvm_check_e     m_check;
 
-   local static int m_max_size;
-   local static bit m_policy_names[string];
 
-   constraint uvm_reg_field_valid {
-      if (`UVM_REG_DATA_WIDTH > m_size) {
-         value < (`UVM_REG_DATA_WIDTH'h1 << m_size);
-      }
-   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
    `uvm_object_utils(uvm_reg_field)
 
@@ -150,7 +143,7 @@ class uvm_reg_field extends uvm_object;
 
    // @uvm-ieee 1800.2-2017 auto 18.5.4.7
    extern static function bit define_access(string name);
-   local static bit m_predefined = m_predefine_policies();
+
    extern local static function bit m_predefine_policies();
  
    // Function -- NODOCS -- get_access

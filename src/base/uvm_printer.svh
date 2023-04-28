@@ -61,7 +61,7 @@ virtual class uvm_printer extends uvm_policy;
   m_uvm_printer_knobs knobs ;
 `else
   //config values from set_* accessors are stored in knobs
-  local m_uvm_printer_knobs knobs ;
+
 `endif
 
 protected function m_uvm_printer_knobs get_knobs() ; endfunction
@@ -270,7 +270,7 @@ protected function m_uvm_printer_knobs get_knobs() ; endfunction
   // @uvm-ieee 1800.2-2017 auto 16.2.6
   extern virtual function int get_end_elements ();
 
-  local uvm_printer_element m_element_stack[$] ;
+
 
   protected function int m_get_stack_size(); endfunction
 
@@ -409,11 +409,11 @@ class uvm_printer_element extends uvm_object;
    extern function void get_children(ref uvm_printer_element children[$], input bit recurse) ;
    extern function void clear_children() ;
 
-   local string m_name ;
-   local string m_type_name ;
-   local string m_size ;
-   local string m_value ;
-   local uvm_printer_element m_children[$] ;
+
+
+
+
+
 endclass
 
 // @uvm-ieee 1800.2-2017 auto 16.2.9.1
@@ -467,9 +467,9 @@ class uvm_table_printer extends uvm_printer;
 
   extern virtual function string m_emit_element(uvm_printer_element element, int unsigned level);
 
-  local static uvm_table_printer m_default_table_printer ;
 
-  local static string m_space ;
+
+
 
   // @uvm-ieee 1800.2-2017 auto 16.2.10.2.3
   extern static function void set_default(uvm_table_printer printer) ;
@@ -547,7 +547,7 @@ class uvm_tree_printer extends uvm_printer;
   // @uvm-ieee 1800.2-2017 auto 16.2.11.2.1
   extern function new(string name="");
 
-  local static uvm_tree_printer m_default_tree_printer ;
+
 
   // @uvm-ieee 1800.2-2017 auto 16.2.11.2.3
   extern static function void set_default(uvm_tree_printer printer) ;
@@ -616,7 +616,7 @@ class uvm_line_printer extends uvm_tree_printer;
   // @uvm-ieee 1800.2-2017 auto 16.2.2.1
   extern function new(string name="");
 
-  local static uvm_line_printer m_default_line_printer ;
+
 
   // @uvm-ieee 1800.2-2017 auto 16.2.12.2.3
   // @uvm-ieee 1800.2-2017 auto 16.2.2.2
@@ -945,17 +945,17 @@ function void uvm_printer::set_line_prefix (string prefix); endfunction
 function string uvm_printer::get_line_prefix (); endfunction
 
 function void uvm_printer::set_begin_elements (int elements = 5);
-   knobs.begin_elements = elements ;
+
 endfunction
 function int uvm_printer::get_begin_elements ();
-   return knobs.begin_elements ;
+
 endfunction
 
 function void uvm_printer::set_end_elements (int elements = 5);
-   knobs.end_elements = elements ;
+
 endfunction
 function int uvm_printer::get_end_elements ();
-   return knobs.end_elements ;
+
 endfunction
 
 function uvm_printer_element uvm_printer::get_bottom_element (); endfunction

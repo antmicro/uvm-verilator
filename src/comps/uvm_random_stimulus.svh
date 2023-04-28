@@ -71,7 +71,7 @@ class uvm_random_stimulus #(type T=uvm_transaction) extends uvm_component;
   function new(string name, uvm_component parent); endfunction
 
 
-  local bit m_stop;
+
 
 
   // Function -- NODOCS -- generate_stimulus

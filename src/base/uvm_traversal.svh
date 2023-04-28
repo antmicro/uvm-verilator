@@ -192,7 +192,7 @@ endclass
 
   
 class uvm_component_name_check_visitor extends uvm_visitor#(uvm_component);
-  local uvm_root _root;
+
 
   // Function -- NODOCS -- get_name_constraint
   //
@@ -206,7 +206,7 @@ class uvm_component_name_check_visitor extends uvm_visitor#(uvm_component);
   virtual function void begin_v(); 
     uvm_coreservice_t cs = uvm_coreservice_t::get();
 
-    _root =  cs.get_root();
+
 
 `ifdef UVM_NO_DPI
     `uvm_info("UVM/COMP/NAMECHECK","This implementation of the component name checks requires DPI to be enabled",UVM_NONE)

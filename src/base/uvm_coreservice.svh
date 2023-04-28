@@ -285,7 +285,7 @@ class uvm_default_coreservice_t extends uvm_coreservice_t;
 
 `ifndef UVM_ENABLE_DEPRECATED_API
    // This bit is located in uvm_object in deprecated mode
-   local bit m_use_uvm_seeding = 1;
+
 `endif
    
    // @uvm-ieee 1800.2-2017 auto F.4.3

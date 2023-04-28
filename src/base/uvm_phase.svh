@@ -427,10 +427,10 @@ class uvm_phase extends uvm_object;
 
   // Implementation - State
   //-----------------------
-  local uvm_phase_state    m_state;
-  local int                m_run_count; // num times this phase has executed
-  local process            m_phase_proc;
-  local static int         m_default_max_ready_to_end_iters = 20;    // 20 is the initial value defined by 1800.2-2017 9.3.1.3.5
+
+
+
+
 `ifndef UVM_ENABLE_DEPRECATED_API
   local
 `endif
@@ -466,7 +466,7 @@ class uvm_phase extends uvm_object;
 
   // Implementation - Synchronization
   //---------------------------------
-  local uvm_phase m_sync[$];  // schedule instance to which we are synced
+
 
 `ifdef UVM_ENABLE_DEPRECATED_API
   // In order to avoid raciness during static initialization,
@@ -487,13 +487,13 @@ class uvm_phase extends uvm_object;
   // https://accellera.mantishub.io/view.php?id=6260
   uvm_objection phase_done;
 `else // !`ifdef UVM_ENABLE_DEPRECATED_API
-  local uvm_objection phase_done;
+
 `endif
    
-  local int unsigned m_ready_to_end_count;
+
 
   function int unsigned get_ready_to_end_count();
-     return m_ready_to_end_count;
+
   endfunction
 
   extern local function void get_predecessors_for_successors(output bit pred_of_succ[uvm_phase]);
@@ -501,10 +501,10 @@ class uvm_phase extends uvm_object;
 
   // Implementation - Jumping
   //-------------------------
-  local bit                m_jump_bkwd;
-  local bit                m_jump_fwd;
-  local uvm_phase          m_jump_phase;
-  local bit                m_premature_end;
+
+
+
+
   extern function void clear(uvm_phase_state state = UVM_PHASE_DORMANT);
   extern function void clear_successors(
                              uvm_phase_state state = UVM_PHASE_DORMANT,
@@ -512,7 +512,7 @@ class uvm_phase extends uvm_object;
 
   // Implementation - Overall Control
   //---------------------------------
-  local static mailbox #(uvm_phase) m_phase_hopper = new();
+
 
   extern static task m_run_phases();
   extern local task  execute_phase();
@@ -525,12 +525,12 @@ class uvm_phase extends uvm_object;
   // TBD add more useful debug
   //---------------------------------
   protected static bit m_phase_trace;
-  local static bit m_use_ovm_run_semantic;
+
 
 
   function string convert2string(); endfunction
 
-  local function string m_aa2string(bit aa[uvm_phase]); endfunction
+function string m_aa2string(bit aa[uvm_phase]); endfunction
 
   function bit is_domain(); endfunction
 
@@ -539,35 +539,6 @@ class uvm_phase extends uvm_object;
   
   // @uvm-ieee 1800.2-2017 auto 9.3.1.7.1
   function uvm_objection get_objection();
-     uvm_phase imp;
-     uvm_task_phase tp;
-     imp = get_imp();
-     // Only nodes with a non-null uvm_task_phase imp have objections
-     if ((get_phase_type() != UVM_PHASE_NODE) || (imp == null) || !$cast(tp, imp)) begin
-	return null;
-     end
-     if (phase_done == null) begin
-`ifdef UVM_ENABLE_DEPRECATED_API       
-	   if (get_name() == "run") begin
-              phase_done = uvm_test_done_objection::get();
-	   end
-	   else begin
- `ifdef VERILATOR
-              phase_done = uvm_objection::type_id_create({get_name(), "_objection"});
- `else
-              phase_done = uvm_objection::type_id::create({get_name(), "_objection"});
- `endif
-	   end
-`else // !UVM_ENABLE_DEPRECATED_API
- `ifdef VERILATOR
-        phase_done = uvm_objection::type_id_create({get_name(), "_objection"});
- `else
-	phase_done = uvm_objection::type_id::create({get_name(), "_objection"});
- `endif
-`endif // UVM_ENABLE_DEPRECATED_API
-     end
-     
-     return phase_done;
   endfunction // get_objection
 
   
@@ -737,28 +708,28 @@ function uvm_phase_type uvm_phase::get_phase_type(); endfunction
 // -------------------------------
 
 function void uvm_phase::set_max_ready_to_end_iterations(int max);
-  max_ready_to_end_iters = max;
+
 endfunction
 
 // get_max_ready_to_end_iterations
 // -------------------------------
 
 function int uvm_phase::get_max_ready_to_end_iterations();
-  return max_ready_to_end_iters;
+
 endfunction
 
 // set_default_max_ready_to_end_iterations
 // ---------------------------------------
 
 function void uvm_phase::set_default_max_ready_to_end_iterations(int max);
-  m_default_max_ready_to_end_iters = max;
+
 endfunction
 
 // get_default_max_ready_to_end_iterations
 // ---------------------------------------
 
 function int uvm_phase::get_default_max_ready_to_end_iterations();
-  return m_default_max_ready_to_end_iters;
+
 endfunction
 
 

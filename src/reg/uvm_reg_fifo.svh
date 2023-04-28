@@ -38,9 +38,9 @@
 // @uvm-ieee 1800.2-2017 auto 18.8.1
 class uvm_reg_fifo extends uvm_reg;
 
-    local uvm_reg_field value;
-    local int m_set_cnt;
-    local int unsigned m_size;
+
+
+
 
     // Variable -- NODOCS -- fifo
     //
@@ -49,11 +49,6 @@ class uvm_reg_fifo extends uvm_reg;
     // to enable subtypes to add constraints on it and randomize.
     //
     rand uvm_reg_data_t fifo[$];
-
-    constraint valid_fifo_size {
-      fifo.size() <= m_size;
-    }
-
 
     //----------------------
     // Group -- NODOCS -- Initialization

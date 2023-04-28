@@ -359,7 +359,7 @@ class uvm_tlm_generic_payload extends uvm_sequence_item;
    rand int unsigned m_streaming_width;
 
    protected uvm_tlm_extension_base m_extensions [uvm_tlm_extension_base];
-   local rand uvm_tlm_extension_base m_rand_exts[];
+
 
 
    `uvm_object_utils(uvm_tlm_generic_payload)
@@ -786,7 +786,7 @@ class uvm_tlm_extension #(type T=int) extends uvm_tlm_extension_base;
 
    typedef uvm_tlm_extension#(T) this_type;
 
-   local static this_type m_my_tlm_ext_type = ID();
+
 
    // Function -- NODOCS -- new
    //

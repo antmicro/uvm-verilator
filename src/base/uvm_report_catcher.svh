@@ -62,25 +62,25 @@ virtual class uvm_report_catcher extends uvm_callback;
 
   typedef enum { UNKNOWN_ACTION, THROW, CAUGHT} action_e;
 
-  local static uvm_report_message m_modified_report_message;
-  local static uvm_report_message m_orig_report_message;
 
-  local static bit m_set_action_called;
+
+
+
 
   // Counts for the demoteds and caughts
-  local static int m_demoted_fatal;
-  local static int m_demoted_error;
-  local static int m_demoted_warning;
-  local static int m_caught_fatal;
-  local static int m_caught_error;
-  local static int m_caught_warning;
+
+
+
+
+
+
 
   // Flag counts
   const static int DO_NOT_CATCH      = 1; 
   const static int DO_NOT_MODIFY     = 2; 
-  local static int m_debug_flags;
 
-  local static  bit do_report;
+
+
 
   
   // Function -- NODOCS -- new
@@ -409,7 +409,7 @@ virtual class uvm_report_catcher extends uvm_callback;
   //internal method to call user <catch()> method
   //
 
-  local function int process_report_catcher(); endfunction
+function int process_report_catcher(); endfunction
 
 
   // Function -- NODOCS -- summarize

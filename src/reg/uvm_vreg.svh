@@ -63,26 +63,26 @@ class uvm_vreg extends uvm_object;
 
    `uvm_register_cb(uvm_vreg, uvm_vreg_cbs)
 
-   local bit locked;
-   local uvm_reg_block parent;
-   local int unsigned  n_bits;
-   local int unsigned  n_used_bits;
 
-   local uvm_vreg_field fields[$];   // Fields in LSB to MSB order
 
-   local uvm_mem          mem;     // Where is it implemented?
-   local uvm_reg_addr_t   offset;  // Start of vreg[0]
-   local int unsigned     incr;    // From start to start of next
-   local longint unsigned size;    //number of vregs
-   local bit              is_static;
 
-   local uvm_mem_region   region;    // Not NULL if implemented via MAM
+
+
+
+
+
+
+
+
+
+
+
   
-   local semaphore atomic;   // Field RMW operations must be atomic
-   local string fname;
-   local int lineno;
-   local bit read_in_progress;
-   local bit write_in_progress;
+
+
+
+
+
 
    //
    // Group -- NODOCS -- Initialization

@@ -175,7 +175,7 @@
 `define uvm_field_utils_begin(T)                                                \
 function void do_execute_op( uvm_field_op op );                                 \
 endfunction : do_execute_op                                                     \
-local function void __m_uvm_execute_field_op( uvm_field_op __local_op__ );      \
+function void __m_uvm_execute_field_op( uvm_field_op __local_op__ );      \
    uvm_field_flag_t local_op_type__; /* Used to avoid re-querying */            \
    T local_rhs__; /* Used for $casting copy and compare */                      \
    uvm_resource_base local_rsrc__; /* Used for UVM_SET ops */                   \

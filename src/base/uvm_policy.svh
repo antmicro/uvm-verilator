@@ -38,8 +38,8 @@ typedef enum {
 } recursion_state_e;
 
 
-local uvm_object  m_extensions[uvm_object_wrapper];
-local uvm_object m_policy_stack[$];
+
+
 
 
 

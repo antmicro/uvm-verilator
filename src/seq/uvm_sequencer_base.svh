@@ -68,10 +68,10 @@ class uvm_sequencer_base extends uvm_component;
   protected int                 m_max_zero_time_wait_relevant_count = 10;
   protected time                m_last_wait_relevant_time = 0 ;
 
-  local uvm_sequencer_arb_mode  m_arbitration = UVM_SEQ_ARB_FIFO;
-  local static int              g_request_id;
-  local static int              g_sequence_id = 1;
-  local static int              g_sequencer_id = 1;
+
+
+
+
 
 
   // Function -- NODOCS -- new
@@ -371,9 +371,9 @@ class uvm_sequencer_base extends uvm_component;
 // @uvm-contrib This API is being considered for potential contribution to 1800.2
 
 `ifdef UVM_DISABLE_AUTO_ITEM_RECORDING
-  local bit m_auto_item_recording = 0;
+
 `else
-  local bit m_auto_item_recording = 1;
+
 `endif
 
 

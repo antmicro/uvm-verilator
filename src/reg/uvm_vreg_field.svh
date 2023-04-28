@@ -55,13 +55,13 @@ class uvm_vreg_field extends uvm_object;
    `uvm_object_utils(uvm_vreg_field)
    `uvm_register_cb(uvm_vreg_field, uvm_vreg_field_cbs)
    
-   local uvm_vreg parent;
-   local int unsigned lsb;
-   local int unsigned size;
-   local string fname;
-   local int lineno;
-   local bit read_in_progress;
-   local bit write_in_progress;
+
+
+
+
+
+
+
 
 
    //

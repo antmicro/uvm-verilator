@@ -108,7 +108,7 @@ virtual class uvm_reg_adapter extends uvm_object;
                                      ref uvm_reg_bus_op rw);
 
 
-  local uvm_reg_item m_item;
+
 
   
   // @uvm-ieee 1800.2-2017 auto 19.2.1.2.7

@@ -121,9 +121,9 @@ virtual class uvm_reg_backdoor extends uvm_object;
    int lineno;
 
 `ifdef UVM_USE_PROCESS_CONTAINER
-   local process_container_c m_update_thread[uvm_object];
+
 `else
-   local process m_update_thread[uvm_object];
+
 `endif 
 
    `uvm_register_cb(uvm_reg_backdoor, uvm_reg_cbs)

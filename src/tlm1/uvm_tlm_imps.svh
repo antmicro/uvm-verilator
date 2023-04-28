@@ -171,13 +171,13 @@
   `UVM_TLM_GET_TYPE_NAME(TYPE_NAME)
   
 `define UVM_IMP_COMMON(MASK,TYPE_NAME,IMP) \
-  local IMP m_imp; \
+local IMP m_imp; \
   function new (string name, IMP imp); endfunction \
   `UVM_TLM_GET_TYPE_NAME(TYPE_NAME)
 
 `define UVM_MS_IMP_COMMON(MASK,TYPE_NAME) \
-  local this_req_type m_req_imp; \
-  local this_rsp_type m_rsp_imp; \
+local this_req_type m_req_imp; \
+local this_rsp_type m_rsp_imp; \
   function new (string name, this_imp_type imp, \
                 this_req_type req_imp = null, this_rsp_type rsp_imp = null); endfunction  \
   `UVM_TLM_GET_TYPE_NAME(TYPE_NAME)
