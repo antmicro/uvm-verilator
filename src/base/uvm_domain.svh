@@ -22,56 +22,7 @@
 //   permissions and limitations under the License.
 //----------------------------------------------------------------------
 
-typedef class uvm_build_phase;
-typedef class uvm_connect_phase;
-typedef class uvm_end_of_elaboration_phase;
-typedef class uvm_start_of_simulation_phase;
-typedef class uvm_run_phase;
-typedef class uvm_extract_phase;
-typedef class uvm_check_phase;
-typedef class uvm_report_phase;
-typedef class uvm_final_phase;
-
-typedef class uvm_pre_reset_phase;
-typedef class uvm_reset_phase;
-typedef class uvm_post_reset_phase;
-typedef class uvm_pre_configure_phase;
-typedef class uvm_configure_phase;
-typedef class uvm_post_configure_phase;
-typedef class uvm_pre_main_phase;
-typedef class uvm_main_phase;
-typedef class uvm_post_main_phase;
-typedef class uvm_pre_shutdown_phase;
-typedef class uvm_shutdown_phase;
-typedef class uvm_post_shutdown_phase;
-
-uvm_phase build_ph;
-uvm_phase connect_ph;
-uvm_phase end_of_elaboration_ph;
-uvm_phase start_of_simulation_ph;
-uvm_phase run_ph;
-uvm_phase extract_ph;
-uvm_phase check_ph;
-uvm_phase report_ph;
-   
-//------------------------------------------------------------------------------
-//
-// Class -- NODOCS -- uvm_domain
-//
-//------------------------------------------------------------------------------
-//
-// Phasing schedule node representing an independent branch of the schedule.
-// Handle used to assign domains to components or hierarchies in the testbench
-//
-
-// @uvm-ieee 1800.2-2017 auto 9.4.1
 class uvm_domain extends uvm_phase;
-
-  static local uvm_domain m_uvm_domain; // run-time phases
-  static local uvm_domain m_domains[string];
-  static local uvm_phase m_uvm_schedule;
-
-
 
   // @uvm-ieee 1800.2-2017 auto 9.4.2.2
   static function void get_domains(output uvm_domain domains[string]); endfunction 

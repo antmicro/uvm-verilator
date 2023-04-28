@@ -290,17 +290,6 @@ class uvm_root extends uvm_component;
 	// -------------
 	// At end of elab phase we need to do tlm binding resolution.
 	function void phase_started(uvm_phase phase);
-		if (phase == end_of_elaboration_ph) begin
-			do_resolve_bindings();
-			if (enable_print_topology) print_topology();
-			begin
-				uvm_report_server srvr;
-				srvr = uvm_report_server::get_server();
-				if(srvr.get_severity_count(UVM_ERROR) > 0) begin
-					uvm_report_fatal("BUILDERR", "stopping due to build errors", UVM_NONE);
-				end
-			end
-		end
 	endfunction
 
 	bit m_phase_all_done;
