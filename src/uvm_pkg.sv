@@ -31,7 +31,7 @@ package uvm_pkg;
   `include "base/uvm_base.svh"
   `include "dap/uvm_dap.svh"
   `include "tlm1/uvm_tlm.svh"
-  `include "comps/uvm_comps.svh"
+
 
 
 
