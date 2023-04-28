@@ -650,17 +650,6 @@ class uvm_text_recorder extends uvm_recorder;
                                      string label="",
                                      string desc="",
                                      time begin_time=0);
-     if (open_file()) begin
-        uvm_tr_stream stream_obj = uvm_tr_stream::get_stream_from_handle(stream);
-        uvm_recorder recorder;
-  
-        if (stream_obj == null)
-          return -1;
-
-        recorder = stream_obj.open_recorder(nm, begin_time, txtype);
-
-        return recorder.get_handle();
-     end
      return -1;
   endfunction
   
