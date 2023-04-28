@@ -98,11 +98,6 @@
   // The phase declarations
   `include "base/uvm_phase.svh"
   `include "base/uvm_domain.svh"
-  `include "base/uvm_bottomup_phase.svh"
-  `include "base/uvm_topdown_phase.svh"
-  `include "base/uvm_task_phase.svh"
-  `include "base/uvm_common_phases.svh"
-  `include "base/uvm_runtime_phases.svh"
 
 
   `include "base/uvm_component.svh"

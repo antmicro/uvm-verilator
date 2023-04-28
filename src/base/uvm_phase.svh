@@ -24,17 +24,6 @@
 //   permissions and limitations under the License.
 //----------------------------------------------------------------------
 
-`ifdef UVM_ENABLE_DEPRECATED_API
-  typedef class uvm_test_done_objection;
-`endif
-
-
-
-typedef class uvm_domain;
-typedef class uvm_task_phase;
-
-typedef class uvm_phase_cb;
-
 
    
 //------------------------------------------------------------------------------
@@ -141,7 +130,7 @@ class uvm_phase extends uvm_object;
 
   //`uvm_object_utils(uvm_phase)
 
-  `uvm_register_cb(uvm_phase, uvm_phase_cb)
+
 
 
   //--------------------
@@ -251,7 +240,7 @@ class uvm_phase extends uvm_object;
 
 
   // @uvm-ieee 1800.2-2017 auto 9.3.1.6.4
-  extern function uvm_phase get_schedule(bit hier = 0);
+
 
 
 
@@ -261,15 +250,6 @@ class uvm_phase extends uvm_object;
 
 
   // @uvm-ieee 1800.2-2017 auto 9.3.1.6.6
-  extern function uvm_domain get_domain();
-
-
-
-  // @uvm-ieee 1800.2-2017 auto 9.3.1.6.7
-  extern function uvm_phase get_imp();
-
-
-
   // @uvm-ieee 1800.2-2017 auto 9.3.1.6.8
   extern function string get_domain_name();
 
@@ -347,17 +327,6 @@ class uvm_phase extends uvm_object;
 
 
   // @uvm-ieee 1800.2-2017 auto 9.3.1.8.1
-  extern function void sync(uvm_domain target,
-                            uvm_phase phase=null,
-                            uvm_phase with_phase=null);
-
-
-  // @uvm-ieee 1800.2-2017 auto 9.3.1.8.2
-  extern function void unsync(uvm_domain target,
-                              uvm_phase phase=null,
-                              uvm_phase with_phase=null);
-
-
 
   // @uvm-ieee 1800.2-2017 auto 9.3.1.8.3
   extern task wait_for_state(uvm_phase_state state, uvm_wait_op op=UVM_EQ);
@@ -666,22 +635,7 @@ function uvm_phase uvm_phase::get_parent(); endfunction
 // get_imp
 // -------
 
-function uvm_phase uvm_phase::get_imp(); endfunction
-
-
-// get_schedule
-// ------------
-
-function uvm_phase uvm_phase::get_schedule(bit hier=0); endfunction
-
-
-// get_domain
 // ----------
-
-function uvm_domain uvm_phase::get_domain(); endfunction
-
-
-// get_domain_name
 // ---------------
   
 function string uvm_phase::get_domain_name(); endfunction
@@ -861,18 +815,6 @@ function int uvm_phase::get_objection_count (uvm_object obj=null); endfunction :
 
 // sync
 // ----
-
-function void uvm_phase::sync(uvm_domain target,
-                              uvm_phase phase=null,
-                              uvm_phase with_phase=null); endfunction
-
-
-// unsync
-// ------
-
-function void uvm_phase::unsync(uvm_domain target,
-                                uvm_phase phase=null,
-                                uvm_phase with_phase=null); endfunction
 
 
 // wait_for_state
