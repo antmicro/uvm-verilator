@@ -50,29 +50,6 @@ virtual class uvm_recorder extends uvm_policy;
 
   // Variable- m_stream_dap
   // Data access protected reference to the stream
-  local uvm_set_before_get_dap#(uvm_tr_stream) m_stream_dap;
-
-  // Variable- m_warn_null_stream
-  // Used to limit the number of warnings 
-  local bit m_warn_null_stream;
-
-  // Variable- m_is_opened
-  // Used to indicate recorder is open
-  local bit m_is_opened;
-   
-  // Variable- m_is_closed
-  // Used to indicate recorder is closed
-  local bit m_is_closed;
-
-  // !m_is_opened && !m_is_closed == m_is_freed
-
-  // Variable- m_open_time
-  // Used to store the open_time
-  local time m_open_time;
-
-  // Variable- m_close_time
-  // Used to store the close_time
-  local time m_close_time;
    
   // Variable- recording_depth
   int recording_depth;
