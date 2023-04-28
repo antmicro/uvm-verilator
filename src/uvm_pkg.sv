@@ -34,7 +34,7 @@ package uvm_pkg;
   `include "comps/uvm_comps.svh"
   `include "seq/uvm_seq.svh"
   `include "tlm2/uvm_tlm2.svh"
-  `include "reg/uvm_reg_model.svh"
+
 
 endpackage
 
