@@ -79,7 +79,7 @@
 `else
  `include "macros/uvm_object_defines.svh"
 `endif
-`include "macros/uvm_tlm_defines.svh"
+
 `include "macros/uvm_sequence_defines.svh"
 `include "macros/uvm_callback_defines.svh"
 `include "macros/uvm_reg_defines.svh"

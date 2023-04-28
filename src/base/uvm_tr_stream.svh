@@ -35,7 +35,7 @@ class m_uvm_tr_stream_cfg;
    string stream_type_name;
 endclass : m_uvm_tr_stream_cfg
 
-typedef class uvm_set_before_get_dap;
+
 typedef class uvm_text_recorder;
    
 

@@ -35,7 +35,7 @@
 typedef class uvm_recorder;
 typedef class uvm_tr_stream;
 typedef class uvm_link_base;
-typedef class uvm_simple_lock_dap;
+
 typedef class uvm_text_tr_stream;
    
    
