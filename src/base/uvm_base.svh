@@ -57,10 +57,10 @@
 
   `include "base/uvm_resource_base.svh"
   `include "base/uvm_resource.svh"
-  `include "base/uvm_resource_specializations.svh"
-  `include "base/uvm_resource_db.svh"
-  `include "base/uvm_resource_db_options.svh"
-  `include "base/uvm_config_db.svh"
+
+
+
+
 
 
   // Policies

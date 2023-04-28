@@ -54,11 +54,6 @@ typedef class uvm_object;
 typedef class uvm_coreservice_t;
 typedef class uvm_factory;
 
-typedef class uvm_config_db;
-// m_uvm_config_obj_misc is an internal typedef for the uvm_misc.svh file
-// to use. UVM users should use the uvm_config_object typedef
-typedef uvm_config_db#(uvm_object) m_uvm_config_obj_misc;
-
 
 typedef class uvm_comparer ;
 typedef class uvm_packer ;
