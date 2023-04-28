@@ -32,8 +32,6 @@
  `include "comps/uvm_subscriber.svh"
 
  `include "comps/uvm_monitor.svh"
- `include "comps/uvm_driver.svh"
- `include "comps/uvm_push_driver.svh"
  `include "comps/uvm_scoreboard.svh" 
  `include "comps/uvm_agent.svh"
  `include "comps/uvm_env.svh"
