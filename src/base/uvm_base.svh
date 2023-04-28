@@ -34,12 +34,12 @@
   // Miscellaneous classes and functions. uvm_void is defined in uvm_misc,
   // along with some auxillary functions that UVM needs but are not really
   // part of UVM.
-  `include "base/uvm_version.svh"
+
   `include "base/uvm_object_globals.svh"
   `include "base/uvm_misc.svh"
   
   `include "base/uvm_coreservice.svh"
-  `include "base/uvm_globals.svh"
+
   
 
   // The base object element. Contains data methods (<copy>, <compare> etc) and
@@ -54,7 +54,7 @@
 
 
   // Resources/configuration facility
-  `include "base/uvm_spell_chkr.svh"
+
   `include "base/uvm_resource_base.svh"
   `include "base/uvm_resource.svh"
   `include "base/uvm_resource_specializations.svh"
@@ -104,12 +104,12 @@
   `include "base/uvm_common_phases.svh"
   `include "base/uvm_runtime_phases.svh"
 
-  `include "base/uvm_run_test_callback.svh"
+
   `include "base/uvm_component.svh"
 
   // Objection interface
   `include "base/uvm_objection.svh"
-  `include "base/uvm_heartbeat.svh"
+
 
 
   // Command Line Processor
