@@ -96,8 +96,8 @@
   `include "base/uvm_transaction.svh"
 
   // The phase declarations
-  `include "base/uvm_phase.svh"
-  `include "base/uvm_domain.svh"
+
+
 
 
   `include "base/uvm_component.svh"
