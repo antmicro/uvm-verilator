@@ -407,14 +407,4 @@ typedef struct packed {
 `include "reg/uvm_mem.svh"
 `include "reg/uvm_reg_map.svh"
 `include "reg/uvm_reg_block.svh"
-
-`include "reg/sequences/uvm_reg_hw_reset_seq.svh"
-`include "reg/sequences/uvm_reg_bit_bash_seq.svh"
-`include "reg/sequences/uvm_mem_walk_seq.svh"
-`include "reg/sequences/uvm_mem_access_seq.svh"
-`include "reg/sequences/uvm_reg_access_seq.svh"
-`include "reg/sequences/uvm_reg_mem_shared_access_seq.svh"
-`include "reg/sequences/uvm_reg_mem_built_in_seq.svh"
-`include "reg/sequences/uvm_reg_mem_hdl_paths_seq.svh"
-
 `endif // UVM_REG_MODEL__SV
