@@ -33,7 +33,7 @@ package uvm_pkg;
   `include "tlm1/uvm_tlm.svh"
   `include "comps/uvm_comps.svh"
   `include "seq/uvm_seq.svh"
-  `include "tlm2/uvm_tlm2.svh"
+
 
 
 endpackage
