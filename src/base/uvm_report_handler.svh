@@ -31,10 +31,6 @@
 
 typedef class uvm_report_object;
 typedef class uvm_report_server;
-typedef uvm_pool#(string, uvm_action) uvm_id_actions_array;
-typedef uvm_pool#(string, UVM_FILE) uvm_id_file_array;
-typedef uvm_pool#(string, int) uvm_id_verbosities_array;
-typedef uvm_pool#(uvm_severity, uvm_severity) uvm_sev_override_array;
 
 //------------------------------------------------------------------------------
 //
@@ -65,30 +61,6 @@ class uvm_report_handler extends uvm_object;
   int m_max_verbosity_level;
 
   // id verbosity settings : default and severity
-  uvm_id_verbosities_array id_verbosities;
-  uvm_id_verbosities_array severity_id_verbosities[uvm_severity];
-
-  // actions
-  uvm_id_actions_array id_actions;
-  uvm_action severity_actions[uvm_severity];
-  uvm_id_actions_array severity_id_actions[uvm_severity];
-
-  // severity overrides
-  uvm_sev_override_array sev_overrides;
-  uvm_sev_override_array sev_id_overrides [string];
-
-  // file handles : default, severity, action, (severity,id)
-  UVM_FILE default_file_handle;
-  uvm_id_file_array id_file_handles;
-  UVM_FILE severity_file_handles[uvm_severity];
-  uvm_id_file_array severity_id_file_handles[uvm_severity];
-
-
-  `uvm_object_utils(uvm_report_handler)
-
-
-  // Function -- NODOCS -- new
-  // 
   // Creates and initializes a new uvm_report_handler object.
 
   // @uvm-ieee 1800.2-2017 auto 6.4.2.1

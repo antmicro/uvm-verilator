@@ -53,8 +53,3 @@ class uvm_reg_block1;
    uvm_object_string_pool1 #(string) hdl_paths_pool1;
 endclass
 
-class uvm_pool #(type KEY=int, T=uvm_void) extends uvm_object;
-  function new (string name=""); endfunction
-
-
-endclass
