@@ -33,7 +33,7 @@ typedef class uvm_objection;
 
 typedef class uvm_objection_callback;
 typedef uvm_callbacks #(uvm_objection,uvm_objection_callback) uvm_objection_cbs_t;
-typedef class uvm_cmdline_processor;
+
 
 class uvm_objection_events;
   int waiters;
@@ -464,7 +464,7 @@ endclass
 // TODO: change to plusarg
 //`define UVM_DEFAULT_TIMEOUT 9200s
 
-typedef class uvm_cmdline_processor;
+
 
 
 `ifdef UVM_ENABLE_DEPRECATED_API
