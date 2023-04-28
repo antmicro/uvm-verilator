@@ -75,7 +75,7 @@ class uvm_objection extends uvm_report_object;
   protected uvm_objection_events m_events [uvm_object];
   /*protected*/ bit     m_top_all_dropped;
 
-  protected uvm_root m_top;
+
      
   static uvm_objection m_objections[$];
 

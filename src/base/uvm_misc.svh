@@ -170,7 +170,7 @@ function automatic bit uvm_has_wildcard (string arg); endfunction
 
 
 typedef class uvm_component;
-typedef class uvm_root;
+
 typedef class uvm_report_object;
 
 `ifdef UVM_ENABLE_DEPRECATED_API 

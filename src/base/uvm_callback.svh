@@ -32,7 +32,7 @@
 // and user-defined callbacks.
 //------------------------------------------------------------------------------
 
-typedef class uvm_root;
+
 typedef class uvm_callback;
 typedef class uvm_callbacks_base;
 

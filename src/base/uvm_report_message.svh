@@ -29,7 +29,7 @@
 
 typedef class uvm_report_server;
 typedef class uvm_report_handler;
-typedef class uvm_root;
+
  
 
 //------------------------------------------------------------------------------

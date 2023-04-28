@@ -14,35 +14,6 @@
 //   All Rights Reserved Worldwide
 //
 //   Licensed under the Apache License, Version 2.0 (the
-//   "License"); you may not use this file except in
-//   compliance with the License.  You may obtain a copy of
-//   the License at
-//
-//       http://www.apache.org/licenses/LICENSE-2.0
-//
-//   Unless required by applicable law or agreed to in
-//   writing, software distributed under the License is
-//   distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-//   CONDITIONS OF ANY KIND, either express or implied.  See
-//   the License for the specific language governing
-//   permissions and limitations under the License.
-//------------------------------------------------------------------------------
-
-typedef class uvm_objection;
-
-//------------------------------------------------------------------------------
-//
-// CLASS -- NODOCS -- uvm_component
-//
-// The uvm_component class is the root base class for UVM components. In
-// addition to the features inherited from <uvm_object> and <uvm_report_object>,
-// uvm_component provides the following interfaces:
-//
-// Hierarchy - provides methods for searching and traversing the component
-//     hierarchy.
-//
-// Phasing - defines a phased test flow that all components follow, with a
-//     group of standard phase methods and an API for custom phases and
 //     multiple independent phasing domains to mirror DUT behavior e.g. power
 //
 // Reporting - provides a convenience interface to the <uvm_report_handler>. All
@@ -63,7 +34,7 @@ typedef class uvm_objection;
 //------------------------------------------------------------------------------
 
 // @uvm-ieee 1800.2-2017 auto 13.1.1
-virtual class uvm_component extends uvm_report_object;
+virtual class uvm_component;
 endclass : uvm_component
 
-`include "base/uvm_root.svh"
+

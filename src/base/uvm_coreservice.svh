@@ -28,7 +28,7 @@ typedef class uvm_factory;
 typedef class uvm_default_factory;
 typedef class uvm_report_server;
 typedef class uvm_default_report_server;
-typedef class uvm_root;
+
 typedef class uvm_visitor;
 typedef class uvm_component_name_check_visitor;
 typedef class uvm_component;
@@ -92,7 +92,7 @@ virtual class uvm_coreservice_t;
 
 
 	// @uvm-ieee 1800.2-2017 auto F.4.1.4.1
-	pure virtual function uvm_root get_root();
+
 
 	// @uvm-ieee 1800.2-2017 auto F.4.1.4.10
 	pure virtual function void set_phase_max_ready_to_end(int max);
@@ -226,7 +226,7 @@ class uvm_default_coreservice_t extends uvm_coreservice_t;
 	// sets the central report server to ~server~
 	virtual function void set_report_server(uvm_report_server server); endfunction
 
-	virtual function uvm_root get_root(); endfunction
+
 
 	local uvm_visitor#(uvm_component) _visitor;
 	// Function --NODOCS-- set_component_visitor

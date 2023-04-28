@@ -19,8 +19,6 @@
 //   permissions and limitations under the License.
 //----------------------------------------------------------------------
 
-typedef class uvm_root;
-
 //------------------------------------------------------------------------------
 // Class -- NODOCS --  uvm_policy
 //
