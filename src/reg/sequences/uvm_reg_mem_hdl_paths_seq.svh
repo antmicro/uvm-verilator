@@ -49,26 +49,4 @@
 
 // @uvm-ieee 1800.2-2017 auto E.7.1
 class uvm_reg_mem_hdl_paths_seq extends uvm_reg_sequence;
-    // Variable -- NODOCS -- abstractions
-    // If set, check the HDL paths for the specified design abstractions.
-    // If empty, check the HDL path for the default design abstraction,
-
-    string abstractions[$];
-    
-    `uvm_object_utils_begin(uvm_reg_mem_hdl_paths_seq)
-        `uvm_field_queue_string(abstractions, UVM_DEFAULT)
-    `uvm_object_utils_end
-    
-    // @uvm-ieee 1800.2-2017 auto E.7.3
-    function new(string name="uvm_reg_mem_hdl_paths_seq"); endfunction
-
-    virtual task body(); endtask: body
-
-
-    protected virtual function void check_reg(uvm_reg r,
-                                              string kind); endfunction
- 
-
-    protected virtual function void check_mem(uvm_mem m,
-                                              string kind); endfunction 
 endclass: uvm_reg_mem_hdl_paths_seq

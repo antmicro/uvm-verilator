@@ -63,17 +63,6 @@ typedef class uvm_mem_access_seq;
 
 // @uvm-ieee 1800.2-2017 auto E.3.1.1
 class uvm_reg_single_access_seq extends uvm_reg_sequence;
-
-   // Variable -- NODOCS -- rg
-   // The register to be tested
-   uvm_reg rg;
-
-   `uvm_object_utils(uvm_reg_single_access_seq)
-
-   // @uvm-ieee 1800.2-2017 auto E.3.1.3
-   function new(string name="uvm_reg_single_access_seq"); endfunction
-
-   virtual task body(); endtask: body
 endclass: uvm_reg_single_access_seq
 
 
@@ -98,51 +87,6 @@ endclass: uvm_reg_single_access_seq
 
 // @uvm-ieee 1800.2-2017 auto E.3.2.1
 class uvm_reg_access_seq extends uvm_reg_sequence;
-
-   // Variable -- NODOCS -- model
-   //
-   // The block to be tested. Declared in the base class.
-   //
-
-
-
-   // Variable -- NODOCS -- reg_seq
-   //
-   // The sequence used to test one register
-   //
-   protected uvm_reg_single_access_seq reg_seq;
-   
-   `uvm_object_utils(uvm_reg_access_seq)
-
-   // @uvm-ieee 1800.2-2017 auto E.3.2.3.1
-   function new(string name="uvm_reg_access_seq"); endfunction
-
-
-
-   // @uvm-ieee 1800.2-2017 auto E.3.2.3.2
-   virtual task body(); endtask: body
-
-
-   // Task -- NODOCS -- do_block
-   //
-   // Test all of the registers in a block
-   //
-
-
-
-   // Task -- NODOCS -- reset_blk
-   //
-   // Reset the DUT that corresponds to the specified block abstraction class.
-   //
-   // Currently empty.
-   // Will rollback the environment's phase to the ~reset~
-   // phase once the new phasing is available.
-   //
-   // In the meantime, the DUT should be reset before executing this
-   // test sequence or this method should be implemented
-   // in an extension to reset the DUT.
-   //
-
 endclass: uvm_reg_access_seq
 
 
@@ -163,16 +107,5 @@ endclass: uvm_reg_access_seq
 
 // @uvm-ieee 1800.2-2017 auto E.3.3.1
 class uvm_reg_mem_access_seq extends uvm_reg_sequence;
-
-   `uvm_object_utils(uvm_reg_mem_access_seq)
-
-   // @uvm-ieee 1800.2-2017 auto E.3.3.2
-   function new(string name="uvm_reg_mem_access_seq"); endfunction
-
-   virtual task body(); endtask: body
-
-
-   // Any additional steps required to reset the block
-
 
 endclass: uvm_reg_mem_access_seq

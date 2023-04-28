@@ -52,19 +52,6 @@
 
 // @uvm-ieee 1800.2-2017 auto E.5.1.1
 class uvm_mem_single_access_seq extends uvm_reg_sequence;
-
-   // Variable -- NODOCS -- mem
-   //
-   // The memory to be tested
-   //
-   uvm_mem mem;
-
-   `uvm_object_utils(uvm_mem_single_access_seq)
-
-   // @uvm-ieee 1800.2-2017 auto E.5.1.3
-   function new(string name="uam_mem_single_access_seq"); endfunction
-
-   virtual task body(); endtask: body
 endclass: uvm_mem_single_access_seq
 
 
@@ -89,48 +76,5 @@ endclass: uvm_mem_single_access_seq
 
 // @uvm-ieee 1800.2-2017 auto E.5.2.1
 class uvm_mem_access_seq extends uvm_reg_sequence;
-
-   // Variable -- NODOCS -- model
-   //
-   // The block to be tested. Declared in the base class.
-   //
-
-
-
-   // Variable -- NODOCS -- mem_seq
-   //
-   // The sequence used to test one memory
-   //
-   protected uvm_mem_single_access_seq mem_seq;
-
-   `uvm_object_utils(uvm_mem_access_seq)
-
-   // @uvm-ieee 1800.2-2017 auto E.5.2.3.1
-   function new(string name="uvm_mem_access_seq"); endfunction
-
-
-   // @uvm-ieee 1800.2-2017 auto E.5.2.3.2
-   virtual task body(); endtask: body
-
-
-   // Task -- NODOCS -- do_block
-   //
-   // Test all of the memories in a given ~block~
-   //
-
-
-   // Task -- NODOCS -- reset_blk
-   //
-   // Reset the DUT that corresponds to the specified block abstraction class.
-   //
-   // Currently empty.
-   // Will rollback the environment's phase to the ~reset~
-   // phase once the new phasing is available.
-   //
-   // In the meantime, the DUT should be reset before executing this
-   // test sequence or this method should be implemented
-   // in an extension to reset the DUT.
-   //
-
 
 endclass: uvm_mem_access_seq
