@@ -29,7 +29,7 @@
 `define UVM_REPORT_CLIENT_SVH
 
 typedef class uvm_component;
-typedef class uvm_env;
+
 typedef class uvm_root;
 
 //------------------------------------------------------------------------------
