@@ -32,7 +32,7 @@ package uvm_pkg;
   `include "dap/uvm_dap.svh"
   `include "tlm1/uvm_tlm.svh"
 
-  `include "seq/uvm_seq.svh"
+
 
 
 

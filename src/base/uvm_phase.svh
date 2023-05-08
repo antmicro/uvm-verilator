@@ -28,7 +28,7 @@
   typedef class uvm_test_done_objection;
 `endif
 
-typedef class uvm_sequencer_base;
+
 
 typedef class uvm_domain;
 typedef class uvm_task_phase;
