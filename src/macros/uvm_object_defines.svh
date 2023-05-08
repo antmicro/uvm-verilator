@@ -394,44 +394,33 @@ endfunction : __m_uvm_execute_field_op
 // @uvm-ieee 1800.2-2017 auto B.2.1
 // @uvm-ieee 1800.2-2017 auto B.2.1.3
 `define uvm_component_utils(T) \
-   `m_uvm_component_registry_internal(T,T) \
-   `uvm_type_name_decl(`"T`") \
 
+     
 // @uvm-ieee 1800.2-2017 auto B.2.1.3
 `define uvm_component_param_utils(T) \
-   `m_uvm_component_registry_param(T) \
+
 
 
 // @uvm-ieee 1800.2-2017 auto B.2.1.3
 `define uvm_component_utils_begin(T) \
-   `uvm_component_utils(T) \
-   `uvm_field_utils_begin(T)
 
 // @uvm-ieee 1800.2-2017 auto B.2.1.3
 `define uvm_component_param_utils_begin(T) \
-   `uvm_component_param_utils(T) \
-   `uvm_field_utils_begin(T)
 
 `define uvm_component_abstract_utils(T) \
-   `m_uvm_component_abstract_registry_internal(T,T) \
-   `uvm_type_name_decl(`"T`") \
 
 `define uvm_component_abstract_param_utils(T) \
-   `m_uvm_component_abstract_registry_param(T) \
+
 
 
 `define uvm_component_abstract_utils_begin(T) \
-   `uvm_component_abstract_utils(T) \
-   `uvm_field_utils_begin(T)
 
 // @uvm-ieee 1800.2-2017 auto B.2.1.3
 `define uvm_component_abstract_param_utils_begin(T) \
-   `uvm_component_abstract_param_utils(T) \
-   `uvm_field_utils_begin(T)
 
 // @uvm-ieee 1800.2-2017 auto B.2.1.3
 `define uvm_component_utils_end \
-  `uvm_field_utils_end
+
 
 
 // MACRO -- NODOCS -- `uvm_object_registry
@@ -483,15 +472,6 @@ endfunction : __m_uvm_execute_field_op
 // @uvm-ieee 1800.2-2017 auto B.2.1.5
 `ifdef VERILATOR
 `define uvm_component_registry(T,S) \
-   typedef uvm_component_registry #(T,S) type_id; \
-   static function T type_id_create (string name="", \
-                                     uvm_component parent=null, \
-                                     string contxt=""); \
-   endfunction \
-   static function type_id get_type(); \
-   endfunction \
-   virtual function uvm_object_wrapper get_object_type(); \
-   endfunction
 `else
 `define uvm_component_registry(T,S) \
    typedef uvm_component_registry #(T,S) type_id; \
@@ -593,15 +573,7 @@ endfunction : __m_uvm_execute_field_op
 
 `ifdef VERILATOR
 `define m_uvm_object_registry_param(T) \
-   typedef uvm_object_registry #(T) type_id; \
-   static function T type_id_create (string name="", \
-                                     uvm_component parent=null, \
-                                     string contxt=""); \
-   endfunction \
-   static function type_id get_type(); \
-   endfunction \
-   virtual function uvm_object_wrapper get_object_type(); \
-   endfunction
+
 `else \
 `define m_uvm_object_registry_param(T) \
    typedef uvm_object_registry #(T) type_id; \
@@ -625,10 +597,7 @@ endfunction : __m_uvm_execute_field_op
 //created by args to lower level macros.
 `ifdef VERILATOR
 `define m_uvm_object_abstract_registry_internal(T,S) \
-   static function uvm_abstract_object_registry#(T,`"S`") get_type(); \
-   endfunction \
-   virtual function uvm_object_wrapper get_object_type(); \
-   endfunction
+
 `else
 `define m_uvm_object_abstract_registry_internal(T,S) \
    typedef uvm_abstract_object_registry#(T,`"S`") type_id; \
@@ -644,13 +613,6 @@ endfunction : __m_uvm_execute_field_op
 // ------------------------------------
 
 `define m_uvm_object_abstract_registry_param(T) \
-   typedef uvm_abstract_object_registry #(T) type_id; \
-   static function type_id get_type(); \
-     return type_id::get(); \
-   endfunction \
-   virtual function uvm_object_wrapper get_object_type(); \
-     return type_id::get(); \
-   endfunction
 
 
 // m_uvm_component_registry_internal
@@ -659,13 +621,6 @@ endfunction : __m_uvm_execute_field_op
 //This is needed due to an issue in of passing down strings
 //created by args to lower level macros.
 `define m_uvm_component_registry_internal(T,S) \
-   typedef uvm_component_registry #(T,`"S`") type_id; \
-   static function type_id get_type(); \
-     return type_id::get(); \
-   endfunction \
-   virtual function uvm_object_wrapper get_object_type(); \
-     return type_id::get(); \
-   endfunction
 
 // versions of the uvm_component_registry macros to be used with
 // parameterized classes
@@ -675,11 +630,7 @@ endfunction : __m_uvm_execute_field_op
 
 `ifdef VERILATOR
 `define m_uvm_component_registry_param(T) \
-   typedef uvm_component_registry #(T) type_id; \
-   static function type_id get_type(); \
-   endfunction \
-   virtual function uvm_object_wrapper get_object_type(); \
-   endfunction
+
 `else
 `define m_uvm_component_registry_param(T) \
    typedef uvm_component_registry #(T) type_id; \
@@ -698,11 +649,7 @@ endfunction : __m_uvm_execute_field_op
 //created by args to lower level macros.
 `ifdef VERILATOR
 `define m_uvm_component_abstract_registry_internal(T,S) \
-   typedef uvm_abstract_component_registry #(T,`"S`") type_id; \
-   static function type_id get_type(); \
-   endfunction \
-   virtual function uvm_object_wrapper get_object_type(); \
-   endfunction
+
 `else
    typedef uvm_abstract_component_registry #(T,`"S`") type_id; \
    static function type_id get_type(); \
@@ -721,11 +668,7 @@ endfunction : __m_uvm_execute_field_op
 
 `ifdef VERILATOR
 `define m_uvm_component_abstract_registry_param(T) \
-   typedef uvm_abstract_component_registry #(T) type_id; \
-   static function type_id get_type(); \
-   endfunction \
-   virtual function uvm_object_wrapper get_object_type(); \
-   endfunction
+
 `else
 `define m_uvm_component_abstract_registry_param(T) \
    typedef uvm_abstract_component_registry #(T) type_id; \
