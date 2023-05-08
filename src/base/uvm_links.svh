@@ -92,8 +92,8 @@ class uvm_parent_child_link extends uvm_link_base;
 
    // Variable- m_lhs,m_rhs
    // Implementation details
-   local uvm_object m_lhs;
-   local uvm_object m_rhs;
+
+
 
    // Object utils
    `uvm_object_utils(uvm_parent_child_link)
@@ -145,8 +145,8 @@ class uvm_cause_effect_link extends uvm_link_base;
 
    // Variable- m_lhs,m_rhs
    // Implementation details
-   local uvm_object m_lhs;
-   local uvm_object m_rhs;
+
+
 
    // Object utils
    `uvm_object_utils(uvm_cause_effect_link)
@@ -198,8 +198,8 @@ class uvm_related_link extends uvm_link_base;
 
    // Variable- m_lhs,m_rhs
    // Implementation details
-   local uvm_object m_lhs;
-   local uvm_object m_rhs;
+
+
 
    // Object utils
    `uvm_object_utils(uvm_related_link)

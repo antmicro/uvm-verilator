@@ -55,7 +55,7 @@ virtual class uvm_run_test_callback extends uvm_callback;
   extern static function void m_do_post_run_test();
   extern static function void m_do_pre_abort();
 
-  local static uvm_run_test_callback   m_registered_cbs[$];
+
 
 endclass : uvm_run_test_callback
 

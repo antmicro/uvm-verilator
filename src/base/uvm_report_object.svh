@@ -88,8 +88,8 @@ class uvm_report_object extends uvm_object;
 
   uvm_report_handler m_rh;
 
-  local bit m_rh_set;
-  local function void m_rh_init(); endfunction : m_rh_init
+
+
 
   // Function -- NODOCS -- new
   //

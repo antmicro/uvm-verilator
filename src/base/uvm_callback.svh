@@ -229,7 +229,7 @@ class uvm_callbacks #(type T=uvm_object, type CB=uvm_callback)
 
 
   // Singleton instance is used for type checking
-  local static this_type m_inst;
+
 
   // typeinfo
   static uvm_typeid_base m_typeid;
@@ -490,9 +490,9 @@ endclass
 // @uvm-ieee 1800.2-2017 auto D.1.1
 class uvm_callback_iter#(type T = uvm_object, type CB = uvm_callback);
 
-   local int m_i;
-   local T   m_obj;
-   local CB  m_cb;
+
+
+
 
    // Function -- NODOCS -- new
    //

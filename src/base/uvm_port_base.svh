@@ -192,13 +192,13 @@ virtual class uvm_port_base extends uvm_void;
   protected this_type     m_if;    // REMOVE
   protected int unsigned  m_def_index;
   uvm_port_component m_comp;
-  local this_type m_provided_by[string];
-  local this_type m_provided_to[string];
-  local uvm_port_type_e   m_port_type;
-  local int               m_min_size;
-  local int               m_max_size;
-  local bit               m_resolved;
-  local this_type         m_imp_list[string];
+
+
+
+
+
+
+
 
   // Function -- NODOCS -- new
   //
@@ -438,14 +438,14 @@ virtual class uvm_port_base extends uvm_void;
   // m_check_relationship
   // --------------------
 
-  local function bit  m_check_relationship (this_type provider); endfunction
+
 
 
   // m_add_list
   //
   // Internal method.
 
-  local function void m_add_list           (this_type provider); endfunction
+
 
 
   // Function -- NODOCS -- resolve_bindings

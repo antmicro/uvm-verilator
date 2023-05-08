@@ -48,19 +48,19 @@ virtual class uvm_tr_stream extends uvm_object;
 
    // Variable- m_records
    // Active records in the stream (active == open or closed)
-   local bit m_records[uvm_recorder];
+
    
    // Variable- m_warn_null_cfg
    // Used to limit the number of warnings
-   local bit m_warn_null_cfg;
+
 
    // Variable- m_is_opened
    // Used to indicate stream is open
-   local bit m_is_opened;
+
 
    // Variable- m_is_closed
    // Used to indicate stream is closed
-   local bit m_is_closed;
+
    
    // !m_is_opened && !m_is_closed == m_is_freed
    
@@ -76,7 +76,7 @@ virtual class uvm_tr_stream extends uvm_object;
    // By default, neither ~m_ids_by_stream~ or ~m_streams_by_id~ are
    // used.  Streams are only placed in the arrays when the user
    // attempts to determine the id for a stream.
-   local static int m_ids_by_stream[uvm_tr_stream];
+
 
    // Group -- NODOCS -- Configuration API
    
@@ -165,7 +165,7 @@ virtual class uvm_tr_stream extends uvm_object;
    // Variable- m_streams_by_id
    // A corollary to ~m_ids_by_stream~, this indexes the streams by their
    // unique ids.
-   local static uvm_tr_stream m_streams_by_id[int];
+
 
 
    // @uvm-ieee 1800.2-2017 auto 7.2.6.1

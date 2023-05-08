@@ -44,7 +44,7 @@
             if ($cast(comp_,comp)) \
               comp_.``PHASE``_phase(phase); \
           endtask \
-          local static PREFIX``PHASE``_phase m_inst; \
+local static PREFIX``PHASE``_phase m_inst; \
           `uvm_type_name_decl(`"PREFIX``PHASE``_phase`") \
           static function PREFIX``PHASE``_phase get(); \
             if(m_inst == null) begin \
@@ -65,7 +65,7 @@
             if ($cast(comp_,comp)) \
               comp_.``PHASE``_phase(phase); \
           endfunction \
-          local static PREFIX``PHASE``_phase m_inst; \
+local static PREFIX``PHASE``_phase m_inst; \
           `uvm_type_name_decl(`"PREFIX``PHASE``_phase`") \
           static function PREFIX``PHASE``_phase get(); \
             if(m_inst == null) begin \

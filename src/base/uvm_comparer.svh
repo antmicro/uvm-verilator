@@ -105,7 +105,7 @@ class uvm_comparer extends uvm_policy;
 `ifdef UVM_ENABLE_DEPRECATED_API
   uvm_recursion_policy_enum policy = UVM_DEFAULT_POLICY;
 `else
-  local uvm_recursion_policy_enum policy = UVM_DEFAULT_POLICY;
+
 `endif
 
   // Variable -- NODOCS -- show_max
@@ -116,7 +116,7 @@ class uvm_comparer extends uvm_policy;
 `ifdef UVM_ENABLE_DEPRECATED_API
   int unsigned show_max = 1;
 `else
-  local int unsigned show_max = 1;
+
 `endif
 
   // Variable -- NODOCS -- verbosity
@@ -129,7 +129,7 @@ class uvm_comparer extends uvm_policy;
 `ifdef UVM_ENABLE_DEPRECATED_API
   int unsigned verbosity = UVM_LOW;
 `else
-  local int unsigned verbosity = UVM_LOW;
+
 `endif
 
 
@@ -143,7 +143,7 @@ class uvm_comparer extends uvm_policy;
 `ifdef UVM_ENABLE_DEPRECATED_API
   uvm_severity sev = UVM_INFO;
 `else
-  local uvm_severity sev = UVM_INFO;
+
 `endif
 
 
@@ -157,7 +157,7 @@ class uvm_comparer extends uvm_policy;
 `ifdef UVM_ENABLE_DEPRECATED_API
   string miscompares = "";
 `else
-  local string miscompares = "";
+
 `endif
 
    
@@ -202,7 +202,7 @@ class uvm_comparer extends uvm_policy;
 `ifdef UVM_ENABLE_DEPRECATED_API
   bit check_type = 1;
 `else
-  local bit check_type = 1;
+
 `endif
 
 
@@ -215,10 +215,10 @@ class uvm_comparer extends uvm_policy;
 `ifdef UVM_ENABLE_DEPRECATED_API
   int unsigned result = 0;
 `else
-  local int unsigned result = 0;
+
 `endif
 
-  local int unsigned m_threshold;
+
 
 	// @uvm-ieee 1800.2-2017 auto 16.3.2.1
 	function new(string name=""); endfunction
@@ -279,8 +279,8 @@ class uvm_comparer extends uvm_policy;
                                           real rhs); endfunction
 
   // Stores the passed-in names of the objects in the hierarchy
-  local string m_object_names[$];
-  local function string m_current_context(string name=""); endfunction : m_current_context
+
+
   
   // Function -- NODOCS -- compare_object
   //

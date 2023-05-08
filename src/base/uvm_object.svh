@@ -830,9 +830,9 @@ virtual class uvm_object extends uvm_void;
   // The print_matches bit causes an informative message to be printed
   // when a field is set using one of the set methods.
 
-  local string m_leaf_name;
 
-  local int m_inst_id;
+
+
   static protected int m_inst_count;
 
   extern virtual function void __m_uvm_field_automation (uvm_object tmp_data__,  

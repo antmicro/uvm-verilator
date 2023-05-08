@@ -35,13 +35,13 @@ class uvm_field_op extends uvm_object;
    // @uvm-ieee 1800.2-2017 auto 5.3.5.1
    `uvm_object_utils(uvm_field_op)
 
-   local uvm_policy m_policy;
-   local bit m_user_hook;
-   local uvm_object m_object;
+
+
+
    // Bit m_is_set is set when the set() method is called and acts 
    // like a state variable. It is cleared when flush is called.
-   local bit m_is_set;
-   local  uvm_field_flag_t m_op_type;
+
+
 
 
    // Function -- new 

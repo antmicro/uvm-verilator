@@ -167,7 +167,7 @@ class uvm_root extends uvm_component;
 `ifdef UVM_ENABLE_DEPRECATED_API
   bit finish_on_completion = 1;
 `else
-  local bit finish_on_completion = 1;
+
 `endif
 
   // Function -- NODOCS -- get_finish_on_completion

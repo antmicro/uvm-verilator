@@ -157,7 +157,7 @@ class uvm_report_handler extends uvm_object;
   //
   // Return the file id based on the severity and the id
 
-  local function UVM_FILE get_severity_id_file(uvm_severity severity, string id); endfunction
+
 
 
   // Function- set_verbosity_level

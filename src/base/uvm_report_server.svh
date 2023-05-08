@@ -209,10 +209,10 @@ endclass
 // @uvm-ieee 1800.2-2017 auto 6.5.2
 class uvm_default_report_server extends uvm_report_server;
 
-  local int m_quit_count;
-  local int m_max_quit_count; 
+
+
   bit max_quit_overridable = 1;
-  local int m_severity_count[uvm_severity];
+
   protected int m_id_count[string];
    protected uvm_tr_database m_message_db;
    protected uvm_tr_stream m_streams[string][string]; // ro.name,rh.name

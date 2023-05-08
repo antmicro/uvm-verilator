@@ -54,11 +54,11 @@ virtual class uvm_tr_database extends uvm_object;
 
    // Variable- m_is_opened
    // Tracks the opened state of the database
-   local bit m_is_opened;
+
 
    // Variable- m_streams
    // Used for tracking streams which are between the open and closed states
-   local bit m_streams[uvm_tr_stream];
+
    
 
    // @uvm-ieee 1800.2-2017 auto 7.1.2

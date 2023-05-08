@@ -1518,8 +1518,8 @@ virtual class uvm_component extends uvm_report_object;
   extern virtual function uvm_object create (string name="");
   extern virtual function uvm_object clone  ();
 
-  local uvm_tr_stream m_streams[string][string];
-  local uvm_recorder m_tr_h[uvm_transaction];
+
+
   extern protected function int m_begin_tr (uvm_transaction tr,
                                                 int parent_handle=0,
                                                 string stream_name="main", string label="",
