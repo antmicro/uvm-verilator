@@ -292,43 +292,29 @@ endfunction : __m_uvm_execute_field_op
 // @uvm-ieee 1800.2-2017 auto B.2.1.2
 `define uvm_object_utils(T) \
   `m_uvm_object_registry_internal(T,T)  \
-  `m_uvm_object_create_func(T) \
-  `uvm_type_name_decl(`"T`")
 
 // @uvm-ieee 1800.2-2017 auto B.2.1.2
 `define uvm_object_param_utils(T) \
-  `m_uvm_object_registry_param(T)  \
-  `m_uvm_object_create_func(T)
 
 // @uvm-ieee 1800.2-2017 auto B.2.1.2
 `define uvm_object_utils_begin(T) \
-  `uvm_object_utils(T) \
-  `uvm_field_utils_begin(T)
 
 // @uvm-ieee 1800.2-2017 auto B.2.1.2
 `define uvm_object_param_utils_begin(T) \
-  `uvm_object_param_utils(T) \
-  `uvm_field_utils_begin(T)
 
 `define uvm_object_abstract_utils(T) \
-  `m_uvm_object_abstract_registry_internal(T,T)  \
-  `uvm_type_name_decl(`"T`")
 
 `define uvm_object_abstract_param_utils(T) \
-  `m_uvm_object_abstract_registry_param(T)
+
 
 `define uvm_object_abstract_utils_begin(T) \
-  `uvm_object_abstract_utils(T) \
-  `uvm_field_utils_begin(T)
 
 // @uvm-ieee 1800.2-2017 auto B.2.1.2
 `define uvm_object_abstract_param_utils_begin(T) \
-  `uvm_object_abstract_param_utils(T) \
-  `uvm_field_utils_begin(T)
 
 // @uvm-ieee 1800.2-2017 auto B.2.1.2
 `define uvm_object_utils_end \
-  `uvm_field_utils_end
+
 
 // MACRO -- NODOCS -- `uvm_component_utils
 
