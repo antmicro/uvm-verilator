@@ -146,7 +146,6 @@ endclass
 class uvm_abstract_component_registry #(type T=uvm_component, string Tname="<unknown>")
                                            extends uvm_object_wrapper;
   typedef uvm_abstract_component_registry #(T,Tname) this_type;
-  typedef uvm_registry_common#( this_type, uvm_registry_component_creator, T, Tname ) common_type;
 
   // Function -- NODOCS -- create_component
   //
@@ -237,7 +236,7 @@ endclass
 class uvm_abstract_object_registry #(type T=uvm_object, string Tname="<unknown>")
                                         extends uvm_object_wrapper;
   typedef uvm_abstract_object_registry #(T,Tname) this_type;
-  typedef uvm_registry_common#( this_type, uvm_registry_object_creator, T, Tname ) common_type;
+
 
   // Function -- NODOCS -- create_object
   //
