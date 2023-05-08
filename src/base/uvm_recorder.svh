@@ -50,7 +50,7 @@ virtual class uvm_recorder extends uvm_policy;
 
   // Variable- m_stream_dap
   // Data access protected reference to the stream
-  local uvm_set_before_get_dap#(uvm_tr_stream) m_stream_dap;
+
 
   // Variable- m_warn_null_stream
   // Used to limit the number of warnings 

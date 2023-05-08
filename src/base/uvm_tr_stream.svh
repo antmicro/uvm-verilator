@@ -35,7 +35,7 @@ class m_uvm_tr_stream_cfg;
    string stream_type_name;
 endclass : m_uvm_tr_stream_cfg
 
-typedef class uvm_set_before_get_dap;
+
 typedef class uvm_text_recorder;
    
 
@@ -44,7 +44,7 @@ virtual class uvm_tr_stream extends uvm_object;
 
    // Variable- m_cfg_dap
    // Data access protected reference to the DB
-   local uvm_set_before_get_dap#(m_uvm_tr_stream_cfg) m_cfg_dap;
+
 
    // Variable- m_records
    // Active records in the stream (active == open or closed)
