@@ -32,7 +32,7 @@ typedef class uvm_objection_context_object;
 typedef class uvm_objection;
 
 typedef class uvm_objection_callback;
-typedef uvm_callbacks #(uvm_objection,uvm_objection_callback) uvm_objection_cbs_t;
+
 typedef class uvm_cmdline_processor;
 
 class uvm_objection_events;
@@ -65,7 +65,7 @@ endclass
 
 // @uvm-ieee 1800.2-2017 auto 10.5.1
 // @uvm-ieee 1800.2-2017 auto 10.5.1.1
-class uvm_objection extends uvm_report_object;
+class uvm_objection;
   `uvm_register_cb(uvm_objection, uvm_objection_callback)
 
   protected bit     m_trace_mode;
@@ -562,7 +562,7 @@ typedef uvm_objection uvm_callbacks_objection;
 
 
 // @uvm-ieee 1800.2-2017 auto 10.5.2.1
-class uvm_objection_callback extends uvm_callback;
+class uvm_objection_callback;
   function new(string name=""); endfunction
 
   // Function -- NODOCS -- raised

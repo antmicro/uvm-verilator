@@ -63,7 +63,7 @@ typedef class uvm_objection;
 //------------------------------------------------------------------------------
 
 // @uvm-ieee 1800.2-2017 auto 13.1.1
-virtual class uvm_component extends uvm_report_object;
+virtual class uvm_component;
 
   // Function -- NODOCS -- new
   //
@@ -1530,7 +1530,7 @@ virtual class uvm_component extends uvm_report_object;
   typedef uvm_abstract_component_registry#(uvm_component, "uvm_component") type_id;
   `uvm_type_name_decl("uvm_component")
 
-  protected uvm_event_pool event_pool;
+
 
   int unsigned recording_detail = UVM_NONE;
   extern         function void   do_print(uvm_printer printer);

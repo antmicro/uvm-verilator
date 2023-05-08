@@ -22,8 +22,6 @@
 
 typedef class uvm_object;
 typedef class uvm_event;
-typedef class uvm_callback;
-typedef class uvm_callbacks;
    
 //------------------------------------------------------------------------------
 //
@@ -40,7 +38,7 @@ typedef class uvm_callbacks;
 //------------------------------------------------------------------------------
 
 // @uvm-ieee 1800.2-2017 auto 10.2.1
-virtual class uvm_event_callback#(type T=uvm_object) extends uvm_callback;
+virtual class uvm_event_callback#(type T=uvm_object);
 
   // Function -- NODOCS -- new
   //

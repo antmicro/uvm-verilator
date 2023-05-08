@@ -24,7 +24,7 @@
 //   permissions and limitations under the License.
 //-----------------------------------------------------------------------------
 
-typedef class uvm_report_message;
+
 
 // File -- NODOCS -- UVM Recorders
 //

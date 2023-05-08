@@ -25,8 +25,6 @@
 //------------------------------------------------------------------------------
 
 typedef class uvm_root;
-typedef class uvm_report_object;
-typedef class uvm_report_message;
    
 // Title -- NODOCS -- Globals
 
@@ -53,7 +51,7 @@ task run_test (string test_name=""); endtask
 
 
 // @uvm-ieee 1800.2-2017 auto F.3.2.1
-function uvm_report_object uvm_get_report_object(); endfunction
+
 
 
 // Function -- NODOCS -- uvm_report_enabled
@@ -159,7 +157,7 @@ function void uvm_report_fatal(string id,
 // components. See <uvm_report_object> for details on the reporting mechanism.
 
 // @uvm-ieee 1800.2-2017 auto F.3.2.3
-function void uvm_process_report_message(uvm_report_message report_message); endfunction
+
 
 
 // TODO merge with uvm_enum_wrapper#(uvm_severity)

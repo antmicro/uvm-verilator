@@ -597,7 +597,7 @@ endclass
 //
 
 // @uvm-ieee 1800.2-2017 auto 9.3.3.1
-class uvm_phase_cb extends uvm_callback;
+class uvm_phase_cb;
 
 
   // @uvm-ieee 1800.2-2017 auto 9.3.3.2.1
@@ -618,7 +618,7 @@ endclass
 //
 // Convenience type for the uvm_callbacks#(uvm_phase, uvm_phase_cb) class.
 //
-typedef uvm_callbacks#(uvm_phase, uvm_phase_cb) uvm_phase_cb_pool /* @uvm-ieee 1800.2-2017 auto D.4.1*/   ;
+
 
 
 //------------------------------------------------------------------------------

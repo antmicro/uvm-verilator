@@ -59,7 +59,7 @@
 
 // @uvm-ieee 1800.2-2017 auto B.4.1
 `define uvm_register_cb(T,CB) \
-  static local bit m_register_cb_``CB = uvm_callbacks#(T,CB)::m_register_pair(`"T`",`"CB`");
+static local bit m_register_cb_``CB;
 
 
 //-----------------------------------------------------------------------------
@@ -292,9 +292,6 @@
 
 `define uvm_cb_trace_noobj(CB,OPER) \
   begin \
-    if(uvm_callbacks_base::m_tracing) \
-      `uvm_info("UVMCB_TRC", $sformatf("%s : callback %s (%s@%0d)" ,  \
-       OPER, CB.get_name(), CB.get_type_name(), CB.get_inst_id()), UVM_NONE) \
   end
 `else
 

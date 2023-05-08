@@ -198,7 +198,7 @@ class uvm_event#(type T=uvm_object) extends uvm_event_base;
 
         typedef uvm_event#(T) this_type;
         typedef uvm_event_callback#(T) cb_type;
-        typedef uvm_callbacks#(this_type, cb_type) cbs_type;
+
    
         // Not using `uvm_register_cb(this_type, cb_type)
         // so as to try and get ~slightly~ better debug

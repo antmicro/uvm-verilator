@@ -92,7 +92,7 @@ uvm_cmdline_processor uvm_cmdline_proc;
 //
 
 // @uvm-ieee 1800.2-2017 auto G.1.1
-class uvm_cmdline_processor extends uvm_report_object;
+class uvm_cmdline_processor;
 
   static local uvm_cmdline_processor m_inst;
 

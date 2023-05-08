@@ -26,7 +26,7 @@
 //-----------------------------------------------------------------------------
 
 
-typedef class uvm_report_object;
+
 typedef class uvm_object_wrapper;
 typedef class uvm_objection;
 typedef class uvm_component;
@@ -839,7 +839,7 @@ virtual class uvm_object extends uvm_void;
                                                    uvm_field_flag_t what__, 
                                                    string           str__);
 
-  extern protected virtual function uvm_report_object m_get_report_object();
+
 
 endclass
 
@@ -1116,4 +1116,4 @@ function void uvm_object::do_record (uvm_recorder recorder); endfunction
 // m_get_report_object
 // -------------------
 
-function uvm_report_object uvm_object::m_get_report_object(); endfunction
+
