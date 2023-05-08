@@ -104,12 +104,12 @@
   `include "base/uvm_common_phases.svh"
   `include "base/uvm_runtime_phases.svh"
 
-  `include "base/uvm_run_test_callback.svh"
+
   `include "base/uvm_component.svh"
 
   // Objection interface
   `include "base/uvm_objection.svh"
-  `include "base/uvm_heartbeat.svh"
+
 
 
   // Command Line Processor
