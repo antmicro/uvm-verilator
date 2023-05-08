@@ -447,14 +447,6 @@ class uvm_objection;
   // Below is all of the basic data stuff that is needed for a uvm_object
   // for factory registration, printing, comparing, etc.
 
-  typedef uvm_object_registry#(uvm_objection,"uvm_objection") type_id;
-`ifdef VERILATOR
-  static function uvm_objection type_id_create (string name="",
-                                                uvm_component parent=null,
-                                                string contxt=""); endfunction
-`endif
-  static function type_id get_type(); endfunction
-
   function uvm_object create (string name=""); endfunction virtual function string get_type_name (); endfunction
 
   function void do_copy (uvm_object rhs); endfunction
@@ -505,8 +497,6 @@ class uvm_test_done_objection extends uvm_objection;
   // Below are basic data operations needed for all uvm_objects
   // for factory registration, printing, comparing, etc.
 
-  typedef uvm_object_registry#(uvm_test_done_objection,"uvm_test_done") type_id;
-  static function type_id get_type(); endfunction
 
   function uvm_object create (string name=""); endfunction virtual function string get_type_name (); endfunction
 
