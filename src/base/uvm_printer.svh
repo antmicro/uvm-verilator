@@ -601,12 +601,6 @@ endclass
 //| c1: (container@1013) { d1: (mydata@1022) { v1: 'hcb8f1c97 e1: THREE str: hi } value: 'h2d }
 //------------------------------------------------------------------------------
 
-// @uvm-ieee 1800.2-2017 auto 16.2.12.1
-class uvm_line_printer1;
-
-     // @uvm-ieee 1800.2-2017 auto 16.2.12.2.2
-   typedef uvm_object_registry#(uvm_line_printer1) type_id;
-endclass
 
 class uvm_line_printer;
 

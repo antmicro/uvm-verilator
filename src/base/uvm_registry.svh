@@ -48,94 +48,22 @@ typedef class uvm_registry_object_creator;
 // 8.2.4.1 of 1800.2-2017.
 
 // @uvm-ieee 1800.2-2017 auto 8.2.4.1
-class uvm_object_registry #(type T=uvm_object, string Tname="<unknown>")
-                                        extends uvm_object_wrapper;
+
+class uvm_object_registry #(type T=uvm_object, string Tname="<unknown>");
   typedef uvm_object_registry #(T) this_type;
   typedef uvm_registry_common#(this_type) common_type;
 
-  // Function -- NODOCS -- create_object
-  //
-  // Creates an object of type ~T~ and returns it as a handle to a
-  // <uvm_object>. This is an override of the method in <uvm_object_wrapper>.
-  // It is called by the factory after determining the type of object to create.
-  // You should not call this method directly. Call <create> instead.
+endclass
 
-  // @uvm-ieee 1800.2-2017 auto 8.2.4.2.1
-  virtual function uvm_object create_object(string name=""); endfunction
+class uvm_registry_common #( type Tregistry=int, type Tcreator=int, type Tcreated=int, string Tname="<unknown>" );
 
-  static function string type_name(); endfunction : type_name
+  typedef uvm_registry_common#(Tregistry) this_type;
 
-  // Function -- NODOCS -- get_type_name
-  //
-  // Returns the value given by the string parameter, ~Tname~. This method
-  // overrides the method in <uvm_object_wrapper>.
+endclass
+class uvm_line_printer1;
 
-  // @uvm-ieee 1800.2-2017 auto 8.2.4.2.2
-  virtual function string get_type_name(); endfunction
-
-  //
-  // Returns the singleton instance of this type. Type-based factory operation
-  // depends on there being a single proxy instance for each registered type.
-
-  static function this_type get(); endfunction
-
-
-  // Function -- NODOCS -- create
-  //
-  // Returns an instance of the object type, ~T~, represented by this proxy,
-  // subject to any factory overrides based on the context provided by the
-  // ~parent~'s full name. The ~contxt~ argument, if supplied, supersedes the
-  // ~parent~'s context. The new instance will have the given leaf ~name~,
-  // if provided.
-
-  // @uvm-ieee 1800.2-2017 auto 8.2.4.2.4
-  static function T create (string name="", uvm_component parent=null,
-                            string contxt=""); endfunction
-
-
-  // Function -- NODOCS -- set_type_override
-  //
-  // Configures the factory to create an object of the type represented by
-  // ~override_type~ whenever a request is made to create an object of the type
-  // represented by this proxy, provided no instance override applies. The
-  // original type, ~T~, is typically a super class of the override type.
-
-  // @uvm-ieee 1800.2-2017 auto 8.2.4.2.5
-  static function void set_type_override (uvm_object_wrapper override_type,
-                                          bit replace=1); endfunction
-
-
-  // Function -- NODOCS -- set_inst_override
-  //
-  // Configures the factory to create an object of the type represented by
-  // ~override_type~ whenever a request is made to create an object of the type
-  // represented by this proxy, with matching instance paths. The original
-  // type, ~T~, is typically a super class of the override type.
-  //
-  // If ~parent~ is not specified, ~inst_path~ is interpreted as an absolute
-  // instance path, which enables instance overrides to be set from outside
-  // component classes. If ~parent~ is specified, ~inst_path~ is interpreted
-  // as being relative to the ~parent~'s hierarchical instance path, i.e.
-  // ~{parent.get_full_name(),".",inst_path}~ is the instance path that is
-  // registered with the override. The ~inst_path~ may contain wildcards for
-  // matching against multiple contexts.
-
-  // @uvm-ieee 1800.2-2017 auto 8.2.4.2.6
-  static function void set_inst_override(uvm_object_wrapper override_type,
-                                         string inst_path,
-                                         uvm_component parent=null); endfunction
-
-  // Function: set_type_alias
-  // Sets a type alias for this wrapper in the default factory.
-  //
-  // If this wrapper is not yet registered with a factory (see <uvm_factory::register>),
-  // then the alias is deferred until registration occurs.
-  //
-  // @uvm-contrib This API is being considered for potential contribution to 1800.2
-  static function bit set_type_alias(string alias_name); endfunction
-
-  // @uvm-ieee 1800.2-2017 auto 8.2.4.2.7
-  virtual function void initialize(); endfunction
+     // @uvm-ieee 1800.2-2017 auto 16.2.12.2.2
+   typedef uvm_object_registry#(uvm_line_printer1) type_id;
 endclass
 
 // Class: uvm_abstract_component_registry#(T,Tname)
@@ -329,11 +257,6 @@ endclass
 //
 //------------------------------------------------------------------------------
 
-class uvm_registry_common #( type Tregistry=int, type Tcreator=int, type Tcreated=int, string Tname="<unknown>" );
-
-  typedef uvm_registry_common#(Tregistry,Tcreator,Tcreated,Tname) this_type;
-
-endclass
 
 
 //------------------------------------------------------------------------------
