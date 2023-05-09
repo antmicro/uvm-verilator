@@ -60,12 +60,14 @@ class uvm_registry_common #( type Tregistry=int, type Tcreator=int, type Tcreate
   typedef uvm_registry_common#(Tregistry) this_type;
 
 endclass
-class uvm_line_printer1;
 
-     // @uvm-ieee 1800.2-2017 auto 16.2.12.2.2
+class uvm_line_printer1;
    typedef uvm_object_registry#(uvm_line_printer1) type_id;
 endclass
 
+class uvm_tree_printer1;
+   typedef uvm_object_registry#(uvm_tree_printer1) type_id;
+endclass
 // Class: uvm_abstract_component_registry#(T,Tname)
 // Implementation of uvm_abstract_component_registry#(T,Tname), as defined by section
 // 8.2.5.1.1 of 1800.2-2017.

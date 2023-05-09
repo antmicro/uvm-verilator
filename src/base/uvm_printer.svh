@@ -539,7 +539,8 @@ class uvm_tree_printer extends uvm_printer;
   protected string m_linefeed ;
 
      // @uvm-ieee 1800.2-2017 auto 16.2.11.2.2
-     `uvm_object_utils(uvm_tree_printer)
+
+
   // Variable -- NODOCS -- new
   //
   // Creates a new instance of ~uvm_tree_printer~.
