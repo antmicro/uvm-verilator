@@ -602,10 +602,16 @@ endclass
 //------------------------------------------------------------------------------
 
 // @uvm-ieee 1800.2-2017 auto 16.2.12.1
-class uvm_line_printer extends uvm_tree_printer;
+class uvm_line_printer1;
 
      // @uvm-ieee 1800.2-2017 auto 16.2.12.2.2
-     `uvm_object_utils(uvm_line_printer)
+   typedef uvm_object_registry#(uvm_line_printer1) type_id;
+endclass
+
+class uvm_line_printer;
+
+     // @uvm-ieee 1800.2-2017 auto 16.2.12.2.2
+
   // Variable -- NODOCS -- new
   //
   // Creates a new instance of ~uvm_line_printer~. It differs from the
