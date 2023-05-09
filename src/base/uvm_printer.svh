@@ -46,7 +46,7 @@ typedef struct {
 // @uvm-ieee 1800.2-2017 auto 16.2.1
 virtual class uvm_printer extends uvm_policy;
 
-   `uvm_object_abstract_utils(uvm_printer)
+
 
   extern function new(string name="") ;
 
@@ -452,7 +452,7 @@ endclass : uvm_printer_element_proxy
 class uvm_table_printer extends uvm_printer;
 
      // @uvm-ieee 1800.2-2017 auto 16.2.10.2.2
-     `uvm_object_utils(uvm_table_printer)
+
 
 
   // @uvm-ieee 1800.2-2017 auto 16.2.10.2.1

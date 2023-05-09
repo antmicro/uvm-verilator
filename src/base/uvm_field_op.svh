@@ -33,7 +33,7 @@ class uvm_field_op extends uvm_object;
    // @uvm-ieee 1800.2-2017 auto 5.3.4.6
    // @uvm-ieee 1800.2-2017 auto 5.3.4.7
    // @uvm-ieee 1800.2-2017 auto 5.3.5.1
-   `uvm_object_utils(uvm_field_op)
+
 
 
 

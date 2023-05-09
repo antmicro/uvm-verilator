@@ -48,7 +48,7 @@ typedef bit signed [(`UVM_PACKER_MAX_BYTES*8)-1:0] uvm_pack_bitstream_t;
 class uvm_packer extends uvm_policy;
 
    // @uvm-ieee 1800.2-2017 auto 16.5.2.3
-   `uvm_object_utils(uvm_packer)
+
 
     uvm_factory m_factory;
 

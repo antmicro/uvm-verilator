@@ -60,7 +60,7 @@ class uvm_text_tr_database extends uvm_tr_database;
    // Variable- m_file
    UVM_FILE m_file;
 
-   `uvm_object_utils(uvm_text_tr_database)
+
 
    // Function: new
    // Constructor
