@@ -39,7 +39,7 @@
 // @uvm-ieee 1800.2-2017 auto 16.6.1
 class uvm_copier extends uvm_policy;
    // @uvm-ieee 1800.2-2017 auto 16.6.2.2
-   `uvm_object_utils(uvm_copier)
+
   // Variable -- NODOCS -- policy
   //
   // Determines whether comparison is UVM_DEEP, UVM_REFERENCE, or UVM_SHALLOW.

@@ -68,7 +68,7 @@
 class uvm_build_phase extends uvm_topdown_phase;
    virtual function void exec_func(uvm_component comp, uvm_phase phase); endfunction
 
-   `uvm_type_name_decl("uvm_build_phase")
+
 
    // Function -- NODOCS -- get
    // Returns the singleton phase handle
@@ -103,7 +103,7 @@ endclass
 class uvm_connect_phase extends uvm_bottomup_phase;
    virtual function void exec_func(uvm_component comp, uvm_phase phase); endfunction
 
-   `uvm_type_name_decl("uvm_connect_phase")
+
 
    // Function -- NODOCS -- get
    // Returns the singleton phase handle 
@@ -134,7 +134,7 @@ endclass
 class uvm_end_of_elaboration_phase extends uvm_bottomup_phase;
    virtual function void exec_func(uvm_component comp, uvm_phase phase); endfunction
 
-   `uvm_type_name_decl("uvm_end_of_elaboration_phase")
+
 
    // Function -- NODOCS -- get
    // Returns the singleton phase handle 
@@ -170,7 +170,7 @@ endclass
 class uvm_start_of_simulation_phase extends uvm_bottomup_phase;
    virtual function void exec_func(uvm_component comp, uvm_phase phase); endfunction
 
-   `uvm_type_name_decl("uvm_start_of_simulation_phase")
+
 
    // Function -- NODOCS -- get
    // Returns the singleton phase handle 
