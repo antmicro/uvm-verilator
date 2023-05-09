@@ -46,7 +46,7 @@
 // @uvm-ieee 1800.2-2017 auto 16.4.1
 virtual class uvm_recorder extends uvm_policy;
 
-   `uvm_object_abstract_utils(uvm_recorder)
+
 
   // Variable- m_stream_dap
   // Data access protected reference to the stream
@@ -454,7 +454,7 @@ endclass // uvm_recorder
   
 class uvm_text_recorder extends uvm_recorder;
 
-   `uvm_object_utils(uvm_text_recorder)
+
 
    // Variable- m_text_db
    //

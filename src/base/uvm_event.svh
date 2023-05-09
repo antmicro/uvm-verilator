@@ -36,7 +36,7 @@
 // @uvm-ieee 1800.2-2017 auto 10.1.1.1
 virtual class uvm_event_base extends uvm_object;
 
-        `uvm_object_abstract_utils(uvm_event_base)
+
 
 	protected event      m_event;
 	protected int        num_waiters;
@@ -206,7 +206,7 @@ class uvm_event#(type T=uvm_object) extends uvm_event_base;
         static local function bit m_register_cb(); endfunction : m_register_cb
         static local bit m_cb_registered = m_register_cb();
    
-        `uvm_object_param_utils(this_type)
+
 
         // Better type name for debug
         virtual function string get_type_name(); endfunction : get_type_name

@@ -96,7 +96,7 @@ class uvm_parent_child_link extends uvm_link_base;
 
 
    // Object utils
-   `uvm_object_utils(uvm_parent_child_link)
+
 
 
    // @uvm-ieee 1800.2-2017 auto 7.3.2.2.1
@@ -149,7 +149,7 @@ class uvm_cause_effect_link extends uvm_link_base;
 
 
    // Object utils
-   `uvm_object_utils(uvm_cause_effect_link)
+
 
 
    // @uvm-ieee 1800.2-2017 auto 7.3.3.2.1
@@ -202,7 +202,7 @@ class uvm_related_link extends uvm_link_base;
 
 
    // Object utils
-   `uvm_object_utils(uvm_related_link)
+
 
 
    // @uvm-ieee 1800.2-2017 auto 7.3.4.2.1

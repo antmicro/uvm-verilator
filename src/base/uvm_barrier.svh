@@ -40,7 +40,7 @@ class uvm_barrier extends uvm_object;
 
 
 
-  `uvm_object_utils(uvm_barrier)
+
 
   // Function -- NODOCS -- new
   //
