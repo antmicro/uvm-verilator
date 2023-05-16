@@ -838,7 +838,7 @@ class uvm_callbacks #(type T=uvm_object, type CB=uvm_callback)
 
   static function void m_get_q (ref uvm_queue #(uvm_callback) q, input T obj);
     if(!m_base_inst.m_pool.exists(obj)) begin //no instance specific
-      q = (obj == null) ? m_t_inst.m_tw_cb_q : m_t_inst.m_get_tw_cb_q(obj);
+
     end 
     else begin
       q = m_base_inst.m_pool.get(obj);
