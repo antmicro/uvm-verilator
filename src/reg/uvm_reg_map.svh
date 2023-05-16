@@ -988,7 +988,7 @@ endfunction
 // get_root_map
 
 function uvm_reg_map uvm_reg_map::get_root_map();
-   return (m_parent_map == null) ? this : m_parent_map.get_root_map();
+   return null;
 endfunction: get_root_map
 
 
