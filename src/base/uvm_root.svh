@@ -856,61 +856,9 @@ endfunction
 // m_process_config
 // ----------------
 
+
 function void uvm_root::m_process_config(string cfg, bit is_int);
-	uvm_bitstream_t v;
-	string split_val[$];
-	uvm_root m_uvm_top;
-	uvm_coreservice_t cs;
-	cs = uvm_coreservice_t::get();
-	m_uvm_top = cs.get_root();
-
-
-	uvm_split_string(cfg, ",", split_val);
-	if(split_val.size() == 1) begin
-		uvm_report_error("UVM_CMDLINE_PROC", {"Invalid +uvm_set_config command\"", cfg,
-				"\" missing field and value: component is \"", split_val[0], "\""}, UVM_NONE);
-		return;
-	end
-
-	if(split_val.size() == 2) begin
-		uvm_report_error("UVM_CMDLINE_PROC", {"Invalid +uvm_set_config command\"", cfg,
-				"\" missing value: component is \"", split_val[0], "\"  field is \"", split_val[1], "\""}, UVM_NONE);
-		return;
-	end
-
-	if(split_val.size() > 3) begin
-		uvm_report_error("UVM_CMDLINE_PROC",
-			$sformatf("Invalid +uvm_set_config command\"%s\" : expected only 3 fields (component, field and value).", cfg), UVM_NONE);
-		return;
-	end
-
-	if(is_int) begin
-		if(split_val[2].len() > 2) begin
-			string base, extval;
-			base = split_val[2].substr(0,1);
-			extval = split_val[2].substr(2,split_val[2].len()-1);
-			case(base)
-				"'b" : v = extval.atobin();
-				"0b" : v = extval.atobin();
-				"'o" : v = extval.atooct();
-				"'d" : v = extval.atoi();
-				"'h" : v = extval.atohex();
-				"'x" : v = extval.atohex();
-				"0x" : v = extval.atohex();
-				default : v = split_val[2].atoi();
-			endcase
-		end
-		else begin
-			v = split_val[2].atoi();
-		end
-		uvm_report_info("UVM_CMDLINE_PROC", {"Applying config setting from the command line: +uvm_set_config_int=", cfg}, UVM_NONE);
-		uvm_config_int::set(m_uvm_top, split_val[0], split_val[1], v);
-	end
-	else begin
-		uvm_report_info("UVM_CMDLINE_PROC", {"Applying config setting from the command line: +uvm_set_config_string=", cfg}, UVM_NONE);
-		uvm_config_string::set(m_uvm_top, split_val[0], split_val[1], split_val[2]);
-	end
-
+   uvm_config_int::set();
 endfunction
 
 // m_process_default_sequence

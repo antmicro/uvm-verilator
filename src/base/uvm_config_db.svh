@@ -308,7 +308,11 @@ endclass
 // Convenience type for uvm_config_db#(uvm_bitstream_t)
 //
 //| typedef uvm_config_db#(uvm_bitstream_t) uvm_config_int;
-typedef uvm_config_db#(uvm_bitstream_t) uvm_config_int /* @uvm-ieee 1800.2-2017 auto C.4.2.3.1*/   ;
+class uvm_config_db1#(type T=int) extends uvm_resource_db#(T);
+   function void set;
+   endfunction
+endclass
+typedef uvm_config_db1#(uvm_bitstream_t) uvm_config_int /* @uvm-ieee 1800.2-2017 auto C.4.2.3.1*/   ;
 
 //----------------------------------------------------------------------
 // Topic -- NODOCS -- uvm_config_string
