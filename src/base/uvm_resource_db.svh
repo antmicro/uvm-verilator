@@ -69,22 +69,7 @@ class uvm_resource_db #(type T=uvm_object);
 
   // @uvm-ieee 1800.2-2017 auto C.3.2.2.5
   static function rsrc_t get_by_type(string scope);
-    uvm_resource_pool rp = uvm_resource_pool::get();
-    uvm_resource_base rsrc_base;
     rsrc_t rsrc;
-    string msg;
-    uvm_resource_base type_handle = rsrc_t::get_type();
-
-    if(type_handle == null)
-       return null;
-
-    rsrc_base = rp.get_by_type(scope, type_handle);
-    if(!$cast(rsrc, rsrc_base)) begin
-      $sformat(msg, "Resource with specified type handle in scope %s was not located", scope);
-      `uvm_warning("RSRCNF", msg)
-      return null;
-    end
-
     return rsrc;
   endfunction
 
@@ -100,23 +85,7 @@ class uvm_resource_db #(type T=uvm_object);
                                      string name,
                                      bit rpterr=1);
 
-    uvm_resource_pool rp = uvm_resource_pool::get();
-    uvm_resource_base rsrc_base;
     rsrc_t rsrc;
-    string msg;
-
-    rsrc_base = rp.get_by_name(scope, name, rsrc_t::get_type(), rpterr);
-    if(rsrc_base == null)
-      return null;
-
-    if(!$cast(rsrc, rsrc_base)) begin
-      if(rpterr) begin
-        $sformat(msg, "Resource with name %s in scope %s has incorrect type", name, scope);
-        `uvm_warning("RSRCTYPE", msg)
-      end
-      return null;
-    end
-
     return rsrc;
   endfunction
 
@@ -130,10 +99,6 @@ class uvm_resource_db #(type T=uvm_object);
   static function rsrc_t set_default(string scope, string name);
 
     rsrc_t r;
-    uvm_resource_pool rp = uvm_resource_pool::get();
-    
-    r = new(name);
-    rp.set_scope(r, scope);
     return r;
   endfunction
 
@@ -149,30 +114,14 @@ class uvm_resource_db #(type T=uvm_object);
           input string name,
           input uvm_object accessor,
           input rsrc_t rsrc);
-
-          T foo;
-          string msg=`uvm_typename(foo);
-
-          $sformat(msg, "%s scope='%s' name='%s' (type %s) %s accessor=%s = %s",
-              rtype,scope,name, msg,action,
-              (accessor != null) ? accessor.get_full_name() : "<unknown>",
-              rsrc==null?"null (failed lookup)":rsrc.convert2string());
-
-          `uvm_info(id, msg, UVM_LOW)
   endfunction
 
 
   // @uvm-ieee 1800.2-2017 auto C.3.2.2.1
   static function void set(input string scope, input string name,
                            T val, input uvm_object accessor = null);
-
-    uvm_resource_pool rp = uvm_resource_pool::get();
-    rsrc_t rsrc = new(name);
+    rsrc_t rsrc;
     rsrc.write(val, accessor);
-    rp.set_scope(rsrc, scope);
-
-    if(uvm_resource_db_options::is_tracing())
-      m_show_msg("RSRCDB/SET", "Resource","set", scope, name, accessor, rsrc);
   endfunction
 
 
