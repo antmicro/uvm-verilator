@@ -250,7 +250,7 @@ class uvm_config_db#(type T=int) extends uvm_resource_db#(T);
     else if(cntxt.get_full_name() != "")
       inst_name = {cntxt.get_full_name(), ".", inst_name};
 
-    return (uvm_resource_db#(T)::get_by_name(inst_name,field_name,spell_chk) != null);
+     return 1;
   endfunction
 
 

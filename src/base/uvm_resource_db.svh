@@ -328,4 +328,3 @@ class uvm_resource_db #(type T=uvm_object);
 
 endclass
 
-
