@@ -56,7 +56,7 @@ class uvm_reg_mem_hdl_paths_seq extends uvm_reg_sequence #(uvm_sequence #(uvm_re
     string abstractions[$];
     
     `uvm_object_utils_begin(uvm_reg_mem_hdl_paths_seq)
-        `uvm_field_queue_string(abstractions, UVM_DEFAULT)
+
     `uvm_object_utils_end
     
     // @uvm-ieee 1800.2-2017 auto E.7.3
