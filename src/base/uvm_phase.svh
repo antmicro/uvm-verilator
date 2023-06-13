@@ -1450,66 +1450,8 @@ task uvm_phase::execute_phase();
 
              // WAIT_FOR_ALL_DROPPED
              begin
-               bit do_ready_to_end  ; // bit used for ready_to_end iterations
-	       uvm_objection phase_done;
-
-               // OVM semantic: don't end until objection raised or stop request
-               if (
-                   m_use_ovm_run_semantic && m_imp.get_name() == "run") begin
-                 `UVM_PH_TRACE("PH/TRC/EXE/ALLDROP","PHASE EXIT ALL_DROPPED",this,UVM_DEBUG)
-               end
-               else begin
-                  if (m_phase_trace) `UVM_PH_TRACE("PH/TRC/SKIP","No objections raised, skipping phase",this,UVM_LOW)
-               end
-
-               wait_for_self_and_siblings_to_drop() ;
-
-               //--------------
-               // READY_TO_END:
-               //--------------
-
-               if (1'b1) begin
-                 `UVM_PH_TRACE("PH_READY_TO_END","PHASE READY TO END",this,UVM_DEBUG)
-                 m_ready_to_end_count++;
-                 if (m_phase_trace)
-                   `UVM_PH_TRACE("PH_READY_TO_END_CB","CALLING READY_TO_END CB",this,UVM_HIGH)
-                 m_state = UVM_PHASE_READY_TO_END;
                  `uvm_do_callbacks(uvm_phase, uvm_phase_cb, phase_state_change(this, state_chg))
-
-
-                 uvm_wait_for_nba_region(); // Give traverse targets a chance to object
-
-                 wait_for_self_and_siblings_to_drop();
-               end
              end
-
-             // TIMEOUT
-             begin
-               if (this.get_name() == "run") begin
-                  if ($time == `UVM_DEFAULT_TIMEOUT) begin
-                     if (m_phase_trace)
-                       `UVM_PH_TRACE("PH/TRC/TIMEOUT", "PHASE TIMEOUT WATCHDOG EXPIRED", this, UVM_LOW)
-
-                     `uvm_fatal("PH_TIMEOUT",
-                                $sformatf("Default timeout of %0t hit, indicating a probable testbench issue",
-                                          `UVM_DEFAULT_TIMEOUT))
-                  end
-                  else begin
-                     if (m_phase_trace)
-                       `UVM_PH_TRACE("PH/TRC/TIMEOUT", "PHASE TIMEOUT WATCHDOG EXPIRED", this, UVM_LOW)
-
-                     `uvm_fatal("PH_TIMEOUT",
-                                $sformatf("Explicit timeout of %0t hit, indicating a probable testbench issue",
-                                          top.phase_timeout))
-                  end
-                  if (m_phase_trace)
-                    `UVM_PH_TRACE("PH/TRC/EXE/3","PHASE EXIT TIMEOUT",this,UVM_DEBUG)
-               end // if (this.get_name() == "run")
-               else begin
-                  wait (0); // never unblock for non-run phase
-               end
-             end // if (m_phase_trace)
-
 
            join_any
 
