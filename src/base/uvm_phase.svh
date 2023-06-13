@@ -1330,29 +1330,13 @@ endfunction
 task uvm_phase::execute_phase();
 
   uvm_task_phase task_phase;
-  uvm_root top;
   uvm_phase_state_change state_chg;
 
-  // If we're a schedule or domain, then "fake" execution
-  if (m_phase_type != UVM_PHASE_NODE) begin
-  end
-
-
-  else begin // PHASE NODE
-
-    //if (m_imp.get_phase_type() != UVM_PHASE_TASK) begin
-    if (!$cast(task_phase,m_imp)) begin
+  fork
+    begin  // guard
+      `uvm_do_callbacks(uvm_phase, uvm_phase_cb, phase_state_change(this, state_chg))
     end
-    else begin
-        fork
-          begin // guard
-                 `uvm_do_callbacks(uvm_phase, uvm_phase_cb, phase_state_change(this, state_chg))
-          end
-        join // guard
-
-    end
-
-  end
+  join  // guard
 endtask
 
 function void uvm_phase::get_adjacent_predecessor_nodes(ref uvm_phase pred[]);
