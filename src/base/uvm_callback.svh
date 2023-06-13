@@ -898,19 +898,11 @@ class uvm_callbacks1 #(type T=uvm_object, type CB=uvm_callback)
       m_inst = new;
 
       if (cb_base_type == m_cb_typeid) begin
-        $cast(m_base_inst, m_inst);
-        // The base inst in the super class gets set to this base inst
-        m_t_inst = m_base_inst;
-        uvm_typeid_base::typeid_map[m_typeid] = m_inst; 
-        uvm_typeid_base::type_map[m_b_inst] = m_typeid;
       end
       else begin
         m_base_inst = uvm_callbacks#(T,uvm_callback)::get();
         m_base_inst.m_this_type.push_back(m_inst);
       end
-
-      if (m_inst == null)
-        `uvm_fatal("CB/INTERNAL","get(): m_inst is null")
     end
 
     return m_inst;
