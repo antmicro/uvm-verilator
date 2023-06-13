@@ -1334,7 +1334,14 @@ task uvm_phase::execute_phase();
 
   fork
     begin  // guard
-      `uvm_do_callbacks(uvm_phase, uvm_phase_cb, phase_state_change(this, state_chg))
+       begin
+          uvm_callback_iter#(uvm_phase, uvm_phase_cb) iter = new(this);
+          uvm_phase_cb cb = iter.first();
+           while(cb != null) begin
+              cb.phase_state_change(this, state_chg);
+              cb = iter.next();
+           end
+       end
     end
   join  // guard
 endtask
