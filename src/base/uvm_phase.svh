@@ -1493,11 +1493,6 @@ task uvm_phase::execute_phase();
              // TIMEOUT
              begin
                if (this.get_name() == "run") begin
-                  if (top.phase_timeout == 0)
-                    wait(top.phase_timeout != 0);
-                 if (m_phase_trace)
-                    `UVM_PH_TRACE("PH/TRC/TO_WAIT", $sformatf("STARTING PHASE TIMEOUT WATCHDOG (timeout == %t)", top.phase_timeout), this, UVM_HIGH)
-                  `uvm_delay(top.phase_timeout)
                   if ($time == `UVM_DEFAULT_TIMEOUT) begin
                      if (m_phase_trace)
                        `UVM_PH_TRACE("PH/TRC/TIMEOUT", "PHASE TIMEOUT WATCHDOG EXPIRED", this, UVM_LOW)
@@ -1509,17 +1504,6 @@ task uvm_phase::execute_phase();
                   else begin
                      if (m_phase_trace)
                        `UVM_PH_TRACE("PH/TRC/TIMEOUT", "PHASE TIMEOUT WATCHDOG EXPIRED", this, UVM_LOW)
-                     foreach (m_executing_phases[p]) begin
-			uvm_objection p_phase_done;
-			p_phase_done = p.get_objection();
-                        if ((p_phase_done != null) && (p_phase_done.get_objection_total() > 0)) begin
-                           if (m_phase_trace)
-                             `UVM_PH_TRACE("PH/TRC/TIMEOUT/OBJCTN",
-                                           $sformatf("Phase '%s' has outstanding objections:\n%s", p.get_full_name(), p_phase_done.convert2string()),
-                                           this,
-                                           UVM_LOW)
-                        end
-                     end
 
                      `uvm_fatal("PH_TIMEOUT",
                                 $sformatf("Explicit timeout of %0t hit, indicating a probable testbench issue",
