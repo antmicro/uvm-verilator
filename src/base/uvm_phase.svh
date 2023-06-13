@@ -1328,15 +1328,9 @@ endfunction
 // -------------
 
 task uvm_phase::execute_phase();
-
-  uvm_task_phase task_phase;
-  uvm_phase_state_change state_chg;
-
+   uvm_callback_iter#(uvm_phase, uvm_phase_cb) iter;
   fork
-    begin  // guard
-       uvm_callback_iter#(uvm_phase, uvm_phase_cb) iter;
-          uvm_phase_cb cb = iter.first();
-    end
+     uvm_phase_cb cb = iter.first();
   join  // guard
 endtask
 
