@@ -517,7 +517,7 @@ class uvm_phase extends uvm_object;
   extern static task m_run_phases();
 
   task execute_phase1();
-    uvm_callback_iter #() iter;
+    uvm_callback_iter1 #() iter;
     fork
       void'(iter.first());
     join  // guard

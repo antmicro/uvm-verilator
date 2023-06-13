@@ -1019,6 +1019,95 @@ class uvm_callback_iter#(type T = uvm_object, type CB = uvm_callback);
 ****/
 endclass
 
+class uvm_callback_iter1#(type T = uvm_object, type CB = uvm_callback);
+
+   local int m_i;
+   local T   m_obj;
+   local CB  m_cb;
+
+   // Function -- NODOCS -- new
+   //
+   // Creates a new callback iterator object. It is required that the object
+   // context be provided.
+
+   // @uvm-ieee 1800.2-2017 auto D.1.2.1
+   function new(T obj);
+      m_obj = obj;
+   endfunction
+
+   // Function -- NODOCS -- first
+   //
+   // Returns the first valid (enabled) callback of the callback type (or
+   // a derivative) that is in the queue of the context object. If the
+   // queue is empty then ~null~ is returned.
+
+   // @uvm-ieee 1800.2-2017 auto D.1.2.2
+   function CB first();
+      m_cb = uvm_callbacks#(T,CB)::get_first(m_i, m_obj);
+      return m_cb;
+   endfunction
+
+   // Function -- NODOCS -- last
+   //
+   // Returns the last valid (enabled) callback of the callback type (or
+   // a derivative) that is in the queue of the context object. If the
+   // queue is empty then ~null~ is returned.
+
+   // @uvm-ieee 1800.2-2017 auto D.1.2.3
+   function CB last();
+      m_cb = uvm_callbacks#(T,CB)::get_last(m_i, m_obj);
+      return m_cb;
+   endfunction
+
+   // Function -- NODOCS -- next
+   //
+   // Returns the next valid (enabled) callback of the callback type (or
+   // a derivative) that is in the queue of the context object. If there
+   // are no more valid callbacks in the queue, then ~null~ is returned.
+
+   // @uvm-ieee 1800.2-2017 auto D.1.2.4
+   function CB next();
+      m_cb = uvm_callbacks#(T,CB)::get_next(m_i, m_obj);
+      return m_cb;
+   endfunction
+
+   // Function -- NODOCS -- prev
+   //
+   // Returns the previous valid (enabled) callback of the callback type (or
+   // a derivative) that is in the queue of the context object. If there
+   // are no more valid callbacks in the queue, then ~null~ is returned.
+
+   // @uvm-ieee 1800.2-2017 auto D.1.2.5
+   function CB prev();
+      m_cb = uvm_callbacks#(T,CB)::get_prev(m_i, m_obj);
+      return m_cb;
+   endfunction
+
+   // Function -- NODOCS -- get_cb
+   //
+   // Returns the last callback accessed via a first() or next()
+   // call. 
+
+   // @uvm-ieee 1800.2-2017 auto D.1.2.6
+   function CB get_cb();
+      return m_cb;
+   endfunction
+
+/****
+   function void trace(uvm_object obj = null);
+      if (m_cb != null && T::cbs::get_debug_flags() & UVM_CALLBACK_TRACE) begin
+         uvm_report_object reporter = null;
+         string who = "Executing ";
+         void'($cast(reporter, obj));
+         if (reporter == null) void'($cast(reporter, m_obj));
+         if (reporter == null) reporter = uvm_top;
+         if (obj != null) who = {obj.get_full_name(), " is executing "};
+         else if (m_obj != null) who = {m_obj.get_full_name(), " is executing "};
+         reporter.uvm_report_info("CLLBK_TRC", {who, "callback ", m_cb.get_name()}, UVM_LOW);
+      end
+   endfunction
+****/
+endclass
 
 
 //------------------------------------------------------------------------------
