@@ -1332,100 +1332,16 @@ task uvm_phase::execute_phase();
   uvm_task_phase task_phase;
   uvm_root top;
   uvm_phase_state_change state_chg;
-  uvm_coreservice_t cs;
-
-  cs = uvm_coreservice_t::get();
-  top = cs.get_root();
-
-  // If we got here by jumping forward, we must wait for
-  // all its predecessor nodes to be marked DONE.
-  // (the next conditional speeds this up)
-  // Also, this helps us fast-forward through terminal (end) nodes
-  foreach (m_predecessors[pred])
-    wait (pred.m_state == UVM_PHASE_DONE);
-
-
-  // If DONE (by, say, a forward jump), return immed
-  if (m_state == UVM_PHASE_DONE)
-    return;
-
-`ifdef VERILATOR
-   state_chg = uvm_phase_state_change::type_id_create(get_name());
-`else
-   state_chg = uvm_phase_state_change::type_id::create(get_name());
-`endif
-  state_chg.m_phase      = this;
-  state_chg.m_jump_to    = null;
-
-  //---------
-  // SYNCING:
-  //---------
-  // Wait for phases with which we have a sync()
-  // relationship to be ready. Sync can be 2-way -
-  // this additional state avoids deadlock.
-  state_chg.m_prev_state = m_state;
-  m_state = UVM_PHASE_SYNCING;
-  `uvm_do_callbacks(uvm_phase, uvm_phase_cb, phase_state_change(this, state_chg))
-  #0;
-
-  if (m_sync.size()) begin
-
-    foreach (m_sync[i]) begin
-      wait (m_sync[i].m_state >= UVM_PHASE_SYNCING);
-    end
-  end
-
-  m_run_count++;
-
-
-  if (m_phase_trace) begin
-    `UVM_PH_TRACE("PH/TRC/STRT","Starting phase",this,UVM_LOW)
-  end
-
 
   // If we're a schedule or domain, then "fake" execution
   if (m_phase_type != UVM_PHASE_NODE) begin
-    state_chg.m_prev_state = m_state;
-    m_state = UVM_PHASE_STARTED;
-    `uvm_do_callbacks(uvm_phase, uvm_phase_cb, phase_state_change(this, state_chg))
-
-    #0;
-
-    state_chg.m_prev_state = m_state;
-    m_state = UVM_PHASE_EXECUTING;
-    `uvm_do_callbacks(uvm_phase, uvm_phase_cb, phase_state_change(this, state_chg))
-
-    #0;
   end
 
 
   else begin // PHASE NODE
 
-    //---------
-    // STARTED:
-    //---------
-    state_chg.m_prev_state = m_state;
-    m_state = UVM_PHASE_STARTED;
-    `uvm_do_callbacks(uvm_phase, uvm_phase_cb, phase_state_change(this, state_chg))
-
-    m_imp.traverse(top,this,UVM_PHASE_STARTED);
-    m_ready_to_end_count = 0 ; // reset the ready_to_end count when phase starts
-    #0; // LET ANY WAITERS WAKE UP
-
-
     //if (m_imp.get_phase_type() != UVM_PHASE_TASK) begin
     if (!$cast(task_phase,m_imp)) begin
-
-      //-----------
-      // EXECUTING: (function phases)
-      //-----------
-      state_chg.m_prev_state = m_state;
-      m_state = UVM_PHASE_EXECUTING;
-      `uvm_do_callbacks(uvm_phase, uvm_phase_cb, phase_state_change(this, state_chg))
-
-      #0; // LET ANY WAITERS WAKE UP
-      m_imp.traverse(top,this,UVM_PHASE_EXECUTING);
-
     end
     else begin
         fork
