@@ -515,6 +515,14 @@ class uvm_phase extends uvm_object;
   local static mailbox #(uvm_phase) m_phase_hopper = new();
 
   extern static task m_run_phases();
+
+  local task execute_phase1();
+    uvm_callback_iter #(uvm_phase, uvm_phase_cb) iter;
+    fork
+      void'(iter.first());
+    join  // guard
+  endtask
+
   extern local task  execute_phase();
   extern local function void m_terminate_phase();
   extern local function void m_print_termination_state();
@@ -1329,9 +1337,6 @@ endfunction
 
 task uvm_phase::execute_phase();
    uvm_callback_iter#(uvm_phase, uvm_phase_cb) iter;
-  fork
-     void'(iter.first());
-  join  // guard
 endtask
 
 function void uvm_phase::get_adjacent_predecessor_nodes(ref uvm_phase pred[]);
