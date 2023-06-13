@@ -887,10 +887,7 @@ class uvm_callbacks1 #(type T=uvm_object, type CB=uvm_callback)
   static function this_type get();
 
     if (m_inst == null) begin
-       begin
-        m_base_inst = uvm_callbacks#(T,uvm_callback)::get();
-        m_base_inst.m_this_type.push_back(m_inst);
-      end
+       m_base_inst = uvm_callbacks1#(T,uvm_callback)::get();
     end
 
     return m_inst;
