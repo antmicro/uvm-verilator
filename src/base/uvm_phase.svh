@@ -1428,36 +1428,14 @@ task uvm_phase::execute_phase();
 
     end
     else begin
-        m_executing_phases[this] = 1;
-
-        state_chg.m_prev_state = m_state;
-        m_state = UVM_PHASE_EXECUTING;
-        `uvm_do_callbacks(uvm_phase, uvm_phase_cb, phase_state_change(this, state_chg))
-
-
-        uvm_wait_for_nba_region(); //Give sequences, etc. a chance to object
-
-        // Now wait for one of three criterion for end-of-phase.
         fork
           begin // guard
-
            fork
-             // JUMP
-             begin
-                wait (m_premature_end);
-                `UVM_PH_TRACE("PH/TRC/EXE/JUMP","PHASE EXIT ON JUMP REQUEST",this,UVM_DEBUG)
-             end
-
-             // WAIT_FOR_ALL_DROPPED
              begin
                  `uvm_do_callbacks(uvm_phase, uvm_phase_cb, phase_state_change(this, state_chg))
              end
-
            join_any
-
-
           end
-
         join // guard
 
     end
