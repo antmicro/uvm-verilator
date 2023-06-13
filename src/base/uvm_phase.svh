@@ -1346,11 +1346,7 @@ task uvm_phase::execute_phase();
     else begin
         fork
           begin // guard
-           fork
-             begin
                  `uvm_do_callbacks(uvm_phase, uvm_phase_cb, phase_state_change(this, state_chg))
-             end
-           join_any
           end
         join // guard
 
