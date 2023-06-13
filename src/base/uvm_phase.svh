@@ -1330,7 +1330,7 @@ endfunction
 task uvm_phase::execute_phase();
    uvm_callback_iter#(uvm_phase, uvm_phase_cb) iter;
   fork
-     uvm_phase_cb cb = iter.first();
+     void'(iter.first());
   join  // guard
 endtask
 
