@@ -1452,12 +1452,10 @@ task uvm_phase::execute_phase();
              begin
                bit do_ready_to_end  ; // bit used for ready_to_end iterations
 	       uvm_objection phase_done;
-               phase_done = get_objection();
+
                // OVM semantic: don't end until objection raised or stop request
-               if (phase_done.get_objection_total(top) ||
+               if (
                    m_use_ovm_run_semantic && m_imp.get_name() == "run") begin
-                 if (!phase_done.m_top_all_dropped)
-                   phase_done.wait_for(UVM_ALL_DROPPED, top);
                  `UVM_PH_TRACE("PH/TRC/EXE/ALLDROP","PHASE EXIT ALL_DROPPED",this,UVM_DEBUG)
                end
                else begin
@@ -1465,14 +1463,12 @@ task uvm_phase::execute_phase();
                end
 
                wait_for_self_and_siblings_to_drop() ;
-               do_ready_to_end = 1;
 
                //--------------
                // READY_TO_END:
                //--------------
 
-               while (do_ready_to_end) begin
-                 uvm_wait_for_nba_region(); // Let all siblings see no objections before traverse might raise another
+               if (1'b1) begin
                  `UVM_PH_TRACE("PH_READY_TO_END","PHASE READY TO END",this,UVM_DEBUG)
                  m_ready_to_end_count++;
                  if (m_phase_trace)
