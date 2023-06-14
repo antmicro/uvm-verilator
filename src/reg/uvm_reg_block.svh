@@ -55,7 +55,7 @@ class uvm_reg_block extends uvm_object;
 
    local string         default_hdl_path = "RTL";
    local uvm_reg_backdoor backdoor;
-   local uvm_object_string_pool #(uvm_queue #(string)) hdl_paths_pool;
+
    local string         root_hdl_paths[string];
 
    local bit            locked;
@@ -1006,7 +1006,6 @@ endfunction
 
 function uvm_reg_block::new(string name="", int has_coverage=UVM_NO_COVERAGE);
    super.new(name);
-   hdl_paths_pool = new("hdl_paths");
    this.has_cover = has_coverage;
    // Root block until registered with a parent
    m_roots[this] = 0;
@@ -2028,20 +2027,9 @@ endfunction: get_backdoor
 
 function void uvm_reg_block::clear_hdl_path(string kind = "RTL");
 
-  if (kind == "ALL") begin
-    hdl_paths_pool = new("hdl_paths");
-    return;
-  end
 
   if (kind == "")
     kind = get_default_hdl_path();
-
-  if (!hdl_paths_pool.exists(kind)) begin
-    `uvm_warning("RegModel",{"Unknown HDL Abstraction '",kind,"'"})
-    return;
-  end
-
-  hdl_paths_pool.delete(kind);
 endfunction
 
 
@@ -2051,8 +2039,6 @@ function void uvm_reg_block::add_hdl_path(string path, string kind = "RTL");
 
   uvm_queue #(string) paths;
 
-  paths = hdl_paths_pool.get(kind);
-
   paths.push_back(path);
 
 endfunction
@@ -2061,10 +2047,7 @@ endfunction
 // has_hdl_path
 
 function bit  uvm_reg_block::has_hdl_path(string kind = "");
-  if (kind == "") begin
-    kind = get_default_hdl_path();
-  end
-  return hdl_paths_pool.exists(kind);
+   return 1;
 endfunction
 
 
@@ -2082,7 +2065,7 @@ function void uvm_reg_block::get_hdl_path(ref string paths[$], input string kind
     return;
   end
 
-  hdl_paths = hdl_paths_pool.get(kind);
+
 
   for (int i=0; i<hdl_paths.size();i++)
     paths.push_back(hdl_paths.get(i));
@@ -2112,29 +2095,6 @@ function void uvm_reg_block::get_full_hdl_path(ref string paths[$],
    end
    
    begin
-      uvm_queue #(string) hdl_paths = hdl_paths_pool.get(kind);
-      string parent_paths[$];
-
-      if (parent != null)
-         parent.get_full_hdl_path(parent_paths, kind, separator);
-
-      for (int i=0; i<hdl_paths.size();i++) begin
-         string hdl_path = hdl_paths.get(i);
-
-         if (parent_paths.size() == 0) begin
-            if (hdl_path != "")
-               paths.push_back(hdl_path);
-
-            continue;
-         end
-         
-         foreach (parent_paths[j])  begin
-            if (hdl_path == "")
-               paths.push_back(parent_paths[j]);
-            else
-               paths.push_back({ parent_paths[j], separator, hdl_path });
-         end
-      end
    end
   
 endfunction
