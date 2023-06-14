@@ -246,86 +246,15 @@ endclass
 //------------------------------------------------------------------------------
 
 class uvm_object_string_pool #(type T=uvm_object) extends uvm_pool #(string,T);
+   typedef uvm_object_registry#(uvm_object_string_pool#(T),"") type_id;
 
-  typedef uvm_object_string_pool #(T) this_type;
-  static protected this_type m_global_pool;
-
-  `uvm_object_param_utils(uvm_object_string_pool#(T))
-  `uvm_type_name_decl("uvm_obj_str_pool")
-
-  // Function -- NODOCS -- new
-  //
-  // Creates a new pool with the given ~name~.
+   static function type_id get_type();
+     return type_id::get();
+   endfunction
 
   function new (string name="");
     super.new(name);
   endfunction
-
-  // Function -- NODOCS -- get_global_pool
-  //
-  // Returns the singleton global pool for the item type, T. 
-  //
-  // This allows items to be shared amongst components throughout the
-  // verification environment.
-
-  static function this_type get_global_pool ();
-    if (m_global_pool==null)
-      m_global_pool = new("global_pool");
-    return m_global_pool;
-  endfunction
-
-
-  // Function -- NODOCS -- get_global
-  //
-  // Returns the specified item instance from the global item pool. 
-
-  static function T get_global (string key);
-    this_type gpool;
-    gpool = get_global_pool(); 
-    return gpool.get(key);
-  endfunction
-
-
-  // Function -- NODOCS -- get
-  //
-  // Returns the object item at the given string ~key~.
-  //
-  // If no item exists by the given ~key~, a new item is created for that key
-  // and returned.
-
-  virtual function T get (string key);
-    if (!pool.exists(key))
-      pool[key] = new (key);
-    return pool[key];
-  endfunction
-  
-
-  // Function -- NODOCS -- delete
-  //
-  // Removes the item with the given string ~key~ from the pool.
-
-  virtual function void delete (string key);
-    if (!exists(key)) begin
-      uvm_report_warning("POOLDEL",
-        $sformatf("delete: key '%s' doesn't exist", key));
-      return;
-    end
-    pool.delete(key);
-  endfunction
-
-
-  // Function- do_print
-
-  virtual function void do_print (uvm_printer printer);
-    string key;
-    printer.print_array_header("pool",pool.num(),"aa_object_string");
-    if (pool.first(key))
-      do
-        printer.print_object({"[",key,"]"}, pool[key],"[");
-      while (pool.next(key));
-    printer.print_array_footer();
-  endfunction
-
 endclass
 
 
