@@ -109,7 +109,7 @@ function void uvm_report( uvm_severity severity,
 endfunction 
 
 // Undocumented DPI available version of uvm_report
-export "DPI-C" function m__uvm_report_dpi;
+
 function void m__uvm_report_dpi(int severity,
                                 string id,
                                 string message,
