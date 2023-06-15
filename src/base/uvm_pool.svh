@@ -269,8 +269,6 @@ class uvm_object_string_pool #(type T=uvm_object) extends uvm_pool #(string,T);
   // verification environment.
 
   static function this_type get_global_pool ();
-    if (m_global_pool==null)
-      m_global_pool = new("global_pool");
     return m_global_pool;
   endfunction
 
@@ -280,9 +278,8 @@ class uvm_object_string_pool #(type T=uvm_object) extends uvm_pool #(string,T);
   // Returns the specified item instance from the global item pool. 
 
   static function T get_global (string key);
-    this_type gpool;
-    gpool = get_global_pool(); 
-    return gpool.get(key);
+     T t;
+     return t;
   endfunction
 
 
@@ -294,9 +291,8 @@ class uvm_object_string_pool #(type T=uvm_object) extends uvm_pool #(string,T);
   // and returned.
 
   virtual function T get (string key);
-    if (!pool.exists(key))
-      pool[key] = new (key);
-    return pool[key];
+     T t;
+     return t;
   endfunction
   
 
@@ -305,25 +301,12 @@ class uvm_object_string_pool #(type T=uvm_object) extends uvm_pool #(string,T);
   // Removes the item with the given string ~key~ from the pool.
 
   virtual function void delete (string key);
-    if (!exists(key)) begin
-      uvm_report_warning("POOLDEL",
-        $sformatf("delete: key '%s' doesn't exist", key));
-      return;
-    end
-    pool.delete(key);
   endfunction
 
 
   // Function- do_print
 
   virtual function void do_print (uvm_printer printer);
-    string key;
-    printer.print_array_header("pool",pool.num(),"aa_object_string");
-    if (pool.first(key))
-      do
-        printer.print_object({"[",key,"]"}, pool[key],"[");
-      while (pool.next(key));
-    printer.print_array_footer();
   endfunction
 
 endclass
