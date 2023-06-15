@@ -351,7 +351,7 @@ virtual class uvm_transaction extends uvm_object;
   // specialization of <uvm_pool#(KEY,T)>, e.g. a ~uvm_pool#(uvm_event)~.
 
   // @uvm-ieee 1800.2-2017 auto 5.4.2.14
-  extern function uvm_event_pool get_event_pool ();
+
 
 
   // Function -- NODOCS -- set_initiator
@@ -425,13 +425,6 @@ virtual class uvm_transaction extends uvm_object;
   //
   // The event pool instance for this transaction. This pool is used to track
   // various milestones: by default, begin, accept, and end
-
-`ifdef UVM_ENABLE_DEPRECATED_API
-  const uvm_event_pool events = new("events");
-`else
-  const local uvm_event_pool events = new("events");
-`endif 
-
 
   // Variable -- NODOCS -- begin_event
   //
@@ -546,9 +539,6 @@ endfunction
 // get_event_pool
 // --------------
 
-function uvm_event_pool uvm_transaction::get_event_pool();
-  return events;
-endfunction
 
 
 // is_active
