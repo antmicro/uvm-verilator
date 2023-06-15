@@ -246,10 +246,6 @@ endclass
 //------------------------------------------------------------------------------
 
 class uvm_object_string_pool #(type T=uvm_object) extends uvm_pool #(string,T);
-
-  typedef uvm_object_string_pool #(T) this_type;
-  static protected this_type m_global_pool;
-
   `uvm_object_param_utils(uvm_object_string_pool#(T))
 
   // Function -- NODOCS -- new
