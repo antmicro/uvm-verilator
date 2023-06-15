@@ -282,17 +282,6 @@ class uvm_object_registry #(type T=uvm_object, string Tname="<unknown>")
   endfunction
 endclass
 
-class uvm_object_registryABCD #(type T=uvm_object, string Tname="<unknown>");
-  typedef uvm_object_registryABCD #(T,Tname) this_type;
-
-  static function this_type get();
-     static this_type m_inst;
-     if (m_inst == null)
-       m_inst = new();
-    return m_inst;
-  endfunction
-
-endclass
 
 // Class: uvm_abstract_component_registry#(T,Tname)
 // Implementation of uvm_abstract_component_registry#(T,Tname), as defined by section
