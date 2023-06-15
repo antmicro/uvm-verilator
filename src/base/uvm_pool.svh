@@ -245,21 +245,12 @@ endclass
 // ~uvm_barrier_pool~ (a uvm_obejct_string_pool storing <uvm_barrier>).
 //------------------------------------------------------------------------------
 
-class uvm_object_string_pool #(type T=uvm_object) extends uvm_pool #(string,T);
+class uvm_object_string_pool #(type T=uvm_object);
    typedef uvm_object_registry#(uvm_object_string_pool#(T)) type_id;
    
    static function type_id get_type();
      return type_id::get();
    endfunction
-
-  function new (string name="");
-    super.new(name);
-  endfunction
 endclass
-
-
-typedef class uvm_barrier;
-typedef class uvm_event;
-
 
 typedef uvm_object_string_pool #(int) uvm_event_pool /* @uvm-ieee 1800.2-2017 auto 10.4.1.1*/   ;
