@@ -245,7 +245,7 @@ endclass
 // ~uvm_barrier_pool~ (a uvm_obejct_string_pool storing <uvm_barrier>).
 //------------------------------------------------------------------------------
 
-class uvm_object_registryABCD #(type T=uvm_object, string Tname="<unknown>");
+class uvm_object_registryABCD #(type T=int, string Tname="<unknown>");
   typedef uvm_object_registryABCD #(T,Tname) this_type;
 
   static function this_type get();
@@ -257,7 +257,7 @@ class uvm_object_registryABCD #(type T=uvm_object, string Tname="<unknown>");
 
 endclass
 
-class uvm_object_string_pool #(type T=uvm_object);
+class uvm_object_string_pool #(type T=int);
    typedef uvm_object_registryABCD#(uvm_object_string_pool#(T)) type_id;
    
    static function type_id get_type();
