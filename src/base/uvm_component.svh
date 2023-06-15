@@ -1532,7 +1532,6 @@ virtual class uvm_component extends uvm_report_object;
   typedef uvm_abstract_component_registry#(uvm_component, "uvm_component") type_id;
   `uvm_type_name_decl("uvm_component")
 
-  protected uvm_event_pool event_pool;
 
   int unsigned recording_detail = UVM_NONE;
   extern         function void   do_print(uvm_printer printer);
@@ -1664,7 +1663,7 @@ function uvm_component::new (string name, uvm_component parent);
   if (!m_parent.m_add_child(this))
     m_parent = null;
 
-  event_pool = new("event_pool");
+
 
   m_domain = parent.m_domain;     // by default, inherit domains from parents
   
@@ -2441,9 +2440,6 @@ function void uvm_component::accept_tr (uvm_transaction tr,
   
   tr.accept_tr(accept_time);
   do_accept_tr(tr);
-  e = event_pool.get("accept_tr");
-  if(e!=null) 
-    e.trigger();
 endfunction
 
 // begin_tr
@@ -2631,10 +2627,6 @@ function int uvm_component::m_begin_tr (uvm_transaction tr,
       
    end
    
-   e = event_pool.get("begin_tr");
-   if (e!=null) 
-     e.trigger(tr);
-   
    return handle;
    
 endfunction
@@ -2677,11 +2669,6 @@ function void uvm_component::end_tr (uvm_transaction tr,
       end
       
    end
-
-   e = event_pool.get("end_tr");
-   if(e!=null) 
-     e.trigger();
-
 endfunction
 
 

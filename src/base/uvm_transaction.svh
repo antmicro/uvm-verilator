@@ -24,7 +24,6 @@
 //-----------------------------------------------------------------------------
 
 typedef class uvm_event;
-typedef class uvm_event_pool;
 typedef class uvm_component;
 typedef class uvm_parent_child_link;
     
@@ -702,11 +701,6 @@ function void uvm_transaction::accept_tr (time accept_time = 0);
   else
     this.accept_time = $realtime;
 
-  do_accept_tr();
-  e = events.get("accept");
-
-  if(e!=null) 
-    e.trigger();
 endfunction
 
 // begin_tr
@@ -777,11 +771,6 @@ function int uvm_transaction::m_begin_tr (time begin_time=0,
    
    do_begin_tr(); //execute callback before event trigger
    
-   begin
-      uvm_event#(uvm_object) begin_event ;
-      begin_event = events.get("begin");
-      begin_event.trigger();
-   end
 
 endfunction
 
@@ -808,9 +797,4 @@ function void uvm_transaction::end_tr (time end_time=0, bit free_handle=1);
 
    tr_recorder = null;
 
-   begin
-      uvm_event#(uvm_object) end_event ;
-      end_event = events.get("end") ;
-      end_event.trigger();
-   end
 endfunction
