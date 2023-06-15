@@ -246,7 +246,7 @@ endclass
 //------------------------------------------------------------------------------
 
 class uvm_object_string_pool #(type T=uvm_object);
-   typedef uvm_object_registry#(uvm_object_string_pool#(T)) type_id;
+   typedef uvm_object_registryABCD#(uvm_object_string_pool#(T)) type_id;
    
    static function type_id get_type();
      return type_id::get();
