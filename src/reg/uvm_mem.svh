@@ -65,8 +65,6 @@ class uvm_mem extends uvm_object;
    local string            m_fname;
    local int               m_lineno;
    local bit               m_vregs[uvm_vreg];
-   local uvm_object_string_pool
-               #(uvm_queue #(uvm_hdl_path_concat)) m_hdl_paths_pool;
 
    local static int unsigned  m_max_size;
 
@@ -542,7 +540,7 @@ function uvm_mem::new (string           name,
    m_backdoor  = null;
    m_access    = access.toupper();
    m_has_cover = has_coverage;
-   m_hdl_paths_pool = new("hdl_paths");
+
 
    if (n_bits > m_max_size)
       m_max_size = n_bits;
@@ -1772,31 +1770,12 @@ endtask
 // clear_hdl_path
 
 function void uvm_mem::clear_hdl_path(string kind = "RTL");
-  if (kind == "ALL") begin
-    m_hdl_paths_pool = new("hdl_paths");
-    return;
-  end
-
-  if (kind == "")
-    kind = m_parent.get_default_hdl_path();
-
-  if (!m_hdl_paths_pool.exists(kind)) begin
-    `uvm_warning("RegModel",{"Unknown HDL Abstraction '",kind,"'"})
-    return;
-  end
-
-  m_hdl_paths_pool.delete(kind);
 endfunction
 
 
 // add_hdl_path
 
 function void uvm_mem::add_hdl_path(uvm_hdl_path_slice slices[], string kind = "RTL");
-    uvm_queue #(uvm_hdl_path_concat) paths = m_hdl_paths_pool.get(kind);
-    uvm_hdl_path_concat concat = new();
-
-    concat.set(slices);
-    paths.push_back(concat);  
 endfunction
 
 
@@ -1807,27 +1786,13 @@ function void uvm_mem::add_hdl_path_slice(string name,
                                           int size,
                                           bit first = 0,
                                           string kind = "RTL");
-    uvm_queue #(uvm_hdl_path_concat) paths=m_hdl_paths_pool.get(kind);
-    uvm_hdl_path_concat concat;
-
-    if (first || paths.size() == 0) begin
-       concat = new();
-       paths.push_back(concat);
-    end
-    else
-       concat = paths.get(paths.size()-1);
-     
-    concat.add_path(name, offset, size);
 endfunction
 
 
 // has_hdl_path
 
 function bit  uvm_mem::has_hdl_path(string kind = "");
-  if (kind == "")
-    kind = m_parent.get_default_hdl_path();
-  
-  return m_hdl_paths_pool.exists(kind);
+   return 1;
 endfunction
 
 
@@ -1835,38 +1800,12 @@ endfunction
 
 function void uvm_mem::get_hdl_path(ref uvm_hdl_path_concat paths[$],
                                     input string kind = "");
-
-  uvm_queue #(uvm_hdl_path_concat) hdl_paths;
-
-  if (kind == "")
-     kind = m_parent.get_default_hdl_path();
-
-  if (!has_hdl_path(kind)) begin
-    `uvm_error("RegModel",
-        {"Memory does not have hdl path defined for abstraction '",kind,"'"})
-    return;
-  end
-
-  hdl_paths = m_hdl_paths_pool.get(kind);
-
-  for (int i=0; i<hdl_paths.size();i++) begin
-     uvm_hdl_path_concat t = hdl_paths.get(i);
-     paths.push_back(t);
-  end
-
 endfunction
 
 
 // get_hdl_path_kinds
 
 function void uvm_mem::get_hdl_path_kinds (ref string kinds[$]);
-  string kind;
-  kinds.delete();
-  if (!m_hdl_paths_pool.first(kind))
-    return;
-  do
-    kinds.push_back(kind);
-  while (m_hdl_paths_pool.next(kind));
 endfunction
 
 // get_full_hdl_path
@@ -1885,28 +1824,6 @@ function void uvm_mem::get_full_hdl_path(ref uvm_hdl_path_concat paths[$],
    end
 
    begin
-      uvm_queue #(uvm_hdl_path_concat) hdl_paths = m_hdl_paths_pool.get(kind);
-      string parent_paths[$];
-
-      m_parent.get_full_hdl_path(parent_paths, kind, separator);
-
-      for (int i=0; i<hdl_paths.size();i++) begin
-         uvm_hdl_path_concat hdl_concat = hdl_paths.get(i);
-
-         foreach (parent_paths[j])  begin
-            uvm_hdl_path_concat t = new;
-
-            foreach (hdl_concat.slices[k]) begin
-               if (hdl_concat.slices[k].path == "")
-                  t.add_path(parent_paths[j]);
-               else
-                  t.add_path({ parent_paths[j], separator, hdl_concat.slices[k].path },
-                             hdl_concat.slices[k].offset,
-                             hdl_concat.slices[k].size);
-            end
-            paths.push_back(t);
-         end
-      end
    end
 endfunction
 
