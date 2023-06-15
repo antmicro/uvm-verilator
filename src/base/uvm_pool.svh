@@ -246,11 +246,11 @@ endclass
 //------------------------------------------------------------------------------
 
 class uvm_object_string_pool #(type T=uvm_object) extends uvm_pool #(string,T);
-  `uvm_object_param_utils(uvm_object_string_pool#(T))
-
-  // Function -- NODOCS -- new
-  //
-  // Creates a new pool with the given ~name~.
+   typedef uvm_object_registry#(uvm_object_string_pool#(T)) type_id;
+   
+   static function type_id get_type();
+     return type_id::get();
+   endfunction
 
   function new (string name="");
     super.new(name);
