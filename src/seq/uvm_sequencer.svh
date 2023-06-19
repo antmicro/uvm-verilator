@@ -32,6 +32,8 @@ class uvm_sequencer1 #(type REQ=int, RSP=REQ);
 
   typedef uvm_sequencer1 #( REQ , RSP) this_type;
 
+  `uvm_component_param_utils(this_type)
+
   extern function new (string name);
   
   uvm_seq_item_pull_imp1 #(REQ, RSP, this_type) seq_item_export;
@@ -42,7 +44,7 @@ function uvm_sequencer1::new (string name);
   seq_item_export = new ("seq_item_export", this);
 endfunction
 
-typedef uvm_sequencer1 #(int, int) uvm_default_sequencer_type;
+typedef uvm_sequencer1 #(int, int) uvm_default_sequencer_type1;
 //------------------------------------------------------------------------------
 //
 // CLASS -- NODOCS -- uvm_sequencer #(REQ,RSP)
