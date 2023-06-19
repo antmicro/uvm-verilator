@@ -87,3 +87,4 @@ class uvm_seq_item_pull_imp #(type REQ=int, type RSP=REQ, type IMP=int)
   `UVM_SEQ_ITEM_PULL_IMP(m_imp, REQ, RSP, t, t)
 
 endclass
+
