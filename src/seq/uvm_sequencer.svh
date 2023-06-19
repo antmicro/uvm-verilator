@@ -101,7 +101,7 @@ class uvm_sequencer #(type REQ=uvm_sequence_item, RSP=REQ)
   // sequencer interface.
   //
 
-  uvm_seq_item_pull_imp #(REQ, RSP, this_type) seq_item_export;
+  uvm_seq_item_pull_imp1 #(REQ, RSP, this_type) seq_item_export;
 
   // Task -- NODOCS -- get_next_item
   // Retrieves the next available item from a sequence.

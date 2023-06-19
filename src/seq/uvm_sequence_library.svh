@@ -599,19 +599,6 @@ function void uvm_sequence_library::m_get_config();
   end
   else begin
     if (selection_mode == UVM_SEQ_LIB_ITEM) begin
-      uvm_sequencer #(REQ,RSP) seqr;
-      uvm_object_wrapper lhs = REQ::get_type();
-      uvm_object_wrapper rhs = uvm_sequence_item::get_type();
-      if (lhs == rhs) begin
-        `uvm_error("SEQLIB/BASE_ITEM", {"selection_mode cannot be UVM_SEQ_LIB_ITEM when ",
-          "the REQ type is the base uvm_sequence_item. Using UVM_SEQ_LIB_RAND mode"})
-        selection_mode = UVM_SEQ_LIB_RAND;
-      end
-      if (m_sequencer == null || !$cast(seqr,m_sequencer)) begin
-        `uvm_error("SEQLIB/VIRT_SEQ", {"selection_mode cannot be UVM_SEQ_LIB_ITEM when ",
-          "running as a virtual sequence. Using UVM_SEQ_LIB_RAND mode"})
-        selection_mode = UVM_SEQ_LIB_RAND;
-      end
     end
   end
 
