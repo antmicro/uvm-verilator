@@ -183,15 +183,6 @@ endfunction
 // idle state.
 //
 function void uvm_sequencer::stop_sequences();
-  REQ t;
-  super.stop_sequences();
-  sequence_item_requested  = 0;
-  get_next_item_called     = 0;
-  // Empty the request fifo
-  if (m_req_fifo.used()) begin
-    uvm_report_info(get_full_name(), "Sequences stopped.  Removing request from sequencer fifo");
-    m_req_fifo.flush();
-  end
 endfunction
 
 
@@ -295,26 +286,6 @@ endtask
 // ---------
 
 function void uvm_sequencer::item_done(RSP item = null);
-  REQ t;
-
-  // Set flag to allow next get_next_item or peek to get a new sequence_item
-  sequence_item_requested = 0;
-  get_next_item_called = 0;
-  
-  if (m_req_fifo.try_get(t) == 0) begin
-    uvm_report_fatal("SQRBADITMDN", {"Item_done() called with no outstanding requests.",
-      " Each call to item_done() must be paired with a previous call to get_next_item()."});
-  end else begin
-    m_wait_for_item_sequence_id = t.get_sequence_id();
-    m_wait_for_item_transaction_id = t.get_transaction_id();
-  end
-  
-  if (item != null) begin
-    seq_item_export.put_response(item);
-  end
-
-  // Grant any locks as soon as possible
-  grant_queued_locks();
 endfunction
 
 
@@ -322,7 +293,6 @@ endfunction
 // ---
 
 task uvm_sequencer::put (RSP t);
-  put_response(t);
 endtask
 
 
@@ -330,12 +300,6 @@ endtask
 // ---
 
 task uvm_sequencer::get(output REQ t);
-  if (sequence_item_requested == 0) begin
-    m_select_sequence();
-  end
-  sequence_item_requested = 1;
-  m_req_fifo.peek(t);
-  item_done();
 endtask
 
 
@@ -343,15 +307,6 @@ endtask
 // ----
 
 task uvm_sequencer::peek(output REQ t);
-
-  if (sequence_item_requested == 0) begin
-    m_select_sequence();
-  end
-  
-  // Set flag indicating that the item has been requested to ensure that item_done or get
-  // is called between requests
-  sequence_item_requested = 1;
-  m_req_fifo.peek(t);
 endtask
 
 
@@ -359,5 +314,4 @@ endtask
 // -----------------
 
 function void uvm_sequencer::item_done_trigger(RSP item = null);
-  item_done(item);
 endfunction
