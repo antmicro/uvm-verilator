@@ -55,6 +55,28 @@
 //
 // Note- The convenience API not yet implemented.
 //------------------------------------------------------------------------------
+class uvm_seq_item_pull_imp1 #(type REQ=int, type RSP=REQ, type IMP=int);
+   function new (string name, IMP imp);
+   endfunction
+endclass
+
+class uvm_sequencer1 #(type REQ=int, RSP=REQ);
+
+  typedef uvm_sequencer1 #( REQ , RSP) this_type;
+
+  `uvm_component_param_utils(this_type)
+
+  extern function new (string name);
+  
+  uvm_seq_item_pull_imp1 #(REQ, RSP, this_type) seq_item_export;
+
+endclass  
+
+function uvm_sequencer1::new (string name);
+  seq_item_export = new ("seq_item_export", this);
+endfunction
+typedef  uvm_sequencer1 #(bit) reg_seqr;
+
 
 // @uvm-ieee 1800.2-2017 auto 19.4.1.1
 class uvm_reg_sequence #(type BASE=uvm_sequence #(uvm_reg_item)) extends BASE;
@@ -109,7 +131,6 @@ class uvm_reg_sequence #(type BASE=uvm_sequence #(uvm_reg_item)) extends BASE;
   // and physical bus transactions. Defined only when this sequence is a
   // translation sequence, and we want to "pull" from an upstream sequencer.
   //
-  uvm_sequencer #(uvm_reg_item) reg_seqr;
 
 
 
