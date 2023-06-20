@@ -139,8 +139,11 @@ class uvm_sequencer #(type REQ=uvm_sequence_item, RSP=REQ)
 
 endclass  
 
-
+`ifdef VERILATOR
+typedef uvm_sequencer #(uvm_sequence_item, uvm_sequence_item) uvm_virtual_sequencer;
+`else
 typedef uvm_sequencer #(uvm_sequence_item) uvm_virtual_sequencer;
+`endif
 
 
 

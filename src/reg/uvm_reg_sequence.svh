@@ -109,7 +109,11 @@ class uvm_reg_sequence #(type BASE=uvm_sequence #(uvm_reg_item)) extends BASE;
   // and physical bus transactions. Defined only when this sequence is a
   // translation sequence, and we want to "pull" from an upstream sequencer.
   //
+`ifdef VERILATOR
+  uvm_sequencer #(uvm_reg_item, uvm_reg_item) reg_seqr;
+`else
   uvm_sequencer #(uvm_reg_item) reg_seqr;
+`endif
 
 
 
