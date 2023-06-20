@@ -562,7 +562,11 @@ class uvm_registry_common #( type Tregistry=int, type Tcreator=int, type Tcreate
     obj = Tcreator::create_by_type( Tregistry::get(), contxt, name, parent );
     if (!$cast(create, obj)) begin
       string msg;
+`ifdef VERILATOR
+      msg = {"Factory did not return a ", Tcreator::base_type_name(), " of type '",Tregistry::type_name(),
+`else
       msg = {"Factory did not return a ", Tcreator::base_type_name(), " of type '",Tregistry::type_name,
+`endif
         "'. A component of type '",obj == null ? "null" : obj.get_type_name(),
         "' was returned instead. Name=",name," Parent=",
         parent==null?"null":parent.get_type_name()," contxt=",contxt};
