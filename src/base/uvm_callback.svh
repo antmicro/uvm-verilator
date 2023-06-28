@@ -174,7 +174,11 @@ class uvm_typed_callbacks#(type T=uvm_object) extends uvm_callbacks_base;
 
 endclass
 
-class uvm_typed_callbacks1#(type T=uvm_object) extends uvm_callbacks_base;
+class ToExtend;
+   static uvm_pool#(uvm_object,uvm_queue#(uvm_callback)) m_pool;
+endclass
+
+class uvm_typed_callbacks1#(type T=uvm_object) extends ToExtend;
   typedef uvm_typed_callbacks1#(T) this_type;
 
   //The actual global object from the derivative class. Note that this is
