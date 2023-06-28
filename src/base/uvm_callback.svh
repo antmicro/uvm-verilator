@@ -178,8 +178,8 @@ class ToExtend;
    static uvm_pool#(uvm_object,int) m_pool;
 endclass
 
-class uvm_typed_callbacks1#(type T=uvm_object) extends ToExtend;
-  typedef uvm_typed_callbacks1#(T) this_type;
+class uvm_typed_callbacks1 extends ToExtend;
+  typedef uvm_typed_callbacks1 this_type;
 
   static this_type m_t_inst;
 
@@ -187,10 +187,8 @@ class uvm_typed_callbacks1#(type T=uvm_object) extends ToExtend;
      uvm_object obj;
      int q = m_t_inst.m_pool.get(obj);
   endfunction
-
 endclass
 
-typedef uvm_typed_callbacks1#(int) my_type;
 
 //------------------------------------------------------------------------------
 //
