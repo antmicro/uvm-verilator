@@ -98,10 +98,6 @@ class uvm_callbacks_base extends uvm_object;
   static uvm_pool#(uvm_object,uvm_queue#(uvm_callback)) m_pool;
 
   static function this_type m_initialize();
-    if(m_b_inst == null) begin
-      m_b_inst = new;
-      m_pool = new;
-    end
     return m_b_inst;
   endfunction
 
@@ -137,24 +133,6 @@ class uvm_callbacks_base extends uvm_object;
   //work down the class hierarchy. If any class returns true then
   //the pair is legal.
   function bit check_registration(uvm_object obj, uvm_callback cb);
-    this_type dt;
-
-    if (m_is_registered(obj,cb))
-      return 1;
-
-    // Need to look at all possible T/CB pairs of this type
-    foreach(m_this_type[i])
-      if(m_b_inst != m_this_type[i] && m_this_type[i].m_is_registered(obj,cb))
-        return 1;
-
-    if(obj == null) begin
-      foreach(m_derived_types[i]) begin
-        dt = uvm_typeid_base::typeid_map[m_derived_types[i] ];
-        if(dt != null && dt.check_registration(null,cb))
-          return 1;
-      end
-    end
-
     return 0;
   endfunction
 
@@ -307,34 +285,6 @@ class uvm_callbacks #(type T=uvm_object, type CB=uvm_callback)
   // ---
 
   static function this_type get();
-
-    if (m_inst == null) begin
-      uvm_typeid_base cb_base_type;
-
-      void'(super_type::m_initialize());
-    
-      cb_base_type = uvm_typeid#(uvm_callback)::get();
-      m_cb_typeid  = uvm_typeid#(CB)::get();
-      m_typeid     = uvm_typeid#(T)::get();
-
-      m_inst = new;
-
-      if (cb_base_type == m_cb_typeid) begin
-        $cast(m_base_inst, m_inst);
-        // The base inst in the super class gets set to this base inst
-        m_t_inst = m_base_inst;
-        uvm_typeid_base::typeid_map[m_typeid] = m_inst; 
-        uvm_typeid_base::type_map[m_b_inst] = m_typeid;
-      end
-      else begin
-        m_base_inst = uvm_callbacks#(T,uvm_callback)::get();
-        m_base_inst.m_this_type.push_back(m_inst);
-      end
-
-      if (m_inst == null)
-        `uvm_fatal("CB/INTERNAL","get(): m_inst is null")
-    end
-
     return null;
   endfunction
 
