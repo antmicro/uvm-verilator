@@ -35,6 +35,7 @@
 //------------------------------------------------------------------------------
 
 // @uvm-ieee 1800.2-2017 auto 11.2.1
+
 class uvm_pool #(type KEY=int, T=uvm_void) extends uvm_object;
 
   typedef uvm_pool #(KEY,T) this_type;

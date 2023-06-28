@@ -174,8 +174,15 @@ class uvm_typed_callbacks#(type T=uvm_object) extends uvm_callbacks_base;
 
 endclass
 
+class uvm_pool1 #(type KEY=int, T=uvm_void);
+  virtual function T get (KEY key);
+      T default_value;
+    return default_value;
+  endfunction
+endclass
+
 class ToExtend;
-   static uvm_pool#(uvm_object,int) m_pool;
+   static uvm_pool1#(uvm_object,int) m_pool;
 endclass
 
 class uvm_typed_callbacks1 extends ToExtend;
