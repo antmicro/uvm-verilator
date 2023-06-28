@@ -175,21 +175,21 @@ class uvm_typed_callbacks#(type T=uvm_object) extends uvm_callbacks_base;
 endclass
 
 class ToExtend;
-   static uvm_pool#(uvm_object,uvm_queue#(uvm_callback)) m_pool;
+   static uvm_pool#(uvm_object,int) m_pool;
 endclass
 
 class uvm_typed_callbacks1#(type T=uvm_object) extends ToExtend;
   typedef uvm_typed_callbacks1#(T) this_type;
 
-  //The actual global object from the derivative class. Note that this is
-  //just a reference to the object that is generated in the derived class.
   static this_type m_t_inst;
-  virtual function void m_add_tw_cbs(uvm_callback cb, uvm_apprepend ordering);
-    uvm_object obj;
-     uvm_queue#(uvm_callback) q = m_t_inst.m_pool.get(obj);
+
+  virtual function void m_add_tw_cbs();
+     uvm_object obj;
+     int q = m_t_inst.m_pool.get(obj);
   endfunction
 
 endclass
+
 typedef uvm_typed_callbacks1#(int) my_type;
 
 //------------------------------------------------------------------------------
