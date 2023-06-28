@@ -335,7 +335,7 @@ class uvm_callbacks #(type T=uvm_object, type CB=uvm_callback)
         `uvm_fatal("CB/INTERNAL","get(): m_inst is null")
     end
 
-    return m_inst;
+    return null;
   endfunction
 
 
@@ -345,30 +345,14 @@ class uvm_callbacks #(type T=uvm_object, type CB=uvm_callback)
   // Register valid callback type
 
   static function bit m_register_pair(string tname="", cbname="");
-    this_type inst = get();
-
-    m_typename = tname;
-    super_type::m_typename = tname;
-    m_typeid.typename = tname;
-
-    m_cb_typename = cbname;
-    m_cb_typeid.typename = cbname;
-
-    inst.m_registered = 1; 
-
     return 1;
   endfunction
 
   virtual function bit m_is_registered(uvm_object obj, uvm_callback cb);
-    if(m_is_for_me(cb) && m_am_i_a(obj)) begin
-      return m_registered;
-    end
   endfunction
 
   //Does type check to see if the callback is valid for this type
   virtual function bit m_is_for_me(uvm_callback cb);
-    CB this_cb;
-    return($cast(this_cb,cb));
   endfunction
 
   // Group -- NODOCS -- Add/delete interface
@@ -391,105 +375,6 @@ class uvm_callbacks #(type T=uvm_object, type CB=uvm_callback)
 
   // @uvm-ieee 1800.2-2017 auto 10.7.2.3.1
   static function void add(T obj, uvm_callback cb, uvm_apprepend ordering=UVM_APPEND);
-    uvm_queue#(uvm_callback) q;
-    string nm,tnm; 
-
-    void'(get());
-
-    if (cb==null) begin
-       if (obj==null)
-         nm = "(*)";
-       else
-         nm = obj.get_full_name();
-
-       if (m_base_inst.m_typename!="")
-         tnm = m_base_inst.m_typename;
-       else if (obj != null)
-         tnm = obj.get_type_name();
-       else
-         tnm = "uvm_object";
-
-       uvm_report_error("CBUNREG",
-                       {"Null callback object cannot be registered with object ",
-                        nm, " (", tnm, ")"}, UVM_NONE);
-       return;
-    end
-
-    if (!m_base_inst.check_registration(obj,cb)) begin
-
-       if (obj==null)
-         nm = "(*)";
-       else
-         nm = obj.get_full_name();
-
-       if (m_base_inst.m_typename!="")
-         tnm = m_base_inst.m_typename;
-       else if(obj != null)
-         tnm = obj.get_type_name();
-       else
-         tnm = "uvm_object";
-
-       uvm_report_warning("CBUNREG",
-                          {"Callback ", cb.get_name(), " cannot be registered with object ",
-                          nm, " because callback type ", cb.get_type_name(),
-                          " is not registered with object type ", tnm }, UVM_NONE);
-    end
-
-    if(obj == null) begin
-
-      if (m_cb_find(m_t_inst.m_tw_cb_q,cb) != -1) begin
-
-        if (m_base_inst.m_typename!="")
-          tnm = m_base_inst.m_typename;
-        else tnm = "uvm_object";
-
-        uvm_report_warning("CBPREG",
-                           {"Callback object ", cb.get_name(),
-                           " is already registered with type ", tnm }, UVM_NONE);
-      end
-      else begin
-        `uvm_cb_trace_noobj(cb,$sformatf("Add (%s) typewide callback %0s for type %s",
-                            ordering.name(), cb.get_name(), m_base_inst.m_typename))
-        m_t_inst.m_add_tw_cbs(cb,ordering);
-      end
-    end
-
-    else begin
-
-      `uvm_cb_trace_noobj(cb,$sformatf("Add (%s) callback %0s to object %0s ",
-                          ordering.name(), cb.get_name(), obj.get_full_name()))
-
-      q = m_base_inst.m_pool.get(obj);
-
-      if (q==null) begin
-        q=new;
-        m_base_inst.m_pool.add(obj,q);
-      end
-
-      if(q.size() == 0) begin
-        // Need to make sure that registered report catchers are added. This
-        // way users don't need to set up uvm_report_object as a super type.
-        uvm_report_object o; 
-
-        if($cast(o,obj)) begin
-          uvm_queue#(uvm_callback) qr;
-	  void'(uvm_callbacks#(uvm_report_object, uvm_callback)::get());
-`ifdef VERILATOR
-          // It is a field of uvm_typed_callbacks, which is a base class of uvm_callbacks
-          qr = uvm_typed_callbacks#(uvm_report_object)::m_t_inst.m_tw_cb_q;
-`else
-          qr = uvm_callbacks#(uvm_report_object,uvm_callback)::m_t_inst.m_tw_cb_q;
-`endif
-          for(int i=0; i<qr.size(); ++i)
-              q.push_back(qr.get(i)); 
-        end
-
-        for(int i=0; i<m_t_inst.m_tw_cb_q.size(); ++i)
-          q.push_back(m_t_inst.m_tw_cb_q.get(i)); 
-      end
-
-      //check if already exists in the queue
-    end
   endfunction
 
   // Function -- NODOCS -- add_by_name
@@ -505,31 +390,6 @@ class uvm_callbacks #(type T=uvm_object, type CB=uvm_callback)
                                    uvm_callback cb,
                                    uvm_component root,
                                    uvm_apprepend ordering=UVM_APPEND);
-    uvm_component cq[$];
-    uvm_root top;
-    uvm_coreservice_t cs;
-    T t;
-    void'(get());
-    cs = uvm_coreservice_t::get();
-    top = cs.get_root();
-
-    if(cb==null) begin
-       uvm_report_error("CBUNREG", { "Null callback object cannot be registered with object(s) ",
-         name }, UVM_NONE);
-       return;
-    end
-    `uvm_cb_trace_noobj(cb,$sformatf("Add (%s) callback %0s by name to object(s) %0s ",
-                    ordering.name(), cb.get_name(), name))
-    top.find_all(name,cq,root);
-    if(cq.size() == 0) begin
-      uvm_report_warning("CBNOMTC", { "add_by_name failed to find any components matching the name ",
-        name, ", callback ", cb.get_name(), " will not be registered." }, UVM_NONE);
-    end
-    foreach(cq[i]) begin
-      if($cast(t,cq[i])) begin 
-        add(t,cb,ordering); 
-      end
-    end
   endfunction
 
 
@@ -562,26 +422,6 @@ class uvm_callbacks #(type T=uvm_object, type CB=uvm_callback)
   // @uvm-ieee 1800.2-2017 auto 10.7.2.3.4
   static function void delete_by_name(string name, uvm_callback cb,
      uvm_component root);
-    uvm_component cq[$];
-    uvm_root top;
-    T t;
-    uvm_coreservice_t cs;
-    void'(get());
-    cs = uvm_coreservice_t::get();
-    top = cs.get_root();
-
-    `uvm_cb_trace_noobj(cb,$sformatf("Delete callback %0s by name from object(s) %0s ",
-                    cb.get_name(), name))
-    top.find_all(name,cq,root);
-    if(cq.size() == 0) begin
-      uvm_report_warning("CBNOMTC", { "delete_by_name failed to find any components matching the name ",
-        name, ", callback ", cb.get_name(), " will not be unregistered." }, UVM_NONE);
-    end
-    foreach(cq[i]) begin
-      if($cast(t,cq[i])) begin 
-        delete(t,cb); 
-      end
-    end
   endfunction
 
   //--------------------------
