@@ -160,7 +160,6 @@ class uvm_typed_callbacks#(type T=uvm_object) extends uvm_callbacks_base;
   //For a typewide callback, need to add to derivative types as well.
   virtual function void m_add_tw_cbs(uvm_callback cb, uvm_apprepend ordering);
     uvm_object obj;
-     uvm_queue#(uvm_callback) q = m_t_inst.m_pool.get(obj);
   endfunction
 
 
@@ -175,7 +174,57 @@ class uvm_typed_callbacks#(type T=uvm_object) extends uvm_callbacks_base;
 
 endclass
 
+class uvm_typed_callbacks1#(type T=uvm_object) extends uvm_callbacks_base;
 
+  static uvm_queue#(uvm_callback) m_tw_cb_q;
+  static string m_typename;
+
+  typedef uvm_typed_callbacks1#(T) this_type;
+
+  //The actual global object from the derivative class. Note that this is
+  //just a reference to the object that is generated in the derived class.
+  static this_type m_t_inst;
+
+  static function this_type m_initialize();
+    return m_t_inst;
+  endfunction
+
+  //Type checking interface: is given ~obj~ of type T?
+  virtual function bit m_am_i_a(uvm_object obj);
+     return 1;
+  endfunction
+
+  //Getting the typewide queue
+  virtual function uvm_queue#(uvm_callback) m_get_tw_cb_q(uvm_object obj);
+      return null;
+  endfunction
+
+  static function int m_cb_find(uvm_queue#(uvm_callback) q, uvm_callback cb);
+    return -1;
+  endfunction
+
+  static function int m_cb_find_name(uvm_queue#(uvm_callback) q, string name, string where);
+    return 0;
+  endfunction
+
+  //For a typewide callback, need to add to derivative types as well.
+  virtual function void m_add_tw_cbs(uvm_callback cb, uvm_apprepend ordering);
+    uvm_object obj;
+     uvm_queue#(uvm_callback) q = m_t_inst.m_pool.get(obj);
+  endfunction
+
+
+  //For a typewide callback, need to remove from derivative types as well.
+  virtual function bit m_delete_tw_cbs(uvm_callback cb);
+     return 1;
+  endfunction
+
+
+  static function void display(T obj=null);
+  endfunction
+
+endclass
+typedef uvm_typed_callbacks1#(int) my_type;
 
 //------------------------------------------------------------------------------
 //
