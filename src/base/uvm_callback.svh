@@ -182,259 +182,47 @@ class uvm_typed_callbacks#(type T=uvm_object) extends uvm_callbacks_base;
   static string m_typename;
 
   typedef uvm_typed_callbacks#(T) this_type;
-  typedef uvm_callbacks_base      super_type;
 
   //The actual global object from the derivative class. Note that this is
   //just a reference to the object that is generated in the derived class.
   static this_type m_t_inst;
 
   static function this_type m_initialize();
-    if(m_t_inst == null) begin
-      void'(super_type::m_initialize());
-      m_t_inst = new;
-      m_t_inst.m_tw_cb_q = new("typewide_queue");
-    end
     return m_t_inst;
   endfunction
 
   //Type checking interface: is given ~obj~ of type T?
   virtual function bit m_am_i_a(uvm_object obj);
-`ifdef VERILATOR  // https://github.com/verilator/verilator/issues/2412
-    T casted_obj;
-    if (obj == null)
-      return 1;
-    return($cast(casted_obj,obj));
-`else  // Functionally equivelent original code, included here for comparison
-    T this_type;
-    if (obj == null)
-      return 1;
-    return($cast(this_type,obj));
-`endif
+     return 1;
   endfunction
 
   //Getting the typewide queue
   virtual function uvm_queue#(uvm_callback) m_get_tw_cb_q(uvm_object obj);
-    if(m_am_i_a(obj)) begin
-      foreach(m_derived_types[i]) begin
-        super_type dt;
-        dt = uvm_typeid_base::typeid_map[m_derived_types[i] ];
-        if(dt != null && dt != this) begin
-          m_get_tw_cb_q = dt.m_get_tw_cb_q(obj);
-          if(m_get_tw_cb_q != null)
-            return m_get_tw_cb_q;
-        end
-      end
-      return m_t_inst.m_tw_cb_q;
-    end
-    else
       return null;
   endfunction
 
   static function int m_cb_find(uvm_queue#(uvm_callback) q, uvm_callback cb);
-    for(int i=0; i<q.size(); ++i)
-      if(q.get(i) == cb)
-        return i;
     return -1;
   endfunction
 
   static function int m_cb_find_name(uvm_queue#(uvm_callback) q, string name, string where);
-    uvm_callback cb;
-    for(int i=0; i<q.size(); ++i) begin
-      cb = q.get(i);
-      if(cb.get_name() == name) begin
-         `uvm_warning("UVM/CB/NAM/SAM", {"A callback named \"", name,
-                                         "\" is already registered with ", where})
-         return 1;
-      end
-    end
     return 0;
   endfunction
 
   //For a typewide callback, need to add to derivative types as well.
   virtual function void m_add_tw_cbs(uvm_callback cb, uvm_apprepend ordering);
-    super_type cb_pair;
     uvm_object obj;
-    T me;
-    bit warned;
-    uvm_queue#(uvm_callback) q;
-    if(m_cb_find(m_t_inst.m_tw_cb_q,cb) == -1) begin
-       warned = m_cb_find_name(m_t_inst.m_tw_cb_q, cb.get_name(), "type");
-       if(ordering == UVM_APPEND)
-          m_t_inst.m_tw_cb_q.push_back(cb);
-       else
-          m_t_inst.m_tw_cb_q.push_front(cb);
-    end
-    if(m_t_inst.m_pool.first(obj)) begin
-      do begin
-        if($cast(me,obj)) begin
-          q = m_t_inst.m_pool.get(obj);
-          if(q==null) begin
-            q=new;
-            m_t_inst.m_pool.add(obj,q);
-          end
-          if(m_cb_find(q,cb) == -1) begin
-            if (!warned) begin
-               void'(m_cb_find_name(q, cb.get_name(), {"object instance ", me.get_full_name()}));
-            end
-            if(ordering == UVM_APPEND)
-              q.push_back(cb);
-            else
-              q.push_front(cb);
-          end
-        end
-      end while(m_t_inst.m_pool.next(obj));
-    end
-    foreach(m_derived_types[i]) begin
-      cb_pair = uvm_typeid_base::typeid_map[m_derived_types[i] ];
-      if(cb_pair != this)
-        cb_pair.m_add_tw_cbs(cb,ordering);
-    end
+     uvm_queue#(uvm_callback) q = m_t_inst.m_pool.get(obj);
   endfunction
 
 
   //For a typewide callback, need to remove from derivative types as well.
   virtual function bit m_delete_tw_cbs(uvm_callback cb);
-    super_type cb_pair;
-    uvm_object obj;
-    uvm_queue#(uvm_callback) q;
-    int pos = m_cb_find(m_t_inst.m_tw_cb_q,cb);
-
-    if(pos != -1) begin
-      m_t_inst.m_tw_cb_q.delete(pos);
-      m_delete_tw_cbs = 1;
-    end
-
-    if(m_t_inst.m_pool.first(obj)) begin
-      do begin
-        q = m_t_inst.m_pool.get(obj);
-        if(q==null) begin
-          q=new;
-          m_t_inst.m_pool.add(obj,q);
-        end
-        pos = m_cb_find(q,cb);
-        if(pos != -1) begin
-          q.delete(pos);
-          m_delete_tw_cbs = 1;
-        end
-      end while(m_t_inst.m_pool.next(obj));
-    end
-    foreach(m_derived_types[i]) begin
-      cb_pair = uvm_typeid_base::typeid_map[m_derived_types[i] ];
-      if(cb_pair != this)
-        m_delete_tw_cbs |= cb_pair.m_delete_tw_cbs(cb);
-    end
+     return 1;
   endfunction
 
 
   static function void display(T obj=null);
-    T me;
-    string cbq[$];
-    string inst_q[$];
-    string mode_q[$];
-    uvm_callback cb;
-    string blanks = "                             ";
-    uvm_object bobj = obj;
-    string qs[$];
-
-    uvm_queue#(uvm_callback) q;
-    string tname, str;
-
-    int max_cb_name=0, max_inst_name=0;
-
-    m_tracing = 0; //don't allow tracing during display
-
-    if(m_typename != "") tname = m_typename;
-    else if(obj != null) tname = obj.get_type_name();
-    else tname = "*";
-
-    q = m_t_inst.m_tw_cb_q;
-    for(int i=0; i<q.size(); ++i) begin
-      cb = q.get(i);
-      cbq.push_back(cb.get_name());
-      inst_q.push_back("(*)");
-      if(cb.is_enabled()) mode_q.push_back("ON");
-      else mode_q.push_back("OFF");
-
-      str = cb.get_name();
-      max_cb_name = max_cb_name > str.len() ? max_cb_name : str.len();
-      str = "(*)";
-      max_inst_name = max_inst_name > str.len() ? max_inst_name : str.len();
-    end
-
-    if(obj ==null) begin
-      if(m_t_inst.m_pool.first(bobj)) begin
-        do
-          if($cast(me,bobj)) break;
-        while(m_t_inst.m_pool.next(bobj));
-      end
-      if(me != null || m_t_inst.m_tw_cb_q.size()) begin
-        qs.push_back($sformatf("Registered callbacks for all instances of %s\n", tname)); 
-        qs.push_back("---------------------------------------------------------------\n");
-      end
-      if(me != null) begin
-        do begin
-          if($cast(me,bobj)) begin
-            q = m_t_inst.m_pool.get(bobj);
-            if (q==null) begin
-              q=new;
-              m_t_inst.m_pool.add(bobj,q);
-            end
-            for(int i=0; i<q.size(); ++i) begin
-              cb = q.get(i);
-              cbq.push_back(cb.get_name());
-              inst_q.push_back(bobj.get_full_name());
-              if(cb.is_enabled()) mode_q.push_back("ON");
-              else mode_q.push_back("OFF");
-  
-              str = cb.get_name();
-              max_cb_name = max_cb_name > str.len() ? max_cb_name : str.len();
-              str = bobj.get_full_name();
-              max_inst_name = max_inst_name > str.len() ? max_inst_name : str.len();
-            end
-          end
-        end while (m_t_inst.m_pool.next(bobj));
-      end
-      else begin
-        qs.push_back($sformatf("No callbacks registered for any instances of type %s\n", tname));
-      end
-    end
-    else begin
-      if(m_t_inst.m_pool.exists(bobj) || m_t_inst.m_tw_cb_q.size()) begin
-       qs.push_back($sformatf("Registered callbacks for instance %s of %s\n", obj.get_full_name(), tname)); 
-       qs.push_back("---------------------------------------------------------------\n");
-      end
-      if(m_t_inst.m_pool.exists(bobj)) begin
-        q = m_t_inst.m_pool.get(bobj);
-        if(q==null) begin
-          q=new;
-          m_t_inst.m_pool.add(bobj,q);
-        end
-        for(int i=0; i<q.size(); ++i) begin
-          cb = q.get(i);
-          cbq.push_back(cb.get_name());
-          inst_q.push_back(bobj.get_full_name());
-          if(cb.is_enabled()) mode_q.push_back("ON");
-          else mode_q.push_back("OFF");
-
-          str = cb.get_name();
-          max_cb_name = max_cb_name > str.len() ? max_cb_name : str.len();
-          str = bobj.get_full_name();
-          max_inst_name = max_inst_name > str.len() ? max_inst_name : str.len();
-        end
-      end
-    end
-    if(!cbq.size()) begin
-      if(obj == null) str = "*";
-      else str = obj.get_full_name();
-      qs.push_back($sformatf("No callbacks registered for instance %s of type %s\n", str, tname));
-    end
-
-    foreach (cbq[i]) begin
-      qs.push_back($sformatf("%s  %s %s on %s  %s\n", cbq[i], blanks.substr(0,max_cb_name-cbq[i].len()-1), inst_q[i], blanks.substr(0,max_inst_name - inst_q[i].len()-1), mode_q[i]));
-    end
-    `uvm_info("UVM/CB/DISPLAY",`UVM_STRING_QUEUE_STREAMING_PACK(qs),UVM_NONE)
-
-    m_tracing = 1; //allow tracing to be resumed
   endfunction
 
 endclass
