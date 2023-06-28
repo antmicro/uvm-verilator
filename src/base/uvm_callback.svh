@@ -593,16 +593,6 @@ class uvm_callbacks #(type T=uvm_object, type CB=uvm_callback)
   // iterate over callback queues.
 
   static function void m_get_q (ref uvm_queue #(uvm_callback) q, input T obj);
-    if(!m_base_inst.m_pool.exists(obj)) begin //no instance specific
-      q = (obj == null) ? m_t_inst.m_tw_cb_q : m_t_inst.m_get_tw_cb_q(obj);
-    end 
-    else begin
-      q = m_base_inst.m_pool.get(obj);
-      if(q==null) begin
-        q=new;
-        m_base_inst.m_pool.add(obj,q);
-      end
-    end
   endfunction
 
 
@@ -620,9 +610,6 @@ class uvm_callbacks #(type T=uvm_object, type CB=uvm_callback)
 
   // @uvm-ieee 1800.2-2017 auto 10.7.2.4.1
   static function CB get_first (ref int itr, input T obj);
-
-    CB cb;
-    void'(get());
     return null;
   endfunction
 
@@ -640,9 +627,6 @@ class uvm_callbacks #(type T=uvm_object, type CB=uvm_callback)
 
   // @uvm-ieee 1800.2-2017 auto 10.7.2.4.2
   static function CB get_last (ref int itr, input T obj);
-
-    CB cb;
-    void'(get());
     return null;
   endfunction
 
@@ -663,9 +647,6 @@ class uvm_callbacks #(type T=uvm_object, type CB=uvm_callback)
 
   // @uvm-ieee 1800.2-2017 auto 10.7.2.4.3
   static function CB get_next (ref int itr, input T obj);
-
-    CB cb;
-    void'(get());
     return null;
   endfunction
 
@@ -686,9 +667,6 @@ class uvm_callbacks #(type T=uvm_object, type CB=uvm_callback)
 
   // @uvm-ieee 1800.2-2017 auto 10.7.2.4.4
   static function CB get_prev (ref int itr, input T obj);
-
-    CB cb;
-    void'(get());
     return null;
   endfunction
 
@@ -710,27 +688,6 @@ class uvm_callbacks #(type T=uvm_object, type CB=uvm_callback)
 
   // @uvm-ieee 1800.2-2017 auto 10.7.2.5
   static function void get_all ( ref CB all_callbacks[$], input T obj=null );
-
-    CB cb;
-    CB callbacks_to_append[$];
-    CB unique_callbacks_to_append[$];
-
-    void'( get() );
-
-    if ((obj == null) || (!m_pool.exists(obj))) begin
-      // Only typewide callbacks exist
-      for (int qi=0; qi<m_t_inst.m_tw_cb_q.size(); ++qi) 
-	if ($cast(cb, m_t_inst.m_tw_cb_q.get(qi)))
-	  callbacks_to_append.push_back( cb );
-    end
-    else begin
-      // No need to do anything special with typewide,
-      // as they're present in the instance queue.
-    end
-
-    // Now remove duplicates and append the final list to all_callbacks.
-    unique_callbacks_to_append = callbacks_to_append.unique( cb_ ) with ( cb_.get_inst_id );
-    all_callbacks = { all_callbacks, unique_callbacks_to_append };
   endfunction
 
 
@@ -745,9 +702,6 @@ class uvm_callbacks #(type T=uvm_object, type CB=uvm_callback)
   // of type ~T~, including typewide callbacks.
 
   static function void display(T obj=null);
-    // For documentation purposes, need a function wrapper here.
-    void'(get());
-    super_type::display(obj);
   endfunction
 
 endclass
@@ -768,47 +722,14 @@ class uvm_derived_callbacks#(type T=uvm_object, type ST=uvm_object, type CB=uvm_
     extends uvm_callbacks#(T,CB);
 
   typedef uvm_derived_callbacks#(T,ST,CB) this_type;
-  typedef uvm_callbacks#(T)            this_user_type;
-  typedef uvm_callbacks#(ST)           this_super_type;
- 
-  // Singleton instance is used for type checking
-  static this_type m_d_inst;
-  static this_user_type m_user_inst;
-  static this_super_type m_super_inst;
 
-  // typeinfo
-  static uvm_typeid_base m_s_typeid;
+  static this_type m_d_inst;
 
   static function this_type get();
-    m_user_inst = this_user_type::get();
-    m_super_inst = this_super_type::get();
-    m_s_typeid = uvm_typeid#(ST)::get();
-    if(m_d_inst == null) begin
-      m_d_inst = new;
-    end
     return m_d_inst;
   endfunction
 
   static function bit register_super_type(string tname="", sname="");
-    this_user_type u_inst = this_user_type::get();
-    uvm_callbacks_base s_obj;
-
-    void'(this_type::get()); // make sure it exists
-
-
-    if(sname != "") m_s_typeid.typename = sname;
-
-    if(u_inst.m_super_type != null) begin
-      if(u_inst.m_super_type == m_s_typeid) return 1;
-      uvm_report_warning("CBTPREG", { "Type ", tname, " is already registered to super type ", 
-        "", ". Ignoring attempt to register to super type ",
-        sname}, UVM_NONE); 
-      return 1;
-    end
-    u_inst.m_super_type = m_s_typeid;
-    u_inst.m_base_inst.m_super_type = m_s_typeid;
-    s_obj = uvm_typeid_base::typeid_map[m_s_typeid];
-    s_obj.m_derived_types.push_back(m_typeid);
     return 1;
   endfunction
 
@@ -847,7 +768,6 @@ class uvm_callback_iter#(type T = uvm_object, type CB = uvm_callback);
 
    // @uvm-ieee 1800.2-2017 auto D.1.2.1
    function new(T obj);
-      m_obj = obj;
    endfunction
 
    // Function -- NODOCS -- first
@@ -858,7 +778,6 @@ class uvm_callback_iter#(type T = uvm_object, type CB = uvm_callback);
 
    // @uvm-ieee 1800.2-2017 auto D.1.2.2
    function CB first();
-      m_cb = uvm_callbacks#(T,CB)::get_first(m_i, m_obj);
       return m_cb;
    endfunction
 
@@ -870,7 +789,6 @@ class uvm_callback_iter#(type T = uvm_object, type CB = uvm_callback);
 
    // @uvm-ieee 1800.2-2017 auto D.1.2.3
    function CB last();
-      m_cb = uvm_callbacks#(T,CB)::get_last(m_i, m_obj);
       return m_cb;
    endfunction
 
@@ -882,7 +800,6 @@ class uvm_callback_iter#(type T = uvm_object, type CB = uvm_callback);
 
    // @uvm-ieee 1800.2-2017 auto D.1.2.4
    function CB next();
-      m_cb = uvm_callbacks#(T,CB)::get_next(m_i, m_obj);
       return m_cb;
    endfunction
 
@@ -894,7 +811,6 @@ class uvm_callback_iter#(type T = uvm_object, type CB = uvm_callback);
 
    // @uvm-ieee 1800.2-2017 auto D.1.2.5
    function CB prev();
-      m_cb = uvm_callbacks#(T,CB)::get_prev(m_i, m_obj);
       return m_cb;
    endfunction
 
@@ -907,43 +823,8 @@ class uvm_callback_iter#(type T = uvm_object, type CB = uvm_callback);
    function CB get_cb();
       return m_cb;
    endfunction
-
-/****
-   function void trace(uvm_object obj = null);
-      if (m_cb != null && T::cbs::get_debug_flags() & UVM_CALLBACK_TRACE) begin
-         uvm_report_object reporter = null;
-         string who = "Executing ";
-         void'($cast(reporter, obj));
-         if (reporter == null) void'($cast(reporter, m_obj));
-         if (reporter == null) reporter = uvm_top;
-         if (obj != null) who = {obj.get_full_name(), " is executing "};
-         else if (m_obj != null) who = {m_obj.get_full_name(), " is executing "};
-         reporter.uvm_report_info("CLLBK_TRC", {who, "callback ", m_cb.get_name()}, UVM_LOW);
-      end
-   endfunction
-****/
 endclass
 
-
-
-//------------------------------------------------------------------------------
-// CLASS -- NODOCS -- uvm_callback
-//
-// The ~uvm_callback~ class is the base class for user-defined callback classes.
-// Typically, the component developer defines an application-specific callback
-// class that extends from this class. In it, he defines one or more virtual
-// methods, called a ~callback interface~, that represent the hooks available
-// for user override. 
-//
-// Methods intended for optional override should not be declared ~pure.~ Usually,
-// all the callback methods are defined with empty implementations so users have
-// the option of overriding any or all of them.
-//
-// The prototypes for each hook method are completely application specific with
-// no restrictions.
-//------------------------------------------------------------------------------
-
-// @uvm-ieee 1800.2-2017 auto 10.7.1.1
 class uvm_callback extends uvm_object;
   protected bit m_enabled = 1;
 
@@ -965,17 +846,6 @@ class uvm_callback extends uvm_object;
 
   // @uvm-ieee 1800.2-2017 auto 10.7.1.2.2
   function bit callback_mode(int on=-1);
-    if(on == 0 || on == 1) begin
-      `uvm_cb_trace_noobj(this,$sformatf("Setting callback mode for %s to %s",
-            get_name(), ((on==1) ? "ENABLED":"DISABLED")))
-    end
-    else begin
-      `uvm_cb_trace_noobj(this,$sformatf("Callback mode for %s is %s",
-            get_name(), ((m_enabled==1) ? "ENABLED":"DISABLED")))
-    end
-    callback_mode = m_enabled;
-    if(on==0) m_enabled=0;
-    if(on==1) m_enabled=1;
   endfunction
 
 
