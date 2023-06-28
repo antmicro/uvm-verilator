@@ -71,22 +71,6 @@ class uvm_typeid#(type T=uvm_object) extends uvm_typeid_base;
   endfunction
 endclass
 
-//------------------------------------------------------------------------------
-// Class - uvm_callbacks_base
-//
-// Base class singleton that holds generic queues for all instance
-// specific objects. This is an internal class. This class contains a
-// global pool that has all of the instance specific callback queues in it. 
-// All of the typewide callback queues live in the derivative class
-// uvm_typed_callbacks#(T). This is not a user visible class.
-//
-// This class holds the class inheritance hierarchy information
-// (super types and derivative types).
-//
-// Note, all derivative uvm_callbacks#() class singletons access this
-// global m_pool object in order to get access to their specific
-// instance queue.
-//------------------------------------------------------------------------------
 
 class uvm_callbacks_base extends uvm_object;
 
@@ -139,20 +123,6 @@ class uvm_callbacks_base extends uvm_object;
 endclass
 
 
-
-//------------------------------------------------------------------------------
-//
-// Class - uvm_typed_callbacks#(T)
-//
-//------------------------------------------------------------------------------
-//
-// Another internal class. This contains the queue of typewide
-// callbacks. It also contains some of the public interface methods,
-// but those methods are accessed via the uvm_callbacks#() class
-// so they are documented in that class even though the implementation
-// is in this class. 
-//
-// The <add>, <delete>, and <display> methods are implemented in this class.
 
 class uvm_typed_callbacks#(type T=uvm_object) extends uvm_callbacks_base;
 
@@ -248,7 +218,7 @@ endclass
   
 // @uvm-ieee 1800.2-2017 auto 10.7.2.1
 class uvm_callbacks #(type T=uvm_object, type CB=uvm_callback)
-    extends uvm_typed_callbacks#(T);
+    extends uvm_typed_callbacks#(int);
 
   // Parameter -- NODOCS -- T
   //
@@ -264,7 +234,6 @@ class uvm_callbacks #(type T=uvm_object, type CB=uvm_callback)
   // that users can override in subtypes. This type must be a derivative
   // of <uvm_callback>.
   
-  typedef uvm_typed_callbacks#(T) super_type;
   typedef uvm_callbacks#(T,CB) this_type;
 
 
