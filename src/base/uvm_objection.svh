@@ -209,10 +209,7 @@ class uvm_objection extends uvm_report_object;
   function uvm_object m_get_parent(uvm_object obj);
     uvm_component comp;
     uvm_sequence_base seq;
-    if ($cast(comp, obj)) begin
-      obj = comp.get_parent();
-    end
-    else if ($cast(seq, obj)) begin
+     if ($cast(seq, obj)) begin
        obj = seq.get_sequencer();
     end
     else
