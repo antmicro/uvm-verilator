@@ -1604,9 +1604,6 @@ function uvm_component::new (string name, uvm_component parent);
     set_name(""); // *** VIRTUAL
     return;
   end
-
-  cs = uvm_coreservice_t::get();
-  top = cs.get_root();  
 endfunction
 
 
