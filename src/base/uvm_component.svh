@@ -1599,7 +1599,7 @@ function uvm_component::new (string name, uvm_component parent);
 
   super.new(name);
 
-  if (parent==null && name == "__top__") begin
+  if (name == "__top__") begin
     return;
   end
 endfunction
