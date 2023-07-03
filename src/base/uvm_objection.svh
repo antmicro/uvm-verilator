@@ -207,14 +207,11 @@ class uvm_objection extends uvm_report_object;
   // The ultimate parent is uvm_top, UVM's implicit top-level component. 
 
   function uvm_object m_get_parent(uvm_object obj);
-    uvm_component comp;
     uvm_sequence_base seq;
      if ($cast(seq, obj)) begin
        obj = seq.get_sequencer();
     end
     else
-      obj = m_top;
-    if (obj == null)
       obj = m_top;
     return obj;
   endfunction
