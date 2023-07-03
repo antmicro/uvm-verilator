@@ -42,6 +42,31 @@ class uvm_objection_events;
   event all_dropped;
 endclass
 
+class uvm_sequencer_base1 extends uvm_object;
+endclass
+
+class uvm_sequence_item1;
+   protected  uvm_sequencer_base1 m_sequencer;
+   virtual function uvm_sequencer_base1 get_sequencer();
+      return m_sequencer;
+  endfunction
+endclass
+
+class uvm_sequence_base1 extends uvm_sequence_item;
+endclass
+
+class ToReproduce;
+   uvm_root m_top;
+   function uvm_object to_reproduce_error(uvm_object obj);
+    uvm_sequence_base1 seq;
+     if ($cast(seq, obj)) begin
+       obj = seq.get_sequencer();
+    end
+    else
+      obj = m_top;
+    return obj;
+  endfunction
+endclass
 //------------------------------------------------------------------------------
 // Title -- NODOCS -- Objection Mechanism
 //------------------------------------------------------------------------------
@@ -207,12 +232,6 @@ class uvm_objection extends uvm_report_object;
   // The ultimate parent is uvm_top, UVM's implicit top-level component. 
 
   function uvm_object m_get_parent(uvm_object obj);
-    uvm_sequence_base seq;
-     if ($cast(seq, obj)) begin
-       obj = seq.get_sequencer();
-    end
-    else
-      obj = m_top;
     return obj;
   endfunction
 
