@@ -45,14 +45,14 @@ endclass
 class uvm_sequencer_base1 extends uvm_object;
 endclass
 
-class uvm_sequence_item1;
+class uvm_sequence_item1 extends uvm_transaction;
    protected  uvm_sequencer_base1 m_sequencer;
    virtual function uvm_sequencer_base1 get_sequencer();
       return m_sequencer;
   endfunction
 endclass
 
-class uvm_sequence_base1 extends uvm_sequence_item;
+class uvm_sequence_base1 extends uvm_sequence_item1;
 endclass
 
 class ToReproduce;
