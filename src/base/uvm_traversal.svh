@@ -271,7 +271,7 @@ class uvm_component_name_check_visitor extends uvm_visitor#(uvm_component);
     // dont check the root component
     if(_root != node) begin
       if ( ! uvm_is_match( get_name_constraint(), node.get_name() ) ) begin
-        `uvm_warning("UVM/COMP/NAME",$sformatf("the name \"%s\" of the component \"%s\" violates the uvm component name constraints",node.get_name(),node.get_full_name()))
+       uvm_report_warning ("UVM/COMP/NAME", $sformatf("the name \"%s\" of the component \"%s\" violates the uvm component name constraints",node.get_name(),node.get_full_name()), UVM_NONE, "/home/rrozak/antmicro/uvm-verilator/src//base/uvm_traversal.svh", 274, "", 1); 
       end
     end
   endfunction 
