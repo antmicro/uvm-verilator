@@ -226,8 +226,9 @@ class uvm_reg_tlm_adapter extends uvm_reg_adapter;
                                 ref uvm_reg_bus_op rw);
 
     byte unsigned m_byte_enable[];
+     ref uvm_reg_bus_op rw1;
     foreach (m_byte_enable[i])
-      rw.byte_en[i] = m_byte_enable[i];
+      rw1.byte_en[i] = m_byte_enable[i];
   endfunction
 
 endclass
