@@ -225,35 +225,9 @@ class uvm_reg_tlm_adapter extends uvm_reg_adapter;
   virtual function void bus2reg(uvm_sequence_item bus_item,
                                 ref uvm_reg_bus_op rw);
 
-    uvm_tlm_gp gp;
-    int nbytes;
-
-    if (bus_item == null)
-     `uvm_fatal("REG/NULL_ITEM","bus2reg: bus_item argument is null") 
-
-    if (!$cast(gp,bus_item)) begin
-      `uvm_error("WRONG_TYPE","Provided bus_item is not of type uvm_tlm_gp")
-      return;
-    end
-
-    if (gp.get_command() == UVM_TLM_WRITE_COMMAND)
-      rw.kind = UVM_WRITE;
-    else
-      rw.kind = UVM_READ;
-
-    rw.addr = gp.get_address();
-
-    rw.byte_en = 0;
-    foreach (gp.m_byte_enable[i])
-      rw.byte_en[i] = gp.m_byte_enable[i];
-
-    rw.data = 0;
-    foreach (gp.m_data[i])
-      rw.data[i*8+:8] = gp.m_data[i];
-
-    rw.status = (gp.is_response_ok()) ? UVM_IS_OK : UVM_NOT_OK;
-
-
+    byte unsigned m_byte_enable[];
+    foreach (m_byte_enable[i])
+      rw.byte_en[i] = m_byte_enable[i];
   endfunction
 
 endclass
