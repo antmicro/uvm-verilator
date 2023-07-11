@@ -220,13 +220,46 @@ class uvm_reg_tlm_adapter extends uvm_reg_adapter;
   endfunction
 
 
+typedef struct {
+
+
+  uvm_access_e kind;
+
+
+
+  uvm_reg_addr_t addr;
+
+
+
+  uvm_reg_data_t data;
+
+   
+
+  int n_bits;
+
+  /*
+  constraint valid_n_bits {
+     n_bits > 0;
+     n_bits <= `UVM_REG_DATA_WIDTH;
+  }
+  */
+
+
+
+  uvm_reg_byte_en_t byte_en;
+
+
+
+  uvm_status_e status;
+
+} uvm_reg_bus_op1;
 
   // @uvm-ieee 1800.2-2017 auto 19.2.2.2.2
   virtual function void bus2reg(uvm_sequence_item bus_item,
                                 ref uvm_reg_bus_op rw);
 
     byte unsigned m_byte_enable[];
-     ref uvm_reg_bus_op rw1;
+     ref uvm_reg_bus_op1 rw1;
     foreach (m_byte_enable[i])
       rw1.byte_en[i] = m_byte_enable[i];
   endfunction
