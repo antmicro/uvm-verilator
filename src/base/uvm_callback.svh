@@ -870,9 +870,8 @@ class uvm_callbacks #(type T=uvm_object, type CB=uvm_callback)
 
   // @uvm-ieee 1800.2-2017 auto 10.7.2.4.1
   static function CB get_first (ref int itr, input T obj);
-    uvm_queue#(uvm_callback) q;
     CB cb;
-     bit a = $cast(cb, q.get(0)) && cb.callback_mode();
+     bit a = $cast(cb, null) && cb.callback_mode();
     return null;
   endfunction
 
