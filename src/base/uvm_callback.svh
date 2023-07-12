@@ -872,8 +872,7 @@ class uvm_callbacks #(type T=uvm_object, type CB=uvm_callback)
   static function CB get_first (ref int itr, input T obj);
     uvm_queue#(uvm_callback) q;
     CB cb;
-      if($cast(cb, q.get(itr)) && cb.callback_mode())
-         return cb;
+     bit a = $cast(cb, q.get(itr)) && cb.callback_mode();
     return null;
   endfunction
 
