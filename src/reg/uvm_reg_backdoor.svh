@@ -191,7 +191,7 @@ function void uvm_reg_backdoor::start_update_thread(uvm_object element);
 `ifdef UVM_USE_PROCESS_CONTAINER         
          this.m_update_thread[element] = new(process::self());
 `else
-         this.m_update_thread[element] = process::self();
+
 `endif
       
          rg.get_fields(fields);
@@ -214,7 +214,7 @@ function void uvm_reg_backdoor::start_update_thread(uvm_object element);
                   fields[i].do_predict(r_item);
                 end
             end
-            this.wait_for_change(element);
+
          end
       end
    join_none
