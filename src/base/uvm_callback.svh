@@ -869,6 +869,11 @@ class uvm_callbacks #(type T=uvm_object, type CB=uvm_callback)
   // iterator interface.
 
   // @uvm-ieee 1800.2-2017 auto 10.7.2.4.1
+  static function void get_firstA (ref int itr, input T obj);
+    uvm_callback cb;
+     bit a = $cast(cb, null) && cb.callback_mode();
+  endfunction
+
   static function CB get_first (ref int itr, input T obj);
     uvm_callback cb;
      bit a = $cast(cb, null) && cb.callback_mode();
