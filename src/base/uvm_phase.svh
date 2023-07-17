@@ -1442,7 +1442,7 @@ task uvm_phase::execute_phase();
             //-----------
             // EXECUTING: (task phases)
             //-----------
-            task_phase.traverse(top,this,UVM_PHASE_EXECUTING);
+
   
             wait(0); // stay alive for later kill
   
