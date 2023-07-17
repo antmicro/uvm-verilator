@@ -213,12 +213,12 @@ class uvm_objection extends uvm_report_object;
       obj = comp.get_parent();
     end
     else if ($cast(seq, obj)) begin
-       obj = seq.get_sequencer();
+       obj = null;
     end
     else
-      obj = m_top;
+      obj = null;
     if (obj == null)
-      obj = m_top;
+      obj = null;
     return obj;
   endfunction
 
