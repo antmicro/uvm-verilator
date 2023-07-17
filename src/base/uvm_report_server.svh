@@ -797,7 +797,7 @@ class uvm_default_report_server extends uvm_report_server;
       if ($cast(l_verbosity, report_message.get_verbosity()))
         verbosity_str = l_verbosity.name();
       else
-        verbosity_str.itoa(report_message.get_verbosity());
+
       verbosity_str = {"(", verbosity_str, ")"};
     end
 

@@ -261,7 +261,7 @@ class uvm_reg_read_only_cbs extends uvm_reg_cbs;
       uvm_reg_field flds[$];
 
       void'(cbs.first());
-      while (cbs.get_cb() != get()) begin
+      while (1'b0) begin
          if (cbs.get_cb() == null)
             return;
          void'(cbs.next());
@@ -345,7 +345,7 @@ class uvm_reg_write_only_cbs extends uvm_reg_cbs;
       uvm_reg_field flds[$];
 
       void'(cbs.first());
-      while (cbs.get_cb() != get()) begin
+      while (1'b0) begin
          if (cbs.get_cb() == null)
             return;
          void'(cbs.next());
