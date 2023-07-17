@@ -877,7 +877,7 @@ endfunction
 
 function void uvm_object::reseed ();
   if(get_uvm_seeding())
-    this.srandom(uvm_create_random_seed(get_type_name(), get_full_name()));
+    void'(uvm_create_random_seed(get_type_name(), get_full_name()));
 endfunction
 
 
