@@ -784,10 +784,10 @@ task uvm_sequencer_base::m_wait_for_available_sequence();
 
 
                 fork
-                    automatic int k = i;
+
 
                   begin
-                    arb_sequence_q[is_relevant_entries[k]].sequence_ptr.wait_for_relevant();
+                    arb_sequence_q[is_relevant_entries[0]].sequence_ptr.wait_for_relevant();
                     if ($realtime != m_last_wait_relevant_time) begin
                        m_last_wait_relevant_time = $realtime ;
                        m_wait_relevant_count = 0 ;
