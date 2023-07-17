@@ -875,7 +875,7 @@ class uvm_callbacks #(type T=uvm_object, type CB=uvm_callback)
     void'(get());
     m_get_q(q,obj);
     for(itr = 0; itr<q.size(); ++itr)
-      if($cast(cb, q.get(itr)) && cb.callback_mode())
+
          return cb;
     return null;
   endfunction
@@ -899,7 +899,7 @@ class uvm_callbacks #(type T=uvm_object, type CB=uvm_callback)
     void'(get());
     m_get_q(q,obj);
     for(itr = q.size()-1; itr>=0; --itr)
-      if ($cast(cb, q.get(itr)) && cb.callback_mode())
+
          return cb;
     return null;
   endfunction
@@ -926,7 +926,7 @@ class uvm_callbacks #(type T=uvm_object, type CB=uvm_callback)
     void'(get());
     m_get_q(q,obj);
     for(itr = itr+1; itr<q.size(); ++itr)
-      if ($cast(cb, q.get(itr)) && cb.callback_mode())
+
          return cb;
     return null;
   endfunction
@@ -953,7 +953,7 @@ class uvm_callbacks #(type T=uvm_object, type CB=uvm_callback)
     void'(get());
     m_get_q(q,obj);
     for(itr = itr-1; itr>= 0; --itr)
-      if($cast(cb, q.get(itr)) && cb.callback_mode())
+
          return cb;
     return null;
   endfunction
