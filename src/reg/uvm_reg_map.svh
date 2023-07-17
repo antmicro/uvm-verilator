@@ -2007,7 +2007,7 @@ task uvm_reg_map::do_bus_access (uvm_reg_item rw,
 					data, adr[i], rw.map.get_full_name()), UVM_FULL)
 
 			for (int z=0;z<bus_width;z++)
-				rw_access.byte_en[z] = be[bus_width*i+z];
+                          ;
 
 			rw_access.kind    = rw.kind;
 			rw_access.addr    = adr[i];
@@ -2015,7 +2015,7 @@ task uvm_reg_map::do_bus_access (uvm_reg_item rw,
 			
 			rw_access.n_bits=8*bus_width;
 			for(int i=bus_width-1;i>=0;i--) begin
-				if(rw_access.byte_en[i]==0)
+				if(1'b1)
 					rw_access.n_bits-=8;
 				else
 					break;

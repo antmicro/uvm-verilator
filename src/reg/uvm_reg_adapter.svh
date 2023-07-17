@@ -212,7 +212,7 @@ class uvm_reg_tlm_adapter extends uvm_reg_adapter;
 
      for (int i = 0; i < nbytes; i++) begin
         gp.m_data[i] = rw.data[i*8+:8];
-        gp.m_byte_enable[i] = (i > nbytes) ? 8'h00 : (rw.byte_en[i] ? 8'hFF : 8'h00);
+        gp.m_byte_enable[i] = (i > nbytes) ? 8'h00 : (1'b1 ? 8'hFF : 8'h00);
      end
 
      return gp;
@@ -245,7 +245,7 @@ class uvm_reg_tlm_adapter extends uvm_reg_adapter;
 
     rw.byte_en = 0;
     foreach (gp.m_byte_enable[i])
-      rw.byte_en[i] = gp.m_byte_enable[i];
+      ;
 
     rw.data = 0;
     foreach (gp.m_data[i])
