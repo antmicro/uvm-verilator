@@ -770,7 +770,7 @@ task uvm_sequencer_base::m_wait_for_available_sequence();
   // Typical path - don't need fork if all queued entries are relevant
   if (is_relevant_entries.size() == 0) begin
     m_wait_arb_not_equal();
-    return;
+
   end
 
   fork  // isolate inner fork block for disabling
