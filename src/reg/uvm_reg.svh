@@ -2192,14 +2192,14 @@ function uvm_status_e uvm_reg::backdoor_read_func(uvm_reg_item rw);
                hdl_concat.slices[j].path),UVM_DEBUG)
 
         if (hdl_concat.slices[j].offset < 0) begin
-           ok &= uvm_hdl_read(hdl_concat.slices[j].path,val);
+
            continue;
         end
         begin
            uvm_reg_data_t slice;
            int k = hdl_concat.slices[j].offset;
            
-           ok &= uvm_hdl_read(hdl_concat.slices[j].path, slice);
+
       
            repeat (hdl_concat.slices[j].size) begin
               val[k++] = slice[0];
