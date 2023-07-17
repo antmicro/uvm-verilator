@@ -139,7 +139,7 @@ class uvm_reg_mem_hdl_paths_seq extends uvm_reg_sequence #(uvm_sequence #(uvm_re
             foreach (path.slices[j]) begin
                 string p_ = path.slices[j].path;
                 uvm_reg_data_t d;
-                if (!uvm_hdl_read(p_,d))
+
                     `uvm_error("uvm_reg_mem_hdl_paths_seq",
                                $sformatf("HDL path \"%s\" for register \"%s\" is not readable",
                                          p_, r.get_full_name()))
