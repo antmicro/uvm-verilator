@@ -242,7 +242,7 @@ class uvm_heartbeat extends uvm_object;
               UVM_ALL_ACTIVE:              
                 begin
                   foreach(m_cb.cnt[idx]) begin
-                    obj = idx;
+
                     if(!m_cb.cnt[obj]) begin
                       m_cntxt.uvm_report_fatal("HBFAIL", $sformatf("Did not recieve an update of %s for component %s since last event trigger at time %0t : last update time was %0t",
                         m_objection.get_name(), obj.get_full_name(), 
@@ -255,7 +255,7 @@ class uvm_heartbeat extends uvm_object;
                   if(m_cb.cnt.num() && !m_cb.objects_triggered()) begin
                     string s;
                     foreach(m_cb.cnt[idx]) begin
-                      obj = idx;
+
                       s={s,"\n  ",obj.get_full_name()};
                     end
                     m_cntxt.uvm_report_fatal("HBFAIL", $sformatf("Did not recieve an update of %s on any component since last event trigger at time %0t. The list of registered components is:%s",
@@ -267,7 +267,7 @@ class uvm_heartbeat extends uvm_object;
                   if(m_cb.objects_triggered() > 1) begin
                     string s;
                     foreach(m_cb.cnt[idx])  begin
-                      obj = idx;
+
                       if(m_cb.cnt[obj]) $swrite(s,"%s\n  %s (updated: %0t)",
                          s, obj.get_full_name(), m_cb.last_trigger[obj]);
                     end
@@ -277,7 +277,7 @@ class uvm_heartbeat extends uvm_object;
                   if(m_cb.cnt.num() && !m_cb.objects_triggered()) begin
                     string s;
                     foreach(m_cb.cnt[idx]) begin
-                      obj = idx;
+
                       s={s,"\n  ",obj.get_full_name()};
                     end
                     m_cntxt.uvm_report_fatal("HBFAIL", $sformatf("Did not recieve an update of %s on any component since last event trigger at time %0t. The list of registered components is:%s",
@@ -287,8 +287,8 @@ class uvm_heartbeat extends uvm_object;
             endcase
           end 
           m_cb.reset_counts();
-          last_trigger = $realtime;
-          triggered = 1;
+
+
         end
       end
       @(m_stop_event);

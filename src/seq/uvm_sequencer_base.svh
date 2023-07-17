@@ -782,7 +782,7 @@ task uvm_sequencer_base::m_wait_for_available_sequence();
                 // One path in fork is for any wait_for_relevant to return
                 m_is_relevant_completed = 0;
 
-                for(i = 0; i < is_relevant_entries.size(); i++) begin
+
                 fork
                     automatic int k = i;
 
@@ -802,7 +802,7 @@ task uvm_sequencer_base::m_wait_for_available_sequence();
                   end
                 join_none
 
-                end
+
                 wait (m_is_relevant_completed > 0);
               end
 

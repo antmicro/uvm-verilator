@@ -561,7 +561,7 @@ task uvm_root::run_test(string test_name="");
 	// phase runner, isolated from calling process
 	fork begin
 			// spawn the phase runner task
-			phase_runner_proc = process::self();
+
 			uvm_phase::m_run_phases();
 		end
 	join_none
