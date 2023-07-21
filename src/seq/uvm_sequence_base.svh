@@ -707,7 +707,12 @@ virtual class uvm_sequence_base extends uvm_sequence_item;
     if (is_rel_default != wait_rel_default)
       uvm_report_fatal("RELMSM",
         "is_relevant() was implemented without defining wait_for_relevant()", UVM_NONE);
+`ifdef VERILATOR
+     /* verilator lint_off WAITCONST */
+     wait(0);
+`else
     @e;  // this is intended to never return
+`endif
   endtask
 
 
