@@ -1035,46 +1035,7 @@ endclass
 // --------
 
 function void uvm_default_factory::register (uvm_object_wrapper obj);
-
-  if (obj == null) begin
-    uvm_report_fatal ("NULLWR", "Attempting to register a null object with the factory", UVM_NONE);
-  end
-  if (obj.get_type_name() != "" && obj.get_type_name() != "<unknown>") begin
-    if (m_type_names.exists(obj.get_type_name()))
-      uvm_report_warning("TPRGED", {"Type name '",obj.get_type_name(),
-        "' already registered with factory. No string-based lookup ",
-        "support for multiple types with the same type name."}, UVM_NONE);
-    else 
-      m_type_names[obj.get_type_name()] = obj;
-  end
-
-  if (m_types.exists(obj)) begin
-    if (obj.get_type_name() != "" && obj.get_type_name() != "<unknown>")
-      uvm_report_warning("TPRGED", {"Object type '",obj.get_type_name(),
-                         "' already registered with factory. "}, UVM_NONE);
-  end
-  else begin
-    uvm_factory_override overrides[$];
-    m_types[obj] = 1;
-    // If a named override happens before the type is registered, need to update
-    // the override type
-    // Note:Registration occurs via static initialization, which occurs ahead of
-    // procedural (e.g. initial) blocks. There should not be any preexisting overrides.
-    overrides = {m_type_overrides, m_inst_overrides};
-    foreach (overrides[index]) begin
-      if(m_matches_type_pair(.match_type_pair(overrides[index].orig),
-                             .requested_type(null),
-                             .requested_type_name(obj.get_type_name()))) begin
-        overrides[index].orig.m_type = obj; 
-      end
-      if(m_matches_type_pair(.match_type_pair(overrides[index].ovrd),
-                             .requested_type(null),
-                             .requested_type_name(obj.get_type_name()))) begin
-        overrides[index].ovrd.m_type = obj; 
-      end                              
-    end
-  end
-
+   m_type_names[obj.get_type_name()] = obj;
 endfunction
 
 
@@ -1084,70 +1045,6 @@ endfunction
 function void uvm_default_factory::set_type_override_by_type (uvm_object_wrapper original_type,
                                                       uvm_object_wrapper override_type,
                                                       bit replace=1);
-  bit replaced;
-
-  // check that old and new are not the same
-  if (original_type == override_type) begin
-    if (original_type.get_type_name() == "" || original_type.get_type_name() == "<unknown>")
-      uvm_report_warning("TYPDUP", {"Original and override type ",
-                                    "arguments are identical"}, UVM_NONE);
-    else
-      uvm_report_warning("TYPDUP", {"Original and override type ",
-                                    "arguments are identical: ",
-                                    original_type.get_type_name()}, UVM_NONE);
-  end
-
-  // register the types if not already done so, for the benefit of string-based lookup
-  if (!m_types.exists(original_type))
-    register(original_type); 
-
-  if (!m_types.exists(override_type))
-    register(override_type); 
-
-
-  // check for existing type override
-  foreach (m_type_overrides[index]) begin
-    if(m_matches_type_override(.override(m_type_overrides[index]),
-                               .requested_type(original_type),
-                               .requested_type_name(original_type.get_type_name()))) begin
-      string msg;
-      msg = {"Original object type '",original_type.get_type_name(),
-             "' already registered to produce '",
-             m_type_overrides[index].ovrd.m_type_name,"'"};
-      if (!replace) begin
-        msg = {msg, ".  Set 'replace' argument to replace the existing entry."};
-        uvm_report_info("TPREGD", msg, UVM_MEDIUM);
-        return;
-      end
-      msg = {msg, ".  Replacing with override to produce type '",
-                  override_type.get_type_name(),"'."};
-      uvm_report_info("TPREGR", msg, UVM_MEDIUM);
-      replaced = 1;
-      m_type_overrides[index].orig.m_type = original_type; 
-      m_type_overrides[index].orig.m_type_name = original_type.get_type_name(); 
-      m_type_overrides[index].ovrd.m_type = override_type; 
-      m_type_overrides[index].ovrd.m_type_name = override_type.get_type_name(); 
-      m_type_overrides[index].replace = replace;
-    end
-    else if (m_type_overrides[index].orig.m_type == null) begin
-       // due to aliasing, optimizing around type override when the type is unknown could
-       // end up causing the wrong override to be returned as the type for the alias may
-       // resolve to match this existing override
-       break;
-    end
-  end
-
-  // make a new entry
-  if (!replaced) begin
-    uvm_factory_override override;
-    override = new(.orig_type(original_type),
-                   .orig_type_name(original_type.get_type_name()),
-                   .ovrd_type(override_type),
-                   .ovrd_type_name(override_type.get_type_name()),
-                   .replace(replace));
-
-    m_type_overrides.push_front(override);
-  end
 
 endfunction
 
@@ -1158,77 +1055,6 @@ endfunction
 function void uvm_default_factory::set_type_override_by_name (string original_type_name,
                                                       string override_type_name,
                                                       bit replace=1);
-  bit replaced;
-  
-  uvm_object_wrapper original_type;
-  uvm_object_wrapper override_type;
-
-  if(m_type_names.exists(original_type_name))
-     original_type = m_type_names[original_type_name];
-
-  if(m_type_names.exists(override_type_name))
-     override_type = m_type_names[override_type_name];
-
-
-  // check that type is registered with the factory
-//  aliasing feature makes this check invalid.  Aliases
-//  aren't resolved until find/creation time so the type
-//  may resolve differently depending on the instance. 
-//  if (override_type == null) begin
-//      uvm_report_error("TYPNTF", {"Cannot register override for original type '",
-//      original_type_name,"' because the override type '",
-//      override_type_name, "' is not registered with the factory."}, UVM_NONE);
-//    return;
-//  end
-
-  // check that old and new are not the same
-  if (original_type_name == override_type_name) begin
-      uvm_report_warning("TYPDUP", {"Requested and actual type name ",
-      " arguments are identical: ",original_type_name,". Ignoring this override."}, UVM_NONE);
-    return;
-  end
-
-  foreach (m_type_overrides[index]) begin
-    if(m_matches_type_override(.override(m_type_overrides[index]),
-                               .requested_type(original_type),
-                               .requested_type_name(original_type_name))) begin
-      if (!replace) begin
-        uvm_report_info("TPREGD", {"Original type '",original_type_name, "'/'",m_type_overrides[index].orig.m_type_name,
-          "' already registered to produce '",m_type_overrides[index].ovrd.m_type_name,
-          "'.  Set 'replace' argument to replace the existing entry."}, UVM_MEDIUM);
-        return;
-      end
-      uvm_report_info("TPREGR", {"Original object type '",original_type_name, "'/'",m_type_overrides[index].orig.m_type_name,
-        "' already registered to produce '",m_type_overrides[index].ovrd.m_type_name,
-        "'.  Replacing with override to produce type '",override_type_name,"'."}, UVM_MEDIUM);
-      replaced = 1;
-      m_type_overrides[index].ovrd.m_type = override_type; 
-      m_type_overrides[index].ovrd.m_type_name = override_type_name; 
-      m_type_overrides[index].replace = replace;
-    end
-    else if ((m_type_overrides[index].orig.m_type == null) || (original_type == null)) begin
-       // due to aliasing, optimizing around type override when the type is unknown could
-       // end up causing the wrong override to be returned as the type for the alias may
-       // resolve to match this existing override
-       break;
-    end
-  end
-
-  if (original_type == null)
-    m_lookup_strs[original_type_name] = 1;
-
-  if (!replaced) begin
-    uvm_factory_override override;
-    override = new(.orig_type(original_type),
-                   .orig_type_name(original_type_name),
-                   .ovrd_type(override_type),
-                   .ovrd_type_name(override_type_name),
-                   .replace(replace)
-                   );
-
-    m_type_overrides.push_front(override);
-//    m_type_names[original_type_name] = override.ovrd_type;
-  end
 
 endfunction
 
@@ -1240,24 +1066,6 @@ function bit uvm_default_factory::check_inst_override_exists (uvm_object_wrapper
                                       uvm_object_wrapper override_type,
                                       string override_type_name,
                                       string full_inst_path);
-  uvm_factory_override override;
-
-
-  foreach (m_inst_overrides[i]) begin
-
-    override = m_inst_overrides[i]; 
-    if (override.full_inst_path == full_inst_path &&
-        override.orig.m_type == original_type &&
-        override.orig.m_type_name == original_type_name && 
-        override.ovrd.m_type == override_type &&
-        override.ovrd.m_type_name == override_type_name) begin
-    uvm_report_info("DUPOVRD",{"Instance override for '",
-       original_type_name,"' already exists: override type '",
-       override_type_name,"' with full_inst_path '",
-       full_inst_path,"'"},UVM_HIGH);
-      return 1;
-    end
-  end
   return 0;
 endfunction
 
@@ -1268,33 +1076,6 @@ function void uvm_default_factory::set_inst_override_by_type (uvm_object_wrapper
                                                       uvm_object_wrapper override_type,
                                                       string full_inst_path);
   
-  uvm_factory_override override;
-
-  // register the types if not already done so
-  if (!m_types.exists(original_type))
-    register(original_type); 
-
-  if (!m_types.exists(override_type))
-    register(override_type); 
-
-  if (check_inst_override_exists(original_type,
-                                 original_type.get_type_name(),
-                                 override_type,
-                                 override_type.get_type_name(),
-                                 full_inst_path))
-    return;
-
-//  if(!m_inst_override_queues.exists(original_type))
-//    m_inst_override_queues[original_type] = new;
-
-  override = new(.full_inst_path(full_inst_path),
-                 .orig_type(original_type),
-                 .orig_type_name(original_type.get_type_name()),
-                 .ovrd_type(override_type),
-                 .ovrd_type_name(override_type.get_type_name()));
-
-  m_inst_overrides.push_back(override);
-//  m_inst_override_queues[original_type].queue.push_back(override);
 
 endfunction
 
@@ -1305,46 +1086,6 @@ endfunction
 function void uvm_default_factory::set_inst_override_by_name (string original_type_name,
                                                       string override_type_name,
                                                       string full_inst_path);
-  
-  uvm_factory_override override;
-  uvm_object_wrapper original_type;
-  uvm_object_wrapper override_type;
-
-  if(m_type_names.exists(original_type_name))
-     original_type = m_type_names[original_type_name];
-
-  if(m_type_names.exists(override_type_name))
-     override_type = m_type_names[override_type_name];
-
-  // check that type is registered with the factory
-//  aliasing feature makes this check invalid.  Aliases
-//  aren't resolved until find/creation time so the type
-//  may resolve differently depending on the instance. 
-//  if (override_type == null) begin
-//    uvm_report_error("TYPNTF", {"Cannot register instance override with type name '",
-//    original_type_name,"' and instance path '",full_inst_path,"' because the type it's supposed ",
-//    "to produce, '",override_type_name,"', is not registered with the factory."}, UVM_NONE);
-//    return;
-//  end
-
-  if (original_type == null)
-      m_lookup_strs[original_type_name] = 1;
-
-  override = new(.full_inst_path(full_inst_path),
-                 .orig_type(original_type),
-                 .orig_type_name(original_type_name),
-                 .ovrd_type(override_type),
-                 .ovrd_type_name(override_type_name));
-  
-  if (check_inst_override_exists(original_type,
-                                 original_type_name,
-                                 override_type,
-                                 override_type_name,
-                                 full_inst_path))
-     return;
-  
-  m_inst_overrides.push_back(override);
-  
 endfunction
 
 //set_type_alias
@@ -1352,30 +1093,6 @@ endfunction
   
 function void uvm_default_factory::set_type_alias(string alias_type_name, 
                           uvm_object_wrapper original_type); 
-    if (!is_type_registered(original_type))
-       uvm_report_warning("BDTYP",{"Cannot define alias of type '",
-       original_type.get_type_name(),"' because it is not registered with the factory."}, UVM_NONE);      
-    else begin
-       if (!m_type_names.exists(alias_type_name)) begin
-          uvm_factory_override overrides[$];
-          m_type_names[alias_type_name] = original_type;
-         // If a named override happens before the type alias is set, need to update
-         // the override type
-         overrides = {m_type_overrides, m_inst_overrides};
-         foreach (overrides[index]) begin
-           if(m_matches_type_pair(.match_type_pair(overrides[index].orig),
-                                  .requested_type(null),
-                                  .requested_type_name(alias_type_name))) begin
-             overrides[index].orig.m_type = original_type; 
-           end
-           if(m_matches_type_pair(.match_type_pair(overrides[index].ovrd),
-                                  .requested_type(null),
-                                  .requested_type_name(alias_type_name))) begin
-             overrides[index].ovrd.m_type = original_type; 
-           end                              
-         end
-       end
-    end
 endfunction
 
 // set_inst_alias
@@ -1384,22 +1101,6 @@ endfunction
 function void uvm_default_factory::set_inst_alias(string alias_type_name,
                           uvm_object_wrapper original_type, string full_inst_path);
     
-    string original_type_name; 
-    m_inst_typename_alias_t  orig_type_alias_per_inst;
-    
-    original_type_name = original_type.get_type_name();
-    
-    if (!is_type_registered(original_type))
-       uvm_report_warning("BDTYP",{"Cannot define alias of type '",
-       original_type_name,"' because it is not registered with the factory."}, UVM_NONE);      
-    else begin
-        orig_type_alias_per_inst.alias_type_name = alias_type_name;
-        orig_type_alias_per_inst.full_inst_path = full_inst_path;
-        orig_type_alias_per_inst.orig.m_type_name = original_type_name;
-        orig_type_alias_per_inst.orig.m_type = original_type;
-        m_inst_aliases.push_back(orig_type_alias_per_inst);
-    end
-
 endfunction
 
 
@@ -1412,31 +1113,7 @@ function uvm_object uvm_default_factory::create_object_by_name (string requested
                                                         string parent_inst_path="",  
                                                         string name=""); 
 
-  uvm_object_wrapper wrapper;
-  string inst_path;
-
-  if (parent_inst_path == "")
-    inst_path = name;
-  else if (name != "")
-    inst_path = {parent_inst_path,".",name};
-  else
-    inst_path = parent_inst_path;
-
-  m_override_info.delete();
-
-  wrapper = find_override_by_name(requested_type_name, inst_path);
-
-  // if no override exists, try to use requested_type_name directly
-  if (wrapper==null) begin
-    wrapper = m_resolve_type_name_by_inst(requested_type_name,inst_path);
-    if(wrapper == null) begin
-      uvm_report_warning("BDTYP",{"Cannot create an object of type '",
-      requested_type_name,"' because it is not registered with the factory."}, UVM_NONE);
-      return null;
-    end
-  end
-
-  return wrapper.create_object(name);
+   return null;
 
 endfunction
 
@@ -1903,44 +1580,6 @@ function void  uvm_default_factory::m_debug_create (string requested_type_name,
                                             uvm_object_wrapper requested_type,
                                             string parent_inst_path,
                                             string name);
-
-  string full_inst_path;
-  uvm_object_wrapper result;
-  
-  if (parent_inst_path == "")
-    full_inst_path = name;
-  else if (name != "")
-    full_inst_path = {parent_inst_path,".",name};
-  else
-    full_inst_path = parent_inst_path;
-
-  m_override_info.delete();
-
-  if (requested_type == null) begin
-    if (!m_type_names.exists(requested_type_name) &&
-      !m_lookup_strs.exists(requested_type_name)) begin
-      uvm_report_warning("Factory Warning", {"The factory does not recognize '",
-        requested_type_name,"' as a registered type."}, UVM_NONE);
-      return;
-    end
-    m_debug_pass = 1;
-    
-    result = find_override_by_name(requested_type_name,full_inst_path);
-  end
-  else begin
-    m_debug_pass = 1;
-    if (!m_types.exists(requested_type))
-      register(requested_type); 
-    result = find_override_by_type(requested_type,full_inst_path);
-    if (requested_type_name == "")
-      requested_type_name = requested_type.get_type_name();
-  end
-
-  m_debug_display(requested_type_name, result, full_inst_path);
-  m_debug_pass = 0;
-
-  foreach (m_override_info[index])
-    m_override_info[index].selected = 0;
 
 endfunction
 
