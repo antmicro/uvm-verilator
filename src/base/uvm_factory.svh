@@ -622,328 +622,6 @@ class uvm_default_factory extends uvm_factory;
                                        string full_inst_path);
 
 endclass
-
-
-//------------------------------------------------------------------------------
-//
-// Group -- NODOCS -- Usage
-//
-// Using the factory involves three basic operations
-//
-// 1 - Registering objects and components types with the factory
-// 2 - Designing components to use the factory to create objects or components
-// 3 - Configuring the factory with type and instance overrides, both within and
-//     outside components
-//
-// We'll briefly cover each of these steps here. More reference information can
-// be found at <Utility Macros>, <uvm_component_registry #(T,Tname)>,
-// <uvm_object_registry #(T,Tname)>, <uvm_component>.
-//
-// 1 -- Registering objects and component types with the factory:
-//
-// When defining <uvm_object> and <uvm_component>-based classes, simply invoke
-// the appropriate macro. Use of macros are required to ensure portability
-// across different vendors' simulators.
-//
-// Objects that are not parameterized are declared as
-//
-//|  class packet extends uvm_object;
-//|    `uvm_object_utils(packet)
-//|  endclass
-//|
-//|  class packetD extends packet;
-//|    `uvm_object_utils(packetD)
-//|  endclass
-//
-// Objects that are parameterized are declared as
-//
-//|  class packet #(type T=int, int WIDTH=32) extends uvm_object;
-//|    `uvm_object_param_utils(packet #(T,WIDTH))
-//|   endclass
-//
-// Components that are not parameterized are declared as
-//
-//|  class comp extends uvm_component;
-//|    `uvm_component_utils(comp)
-//|  endclass
-//
-// Components that are parameterized are declared as
-//
-//|  class comp #(type T=int, int WIDTH=32) extends uvm_component;
-//|    `uvm_component_param_utils(comp #(T,WIDTH))
-//|  endclass
-//
-// The `uvm_*_utils macros for simple, non-parameterized classes will register
-// the type with the factory and define the get_type, get_type_name, and create
-// virtual methods inherited from <uvm_object>. It will also define a static
-// type_name variable in the class, which will allow you to determine the type
-// without having to allocate an instance. 
-//
-// The `uvm_*_param_utils macros for parameterized classes differ from
-// `uvm_*_utils classes in the following ways:
-//
-// - The ~get_type_name~ method and static type_name variable are not defined. You
-//   will need to implement these manually.
-//
-// - A type name is not associated with the type when registering with the
-//   factory, so the factory's *_by_name operations will not work with
-//   parameterized classes.
-//
-// - The factory's <print>, <debug_create_by_type>, and <debug_create_by_name>
-//   methods, which depend on type names to convey information, will list
-//   parameterized types as '<unknown>'.
-//
-// It is worth noting that environments that exclusively use the type-based
-// factory methods (*_by_type) do not require type registration. The factory's
-// type-based methods will register the types involved "on the fly," when first
-// used. However, registering with the `uvm_*_utils macros enables name-based
-// factory usage and implements some useful utility functions.
-//
-//
-// 2 -- Designing components that defer creation to the factory:
-//
-// Having registered your objects and components with the factory, you can now
-// make requests for new objects and components via the factory. Using the factory
-// instead of allocating them directly (via new) allows different objects to be
-// substituted for the original without modifying the requesting class. The
-// following code defines a driver class that is parameterized.
-//
-//|  class driverB #(type T=uvm_object) extends uvm_driver;
-//|
-//|    // parameterized classes must use the _param_utils version
-//|    `uvm_component_param_utils(driverB #(T))
-//|
-//|    // our packet type; this can be overridden via the factory
-//|    T pkt;
-//|
-//|    // standard component constructor
-//|    function new(string name, uvm_component parent=null);
-//|      super.new(name,parent);
-//|    endfunction
-//|
-//|    // get_type_name not implemented by macro for parameterized classes
-//|    static function string type_name();
-//|      return {"driverB #(",T::type_name(),")"};
-//|    endfunction : type_name
-//|    virtual function string get_type_name();
-//|      return type_name();
-//|    endfunction
-//|
-//|    // using the factory allows pkt overrides from outside the class
-//|    virtual function void build_phase(uvm_phase phase);
-//|      pkt = packet::type_id::create("pkt",this);
-//|    endfunction
-//|
-//|    // print the packet so we can confirm its type when printing
-//|    virtual function void do_print(uvm_printer printer);
-//|      printer.print_object("pkt",pkt);
-//|    endfunction
-//|
-//|  endclass
-//
-// For purposes of illustrating type and instance overrides, we define two
-// subtypes of the ~driverB~ class. The subtypes are also parameterized, so
-// we must again provide an implementation for <uvm_object::get_type_name>,
-// which we recommend writing in terms of a static string constant.
-//
-//|  class driverD1 #(type T=uvm_object) extends driverB #(T);
-//|
-//|    `uvm_component_param_utils(driverD1 #(T))
-//|
-//|    function new(string name, uvm_component parent=null);
-//|      super.new(name,parent);
-//|    endfunction
-//|
-//|    static function string type_name();
-//|      return {"driverD1 #(",T::type_name,")"};
-//|    endfunction : type_name
-//|    virtual function string get_type_name();
-//|      return type_name();
-//|    endfunction
-//|
-//|  endclass
-//|
-//|  class driverD2 #(type T=uvm_object) extends driverB #(T);
-//|
-//|    `uvm_component_param_utils(driverD2 #(T))
-//|
-//|    function new(string name, uvm_component parent=null);
-//|      super.new(name,parent);
-//|    endfunction
-//|
-//|    static function string type_name();
-//|      return {"driverD2 #(",T::type_name,")"};
-//|    endfunction : type_name
-//|    virtual function string get_type_name();
-//|      return type_name();
-//|    endfunction
-//|
-//|  endclass
-//|
-//|  // typedef some specializations for convenience
-//|  typedef driverB  #(packet) B_driver;   // the base driver
-//|  typedef driverD1 #(packet) D1_driver;  // a derived driver
-//|  typedef driverD2 #(packet) D2_driver;  // another derived driver
-//
-// Next, we'll define a agent component, which requires a utils macro for
-// non-parameterized types. Before creating the drivers using the factory, we
-// override ~driver0~'s packet type to be ~packetD~.
-//
-//|  class agent extends uvm_agent;
-//|
-//|    `uvm_component_utils(agent)
-//|    ...
-//|    B_driver driver0;
-//|    B_driver driver1;
-//|
-//|    function new(string name, uvm_component parent=null);
-//|      super.new(name,parent);
-//|    endfunction
-//|
-//|    virtual function void build_phase(uvm_phase phase);
-//|
-//|      // override the packet type for driver0 and below
-//|      packet::type_id::set_inst_override(packetD::get_type(),"driver0.*");
-//|
-//|      // create using the factory; actual driver types may be different
-//|      driver0 = B_driver::type_id::create("driver0",this);
-//|      driver1 = B_driver::type_id::create("driver1",this);
-//|
-//|    endfunction
-//|
-//|  endclass
-//
-// Finally we define an environment class, also not parameterized. Its ~build_phase~
-// method shows three methods for setting an instance override on a grandchild
-// component with relative path name, ~agent1.driver1~, all equivalent.
-//
-//|  class env extends uvm_env;
-//|
-//|    `uvm_component_utils(env)
-//|
-//|    agent agent0;
-//|    agent agent1;
-//|
-//|    function new(string name, uvm_component parent=null);
-//|      super.new(name,parent);
-//|    endfunction
-//|
-//|    virtual function void build_phase(uvm_phase phase);
-//|
-//|      // three methods to set an instance override for agent1.driver1
-//|      // - via component convenience method...
-//|      set_inst_override_by_type("agent1.driver1",
-//|                                B_driver::get_type(),
-//|                                D2_driver::get_type());
-//|
-//|      // - via the component's proxy (same approach as create)...
-//|      B_driver::type_id::set_inst_override(D2_driver::get_type(),
-//|                                           "agent1.driver1",this);
-//|
-//|      // - via a direct call to a factory method...
-//|      factory.set_inst_override_by_type(B_driver::get_type(),
-//|                                        D2_driver::get_type(),
-//|                                        {get_full_name(),".agent1.driver1"});
-//|
-//|      // create agents using the factory; actual agent types may be different
-//|      agent0 = agent::type_id::create("agent0",this);
-//|      agent1 = agent::type_id::create("agent1",this);
-//|
-//|    endfunction
-//|
-//|    // at end_of_elaboration, print topology and factory state to verify
-//|    virtual function void end_of_elaboration_phase(uvm_phase phase);
-//|      uvm_top.print_topology();
-//|    endfunction
-//|
-//|    virtual task run_phase(uvm_phase phase);
-//|      #100 global_stop_request();
-//|    endfunction
-//|
-//|  endclass
-//   
-//
-// 3 -- Configuring the factory with type and instance overrides:
-//
-// In the previous step, we demonstrated setting instance overrides and creating
-// components using the factory within component classes. Here, we will
-// demonstrate setting overrides from outside components, as when initializing
-// the environment prior to running the test.
-//
-//|  module top;
-//|
-//|    env env0;
-//|
-//|    initial begin
-//|
-//|      // Being registered first, the following overrides take precedence
-//|      // over any overrides made within env0's construction & build.
-//|
-//|      // Replace all base drivers with derived drivers...
-//|      B_driver::type_id::set_type_override(D_driver::get_type());
-//|
-//|      // ...except for agent0.driver0, whose type remains a base driver.
-//|      //     (Both methods below have the equivalent result.)
-//|
-//|      // - via the component's proxy (preferred)
-//|      B_driver::type_id::set_inst_override(B_driver::get_type(),
-//|                                           "env0.agent0.driver0");
-//|
-//|      // - via a direct call to a factory method
-//|      factory.set_inst_override_by_type(B_driver::get_type(),
-//|                                        B_driver::get_type(),
-//|                                    {get_full_name(),"env0.agent0.driver0"});
-//|
-//|      // now, create the environment; our factory configuration will
-//|      // govern what topology gets created
-//|      env0 = new("env0");
-//|
-//|      // run the test (will execute build phase)
-//|      run_test();
-//|
-//|    end
-//|
-//|  endmodule
-//
-// When the above example is run, the resulting topology (displayed via a call to
-// <uvm_root::print_topology> in env's <uvm_component::end_of_elaboration_phase> method)
-// is similar to the following:
-//
-//| # UVM_INFO @ 0 [RNTST] Running test ...
-//| # UVM_INFO @ 0 [UVMTOP] UVM testbench topology:
-//| # ----------------------------------------------------------------------
-//| # Name                     Type                Size                Value
-//| # ----------------------------------------------------------------------
-//| # env0                     env                 -                  env0@2
-//| #   agent0                 agent               -                agent0@4
-//| #     driver0              driverB #(packet)   -               driver0@8
-//| #       pkt                packet              -                  pkt@21
-//| #     driver1              driverD #(packet)   -              driver1@14
-//| #       pkt                packet              -                  pkt@23
-//| #   agent1                 agent               -                agent1@6
-//| #     driver0              driverD #(packet)   -              driver0@24
-//| #       pkt                packet              -                  pkt@37
-//| #     driver1              driverD2 #(packet)  -              driver1@30
-//| #       pkt                packet              -                  pkt@39
-//| # ----------------------------------------------------------------------
-// 
-//------------------------------------------------------------------------------
-
-
-//------------------------------------------------------------------------------
-//
-// CLASS -- NODOCS -- uvm_object_wrapper
-//
-// The uvm_object_wrapper provides an abstract interface for creating object and
-// component proxies. Instances of these lightweight proxies, representing every
-// <uvm_object>-based and <uvm_component>-based object available in the test
-// environment, are registered with the <uvm_factory>. When the factory is
-// called upon to create an object or component, it finds and delegates the
-// request to the appropriate proxy.
-//
-//------------------------------------------------------------------------------
-
-// @uvm-ieee 1800.2-2017 auto 8.3.2.1
 virtual class uvm_object_wrapper;
 
   // Function -- NODOCS -- create_object
@@ -1125,34 +803,18 @@ function uvm_object uvm_default_factory::create_object_by_type (uvm_object_wrapp
                                                         string parent_inst_path="",  
                                                         string name=""); 
 
-  string full_inst_path;
-
-  if (parent_inst_path == "")
-    full_inst_path = name;
-  else if (name != "")
-    full_inst_path = {parent_inst_path,".",name};
-  else
-    full_inst_path = parent_inst_path;
-
-  m_override_info.delete();
-
-  requested_type = find_override_by_type(requested_type, full_inst_path);
-
-  return requested_type.create_object(name);
-
 endfunction
 
 // is_type_name_registered
 // ---------------------
 function bit uvm_default_factory::is_type_name_registered (string type_name);
-  return (m_type_names.exists(type_name));
 endfunction
 
 
 // is_type_registered
 // ---------------------
 function bit uvm_default_factory::is_type_registered (uvm_object_wrapper obj);
-  return (m_types.exists(obj));
+
 endfunction
 
 
@@ -1164,32 +826,6 @@ function uvm_component uvm_default_factory::create_component_by_name (string req
                                                               string parent_inst_path="",  
                                                               string name, 
                                                               uvm_component parent);
-  uvm_object_wrapper wrapper;
-  string inst_path;
-
-  if (parent_inst_path == "")
-    inst_path = name;
-  else if (name != "")
-    inst_path = {parent_inst_path,".",name};
-  else
-    inst_path = parent_inst_path;
-
-  m_override_info.delete();
-
-  wrapper = find_override_by_name(requested_type_name, inst_path);
-
-  // if no override exists, try to use requested_type_name directly
-  if (wrapper == null) begin
-    if(!m_type_names.exists(requested_type_name)) begin 
-      uvm_report_warning("BDTYP",{"Cannot create a component of type '",
-      requested_type_name,"' because it is not registered with the factory."}, UVM_NONE);
-      return null;
-    end
-    wrapper = m_type_names[requested_type_name];
-  end
-
-  return wrapper.create_component(name, parent);
-
 endfunction
 
 
@@ -1200,21 +836,6 @@ function uvm_component uvm_default_factory::create_component_by_type (uvm_object
                                                             string parent_inst_path="",  
                                                             string name, 
                                                             uvm_component parent);
-  string full_inst_path;
-
-  if (parent_inst_path == "")
-    full_inst_path = name;
-  else if (name != "")
-    full_inst_path = {parent_inst_path,".",name};
-  else
-    full_inst_path = parent_inst_path;
-
-  m_override_info.delete();
-
-  requested_type = find_override_by_type(requested_type, full_inst_path);
-
-  return requested_type.create_component(name, parent);
-
 endfunction
 
 
@@ -1223,15 +844,6 @@ endfunction
 // ------------
 
 function uvm_object_wrapper uvm_default_factory::find_wrapper_by_name(string type_name);
-
-  uvm_object_wrapper wrapper = m_resolve_type_name(type_name);
-
-  if (wrapper != null)
-    return wrapper;
-
-  uvm_report_warning("UnknownTypeName", {"find_wrapper_by_name: Type name '",type_name,
-      "' not registered with the factory."}, UVM_NONE);
-  
 endfunction
 
 
@@ -1240,98 +852,6 @@ endfunction
 
 function uvm_object_wrapper uvm_default_factory::find_override_by_name (string requested_type_name,
                                                                 string full_inst_path);
-  uvm_object_wrapper rtype;
-  uvm_factory_override lindex;
-      
-  rtype = m_resolve_type_name_by_inst(requested_type_name,full_inst_path);
-
-  if(full_inst_path != "")
-  begin
-    foreach(m_inst_overrides[i]) begin
-      if(m_matches_inst_override(.override(m_inst_overrides[i]),
-                                 .requested_type(rtype),
-                                 .requested_type_name(requested_type_name),
-                                 .full_inst_path(full_inst_path))) begin
-        m_override_info.push_back(m_inst_overrides[i]);
-        if (lindex == null) begin
-          lindex = m_inst_overrides[i];
-          if (!m_debug_pass) begin
-            break;
-          end
-        end     
-      end
-    end
-  end
-
-  if ((lindex == null) || m_debug_pass) begin
-    uvm_factory_override matched_overrides[$]; 
-    // type override - exact match
-    foreach (m_type_overrides[index]) begin
-      if(m_matches_type_override(.override(m_type_overrides[index]),
-                                 .requested_type(rtype),
-                                 .requested_type_name(requested_type_name),
-                                 .full_inst_path(full_inst_path),
-                                 .resolve_null_type_by_inst(1))) begin
-        matched_overrides.push_back(m_type_overrides[index]);
-        if ((lindex == null) || (lindex.replace == 0)) begin
-          lindex = m_type_overrides[index];
-          // if override was done with replace == 1, then
-          // it has priority over overrides added before it.
-          // if override was done with replace == 0, then
-          // must continue to looked for an override added before
-          // it that would have higher priority
-          if (!m_debug_pass && lindex.replace) begin
-            break;
-          end
-        end 
-      end
-    end
-    if(matched_overrides.size() != 0) begin
-      if (m_debug_pass) begin
-        m_override_info = {m_override_info,matched_overrides};
-      end
-      else begin
-        m_override_info.push_back(matched_overrides[$]);
-      end
-    end
-  end
-  
-  if (lindex != null) begin
-    uvm_object_wrapper override = lindex.ovrd.m_type;
-    
-    lindex.used++;
-    if (m_debug_pass) begin
-      lindex.selected = 1;
-    end 
-    
-    if(!m_matches_type_override(.override(lindex),
-                                .requested_type(rtype),
-                                .requested_type_name(requested_type_name),
-                                .full_inst_path(full_inst_path),
-                                .match_original_type(0),
-                                .resolve_null_type_by_inst(1))) begin
-      if(override == null) begin
-         override = find_override_by_name(lindex.ovrd.m_type_name,full_inst_path);
-      end
-      else begin
-         override = find_override_by_type(override,full_inst_path);
-      end
-    end
-    else if(override == null) begin
-      override = m_resolve_type_name_by_inst(lindex.ovrd.m_type_name,full_inst_path);
-    end
-    if(override == null) begin
-      uvm_report_error("TYPNTF", {"Cannot resolve override for original type '",
-        lindex.orig.m_type_name,"' because the override type '",
-        lindex.ovrd.m_type_name, "' is not registered with the factory."}, UVM_NONE);
-    end
-    return override;
-  end
-
-  // No override found
-  return null;
-
-
 endfunction
 
 
@@ -1341,109 +861,6 @@ endfunction
 function uvm_object_wrapper uvm_default_factory::find_override_by_type(uvm_object_wrapper requested_type,
                                                                string full_inst_path);
 
-  uvm_object_wrapper override;
-  uvm_factory_override lindex;
-  
-  uvm_factory_queue_class qc;
-
-  foreach (m_override_info[index]) begin
-    if ( //index != m_override_info.size()-1 &&
-       m_override_info[index].orig.m_type == requested_type) begin
-      uvm_report_error("OVRDLOOP", "Recursive loop detected while finding override.", UVM_NONE);
-      m_override_info[index].used++;
-      if (!m_debug_pass)
-        debug_create_by_type (requested_type, full_inst_path);
-
-      return requested_type;
-    end
-  end
-  if(full_inst_path != "")
-  begin
-    foreach(m_inst_overrides[i]) begin
-      if(m_matches_inst_override(.override(m_inst_overrides[i]),
-                                 .requested_type(requested_type),
-                                 .requested_type_name(requested_type.get_type_name()),
-                                 .full_inst_path(full_inst_path))) begin
-        m_override_info.push_back(m_inst_overrides[i]);
-        if (lindex == null) begin
-          lindex = m_inst_overrides[i];
-          if (!m_debug_pass) begin
-            break;
-          end
-        end     
-      end
-    end
-  end
-
-  if ((lindex == null) || m_debug_pass) begin
-    uvm_factory_override matched_overrides[$]; 
-    // type override - exact match
-    foreach (m_type_overrides[index]) begin
-      if(m_matches_type_override(.override(m_type_overrides[index]),
-                                 .requested_type(requested_type),
-                                 .requested_type_name(requested_type.get_type_name()),
-                                 .full_inst_path(full_inst_path),
-                                 .resolve_null_type_by_inst(1))) begin
-        matched_overrides.push_back(m_type_overrides[index]);
-        if ((lindex == null) || (lindex.replace == 0)) begin
-          lindex = m_type_overrides[index];
-          // if override was done with replace == 1, then
-          // it has priority over overrides added before it.
-          // if override was done with replace == 0, then
-          // must continue to looked for an override added before
-          // it that would have higher priority
-          if (!m_debug_pass && lindex.replace) begin
-            break;
-          end
-        end 
-      end
-    end
-    if(matched_overrides.size() != 0) begin
-      if (m_debug_pass) begin
-        m_override_info = {m_override_info,matched_overrides};
-      end
-      else begin
-        m_override_info.push_back(matched_overrides[$]);
-      end
-    end
-  end
-  
-  if (lindex != null) begin
-    uvm_object_wrapper override = lindex.ovrd.m_type;
-    
-    lindex.used++;
-    if (m_debug_pass) begin
-      lindex.selected = 1;
-    end 
-    
-    if(!m_matches_type_override(.override(lindex),
-                                .requested_type(requested_type),
-                                .requested_type_name(requested_type.get_type_name()),
-                                .full_inst_path(full_inst_path),
-                                .match_original_type(0),
-                                .resolve_null_type_by_inst(1))) begin
-      if(override == null) begin
-         override = find_override_by_name(lindex.ovrd.m_type_name,full_inst_path);
-      end
-      else begin
-         override = find_override_by_type(override,full_inst_path);
-      end
-    end
-    else if(override == null) begin
-      override = m_resolve_type_name_by_inst(lindex.ovrd.m_type_name,full_inst_path);
-    end
-    if(override == null) begin
-      uvm_report_error("TYPNTF", {"Cannot resolve override for original type '",
-        lindex.orig.m_type_name,"' because the override type '",
-        lindex.ovrd.m_type_name, "' is not registered with the factory."}, UVM_NONE);
-    end
-    return override;
-  end
-
-  // No override found
-  
-  return requested_type;
-
 endfunction
 
 
@@ -1451,105 +868,6 @@ endfunction
 // -----
 
 function void uvm_default_factory::print (int all_types=1);
-
-  string key;
-  string qs[$];
-
-  qs.push_back("\n#### Factory Configuration (*)\n\n");
-
-  // print instance overrides
-  if(!m_type_overrides.size() && !m_inst_overrides.size())
-    qs.push_back("  No instance or type overrides are registered with this factory\n");
-  else begin
-    int max1,max2,max3;
-    string dash = "---------------------------------------------------------------------------------------------------";
-    string space= "                                                                                                   ";
-
-    // print instance overrides
-    if(!m_inst_overrides.size())
-      qs.push_back("No instance overrides are registered with this factory\n");
-    else begin
-      foreach(m_inst_overrides[j]) begin
-        if (m_inst_overrides[j].orig.m_type_name.len() > max1)
-          max1=m_inst_overrides[j].orig.m_type_name.len();
-        if (m_inst_overrides[j].full_inst_path.len() > max2)
-          max2=m_inst_overrides[j].full_inst_path.len();
-        if (m_inst_overrides[j].ovrd.m_type_name.len() > max3)
-          max3=m_inst_overrides[j].ovrd.m_type_name.len();
-      end
-      if (max1 < 14) max1 = 14;
-      if (max2 < 13) max2 = 13;
-      if (max3 < 13) max3 = 13;
-
-      qs.push_back("Instance Overrides:\n\n");
-      qs.push_back($sformatf("  %0s%0s  %0s%0s  %0s%0s\n","Requested Type",space.substr(1,max1-14),
-                                          "Override Path", space.substr(1,max2-13),
-                                          "Override Type", space.substr(1,max3-13)));
-      qs.push_back($sformatf("  %0s  %0s  %0s\n",dash.substr(1,max1),
-                                 dash.substr(1,max2),
-                                 dash.substr(1,max3)));
-
-      foreach(m_inst_overrides[j]) begin
-        qs.push_back($sformatf("  %0s%0s  %0s%0s",m_inst_overrides[j].orig.m_type_name,
-               space.substr(1,max1-m_inst_overrides[j].orig.m_type_name.len()),
-               m_inst_overrides[j].full_inst_path,
-               space.substr(1,max2-m_inst_overrides[j].full_inst_path.len())));
-        qs.push_back($sformatf("  %0s\n",     m_inst_overrides[j].ovrd.m_type_name));
-      end
-    end
-
-    // print type overrides
-    if (!m_type_overrides.size())
-      qs.push_back("\nNo type overrides are registered with this factory\n");
-    else begin
-      // Resize for type overrides
-      if (max1 < 14) max1 = 14;
-      if (max2 < 13) max2 = 13;
-      if (max3 < 13) max3 = 13;
-
-      foreach (m_type_overrides[i]) begin
-        if (m_type_overrides[i].orig.m_type_name.len() > max1)
-          max1=m_type_overrides[i].orig.m_type_name.len();
-        if (m_type_overrides[i].ovrd.m_type_name.len() > max2)
-          max2=m_type_overrides[i].ovrd.m_type_name.len();
-      end
-      if (max1 < 14) max1 = 14;
-      if (max2 < 13) max2 = 13;
-      qs.push_back("\nType Overrides:\n\n");
-      qs.push_back($sformatf("  %0s%0s  %0s%0s\n","Requested Type",space.substr(1,max1-14),
-                                  "Override Type", space.substr(1,max2-13)));
-      qs.push_back($sformatf("  %0s  %0s\n",dash.substr(1,max1),
-                            dash.substr(1,max2)));
-      for (int index=m_type_overrides.size()-1; index>=0; index--) 
-        qs.push_back($sformatf("  %0s%0s  %0s\n",
-                 m_type_overrides[index].orig.m_type_name,
-                 space.substr(1,max1-m_type_overrides[index].orig.m_type_name.len()),
-                 m_type_overrides[index].ovrd.m_type_name));
-    end
-  end
-
-  // print all registered types, if all_types >= 1 
-  if (all_types >= 1 && m_type_names.first(key)) begin
-    bit banner;
-    qs.push_back($sformatf("\nAll types registered with the factory: %0d total\n",m_types.num()));
-    do begin
-      // filter out uvm_ classes (if all_types<2) and non-types (lookup strings)
-      if (!(all_types < 2 && uvm_is_match("uvm_*",
-           m_type_names[key].get_type_name())) &&
-           key == m_type_names[key].get_type_name()) begin
-        if (!banner) begin
-          qs.push_back("  Type Name\n");
-          qs.push_back("  ---------\n");
-          banner=1;
-        end
-        qs.push_back($sformatf("  %s\n", m_type_names[key].get_type_name()));
-      end
-    end while(m_type_names.next(key));
-  end
-
-  qs.push_back("(*) Types with no associated type name will be printed as <unknown>\n\n####\n\n");
-
-  `uvm_info("UVM/FACTORY/PRINT",`UVM_STRING_QUEUE_STREAMING_PACK(qs),UVM_NONE)
 endfunction
 
 
@@ -1559,7 +877,7 @@ endfunction
 function void  uvm_default_factory::debug_create_by_name (string requested_type_name,
                                                   string parent_inst_path="",
                                                   string name="");
-  m_debug_create(requested_type_name, null, parent_inst_path, name);
+
 endfunction
 
 
@@ -1569,7 +887,7 @@ endfunction
 function void  uvm_default_factory::debug_create_by_type (uvm_object_wrapper requested_type,
                                                   string parent_inst_path="",
                                                   string name="");
-  m_debug_create("", requested_type, parent_inst_path, name);
+
 endfunction
 
 
@@ -1591,67 +909,6 @@ function void  uvm_default_factory::m_debug_display (string requested_type_name,
                                              uvm_object_wrapper result,
                                              string full_inst_path);
 
-  int    max1,max2,max3;
-  string dash = "---------------------------------------------------------------------------------------------------";
-  string space= "                                                                                                   ";
-  string qs[$];
-
-  qs.push_back("\n#### Factory Override Information (*)\n\n");
-  qs.push_back(
-  	$sformatf("Given a request for an object of type '%s' with an instance\npath of '%s' the factory encountered\n\n",
-  		requested_type_name,full_inst_path));
-
-  if (m_override_info.size() == 0)
-    qs.push_back("no relevant overrides.\n\n");
-  else begin
-
-    qs.push_back("the following relevant overrides. An 'x' next to a match indicates a\nmatch that was ignored.\n\n");
-
-    foreach (m_override_info[i]) begin
-      if (m_override_info[i].orig.m_type_name.len() > max1)
-        max1=m_override_info[i].orig.m_type_name.len();
-      if (m_override_info[i].full_inst_path.len() > max2)
-        max2=m_override_info[i].full_inst_path.len();
-      if (m_override_info[i].ovrd.m_type_name.len() > max3)
-        max3=m_override_info[i].ovrd.m_type_name.len();
-    end
-
-    if (max1 < 13) max1 = 13;
-    if (max2 < 13) max2 = 13;
-    if (max3 < 13) max3 = 13;
-
-    qs.push_back($sformatf("Original Type%0s  Instance Path%0s  Override Type%0s\n", 
-    	space.substr(1,max1-13),space.substr(1,max2-13),space.substr(1,max3-13)));
-
-    qs.push_back($sformatf("  %0s  %0s  %0s\n",dash.substr(1,max1),
-                               dash.substr(1,max2),
-                               dash.substr(1,max3)));
-
-    foreach (m_override_info[i]) begin
-      qs.push_back($sformatf("%s%0s%0s\n",
-             m_override_info[i].selected ? "  " : "x ",
-             m_override_info[i].orig.m_type_name,
-             space.substr(1,max1-m_override_info[i].orig.m_type_name.len())));
-      qs.push_back($sformatf("  %0s%0s", m_override_info[i].full_inst_path,
-             space.substr(1,max2-m_override_info[i].full_inst_path.len())));
-      qs.push_back($sformatf("  %0s%0s", m_override_info[i].ovrd.m_type_name,
-             space.substr(1,max3-m_override_info[i].ovrd.m_type_name.len())));
-      if (m_override_info[i].full_inst_path == "*")
-        qs.push_back("  <type override>");
-      else
-        qs.push_back("\n");
-    end
-    qs.push_back("\n");
-  end
-
-
-  qs.push_back("Result:\n\n");
-  qs.push_back($sformatf("  The factory will produce an object of type '%0s'\n", 
-           result == null ? requested_type_name : result.get_type_name()));
-
-  qs.push_back("\n(*) Types with no associated type name will be printed as <unknown>\n\n####\n\n");
-  
-  `uvm_info("UVM/FACTORY/DUMP",`UVM_STRING_QUEUE_STREAMING_PACK(qs),UVM_NONE)
 endfunction
 
 
@@ -1659,11 +916,6 @@ endfunction
 // --------------------
 
 function uvm_object_wrapper uvm_default_factory::m_resolve_type_name(string requested_type_name);
-  uvm_object_wrapper wrapper=null;
-  if(m_type_names.exists(requested_type_name))
-      wrapper = m_type_names[requested_type_name];
-
-  return wrapper;
 endfunction
 
 // m_resolve_type_name_by_inst
@@ -1671,17 +923,6 @@ endfunction
 
 function uvm_object_wrapper uvm_default_factory::m_resolve_type_name_by_inst(string requested_type_name,
                                                                              string full_inst_path);
-  uvm_object_wrapper wrapper=null;
-  m_inst_typename_alias_t  type_alias_inst[$]; 
-  type_alias_inst = m_inst_aliases.find(i) with ((i.alias_type_name == requested_type_name) && uvm_is_match(i.full_inst_path,full_inst_path));
-  if (type_alias_inst.size() > 0) begin
-     wrapper = type_alias_inst[0].orig.m_type;
-  end
-  else begin
-     wrapper = m_resolve_type_name(requested_type_name);
-  end
-  
-  return wrapper;
 endfunction
 
 // m_matches_type_pair
@@ -1690,11 +931,6 @@ endfunction
 function bit uvm_default_factory::m_matches_type_pair(m_uvm_factory_type_pair_t match_type_pair,
                                                       uvm_object_wrapper requested_type,
                                                       string requested_type_name);
-  return ((match_type_pair.m_type != null) &&
-          (match_type_pair.m_type == requested_type) ||
-          (match_type_pair.m_type_name != "<unknown>" &&
-           match_type_pair.m_type_name != "" &&
-           match_type_pair.m_type_name == requested_type_name));
 endfunction
 
 // m_matches_inst_override

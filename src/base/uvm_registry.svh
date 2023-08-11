@@ -624,14 +624,6 @@ class uvm_registry_common #( type Tregistry=int, type Tcreator=int, type Tcreate
   local static bit m__initialized=__deferred_init();
 
   virtual function void initialize();
-     uvm_factory factory =uvm_factory::get();
-     Tregistry rgtry = Tregistry::get();
-     factory.register(rgtry);
-     // add aliases that were set before
-     // the wrapper was registered with the factory
-     foreach(m__type_aliases[i]) begin
-        factory.set_type_alias(m__type_aliases[i],rgtry);
-     end
   endfunction
 endclass
 
