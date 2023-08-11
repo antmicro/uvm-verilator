@@ -25,7 +25,6 @@
 //   permissions and limitations under the License.
 //----------------------------------------------------------------------
 typedef class uvm_factory;
-typedef class uvm_default_factory;
 typedef class uvm_report_server;
 typedef class uvm_default_report_server;
 typedef class uvm_root;
@@ -203,13 +202,6 @@ class uvm_default_coreservice_t extends uvm_coreservice_t;
 	// Returns the currently enabled uvm factory.
 	// When no factory has been set before, instantiates a uvm_default_factory
 	virtual function uvm_factory get_factory();
-		if(factory==null) begin
-			uvm_default_factory f;
-			f=new;
-			factory=f;
-		end
-
-		return factory;
 	endfunction
 
 	// Function --NODOCS-- set_factory

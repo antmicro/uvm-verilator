@@ -87,16 +87,10 @@ virtual class uvm_factory;
          
   // @uvm-ieee 1800.2-2017 auto 8.3.1.2.1
   static function uvm_factory get();
-	  	uvm_coreservice_t s;
-	  	s = uvm_coreservice_t::get();
-	  	return s.get_factory();
   endfunction	
   
   // @uvm-ieee 1800.2-2017 auto 8.3.1.2.2
   static function void set(uvm_factory f);
-	  	uvm_coreservice_t s;
-	  	s = uvm_coreservice_t::get();
-	  	s.set_factory(f);
   endfunction	
 
   // Group -- NODOCS -- Registering Types
@@ -940,21 +934,6 @@ function bit uvm_default_factory::m_matches_inst_override(uvm_factory_override o
                                                           uvm_object_wrapper requested_type,
                                                           string requested_type_name,
                                                           string full_inst_path="");
-  m_uvm_factory_type_pair_t match_type_pair = override.orig ;
-  if(match_type_pair.m_type == null) begin
-    match_type_pair.m_type = m_resolve_type_name_by_inst(match_type_pair.m_type_name, full_inst_path);
-  end
-  if (m_matches_type_pair(.match_type_pair(match_type_pair),
-                          .requested_type(requested_type),
-                          .requested_type_name(requested_type_name))) begin
-    if(override.has_wildcard) begin
-      return (override.full_inst_path == "*" || 
-              uvm_is_match(override.full_inst_path,full_inst_path)); 
-    end
-    else begin
-      return (override.full_inst_path == full_inst_path);
-    end
-  end
   return 0;
 endfunction
 
@@ -967,16 +946,4 @@ function bit uvm_default_factory::m_matches_type_override(uvm_factory_override o
                                                           string full_inst_path="",
                                                           bit match_original_type = 1,
                                                           bit resolve_null_type_by_inst=0);
-  m_uvm_factory_type_pair_t match_type_pair = match_original_type ? override.orig : override.ovrd;
-  if(match_type_pair.m_type == null) begin
-    if(resolve_null_type_by_inst) begin
-      match_type_pair.m_type = m_resolve_type_name_by_inst(match_type_pair.m_type_name,full_inst_path);
-    end
-    else begin
-      match_type_pair.m_type = m_resolve_type_name(match_type_pair.m_type_name);
-    end
-  end
-  return m_matches_type_pair(.match_type_pair(match_type_pair),
-                             .requested_type(requested_type),
-                             .requested_type_name(requested_type_name));
 endfunction
