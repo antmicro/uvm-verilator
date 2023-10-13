@@ -1042,15 +1042,6 @@ function void uvm_default_factory::register (uvm_object_wrapper obj);
 
    $display({"Register, type_name: ", obj.get_type_name()});
 
-  if (obj.get_type_name() != "" && obj.get_type_name() != "<unknown>") begin
-    if (m_type_names.exists(obj.get_type_name()))
-      uvm_report_warning("TPRGED", {"Type name '",obj.get_type_name(),
-        "' already registered with factory. No string-based lookup ",
-        "support for multiple types with the same type name."}, UVM_NONE);
-    else 
-      m_type_names[obj.get_type_name()] = obj;
-  end
-
   if (m_types.exists(obj)) begin
     if (obj.get_type_name() != "" && obj.get_type_name() != "<unknown>")
       uvm_report_warning("TPRGED", {"Object type '",obj.get_type_name(),
