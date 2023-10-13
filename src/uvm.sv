@@ -23,3 +23,20 @@
 //----------------------------------------------------------------------
 
 `include "uvm_pkg.sv"
+
+import uvm_pkg::*;
+`include "uvm_macros.svh"
+
+class Simple_component extends uvm_component;
+    function new(string name, uvm_component parent = null);
+        super.new(name, parent);
+        `uvm_info("RESULT", "Created new uvm class", UVM_LOW);
+    endfunction
+endclass
+
+module top;
+    initial begin
+       Simple_component obj;
+       obj = new("C");
+    end
+endmodule

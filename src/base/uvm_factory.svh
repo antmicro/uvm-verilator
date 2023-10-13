@@ -1039,6 +1039,9 @@ function void uvm_default_factory::register (uvm_object_wrapper obj);
   if (obj == null) begin
     uvm_report_fatal ("NULLWR", "Attempting to register a null object with the factory", UVM_NONE);
   end
+
+   $display({"Register, type_name: ", obj.get_type_name()});
+
   if (obj.get_type_name() != "" && obj.get_type_name() != "<unknown>") begin
     if (m_type_names.exists(obj.get_type_name()))
       uvm_report_warning("TPRGED", {"Type name '",obj.get_type_name(),
