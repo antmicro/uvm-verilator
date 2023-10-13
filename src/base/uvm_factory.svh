@@ -1041,7 +1041,8 @@ function void uvm_default_factory::register (uvm_object_wrapper obj);
   end
 
    $display({"Register, type_name: ", obj.get_type_name()});
-
+   $display(m_types.exists(obj));
+   
   if (m_types.exists(obj)) begin
     if (obj.get_type_name() != "" && obj.get_type_name() != "<unknown>")
       uvm_report_warning("TPRGED", {"Object type '",obj.get_type_name(),
