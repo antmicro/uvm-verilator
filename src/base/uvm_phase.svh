@@ -1878,15 +1878,15 @@ endfunction
 // processes.  By hosting the phase processes here we avoid problems
 // associated with phase processes related as parents/children
 task uvm_phase::m_run_phases();
+  mailbox #(uvm_phase) phase_hopper = new();
   begin
     uvm_phase ph = uvm_domain::get_common_domain();
-    void'(m_phase_hopper.try_put(ph));
+    void'(phase_hopper.try_put(ph));
   end
 
-  m_uvm_core_state=UVM_CORE_RUNNING;
   forever begin
     uvm_phase phase;
-    m_phase_hopper.get(phase);
+    phase_hopper.get(phase);
     fork
        begin
           $display("Inside a fork");
