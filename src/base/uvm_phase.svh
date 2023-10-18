@@ -1878,12 +1878,6 @@ endfunction
 // processes.  By hosting the phase processes here we avoid problems
 // associated with phase processes related as parents/children
 task uvm_phase::m_run_phases();
-  uvm_root top;
-  uvm_coreservice_t cs;
-  cs = uvm_coreservice_t::get();
-  top = cs.get_root();
-
-  // initiate by starting first phase in common domain
   begin
     uvm_phase ph = uvm_domain::get_common_domain();
     void'(m_phase_hopper.try_put(ph));
@@ -1894,11 +1888,11 @@ task uvm_phase::m_run_phases();
     uvm_phase phase;
     m_phase_hopper.get(phase);
     fork
-      begin
-        phase.execute_phase();
+       begin
+          $display("Inside a fork");
       end
     join_none
-    #0;  // let the process start running
+    #1;  // let the process start running
   end
 endtask
 
