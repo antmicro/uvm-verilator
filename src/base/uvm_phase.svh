@@ -1880,7 +1880,7 @@ endfunction
 task uvm_phase::m_run_phases();
   mailbox #(uvm_phase) phase_hopper = new();
   begin
-    uvm_phase ph = uvm_domain::get_common_domain();
+     uvm_phase ph = new;
     void'(phase_hopper.try_put(ph));
   end
 
