@@ -2187,12 +2187,9 @@ endfunction
 
 function void uvm_component::build_phase(uvm_phase phase);
   m_build_done = 1;
-`ifdef UVM_ENABLE_DEPRECATED_API
-  `M_UVM_OVM_PHASE_WARN_AND_CALL(build)
-`else // !UVM_ENABLE_DEPRECATED_API
   if (use_automatic_config())
     apply_config_settings(print_config_matches);
-`endif // UVM_ENABLED_DEPRECATED_API  
+   $display("COMPONENT.build_phase");
 endfunction
 
 `ifdef UVM_ENABLE_DEPRECATED_API

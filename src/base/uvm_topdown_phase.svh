@@ -52,7 +52,7 @@ virtual class uvm_topdown_phase extends uvm_phase;
     string name;
     uvm_domain phase_domain = phase.get_domain();
     uvm_domain comp_domain = comp.get_domain();
-
+     $display("topdown_phase.traverse");
     if (m_phase_trace)
     `uvm_info("PH_TRACE",$sformatf("topdown-phase phase=%s state=%s comp=%s comp.domain=%s phase.domain=%s",
           phase.get_name(), state.name(), comp.get_full_name(),comp_domain.get_name(),phase_domain.get_name()),
@@ -72,6 +72,7 @@ virtual class uvm_topdown_phase extends uvm_phase;
               comp.m_phasing_active++;
               if (comp.m_phase_imps.exists(this))
                 ph = comp.m_phase_imps[this];
+               $display("Execute called");
               ph.execute(comp, phase);
               comp.m_phasing_active--;
             end

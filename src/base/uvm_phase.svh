@@ -1408,7 +1408,7 @@ task uvm_phase::execute_phase();
     m_state = UVM_PHASE_STARTED;
     `uvm_do_callbacks(uvm_phase, uvm_phase_cb, phase_state_change(this, state_chg))
 
-    m_imp.traverse(top,this,UVM_PHASE_STARTED);
+
     m_ready_to_end_count = 0 ; // reset the ready_to_end count when phase starts
     #0; // LET ANY WAITERS WAKE UP
 
@@ -1423,7 +1423,7 @@ task uvm_phase::execute_phase();
       m_state = UVM_PHASE_EXECUTING;
       `uvm_do_callbacks(uvm_phase, uvm_phase_cb, phase_state_change(this, state_chg))
 
-      #0; // LET ANY WAITERS WAKE UP
+
       m_imp.traverse(top,this,UVM_PHASE_EXECUTING);
 
     end
@@ -1494,8 +1494,6 @@ task uvm_phase::execute_phase();
                  state_chg.m_prev_state = m_state;
                  m_state = UVM_PHASE_READY_TO_END;
                  `uvm_do_callbacks(uvm_phase, uvm_phase_cb, phase_state_change(this, state_chg))
-                 if (m_imp != null)
-                   m_imp.traverse(top,this,UVM_PHASE_READY_TO_END);
                   
                  uvm_wait_for_nba_region(); // Give traverse targets a chance to object 
 
@@ -1625,8 +1623,6 @@ task uvm_phase::execute_phase();
     state_chg.m_prev_state = m_state;
     m_state = UVM_PHASE_ENDED;
     `uvm_do_callbacks(uvm_phase, uvm_phase_cb, phase_state_change(this, state_chg))
-    if (m_imp != null)
-      m_imp.traverse(top,this,UVM_PHASE_ENDED);
     #0; // LET ANY WAITERS WAKE UP
   
   

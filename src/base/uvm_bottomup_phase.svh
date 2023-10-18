@@ -75,7 +75,6 @@ virtual class uvm_bottomup_phase extends uvm_phase;
           uvm_phase ph = this; 
           if (comp.m_phase_imps.exists(this))
             ph = comp.m_phase_imps[this];
-          ph.execute(comp, phase);
           end
         UVM_PHASE_READY_TO_END: begin
           comp.phase_ready_to_end(phase);

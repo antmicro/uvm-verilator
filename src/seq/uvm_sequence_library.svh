@@ -666,7 +666,7 @@ task uvm_sequence_library::body();
           else begin
             wrap = sequences[select_rand];
           end
-          execute(wrap);
+
         end
         valid_rand_selection.constraint_mode(0);
         valid_sequence_count.constraint_mode(1);
@@ -688,8 +688,6 @@ task uvm_sequence_library::body();
         end
         valid_randc_selection.constraint_mode(0);
         valid_sequence_count.constraint_mode(1);
-        foreach(q[i])
-          execute(q[i]);
         valid_randc_selection.constraint_mode(0);
         valid_sequence_count.constraint_mode(1);
       end
@@ -697,7 +695,7 @@ task uvm_sequence_library::body();
       UVM_SEQ_LIB_ITEM: begin
         for (int i=1; i<=sequence_count; i++) begin
           wrap = REQ::get_type();
-          execute(wrap);
+
         end
       end
 
@@ -712,7 +710,7 @@ task uvm_sequence_library::body();
           else begin
             wrap = sequences[user_selection];
           end
-          execute(wrap);
+
         end
       end
 
