@@ -1877,15 +1877,17 @@ endfunction
 // This task contains the top-level process that owns all the phase
 // processes.  By hosting the phase processes here we avoid problems
 // associated with phase processes related as parents/children
+class uvm_phase1;
+endclass
 task uvm_phase::m_run_phases();
-  mailbox #(uvm_phase) phase_hopper = new();
+  mailbox #(uvm_phase1) phase_hopper = new();
   begin
-     uvm_phase ph = new;
+     uvm_phase1 ph = new;
     void'(phase_hopper.try_put(ph));
   end
 
   forever begin
-    uvm_phase phase;
+    uvm_phase1 phase;
     phase_hopper.get(phase);
     fork
        begin
