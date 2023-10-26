@@ -181,7 +181,7 @@ class uvm_tlm_generic_payload extends uvm_sequence_item;
    // to use/be interpreted using the host endianness.
    // However, this process is currently outside the scope of this standard.
    //
-   rand byte unsigned             m_data[];
+   byte unsigned             m_data[];
 
 
    // Variable -- NODOCS -- m_length
@@ -293,7 +293,7 @@ class uvm_tlm_generic_payload extends uvm_sequence_item;
    // component or target should not modify the values of disabled
    // bytes in the <m_data> array.
    //
-   rand byte unsigned          m_byte_enable[];
+   byte unsigned          m_byte_enable[];
 
 
    // Variable -- NODOCS -- m_byte_enable_length
@@ -359,7 +359,7 @@ class uvm_tlm_generic_payload extends uvm_sequence_item;
    rand int unsigned m_streaming_width;
 
    protected uvm_tlm_extension_base m_extensions [uvm_tlm_extension_base];
-   local rand uvm_tlm_extension_base m_rand_exts[];
+   local uvm_tlm_extension_base m_rand_exts[];
 
 
    `uvm_object_utils(uvm_tlm_generic_payload)

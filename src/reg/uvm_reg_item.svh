@@ -74,7 +74,7 @@ class uvm_reg_item extends uvm_sequence_item;
   // The value to write to, or after completion, the value read from the DUT.
   // Burst operations use the <values> property.
   //
-  rand uvm_reg_data_t value[];
+  uvm_reg_data_t value[];
 
 
   // TODO: parameterize
