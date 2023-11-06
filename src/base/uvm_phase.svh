@@ -1357,6 +1357,7 @@ task uvm_phase::execute_phase();
   state_chg.m_phase      = this;
   state_chg.m_jump_to    = null;
 
+   $display(get_name());
   //---------
   // SYNCING:
   //---------

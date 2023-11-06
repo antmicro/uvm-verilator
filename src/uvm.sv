@@ -58,8 +58,8 @@ class Complex extends uvm_component;
     endtask
 
     virtual function void extract_phase(uvm_phase phase);
-        super.extract_phase(phase);
         `uvm_info("RESULT", "extract phase completed", UVM_LOW);
+        super.extract_phase(phase);
     endfunction
 
     virtual function void check_phase(uvm_phase phase);
