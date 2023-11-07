@@ -32,45 +32,6 @@ class Complex extends uvm_component;
         super.new(name, parent);
         `uvm_info("RESULT", "new uvm_class created", UVM_LOW);
     endfunction
-
-    virtual function void build_phase(uvm_phase phase);
-        super.build_phase(phase);
-        `uvm_info("RESULT", "build phase completed", UVM_LOW);
-    endfunction
-
-    virtual function void connect_phase(uvm_phase phase);
-        super.connect_phase(phase);
-        `uvm_info("RESULT", "connect phase completed", UVM_LOW);
-    endfunction
-
-    virtual function void end_of_elaboration_phase(uvm_phase phase);
-        super.end_of_elaboration_phase(phase);
-        `uvm_info("RESULT", "end of elaboration phase completed", UVM_LOW);
-    endfunction
-
-    virtual function void start_of_simulation_phase(uvm_phase phase);
-        super.start_of_simulation_phase(phase);
-        `uvm_info("RESULT", "start of simulation phase completed", UVM_LOW);
-    endfunction
-
-    task run_phase(uvm_phase phase);
-        `uvm_info("RESULT", "run phase phase completed", UVM_LOW);
-    endtask
-
-    virtual function void extract_phase(uvm_phase phase);
-        `uvm_info("RESULT", "extract phase completed", UVM_LOW);
-        super.extract_phase(phase);
-    endfunction
-
-    virtual function void check_phase(uvm_phase phase);
-        super.check_phase(phase);
-        `uvm_info("RESULT", "check phase completed", UVM_LOW);
-    endfunction
-
-    virtual function void report_phase(uvm_phase phase);
-        super.report_phase(phase);
-        `uvm_info("RESULT", "report phase completed", UVM_LOW);
-    endfunction
 endclass
 
 module top;
