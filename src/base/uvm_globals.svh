@@ -429,7 +429,9 @@ task uvm_wait_for_nba_region;
 `ifndef UVM_NO_WAIT_FOR_NBA
   next_nba++;
   nba <= next_nba;
+   $display("WAITING");
   @(nba);
+   $display("WAITED");
 `else
   repeat(`UVM_POUND_ZERO_COUNT) #0;
 `endif
