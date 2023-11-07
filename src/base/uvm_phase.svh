@@ -1498,12 +1498,7 @@ task uvm_phase::execute_phase();
                  state_chg.m_prev_state = m_state;
                  m_state = UVM_PHASE_READY_TO_END;
                  `uvm_do_callbacks(uvm_phase, uvm_phase_cb, phase_state_change(this, state_chg))
-                 if (m_imp != null) begin
-                    $display("m_imp.traverse(top,this,UVM_PHASE_READY_TO_END);");
-                   m_imp.traverse(top,this,UVM_PHASE_READY_TO_END);
-                    $display("m_imp.traverse(top,this,UVM_PHASE_READY_TO_END); - finished");
-                 end
-                 
+
                   $display("uvm_wait_for_nba_region();");
                  uvm_wait_for_nba_region(); // Give traverse targets a chance to object 
 
