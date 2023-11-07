@@ -1429,6 +1429,7 @@ task uvm_phase::execute_phase();
 
     end
     else begin
+       $display("executing_phases[this] = 1");
         m_executing_phases[this] = 1;
 
         state_chg.m_prev_state = m_state;
@@ -1443,6 +1444,7 @@ task uvm_phase::execute_phase();
             //-----------
             // EXECUTING: (task phases)
             //-----------
+             $display("task_phase.traverse(top,this,UVM_PHASE_EXECUTING);");
             task_phase.traverse(top,this,UVM_PHASE_EXECUTING);
   
             wait(0); // stay alive for later kill
@@ -1492,14 +1494,18 @@ task uvm_phase::execute_phase();
                  m_ready_to_end_count++;
                  if (m_phase_trace)
                    `UVM_PH_TRACE("PH_READY_TO_END_CB","CALLING READY_TO_END CB",this,UVM_HIGH)
+                 $display("state_chg.m_prev_state = m_state;");
                  state_chg.m_prev_state = m_state;
                  m_state = UVM_PHASE_READY_TO_END;
                  `uvm_do_callbacks(uvm_phase, uvm_phase_cb, phase_state_change(this, state_chg))
-                 if (m_imp != null)
+                 if (m_imp != null) begin
+                    $display("m_imp.traverse(top,this,UVM_PHASE_READY_TO_END);");
                    m_imp.traverse(top,this,UVM_PHASE_READY_TO_END);
+                 end
                   
                  uvm_wait_for_nba_region(); // Give traverse targets a chance to object 
 
+                  $display("wait_for_self_and_siblings_to_drop();");
                  wait_for_self_and_siblings_to_drop();
                  do_ready_to_end = (m_state == UVM_PHASE_EXECUTING) && (m_ready_to_end_count < get_max_ready_to_end_iterations()) ; //when we don't wait in task above, we drop out of while loop
                end

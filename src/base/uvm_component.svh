@@ -2278,8 +2278,8 @@ function void uvm_component::report();              return; endfunction
 
 // these runtime phase methods are only called if a set_domain() is done
 
-task uvm_component::pre_reset_phase(uvm_phase phase);      return; endtask
-task uvm_component::reset_phase(uvm_phase phase);          return; endtask
+task uvm_component::pre_reset_phase(uvm_phase phase);      $display("uvm_component::pre_reset_phase"); return; endtask
+task uvm_component::reset_phase(uvm_phase phase);          $display("uvm_component::reset_phase"); return; endtask
 task uvm_component::post_reset_phase(uvm_phase phase);     return; endtask
 task uvm_component::pre_configure_phase(uvm_phase phase);  return; endtask
 task uvm_component::configure_phase(uvm_phase phase);      return; endtask
