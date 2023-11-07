@@ -1501,8 +1501,10 @@ task uvm_phase::execute_phase();
                  if (m_imp != null) begin
                     $display("m_imp.traverse(top,this,UVM_PHASE_READY_TO_END);");
                    m_imp.traverse(top,this,UVM_PHASE_READY_TO_END);
+                    $display("m_imp.traverse(top,this,UVM_PHASE_READY_TO_END); - finished");
                  end
-                  
+                 
+                  $display("uvm_wait_for_nba_region();");
                  uvm_wait_for_nba_region(); // Give traverse targets a chance to object 
 
                   $display("wait_for_self_and_siblings_to_drop();");
