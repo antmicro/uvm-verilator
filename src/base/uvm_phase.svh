@@ -1452,7 +1452,6 @@ task uvm_phase::execute_phase();
           end
         join_none
   
-        uvm_wait_for_nba_region(); //Give sequences, etc. a chance to object
   
         // Now wait for one of three criterion for end-of-phase.
         fork
