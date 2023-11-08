@@ -1490,10 +1490,6 @@ task uvm_phase::execute_phase();
  
                while (do_ready_to_end) begin
                  uvm_wait_for_nba_region(); // Let all siblings see no objections before traverse might raise another 
-                 `UVM_PH_TRACE("PH_READY_TO_END","PHASE READY TO END",this,UVM_DEBUG)
-                 m_ready_to_end_count++;
-                 if (m_phase_trace)
-                   `UVM_PH_TRACE("PH_READY_TO_END_CB","CALLING READY_TO_END CB",this,UVM_HIGH)
                  $display("state_chg.m_prev_state = m_state;");
                  state_chg.m_prev_state = m_state;
                  m_state = UVM_PHASE_READY_TO_END;
