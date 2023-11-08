@@ -1475,14 +1475,14 @@ task uvm_phase::execute_phase();
                //--------------
  
                while (do_ready_to_end) begin
-                 uvm_wait_for_nba_region(); // Let all siblings see no objections before traverse might raise another 
+                 uvm_wait_for_nba_region(); // Let all siblings see no objections before traverse might raise another
+                  uvm_wait_for_nba_region(); // Give traverse targets a chance to object 
                  $display("state_chg.m_prev_state = m_state;");
                  state_chg.m_prev_state = m_state;
                  m_state = UVM_PHASE_READY_TO_END;
 
 
                   $display("uvm_wait_for_nba_region();");
-                 uvm_wait_for_nba_region(); // Give traverse targets a chance to object 
 
                  do_ready_to_end = (m_state == UVM_PHASE_EXECUTING) && (m_ready_to_end_count < get_max_ready_to_end_iterations()) ; //when we don't wait in task above, we drop out of while loop
                end
