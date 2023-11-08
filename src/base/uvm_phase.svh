@@ -1468,19 +1468,6 @@ task uvm_phase::execute_phase();
              // WAIT_FOR_ALL_DROPPED
              begin
                bit do_ready_to_end  ; // bit used for ready_to_end iterations
-	       uvm_objection phase_done;
-               phase_done = get_objection();
-               // OVM semantic: don't end until objection raised or stop request
-               if (phase_done.get_objection_total(top) ||
-                   m_use_ovm_run_semantic && m_imp.get_name() == "run") begin
-                 if (!phase_done.m_top_all_dropped)
-                   phase_done.wait_for(UVM_ALL_DROPPED, top);
-                 `UVM_PH_TRACE("PH/TRC/EXE/ALLDROP","PHASE EXIT ALL_DROPPED",this,UVM_DEBUG)
-               end
-               else begin
-                  if (m_phase_trace) `UVM_PH_TRACE("PH/TRC/SKIP","No objections raised, skipping phase",this,UVM_LOW)
-               end
-               
                wait_for_self_and_siblings_to_drop() ;
                do_ready_to_end = 1;
                   
