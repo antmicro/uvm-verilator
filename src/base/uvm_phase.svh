@@ -1484,8 +1484,6 @@ task uvm_phase::execute_phase();
                   $display("uvm_wait_for_nba_region();");
                  uvm_wait_for_nba_region(); // Give traverse targets a chance to object 
 
-                  $display("wait_for_self_and_siblings_to_drop();");
-                 wait_for_self_and_siblings_to_drop();
                  do_ready_to_end = (m_state == UVM_PHASE_EXECUTING) && (m_ready_to_end_count < get_max_ready_to_end_iterations()) ; //when we don't wait in task above, we drop out of while loop
                end
              end
