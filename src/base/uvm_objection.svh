@@ -1151,6 +1151,7 @@ class uvm_test_done_objection extends uvm_objection;
   endfunction
 
 endclass
+uvm_test_done_objection uvm_test_done = uvm_test_done_objection::get();
 `endif // UVM_ENABLE_DEPRECATED_API
 
 

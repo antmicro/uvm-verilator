@@ -262,6 +262,7 @@ typedef enum bit [1:0]
   UVM_ERROR,
   UVM_FATAL
 } uvm_severity;
+typedef uvm_severity uvm_severity_type;
 
 // Enum --NODOCS-- uvm_action
 //
