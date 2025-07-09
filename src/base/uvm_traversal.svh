@@ -242,6 +242,9 @@ endclass
   
 class uvm_component_name_check_visitor extends uvm_visitor#(uvm_component);
 	local uvm_root _root;
+`ifdef VERILATOR
+	static chandle compiled_regex;
+`endif
 
 	// Function: get_name_constraint
   	//
@@ -254,7 +257,9 @@ class uvm_component_name_check_visitor extends uvm_visitor#(uvm_component);
 
 	virtual function void visit(NODE node);
 `ifndef UVM_NO_DPI
+`ifndef VERILATOR
 		static chandle compiled_regex;
+`endif
 		
 		if(compiled_regex==null)
 			compiled_regex=uvm_dpi_regcomp(get_name_constraint());  
@@ -281,8 +286,13 @@ class uvm_component_name_check_visitor extends uvm_visitor#(uvm_component);
 	endfunction
 	virtual function void end_v(); 
 `ifndef UVM_NO_DPI
+`ifdef VERILATOR
+		uvm_dpi_regfree(compiled_regex);
+		compiled_regex=null;  
+`else 
 		uvm_dpi_regfree(visit.compiled_regex);
 		visit.compiled_regex=null;  
+	`endif
 `endif
 	endfunction
 endclass    
