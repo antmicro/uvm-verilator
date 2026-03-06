@@ -19,12 +19,15 @@
 //   permissions and limitations under the License.
 //----------------------------------------------------------------------
 
-// hdl vendor backends are defined for VCS,QUESTA,INCA
+// hdl vendor backends are defined for VCS,QUESTA,VERILATOR,INCA
 #if defined(VCS) || defined(VCSMX)
 #include "uvm_hdl_vcs.c"
 #else
 #ifdef QUESTA
 #include "uvm_hdl_questa.c"
+#else
+#ifdef VERILATOR
+#include "uvm_hdl_verilator.c"
 #else
 #if defined(INCA) || defined(NCSC)
 #include "uvm_hdl_inca.c"
