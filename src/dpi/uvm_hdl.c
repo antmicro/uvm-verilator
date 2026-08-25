@@ -1,7 +1,9 @@
 //----------------------------------------------------------------------
-//   Copyright 2007-2013 Cadence Design Systems, Inc.
-//   Copyright 2009-2010 Mentor Graphics Corporation
-//   Copyright 2010-2011 Synopsys, Inc.
+// Copyright 2007-2018 Cadence Design Systems, Inc.
+// Copyright 2026 Marvell International Ltd.
+// Copyright 2009-2011 Mentor Graphics Corporation
+// Copyright 2013-2026 NVIDIA Corporation
+// Copyright 2010-2011 Synopsys, Inc.
 //   All Rights Reserved Worldwide
 //
 //   Licensed under the Apache License, Version 2.0 (the
@@ -19,18 +21,31 @@
 //   permissions and limitations under the License.
 //----------------------------------------------------------------------
 
-// hdl vendor backends are defined for VCS,QUESTA,INCA
+//----------------------------------------------------------------------
+// Git details (see DEVELOPMENT.md):
+//
+// $File:     src/dpi/uvm_hdl.c $
+// $Rev:      2026-05-08 07:53:24 -0700 $
+// $Hash:     b79027c3a6650c9072fd2772cb849c270ae4cc85 $
+//
+//----------------------------------------------------------------------
+
+
+// hdl vendor backends are defined for VCS,QUESTA,VERILATOR,XCELIUM
 #if defined(VCS) || defined(VCSMX)
 #include "uvm_hdl_vcs.c"
 #else
 #ifdef QUESTA
 #include "uvm_hdl_questa.c"
 #else
-#if defined(INCA) || defined(NCSC)
-#include "uvm_hdl_inca.c"
+#ifdef VERILATOR
+#include "uvm_hdl_verilator.c"
+#else
+#if defined(XCELIUM) || defined(NCSC)
+#include "uvm_hdl_xcelium.c"
 #else
 #error "hdl vendor backend is missing"
 #endif
 #endif
 #endif
-
+#endif
